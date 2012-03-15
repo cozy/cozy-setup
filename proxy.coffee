@@ -8,13 +8,13 @@ client = new haibu.drone.Client
 
 app =
    "user": "cozy"
-   "name": "router"
+   "name": "proxy"
    "domain": "localhost"
    "repository":
        "type": "git",
-       "url": "https://bitbucket.org/gelnior/cozy-router.git"
+       "url": "https://bitbucket.org/gelnior/cozy-proxy.git"
    "scripts":
-       "start": "server.coffee"
+       "start": "router.coffee"
    
 
 client.clean app, (err, result) ->

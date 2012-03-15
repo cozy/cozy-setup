@@ -45,75 +45,8 @@ git clone https://bitbucket.org/gelnior/cozy-setup.git
 cd cozy-setup
 npm install eyes
 npm install haibu
-coffe home.coffee
-
-## oldies
-
-sudo apt-get install git
-git clone https://gelnior@bitbucket.org/gelnior/cozy-home.git
-cd cozy-home
-npm install
-sudo npm install -g coffee-script
-echo """
-start on startup
-stop on shutdown
-respawn
-respawn limit 10 5
-
-env PORT=3000
-env NODE_ENV="production"
-
-script
-    export PORT
-    export NODE_ENV
-
-    cd /home/vagrant/cozy-home
-    NODE_ENV=production coffee server.coffee
-end script
-"""  | sudo tee --append /etc/init/cozy-home.conf
-sudo service cozy-home start
-
-
-# Install Proxy
-echo """
-start on startup
-stop on shutdown
-respawn
-respawn limit 10 5
-
-script
-    cd /home/vagrant/cozy-home
-    coffee router.coffee
-end script
-"""  | sudo tee --append /etc/init/cozy-router.conf
-sudo service cozy-router start
-
-
-# Install Noty Plus
-sudo npm install -g railway
-mkdir apps
-cd apps
-npm install -l
-railway init noty-plus --coffee && cd noty-plus
-railway g scaffold note title content createdAt:date --coffee
-echo """
-start on startup
-stop on shutdown
-respawn
-respawn limit 10 5
-
-env PORT=8000
-env NODE_ENV="production"
-
-script
-    export PORT
-    export NODE_ENV
-
-    cd /home/vagrant/apps/noty-plus
-    PORT=8000 NODE_ENV=production coffee server.coffee
-end script
-"""  | sudo tee --append /etc/init/noty-plus.conf
-sudo service noty-plus start
-
+coffee home.coffee
+coffee notes.coffee
+coffee proxy.coffee
 
 

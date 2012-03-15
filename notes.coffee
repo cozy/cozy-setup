@@ -8,7 +8,7 @@ client = new haibu.drone.Client
 
 app =
    "user": "cozy"
-   "name": "home"
+   "name": "notes"
    "domain": "localhost"
    "repository":
        "type": "git",

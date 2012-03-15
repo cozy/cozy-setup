@@ -27,7 +27,25 @@ sudo apt-get install mongodb-10gen
 npm install -g coffee
 npm install -g haibu
 
+echo """
+start on startup
+stop on shutdown
+respawn
+respawn limit 10 5
 
+script
+    NODE_ENV="production" haibu --coffee
+end script
+"""  | sudo tee --append /etc/init/paas.conf
+sudo service pass start
+
+# install home
+
+git clone https://bitbucket.org/gelnior/cozy-setup.git
+cd cozy-setup
+npm install eyes
+npm install haibu
+coffe home.coffee
 
 ## oldies
 

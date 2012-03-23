@@ -22,7 +22,7 @@ script
     NODE_ENV="production" haibu --coffee
 end script
 """  | sudo tee --append /etc/init/paas.conf
-sudo service pass start
+sudo service paas start
 
 # install home
 

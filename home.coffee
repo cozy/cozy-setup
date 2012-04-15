@@ -12,7 +12,7 @@ app =
    "domain": "localhost"
    "repository":
        "type": "git",
-       "url": "https://frankrousseau@github.com/mycozycloud/cozy-home.git"
+       "url": "https://github.com/mycozycloud/cozy-home.git"
    "scripts":
        "start": "server.coffee"
    

@@ -26,7 +26,7 @@ sudo service paas start
 
 # install home
 
-git clone https://bitbucket.org/gelnior/cozy-setup.git
+git clone https://github.com/mycozycloud/cozy-setup.git
 cd cozy-setup
 npm install eyes
 npm install haibu

@@ -5,6 +5,9 @@ echo "deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen" | 
 sudo apt-get update 
 sudo apt-get install mongodb-10gen
 
+# Install redis
+sudo apt-get install redis-server
+
 # Install git
 sudo apt-get install git
 

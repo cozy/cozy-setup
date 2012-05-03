@@ -33,7 +33,7 @@ sudo service paas start
 # setup certs
 
 sudo mkdir /home/cozy/
-sudo cd /home/cozy/
+cd /home/cozy/
 sudo openssl genrsa -out ./server.key 1024
 sudo openssl req -new -x509 -days 3650 -key ./server.key -out ./server.crt
 sudo chmod 640 server.key
@@ -43,7 +43,7 @@ sudo chown root:ssl-cert server.key
 # install home
 
 sudo git clone https://github.com/mycozycloud/cozy-setup.git
-sudo cd cozy-setup
+cd cozy-setup
 sudo npm install eyes
 sudo npm install haibu
 sudo coffee home.coffee

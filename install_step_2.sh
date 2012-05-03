@@ -1,7 +1,7 @@
 
 # Install Mongodb
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
-echo "deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen" | sudo tee --append /etc/apt/sources.list
+sudo echo "deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen" | sudo tee --append /etc/apt/sources.list
 sudo apt-get update 
 sudo apt-get install mongodb-10gen
 
@@ -15,8 +15,8 @@ sudo apt-get install postfix
 sudo apt-get install git
 
 # Install Haibu
-npm install -g coffee-script
-npm install -g haibu
+sudo npm install -g coffee-script
+sudo npm install -g haibu
 
 echo """
 start on startup
@@ -30,15 +30,25 @@ end script
 """  | sudo tee --append /etc/init/paas.conf
 sudo service paas start
 
+# setup certs
+
+sudo mkdir /home/cozy/
+sudo cd /home/cozy/
+sudo openssl genrsa -out ./server.key 1024
+sudo openssl req -new -x509 -days 3650 -key ./server.key -out ./server.crt
+sudo chmod 640 server.key
+sudo chown root:ssl-cert server.key
+
+
 # install home
 
-git clone https://github.com/mycozycloud/cozy-setup.git
-cd cozy-setup
-npm install eyes
-npm install haibu
-coffee home.coffee
-coffee notes.coffee
-coffee proxy.coffee
+sudo git clone https://github.com/mycozycloud/cozy-setup.git
+sudo cd cozy-setup
+sudo npm install eyes
+sudo npm install haibu
+sudo coffee home.coffee
+sudo coffee notes.coffee
+sudo coffee proxy.coffee
 
 
 

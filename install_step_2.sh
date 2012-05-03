@@ -8,6 +8,9 @@ sudo apt-get install mongodb-10gen
 # Install redis
 sudo apt-get install redis-server
 
+# Install postfix
+sudo apt-get install postfix
+
 # Install git
 sudo apt-get install git
 

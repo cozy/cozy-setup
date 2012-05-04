@@ -5,6 +5,13 @@ sudo echo "deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10ge
 sudo apt-get update 
 sudo apt-get install mongodb-10gen
 
+# Get cozy installation files
+
+sudo mkdir /home/cozy/
+cd /home/cozy/
+sudo git clone https://github.com/mycozycloud/cozy-setup.git
+
+
 # Install redis
 wget http://download.redis.io/redis-stable.tar.gz
 tar xvzf redis-stable.tar.gz
@@ -49,15 +56,13 @@ sudo service paas start
 
 # setup certs
 
-sudo mkdir /home/cozy/
-cd /home/cozy/
 sudo openssl genrsa -out ./server.key 1024
 sudo openssl req -new -x509 -days 3650 -key ./server.key -out ./server.crt
 sudo chmod 640 server.key
 sudo chown root:ssl-cert server.key
 
 
-# install home
+# install cozy
 
 sudo git clone https://github.com/mycozycloud/cozy-setup.git
 cd cozy-setup
@@ -68,5 +73,8 @@ sudo coffee home.coffee
 sudo coffee notes.coffee
 sudo coffee proxy.coffee
 
-
+# Prepare home data
+cd /usr/local/lib/node_modules/haibu/local/cozy/home/cozy-home
+coffee init.coffee 
+cp /home/cozy/cozy-setup/node_mailer.js node_modules/mailer/lib/
 

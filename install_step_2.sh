@@ -19,7 +19,7 @@ cd ..
 sudo cp utils/redis_init_script /etc/init.d/redis_6379
 sudo mkdir /var/redis/6379
 cd ../cozy-setup
-sudo cp 6378.conf /etc/redis/
+sudo cp 6379.conf /etc/redis/
 sudo update-rc.d redis_6379 defaults
 sudo /etc/init.d/redis_6379 start
 cd ..

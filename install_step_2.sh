@@ -6,7 +6,24 @@ sudo apt-get update
 sudo apt-get install mongodb-10gen
 
 # Install redis
-sudo apt-get install redis-server
+wget http://download.redis.io/redis-stable.tar.gz
+tar xvzf redis-stable.tar.gz
+cd redis-stable
+make
+cd src
+sudo cp redis-server /usr/local/bin/
+sudo cp redis-cli /usr/local/bin/
+sudo mkdir /etc/redis 
+sudo mkdir /var/redis
+cd ..
+sudo cp utils/redis_init_script /etc/init.d/redis_6379
+sudo mkdir /var/redis/6379
+cd ../cozy-setup
+sudo cp 6378.conf /etc/redis/
+sudo update-rc.d redis_6379 defaults
+sudo /etc/init.d/redis_6379 start
+cd ..
+rm -rf redis-stable*
 
 # Install postfix
 sudo apt-get install postfix
@@ -46,6 +63,7 @@ sudo git clone https://github.com/mycozycloud/cozy-setup.git
 cd cozy-setup
 sudo npm install eyes
 sudo npm install haibu
+sudo mkdir /usr/local/lib/node_modules/haibu/local/
 sudo coffee home.coffee
 sudo coffee notes.coffee
 sudo coffee proxy.coffee

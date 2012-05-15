@@ -1,0 +1,8 @@
+{ "name": "cozy-notes"
+, "version": "0.0.1"
+, "engines": ["node >= 0.6.0"]
+, "dependencies":
+  { "haibu":             ">= 0"
+  , "eyes":         ">= 0"
+  }
+}

@@ -1,6 +1,8 @@
 # Cozy Setup
 
+
 Cozy Setup contains all stuff needed to install cozy on a fresh debian server.
+Validate on a debian squeeze 32
 
 
 # About Cozy

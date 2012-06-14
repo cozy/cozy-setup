@@ -5,6 +5,10 @@ sudo echo "deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10ge
 sudo apt-get update 
 sudo apt-get install mongodb-10gen
 
+
+# Install git
+sudo apt-get install git
+
 # Get cozy installation files
 
 sudo mkdir /home/cozy/
@@ -34,9 +38,6 @@ rm -rf redis-stable*
 
 # Install postfix
 sudo apt-get install postfix
-
-# Install git
-sudo apt-get install git
 
 # Install Haibu
 sudo npm install -g coffee-script
@@ -77,4 +78,3 @@ sudo coffee proxy.coffee
 cd /usr/local/lib/node_modules/haibu/local/cozy/home/cozy-home
 coffee init.coffee 
 cp /home/cozy/cozy-setup/node_mailer.js node_modules/mailer/lib/
-

@@ -1,21 +1,30 @@
 from fabric.api import run
+"""
+Script to set up a cozy cloud environnement from a fresh system
+V0.0.1  14/06/12
+Validate on a Debian squeeze 32 bits up to date and with upstart installed.
+"""
 
 def install():
-    update()
+    #update()
     install_tools()
-    #restart...??
     install_nodejs()
     install_mongodb()
-
+    install_redis()
+    install_preinstall()
+    install_certif()
+    install_cozy
+   
 # Maintain Up to Date the system
 def update():
     run('sudo apt-get update')
     run('sudo apt-get upgrade')
+    run('sudo apt-get install upstart')
 
 # Tools install
 def install_tools():
     run('sudo apt-get install python openssl libssl-dev pkg-config g++ git')
-    run('sudo apt-get install upstart')
+    run('git clone https://github.com/mycozycloud/cozy-setup.git')
 
 # Installing Node 0.18
 def install_nodejs():
@@ -41,30 +50,33 @@ def install_redis():
     run('sudo mkdir /etc/redis')
     run('sudo mkdir /var/redis ; sudo mkdir /var/redis/6379')
     run('sudo cp redis-2.4.14/utils/redis_init_script /etc/init.d/redis_6379')
-    run('sudo cp /vagrant/6379.conf /etc/redis/')
-    #todo importer la conf sudo cp cozy-setup/6379.conf /etc/redis/
+    run('sudo cp cozy-setup/6379.conf /etc/redis/')
     run('sudo update-rc.d redis_6379 defaults')
     run('sudo /etc/init.d/redis_6379 start')
+    run('rm redis-2.4.14.tar.gz')
+    run('rm -rf redis-2.4.14/')
+
 
 # Preparing Cozy
 def install_preinstall():
     run('sudo apt-get install postfix')
     run('sudo npm install -g coffee-script')
     run('sudo npm install -g haibu')
-    #TODO vagrant a modofier par le repo
-    run('sudo cp /vagrant/paas.conf /etc/init/')
+    run('sudo cp cozy-setup/paas.conf /etc/init/')
     run('sudo service paas start')
 
-    # setup certs
+# Creating SSL certificats
+def install_certif():
     run('sudo openssl genrsa -out ./server.key 1024')
     run('sudo openssl req -new -x509 -days 3650 -key ./server.key -out ./server.crt')
     run('sudo chmod 640 server.key')
     run('sudo chown root:ssl-cert server.key')
 
+# Deploying cozy proxy, cozy home, cozy note on port 80, 8001, 3000
 def install_cozy():
-    run('sudo git clone https://github.com/mycozycloud/cozy-setup.git')
     run('cd cozy-setup ; sudo npm install eyes haibu@0.8.2')
-    run('sudo mkdir /usr/local/lib/node_modules/haibu/local/')
-    run('sudo coffee home.coffee')
-    run('sudo coffee notes.coffee')
-    run('sudo coffee proxy.coffee')
+    # UNUSE run('sudo mkdir /usr/local/lib/node_modules/haibu/local/')
+    #TODO verif si sudo obligatoire
+    run('cd cozy-setup/ ; sudo coffee home.coffee')
+    run('cd cozy-setup/ ; sudo coffee notes.coffee')
+    run('cd cozy-setup/ ; sudo coffee proxy.coffee')

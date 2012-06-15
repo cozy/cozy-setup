@@ -70,7 +70,10 @@ def install_certif():
     run('sudo openssl genrsa -out ./server.key 1024')
     run('sudo openssl req -new -x509 -days 3650 -key ./server.key -out ./server.crt')
     run('sudo chmod 640 server.key')
-    run('sudo chown root:ssl-cert server.key')
+    run('sudo mkdir /home/cozy/')
+    run('sudo cp server.key /home/cozy/server.key')
+    run('sudo cp server.crt /home/cozy/server.crt')
+    run('sudo chown root:ssl-cert /home/cozy/server.key')
 
 # Deploying cozy proxy, cozy home, cozy note on port 80, 8001, 3000
 def install_cozy():

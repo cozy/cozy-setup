@@ -75,7 +75,6 @@ def install_certif():
 # Deploying cozy proxy, cozy home, cozy note on port 80, 8001, 3000
 def install_cozy():
     run('cd cozy-setup ; sudo npm install eyes haibu@0.8.2')
-    # UNUSE run('sudo mkdir /usr/local/lib/node_modules/haibu/local/')
     #TODO verif si sudo obligatoire
     run('cd cozy-setup/ ; sudo coffee home.coffee')
     run('cd cozy-setup/ ; sudo coffee notes.coffee')

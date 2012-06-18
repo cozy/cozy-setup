@@ -1,4 +1,6 @@
 from fabric.api import run
+from fabtools import require
+import fabtools
 """
 Script to set up a cozy cloud environnement from a fresh system
 V0.0.1  14/06/12
@@ -23,10 +25,17 @@ def update():
 
 # Tools install
 def install_tools():
-    run('sudo apt-get install python openssl libssl-dev pkg-config g++ git')
-    run('git clone https://github.com/mycozycloud/cozy-setup.git')
+    require.deb.packages([
+            'python',
+            'openssl',
+            'libssl-dev',
+            'pkg-config',
+            'g++',
+            'git'
+    ])
+    run('git clone https://github.com/mycozycloud/cozy-setup.git cozy-setup')
 
-# Installing Node 0.18
+# Installing Node 0.6.18
 def install_nodejs():
     run('wget http://nodejs.org/dist/v0.6.18/node-v0.6.18.tar.gz')
     run('tar -xvzf node-v0.6.18.tar.gz')
@@ -56,12 +65,17 @@ def install_redis():
     run('rm redis-2.4.14.tar.gz')
     run('rm -rf redis-2.4.14/')
 
+def install_redis2():
+    require.redis.installed_from_source('2.4.14')
+    require.redis.instance('Server','2.4.14',)
+    #manque le path pour exec de redis-...
+
 
 # Preparing Cozy
 def install_preinstall():
     run('sudo apt-get install postfix')
     run('sudo npm install -g coffee-script')
-    run('sudo npm install -g haibu')
+    run('sudo npm install -g haibu@0.8.2')
     run('sudo cp cozy-setup/paas.conf /etc/init/')
     run('sudo service paas start')
 
@@ -74,11 +88,12 @@ def install_certif():
     run('sudo cp server.key /home/cozy/server.key')
     run('sudo cp server.crt /home/cozy/server.crt')
     run('sudo chown root:ssl-cert /home/cozy/server.key')
+    run('sudo rm server.key; sudo rm server.crt')
 
 # Deploying cozy proxy, cozy home, cozy note on port 80, 8001, 3000
 def install_cozy():
     run('cd cozy-setup ; sudo npm install eyes haibu@0.8.2')
-    #TODO verif si sudo obligatoire
-    run('cd cozy-setup/ ; sudo coffee home.coffee')
-    run('cd cozy-setup/ ; sudo coffee notes.coffee')
-    run('cd cozy-setup/ ; sudo coffee proxy.coffee')
+    run('cd cozy-setup/ ; coffee home.coffee')
+    run('cd cozy-setup/ ; coffee notes.coffee')
+    run('cd cozy-setup/ ; coffee proxy.coffee')
+    run('rm -rf cozy-setup')

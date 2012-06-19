@@ -15,7 +15,7 @@ def install():
     install_preinstall()
     install_certif()
     install_cozy()
-    init_dat()
+    init_data()
 
 # Tools install
 def install_tools():

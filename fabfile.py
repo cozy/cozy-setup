@@ -5,6 +5,9 @@ import fabtools
 Script to set up a cozy cloud environnement from a fresh system
 V0.0.1  14/06/12
 Validate on a Debian squeeze 32 bits up to date and with upstart installed.
+
+Update your system and
+Launch $ fab -H user@Ip.Ip.Ip.Ip:Port install
 """
 
 def install():
@@ -12,10 +15,10 @@ def install():
     install_nodejs()
     install_mongodb()
     install_redis()
-    install_preinstall()
-    install_certif()
-    install_cozy()
-    init_data()
+    #install_preinstall()
+    #install_certif()
+    #install_cozy()
+    #init_data()
 
 """
 Tools install
@@ -49,12 +52,15 @@ def install_mongodb():
     run('sudo apt-get install mongodb-10gen')
 
 """
-Installing and Auto-starting Redis
+Installing and Auto-starting Redis 2.4.14
 """
 def install_redis():
     require.redis.installed_from_source('2.4.14')
-    require.redis.instance('Server','2.4.14',)
+    require.redis.instance('Server_redis','2.4.14',)
   
+""" Creating cozy user """
+def create_user():
+    user.create('cozy', '/home/cozy/','/bin/false')
 
 """
 Preparing Cozy
@@ -95,6 +101,3 @@ Data initialisation
 def init_data():
     run('cd /usr/local/lib/node_modules/haibu/local/cozy/home/cozy-home ; coffee init.coffee')
     run('cp /cozy-setup/node_mailer.js node_modules/mailer/lib/')
-
-def create():
-    user.create('cozy', '/home/cozy/','/bin/false')

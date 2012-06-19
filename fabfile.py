@@ -60,16 +60,17 @@ def install_redis():
   
 """ Creating cozy user """
 def create_user():
-    user.create('cozy', '/home/cozy/','/bin/false')
 
 """
 Preparing Cozy
 """
 def pre_install():
+    user.create('cozy', '/home/cozy/','/bin/false')
+    
     require.postfix.server('BidonCozy.com')
     run('sudo npm install -g coffee-script')
     run('sudo npm install -g haibu@0.8.2')
-    run('sudo cp cozy-setup/paas.conf /etc/init/')
+    run('sudo cp /vagrant/paas.conf /etc/init/')
     run('sudo service paas start')
 
 """

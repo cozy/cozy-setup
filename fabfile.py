@@ -8,20 +8,14 @@ Validate on a Debian squeeze 32 bits up to date and with upstart installed.
 """
 
 def install():
-    #update()
     install_tools()
     install_nodejs()
     install_mongodb()
     install_redis()
     install_preinstall()
     install_certif()
-    install_cozy
-   
-# Maintain Up to Date the system
-def update():
-    run('sudo apt-get update')
-    run('sudo apt-get upgrade')
-    run('sudo apt-get install upstart')
+    install_cozy()
+    init_dat()
 
 # Tools install
 def install_tools():
@@ -51,29 +45,13 @@ def install_mongodb():
 
 # Installing and Auto-starting Redis
 def install_redis():
-    run('wget http://redis.googlecode.com/files/redis-2.4.14.tar.gz')
-    run('tar xvzf redis-2.4.14.tar.gz')
-    run('cd redis-2.4.14 ; make')
-    run('sudo cp redis-2.4.14/src/redis-server /usr/local/bin/')
-    run('sudo cp redis-2.4.14/src/redis-cli /usr/local/bin/')
-    run('sudo mkdir /etc/redis')
-    run('sudo mkdir /var/redis ; sudo mkdir /var/redis/6379')
-    run('sudo cp redis-2.4.14/utils/redis_init_script /etc/init.d/redis_6379')
-    run('sudo cp cozy-setup/6379.conf /etc/redis/')
-    run('sudo update-rc.d redis_6379 defaults')
-    run('sudo /etc/init.d/redis_6379 start')
-    run('rm redis-2.4.14.tar.gz')
-    run('rm -rf redis-2.4.14/')
-
-def install_redis2():
     require.redis.installed_from_source('2.4.14')
     require.redis.instance('Server','2.4.14',)
-    #manque le path pour exec de redis-...
-
+  
 
 # Preparing Cozy
 def install_preinstall():
-    run('sudo apt-get install postfix')
+    require.postfix.server('test.com')
     run('sudo npm install -g coffee-script')
     run('sudo npm install -g haibu@0.8.2')
     run('sudo cp cozy-setup/paas.conf /etc/init/')
@@ -96,4 +74,8 @@ def install_cozy():
     run('cd cozy-setup/ ; coffee home.coffee')
     run('cd cozy-setup/ ; coffee notes.coffee')
     run('cd cozy-setup/ ; coffee proxy.coffee')
-    run('rm -rf cozy-setup')
+    run('sudo rm -rf cozy-setup')
+
+def init_data():
+    run('cd /usr/local/lib/node_modules/haibu/local/cozy/home/cozy-home ; coffee init.coffee')
+    run('cp /home/cozy/cozy-setup/node_mailer.js node_modules/mailer/lib/')

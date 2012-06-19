@@ -1,5 +1,5 @@
 from fabric.api import run
-from fabtools import require
+from fabtools import *
 import fabtools
 """
 Script to set up a cozy cloud environnement from a fresh system
@@ -17,7 +17,9 @@ def install():
     install_cozy()
     init_data()
 
-# Tools install
+"""
+Tools install
+"""
 def install_tools():
     require.deb.packages([
             'python',
@@ -27,38 +29,47 @@ def install_tools():
             'g++',
             'git'
     ])
-    run('git clone https://github.com/mycozycloud/cozy-setup.git cozy-setup')
-
-# Installing Node 0.6.18
+ 
+"""
+Installing Node 0.6.18
+"""
 def install_nodejs():
     run('wget http://nodejs.org/dist/v0.6.18/node-v0.6.18.tar.gz')
     run('tar -xvzf node-v0.6.18.tar.gz')
     run('cd node-v0.6.18 ; ./configure ; make ; sudo make install')
     run('rm node-v0.6.18.tar.gz ; rm -rf node-v0.6.18')
 
-# Installing Mongodb
+"""
+Installing Mongodb
+"""
 def install_mongodb():
     run('sudo apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10')
     run('sudo echo "deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen" | sudo tee --append  /etc/apt/sources.list')
     run('sudo apt-get update')
     run('sudo apt-get install mongodb-10gen')
 
-# Installing and Auto-starting Redis
+"""
+Installing and Auto-starting Redis
+"""
 def install_redis():
     require.redis.installed_from_source('2.4.14')
     require.redis.instance('Server','2.4.14',)
   
 
-# Preparing Cozy
-def install_preinstall():
-    require.postfix.server('test.com')
+"""
+Preparing Cozy
+"""
+def pre_install():
+    require.postfix.server('BidonCozy.com')
     run('sudo npm install -g coffee-script')
     run('sudo npm install -g haibu@0.8.2')
     run('sudo cp cozy-setup/paas.conf /etc/init/')
     run('sudo service paas start')
 
-# Creating SSL certificats
-def install_certif():
+"""
+Creating SSL certificats
+"""
+def create_certif():
     run('sudo openssl genrsa -out ./server.key 1024')
     run('sudo openssl req -new -x509 -days 3650 -key ./server.key -out ./server.crt')
     run('sudo chmod 640 server.key')
@@ -68,7 +79,9 @@ def install_certif():
     run('sudo chown root:ssl-cert /home/cozy/server.key')
     run('sudo rm server.key; sudo rm server.crt')
 
-# Deploying cozy proxy, cozy home, cozy note on port 80, 8001, 3000
+"""
+Deploying cozy proxy, cozy home, cozy note on port 80, 8001, 3000
+"""
 def install_cozy():
     run('cd cozy-setup ; sudo npm install eyes haibu@0.8.2')
     run('cd cozy-setup/ ; coffee home.coffee')
@@ -76,6 +89,12 @@ def install_cozy():
     run('cd cozy-setup/ ; coffee proxy.coffee')
     run('sudo rm -rf cozy-setup')
 
+"""
+Data initialisation
+"""
 def init_data():
     run('cd /usr/local/lib/node_modules/haibu/local/cozy/home/cozy-home ; coffee init.coffee')
-    run('cp /home/cozy/cozy-setup/node_mailer.js node_modules/mailer/lib/')
+    run('cp /cozy-setup/node_mailer.js node_modules/mailer/lib/')
+
+def create():
+    user.create('cozy', '/home/cozy/','/bin/false')

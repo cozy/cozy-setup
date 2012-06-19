@@ -16,8 +16,8 @@ def install():
     install_nodejs()
     install_mongodb()
     install_redis()
-    install_preinstall()
-    install_certif()
+    pre_install()
+    create_certif()
     install_cozy()
     #init_data()
 

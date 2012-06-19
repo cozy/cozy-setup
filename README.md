@@ -9,10 +9,10 @@ Get a system up to date and install the daemon manager upstart.
 
 You should use this kind of command
 
-> guest$ sudo apt-get update
-> guest$ sudo apt-get upgrade
-> guest$ sudo apt-get install upstart
-> guest$ sudo reboot now
+> guest$ sudo apt-get update  
+> guest$ sudo apt-get upgrade  
+> guest$ sudo apt-get install upstart  
+> guest$ sudo reboot now  
 
 Launch the Fabric script to launch the cozy install
 

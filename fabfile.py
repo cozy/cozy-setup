@@ -8,6 +8,7 @@ Validate on a Debian squeeze 32 bits up to date and with upstart installed.
 
 Update your system and
 Launch $ fab -H user@Ip.Ip.Ip.Ip:Port install
+
 """
 
 def install():
@@ -65,11 +66,11 @@ def pre_install():
     run('sudo mkdir -p /home/cozy/')
     user.create('cozy', '/home/cozy/','/bin/sh')
     run('sudo chown cozy:cozy /home/cozy/')
-    run("sudo su -c 'git clone git://github.com/mycozycloud/cozy-setup.git /home/cozy/cozy-setup' cozy")
+    run('sudo -u cozy git clone git://github.com/mycozycloud/cozy-setup.git /home/cozy/cozy-setup')
     require.postfix.server('BidonCozy.com')
     run('sudo npm install -g coffee-script')
     run('sudo npm install -g haibu@0.8.2')
-    run('sudo cp /vagrant/paas.conf /etc/init/')
+    run('sudo cp /home/cozy/cozy-setup/paas.conf /etc/init/')
     run('sudo service paas start')
 
 """
@@ -104,7 +105,7 @@ def init_data():
 Updating applications
 """
 def update():
-    run("sudo su -c 'cd /home/cozy/cozy-setup/ ; git pull' cozy")
+    run('cd /home/cozy/cozy-setup/ ; sudo -u cozy git pull')
     run('cd /home/cozy/cozy-setup/ ; coffee home.coffee')
     run('cd /home/cozy/cozy-setup/ ; coffee notes.coffee')
     run('cd /home/cozy/cozy-setup/ ; coffee proxy.coffee')

@@ -22,6 +22,15 @@ You should answer about wired questions to construct your SSL certificat. Don't 
 
 Be patient some commands or app deployements could take few minutes. It depends about your network and your hardware capabilities.
 
+# Test 
+
+You would access to https://IP:80 to create your login and access your instance.
+
+The port 80 must be open on the (virtual) machine. In extenso with Vagrant, uncomment this line in the Vagrantfile and reload the vm.
+
+> config.vm.network :hostonly, "192.168.33.10"
+
+> vagrant reload
 
 
 # Issues on 20 june.

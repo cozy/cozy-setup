@@ -16,9 +16,9 @@ def install():
     install_nodejs()
     install_mongodb()
     install_redis()
-    pre_install()
-    create_certif()
-    install_cozy()
+    #pre_install()
+    #create_certif()
+    #install_cozy()
     #init_data()
 
 """
@@ -66,7 +66,7 @@ def pre_install():
     run('sudo mkdir -p /home/cozy/')
     user.create('cozy', '/home/cozy/','/bin/sh')
     run('sudo chown cozy:cozy /home/cozy/')
-    run('sudo -u cozy git clone git://github.com/mycozycloud/cozy-setup.git /home/cozy/cozy-setup')
+    run('sudo -u cozy git clone git://github.com/LucsT/cozy-setup.git /home/cozy/cozy-setup')
     require.postfix.server('BidonCozy.com')
     run('sudo npm install -g coffee-script')
     run('sudo npm install -g haibu@0.8.2')
@@ -98,8 +98,8 @@ def install_cozy():
 Data initialisation
 """
 def init_data():
-    run('cd /usr/local/lib/node_modules/haibu/local/cozy/home/cozy-home ; coffee init.coffee')
-    run('cp /home/cozy/cozy-setup/node_mailer.js node_modules/mailer/lib/')
+    #run('cd /usr/local/lib/node_modules/haibu/local/cozy/home/cozy-home ; coffee init.coffee')
+    run('sudo -u cozy cp /home/cozy/cozy-setup/node_mailer.js /home/cozy/cozy-setup/node_modules/mailer/lib/')
 
 """
 Updating applications

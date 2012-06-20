@@ -4,10 +4,10 @@ from fabtools import *
 """
 Script to set up a cozy cloud environnement from a fresh system
 V0.0.1  14/06/12
-Validate on a Debian squeeze 32 bits up to date and with upstart installed.
+Validated on a Debian squeeze 32 bits up to date, with upstart installed.
 
-Update your system and
-Launch $ fab -H user@Ip.Ip.Ip.Ip:Port install
+Once your system is updated, launch $ fab -H user@Ip.Ip.Ip.Ip:Port install
+to install the full Cozy stack.
 
 """
 

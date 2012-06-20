@@ -107,7 +107,6 @@ def init_data():
     """
 
     run('cd /usr/local/lib/node_modules/haibu/local/cozy/home/cozy-home ; coffee init.coffee')
-    run('sudo -u cozy cp /home/cozy/cozy-setup/node_mailer.js /home/cozy/cozy-setup/node_modules/mailer/lib/')
 
 def update():
     """

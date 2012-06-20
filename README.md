@@ -4,7 +4,7 @@ Cozy Setup contains all stuff needed to install cozy on a fresh debian server.
 
 # How To Install Cozy Environnement
 
-The installation requires system up to date with upstart as daemon manager.
+The installation requires a system up to date with upstart as daemon manager.
 
 You can do it with following commands.
 

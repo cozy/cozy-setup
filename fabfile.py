@@ -51,7 +51,9 @@ def install_mongodb():
     """
 
     run('sudo apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10')
-    run(' sudo echo "deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen" | sudo tee --append  /etc/apt/sources.list')
+    run(' sudo echo "deb http://downloads-distro.mongodb.org/' + \
+         'repo/ubuntu-upstart dist 10gen" | sudo tee --append  ' + \
+         '/etc/apt/sources.list')
     run('sudo apt-get update')
     run('sudo apt-get install mongodb-10gen')
 
@@ -71,8 +73,9 @@ def pre_install():
     run('sudo mkdir -p /home/cozy/')
     user.create('cozy', '/home/cozy/','/bin/sh')
     run('sudo chown cozy:cozy /home/cozy/')
-    run('sudo -u cozy git clone git://github.com/mycozycloud/cozy-setup.git /home/cozy/cozy-setup')
-    require.postfix.server('BidonCozy.com')
+    run('sudo -u cozy git clone git://github.com/mycozycloud/cozy-setup.git' \
+        + ' /home/cozy/cozy-setup')
+    require.postfix.server('mycozycloud.com')
     run('sudo npm install -g coffee-script')
     run('sudo npm install -g haibu@0.8.2')
     run('sudo cp /home/cozy/cozy-setup/paas.conf /etc/init/')
@@ -84,7 +87,8 @@ def create_certif():
     """
 
     run('sudo openssl genrsa -out ./server.key 1024')
-    run('sudo openssl req -new -x509 -days 3650 -key ./server.key -out ./server.crt')
+    run('sudo openssl req -new -x509 -days 3650 -key ./server.key -out ' + \
+        './server.crt')
     run('sudo chmod 640 server.key')
     run('sudo cp server.key /home/cozy/server.key')
     run('sudo cp server.crt /home/cozy/server.crt')
@@ -106,7 +110,8 @@ def init_data():
     Data initialisation
     """
 
-    run('cd /usr/local/lib/node_modules/haibu/local/cozy/home/cozy-home ; coffee init.coffee')
+    run('cd /usr/local/lib/node_modules/haibu/local/cozy/home/cozy-home ; ' \
+        + 'coffee init.coffee')
 
 def update():
     """

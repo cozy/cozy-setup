@@ -51,7 +51,7 @@ def install_mongodb():
     """
 
     run('sudo apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10')
-    run(' sudo echo "deb http://downloads-distro.mongodb.org/' + \
+    run('sudo echo "deb http://downloads-distro.mongodb.org/' + \
          'repo/ubuntu-upstart dist 10gen" | sudo tee --append  ' + \
          '/etc/apt/sources.list')
     run('sudo apt-get update')
@@ -90,10 +90,9 @@ def create_certif():
     run('sudo openssl req -new -x509 -days 3650 -key ./server.key -out ' + \
         './server.crt')
     run('sudo chmod 640 server.key')
-    run('sudo cp server.key /home/cozy/server.key')
-    run('sudo cp server.crt /home/cozy/server.crt')
+    run('sudo mv server.key /home/cozy/server.key')
+    run('sudo mv server.crt /home/cozy/server.crt')
     run('sudo chown root:ssl-cert /home/cozy/server.key')
-    run('sudo rm server.key; sudo rm server.crt')
 
 def install_cozy():
     """

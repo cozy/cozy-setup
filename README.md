@@ -13,21 +13,21 @@ You can do it with following commands.
 > guest$ sudo apt-get install upstart  
 > guest$ sudo reboot now  
 
-Then use the Fabric script to launch the cozy install
+Once your system is prepared, then use the Fabric script to launch the cozy 
+install:
 
 > host$ fab -H user@ip:port install
 
-Fill what you want when installer will ask you information about the
+Fill what you want when installer will ask you for informations about the
 certificate. 
 
-Be patient some commands or app deployements could take few minutes. It depends about your network and your hardware capabilities.
+Be patient some commands or app deployements could take a few minutes. It 
+depends about your network and your hardware capabilities.
 
 # Test 
 
-If nothing goes wrong, you can access to https://IP:80 to create your cozy
+Once installation done, you can access to https://IP:80 to create your cozy
 main account.
-
-The port 80 must be open on the (virtual) machine. 
 
 For Vagrant user, uncomment this line in the Vagrantfile and reload the vm.
 
@@ -43,14 +43,13 @@ Right now Cozy has just mail sending capabilities. So you don't need a perfect
 configuration. Mails are only required to notify you what to do when you need
 to reset your password.
 
-Redis is set to default conf.
-
+Redis conf is the default one.
 
 
 # About Cozy
 
 Cozy is private pesronal cloud solution that allows you to host all your 
 personnal application in a single place you control. 
-This way, you can manage your data efficiently while protecting your privacy.
+This way, you can manage your data from anywhere while protecting your privacy.
 
 http://www.mycozycloud.com

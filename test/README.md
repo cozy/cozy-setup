@@ -6,6 +6,7 @@ To run tests you need to install dependencies first:
 
 Then run tests with :
 
+    cd test/
     lettuce
 
 Because tests suscribe to cozy, you should not run them on your final

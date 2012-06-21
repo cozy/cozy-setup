@@ -124,3 +124,12 @@ def update():
         run('coffee home.coffee')
         run('coffee notes.coffee')
         run('coffee proxy.coffee')
+
+def reset_account():
+    """
+    Delete current accountc 
+    """
+
+    with cd('/usr/local/lib/node_modules/haibu/local/cozy/home/cozy-home'):
+        run('coffee clean.coffee')
+        run('coffee init.coffee')

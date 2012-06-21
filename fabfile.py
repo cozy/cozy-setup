@@ -1,4 +1,4 @@
-from fabric.api import run
+from fabric.api import run, sudo, cd
 from fabtools import *
 
 """
@@ -34,8 +34,9 @@ def install_tools():
         'g++',
         'git'
     ])
- 
+
 def install_nodejs():
+ 
     """
     Installing Node 0.6.18
     """
@@ -99,25 +100,27 @@ def install_cozy():
     Deploying cozy proxy, cozy home, cozy note on port 80, 8001, 3000
     """
 
-    run('cd /home/cozy/cozy-setup ; npm install eyes haibu@0.8.2')
-    run('cd /home/cozy/cozy-setup/ ; coffee home.coffee')
-    run('cd /home/cozy/cozy-setup/ ; coffee notes.coffee')
-    run('cd /home/cozy/cozy-setup/ ; coffee proxy.coffee')
+    with cd('/home/cozy/cozy-setup'):
+        sudo('npm install eyes haibu@0.8.2', user="cozy")
+        run('coffee home.coffee')
+        run('coffee notes.coffee')
+        run('coffee proxy.coffee')
 
 def init_data():
     """
     Data initialisation
     """
 
-    run('cd /usr/local/lib/node_modules/haibu/local/cozy/home/cozy-home ; ' \
-        + 'coffee init.coffee')
+    with cd('/usr/local/lib/node_modules/haibu/local/cozy/home/cozy-home'):
+        run('coffee init.coffee')
 
 def update():
     """
     Updating applications
     """
 
-    run('cd /home/cozy/cozy-setup/ ; sudo -u cozy git pull')
-    run('cd /home/cozy/cozy-setup/ ; coffee home.coffee')
-    run('cd /home/cozy/cozy-setup/ ; coffee notes.coffee')
-    run('cd /home/cozy/cozy-setup/ ; coffee proxy.coffee')
+    with cd('/home/cozy/cozy-setup/'):
+        sudo('cozy git pull', user='cozy')
+        run('coffee home.coffee')
+        run('coffee notes.coffee')
+        run('coffee proxy.coffee')

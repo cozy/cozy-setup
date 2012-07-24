@@ -120,7 +120,7 @@ def update():
     """
 
     with cd('/home/cozy/cozy-setup/'):
-        sudo('cozy git pull', user='cozy')
+        sudo('git pull', user='cozy')
         run('coffee home.coffee')
         run('coffee notes.coffee')
         run('coffee proxy.coffee')

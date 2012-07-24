@@ -93,7 +93,7 @@ def create_certif():
     run('sudo chmod 640 server.key')
     run('sudo mv server.key /home/cozy/server.key')
     run('sudo mv server.crt /home/cozy/server.crt')
-    run('sudo chown root:ssl-cert /home/cozy/server.key')
+    run('sudo chown cozy:ssl-cert /home/cozy/server.key')
 
 def install_cozy():
     """

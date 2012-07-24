@@ -56,7 +56,7 @@ def install_mongodb():
          'repo/ubuntu-upstart dist 10gen" | sudo tee --append  ' + \
          '/etc/apt/sources.list')
     run('sudo apt-get update')
-    run('sudo apt-get install mongodb-10gen')
+    run('sudo apt-get install mongodb')
 
 def install_redis():
     """

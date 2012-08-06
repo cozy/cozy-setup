@@ -35,6 +35,7 @@ For Vagrant user, uncomment this line in the Vagrantfile and reload the vm.
 
 > vagrant reload
 
+You can launch functional test too (see README file located in test directory).
 
 # Issues on 20 june.
 

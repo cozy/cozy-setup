@@ -10,6 +10,7 @@ Then run tests with :
     lettuce
 
 Because tests suscribe to cozy, you should not run them on your final
-installation. If you need to run test several time, run fabric reset_account
+installation. If you need to run test several time, run following
 command before each test.
 
+    fabric reset_account

@@ -56,7 +56,7 @@ def install_mongodb():
          'repo/ubuntu-upstart dist 10gen" | sudo tee --append  ' + \
          '/etc/apt/sources.list')
     run('sudo apt-get update')
-    run('sudo apt-get install mongodb-10gen')
+    run('sudo apt-get install mongodb')
 
 def install_redis():
     """
@@ -93,7 +93,7 @@ def create_certif():
     run('sudo chmod 640 server.key')
     run('sudo mv server.key /home/cozy/server.key')
     run('sudo mv server.crt /home/cozy/server.crt')
-    run('sudo chown root:ssl-cert /home/cozy/server.key')
+    run('sudo chown cozy:ssl-cert /home/cozy/server.key')
 
 def install_cozy():
     """
@@ -120,7 +120,7 @@ def update():
     """
 
     with cd('/home/cozy/cozy-setup/'):
-        sudo('cozy git pull', user='cozy')
+        sudo('git pull', user='cozy')
         run('coffee home.coffee')
         run('coffee notes.coffee')
         run('coffee proxy.coffee')

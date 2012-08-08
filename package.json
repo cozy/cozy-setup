@@ -2,7 +2,7 @@
 , "version": "0.0.1"
 , "engines": ["node >= 0.6.18"]
 , "dependencies":
-  { "haibu": ">= 0"
+  { "haibu": ">= 0.8.2"
   , "eyes":  ">= 0"
   }
 }

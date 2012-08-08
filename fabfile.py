@@ -4,9 +4,10 @@ from fabtools import *
 """
 Script to set up a cozy cloud environnement from a fresh system
 V0.0.1  14/06/12
-Validated on a Debian squeeze 32 bits up to date, with upstart installed.
+Validated on a Debian squeeze 64 bits up to date.
 
-Once your system is updated, launch $ fab -H user@Ip.Ip.Ip.Ip:Port install
+Once your system is updated, launch 
+$ fab -H user@Ip.Ip.Ip.Ip:Port install
 to install the full Cozy stack.
 
 """
@@ -17,7 +18,7 @@ def install():
     install_mongodb()
     install_redis()
     pre_install()
-    create_certif()
+    #create_certif()
     install_cozy()
     init_data()
 
@@ -55,9 +56,9 @@ def install_mongodb():
     run('sudo echo "deb http://downloads-distro.mongodb.org/' + \
          'repo/ubuntu-upstart dist 10gen" | sudo tee --append  ' + \
          '/etc/apt/sources.list')
-    run('sudo apt-get update')
-    run('sudo apt-get install mongodb')
-
+    sudo('apt-get update')
+    require.deb.packages(['mongodb'])
+    
 def install_redis():
     """
     Installing and Auto-starting Redis 2.4.14
@@ -70,17 +71,17 @@ def pre_install():
     """
     Preparing Cozy
     """
-
-    run('sudo mkdir -p /home/cozy/')
+    require.postfix.server('myinstance.mycozycloud.com')
+    sudo ('mkdir -p /home/cozy/')
     user.create('cozy', '/home/cozy/','/bin/sh')
-    run('sudo chown cozy:cozy /home/cozy/')
-    run('sudo -u cozy git clone git://github.com/mycozycloud/cozy-setup.git' \
-        + ' /home/cozy/cozy-setup')
-    require.postfix.server('mycozycloud.com')
-    run('sudo npm install -g coffee-script')
-    run('sudo npm install -g haibu@0.8.2')
-    run('sudo cp /home/cozy/cozy-setup/paas.conf /etc/init/')
-    run('sudo service paas start')
+    sudo ('chown cozy:cozy /home/cozy/')
+    sudo ('git clone git://github.com/mycozycloud/cozy-setup.git' \
+        + ' /home/cozy/cozy-setup', user = 'cozy') 
+    sudo ('npm install -g coffee-script')
+    with cd('/home/cozy/cozy-setup'):
+        sudo ('npm install', user = 'cozy')
+        sudo ('cp paas.conf /etc/init/')
+    sudo ('service paas start')
 
 def create_certif():
     """
@@ -101,18 +102,18 @@ def install_cozy():
     """
 
     with cd('/home/cozy/cozy-setup'):
-        sudo('npm install eyes haibu@0.8.2', user="cozy")
-        run('coffee home.coffee')
-        run('coffee notes.coffee')
-        run('coffee proxy.coffee')
+        sudo('coffee home.coffee', user = 'cozy')
+        sudo('coffee notes.coffee', user = 'cozy')
+        sudo('coffee proxy.coffee', user= 'cozy')
 
 def init_data():
     """
     Data initialisation
     """
 
-    with cd('/usr/local/lib/node_modules/haibu/local/cozy/home/cozy-home'):
-        run('coffee init.coffee')
+    with cd('/home/cozy/cozy-setup/node_modules/haibu/' \
+                + 'local/cozy/home/cozy-home'):
+        sudo('coffee init.coffee', 'cozy')
 
 def update():
     """
@@ -121,15 +122,16 @@ def update():
 
     with cd('/home/cozy/cozy-setup/'):
         sudo('git pull', user='cozy')
-        run('coffee home.coffee')
-        run('coffee notes.coffee')
-        run('coffee proxy.coffee')
+        sudo('coffee home.coffee', 'cozy')
+        sudo('coffee notes.coffee', 'cozy')
+        sudo('coffee proxy.coffee', 'cozy')
 
 def reset_account():
     """
     Delete current accountc 
     """
 
-    with cd('/usr/local/lib/node_modules/haibu/local/cozy/home/cozy-home'):
-        run('coffee clean.coffee')
-        run('coffee init.coffee')
+    with cd('/home/cozy/cozy-setup/node_modules/haibu/' \
+                + 'local/cozy/home/cozy-home'):
+        sudo('coffee clean.coffee','cozy')
+        sudo('coffee init.coffee','cozy')

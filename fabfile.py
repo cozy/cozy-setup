@@ -13,10 +13,6 @@ to install the full Cozy stack.
 
 """
 
-def install2():
-    with guest('112'):
-        install()
-
 def install():
     install_tools()
     install_nodejs()
@@ -140,5 +136,5 @@ def reset_account():
 
     with cd('/home/cozy/cozy-setup/node_modules/haibu/' \
                 + 'local/cozy/home/cozy-home'):
-        sudo('coffee clean.coffee','cozy')
+        sudo('coffee cleandb.coffee','cozy')
         sudo('coffee init.coffee','cozy')

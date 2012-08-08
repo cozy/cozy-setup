@@ -1,5 +1,6 @@
 from fabric.api import run, sudo, cd
 from fabtools import *
+from fabtools.openvz import guest
 
 """
 Script to set up a cozy cloud environnement from a fresh system
@@ -11,6 +12,10 @@ $ fab -H user@Ip.Ip.Ip.Ip:Port install
 to install the full Cozy stack.
 
 """
+
+def install2():
+    with guest('112'):
+        install()
 
 def install():
     install_tools()
@@ -33,7 +38,9 @@ def install_tools():
         'libssl-dev',
         'pkg-config',
         'g++',
-        'git'
+        'git',
+        'sudo',
+        'make'
     ])
 
 def install_nodejs():

@@ -55,9 +55,8 @@ def install_mongodb():
     """
 
     sudo('apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10')
-    sudo('echo "deb http://downloads-distro.mongodb.org/' + \
-         'repo/ubuntu-upstart dist 10gen" | sudo tee --append  ' + \
-         '/etc/apt/sources.list')
+    require.deb.source("mongo", "http://downloads-distro.mongodb.org" + \
+                           "/repo/ubuntu-upstart", "dist 10gen")
     deb.update_index()
     require.deb.packages(['mongodb'])
     

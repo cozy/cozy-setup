@@ -1,7 +1,6 @@
 from fabric.api import run, sudo, cd
-from fabtools import *
+from fabtools import deb,require,user
 from fabtools.openvz import guest
-
 """
 Script to set up a cozy cloud environnement from a fresh system
 V0.0.1  14/06/12
@@ -55,11 +54,11 @@ def install_mongodb():
     Installing Mongodb
     """
 
-    run('sudo apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10')
-    run('sudo echo "deb http://downloads-distro.mongodb.org/' + \
+    sudo('apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10')
+    sudo('echo "deb http://downloads-distro.mongodb.org/' + \
          'repo/ubuntu-upstart dist 10gen" | sudo tee --append  ' + \
          '/etc/apt/sources.list')
-    sudo('apt-get update')
+    deb.update_index()
     require.deb.packages(['mongodb'])
     
 def install_redis():
@@ -75,12 +74,15 @@ def pre_install():
     Preparing Cozy
     """
     require.postfix.server('myinstance.mycozycloud.com')
+
     sudo ('mkdir -p /home/cozy/')
     user.create('cozy', '/home/cozy/','/bin/sh')
     sudo ('chown cozy:cozy /home/cozy/')
+
     sudo ('git clone git://github.com/mycozycloud/cozy-setup.git' \
         + ' /home/cozy/cozy-setup', user = 'cozy') 
     sudo ('npm install -g coffee-script')
+
     with cd('/home/cozy/cozy-setup'):
         sudo ('npm install', user = 'cozy')
         sudo ('cp paas.conf /etc/init/')

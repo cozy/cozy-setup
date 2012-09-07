@@ -75,6 +75,22 @@ def install_couchdb():
         run('tar -xzvf apache-couchdb-1.2.0.tar.gz')
         run('cd apache-couchdb-1.2.0; ./configure; make')
         sudo('cd apache-couchdb-1.2.0; make install')
+        run('rm -rf apache-couchdb-1.2.0')
+        run('rm -rf apache-couchdb-1.2.0.tar.gz')
+
+def install23():
+    sudo('adduser --system --home /usr/local/var/lib/couchdb '+
+        '--no-create-home --shell /bin/bash --group --gecos '+
+        '"CouchDB Administrator" couchdb')
+    sudo('chown -R couchdb:couchdb /usr/local/etc/couchdb')
+    sudo('chown -R couchdb:couchdb /usr/local/var/lib/couchdb')
+    sudo('chown -R couchdb:couchdb /usr/local/var/log/couchdb')
+    sudo('chown -R couchdb:couchdb /usr/local/var/run/couchdb')
+    sudo('chmod 0770 /usr/local/etc/couchdb')
+    sudo('chmod 0770 /usr/local/var/lib/couchdb')
+    sudo('chmod 0770 /usr/local/var/log/couchdb')
+    sudo('chmod 0770 /usr/local/var/run/couchdb')
+
     print("not Implemented")
 
 def install_redis():

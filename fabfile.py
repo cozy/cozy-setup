@@ -60,6 +60,12 @@ def install_mongodb():
     deb.update_index()
     require.deb.packages(['mongodb'])
     
+def install_couchdb():
+    
+    
+ 
+  print("not Implemented")
+
 def install_redis():
     """
     Installing and Auto-starting Redis 2.4.14

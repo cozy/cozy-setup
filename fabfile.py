@@ -1,6 +1,7 @@
 from fabric.api import run, sudo, cd
 from fabtools import deb,require,user
 from fabtools.openvz import guest
+
 """
 Script to set up a cozy cloud environnement from a fresh system
 V0.0.1  14/06/12
@@ -61,10 +62,20 @@ def install_mongodb():
     require.deb.packages(['mongodb'])
     
 def install_couchdb():
-    
-    
- 
-  print("not Implemented")
+    """
+    Installing Couchdb
+    """
+    require.deb.packages(['build-essential'])
+    require.deb.packages(['erlang', 'libicu-dev', 'libmozjs-dev',
+       'libcurl4-openssl-dev'])
+
+    with cd('/tmp'): 
+        run('wget http://apache.mirrors.multidist.eu/couchdb/'+
+            'releases/1.2.0/apache-couchdb-1.2.0.tar.gz')
+        run('tar -xzvf apache-couchdb-1.2.0.tar.gz')
+        run('cd apache-couchdb-1.2.0; ./configure; make')
+        sudo('cd apache-couchdb-1.2.0; make install')
+    print("not Implemented")
 
 def install_redis():
     """

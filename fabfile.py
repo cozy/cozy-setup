@@ -1,6 +1,6 @@
 from fabric.api import run, sudo, cd
 from fabtools import deb,require,user
-from fabtools.openvz import guest
+
 
 """
 Script to set up a cozy cloud environnement from a fresh system
@@ -78,7 +78,6 @@ def install_couchdb():
         run('rm -rf apache-couchdb-1.2.0')
         run('rm -rf apache-couchdb-1.2.0.tar.gz')
 
-def install23():
     sudo('adduser --system --home /usr/local/var/lib/couchdb '+
         '--no-create-home --shell /bin/bash --group --gecos '+
         '"CouchDB Administrator" couchdb')
@@ -90,9 +89,14 @@ def install23():
     sudo('chmod 0770 /usr/local/var/lib/couchdb')
     sudo('chmod 0770 /usr/local/var/log/couchdb')
     sudo('chmod 0770 /usr/local/var/run/couchdb')
+    
+    require.supervisor.process('couchdb', user = 'couchdb', 
+        command = 'couchdb', autostart='true',
+      )
 
-    print("not Implemented")
-
+    #sudo('cp /usr/local/etc/init.d/couchdb /etc/init.d/; service couchdb start')
+    #sudo('update-rc.d couchdb defaults')
+    
 def install_redis():
     """
     Installing and Auto-starting Redis 2.4.14

@@ -82,6 +82,42 @@ def install_mongodb():
     deb.update_index()
     require.deb.packages(['mongodb'])
     
+def install_couchdb():
+    """
+    Installing Couchdb
+    """
+    require.deb.packages(['build-essential'])
+    require.deb.packages(['erlang', 'libicu-dev', 'libmozjs-dev',
+       'libcurl4-openssl-dev'])
+
+    with cd('/tmp'): 
+        run('wget http://apache.mirrors.multidist.eu/couchdb/'+
+            'releases/1.2.0/apache-couchdb-1.2.0.tar.gz')
+        run('tar -xzvf apache-couchdb-1.2.0.tar.gz')
+        run('cd apache-couchdb-1.2.0; ./configure; make')
+        sudo('cd apache-couchdb-1.2.0; make install')
+        run('rm -rf apache-couchdb-1.2.0')
+        run('rm -rf apache-couchdb-1.2.0.tar.gz')
+
+    sudo('adduser --system --home /usr/local/var/lib/couchdb '+
+        '--no-create-home --shell /bin/bash --group --gecos '+
+        '"CouchDB Administrator" couchdb')
+    sudo('chown -R couchdb:couchdb /usr/local/etc/couchdb')
+    sudo('chown -R couchdb:couchdb /usr/local/var/lib/couchdb')
+    sudo('chown -R couchdb:couchdb /usr/local/var/log/couchdb')
+    sudo('chown -R couchdb:couchdb /usr/local/var/run/couchdb')
+    sudo('chmod 0770 /usr/local/etc/couchdb')
+    sudo('chmod 0770 /usr/local/var/lib/couchdb')
+    sudo('chmod 0770 /usr/local/var/log/couchdb')
+    sudo('chmod 0770 /usr/local/var/run/couchdb')
+    
+    require.supervisor.process('couchdb', user = 'couchdb', 
+        command = 'couchdb', autostart='true',
+      )
+
+    #sudo('cp /usr/local/etc/init.d/couchdb /etc/init.d/; service couchdb start')
+    #sudo('update-rc.d couchdb defaults')
+    
 def install_redis():
     """
     Installing and Auto-starting Redis 2.4.14
@@ -189,4 +225,4 @@ def reset_account():
     with cd('/home/cozy/cozy-setup/node_modules/haibu/' \
                 + 'local/cozy/home/cozy-home'):
         sudo('coffee cleandb.coffee','cozy')
-        udo('coffee init.coffee','cozy')
+        sudo('coffee init.coffee','cozy')

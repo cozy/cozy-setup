@@ -1,6 +1,8 @@
+import files
+
 from fabric.api import run, sudo, cd
-from fabtools import deb,require,user
-from fabtools.openvz import guest
+from fabtools import deb, require, user, python, supervisor
+
 """
 Script to set up a cozy cloud environnement from a fresh system
 V0.0.1  14/06/12
@@ -11,6 +13,24 @@ $ fab -H user@Ip.Ip.Ip.Ip:Port install
 to install the full Cozy stack.
 
 """
+
+# Helpers
+
+cozy_home = "/home/cozy"
+cozy_user = "user"
+
+def cozydo(cmd):
+    """Run a commande as a newebe user"""
+
+    sudo(cmd, user="cozy")
+
+def delete_if_exists(filename):
+    """Delete given file if it already exists"""
+
+    if files.exists(filename):
+        cozydo("rm -rf %s" % filename)
+
+# Tasks
 
 def install():
     install_tools()
@@ -29,6 +49,8 @@ def install_tools():
 
     require.deb.packages([
         'python',
+        'python-setuptools',
+        'python-pip',
         'openssl',
         'libssl-dev',
         'pkg-config',
@@ -106,9 +128,38 @@ def install_cozy():
     """
 
     with cd('/home/cozy/cozy-setup'):
-        sudo('coffee home.coffee', user = 'cozy')
-        sudo('coffee notes.coffee', user = 'cozy')
-        sudo('coffee proxy.coffee', user= 'cozy')
+        sudo('coffee data_system.coffee', user='cozy')
+        sudo('coffee home.coffee', user='cozy')
+        sudo('coffee notes.coffee', user='cozy')
+        sudo('coffee proxy.coffee', user='cozy')
+
+def install_indexer():
+    """
+    Deploy Cozy Data Indexer. Use supervisord to daemonize it.
+    """
+
+    indexer_dir = "%s/cozy-data-indexer" % cozy_home
+    indexer_env_dir = "%s/virtualenv" % indexer_dir
+    python_exe = indexer_dir + "/virtualenv/bin/python"
+    indexer_exe = "server.py"
+    process_name = "cozy-indexer"
+
+    with cd(cozy_home):
+        delete_if_exists("cozy-data-indexer")
+        cozydo('git clone git://github.com/mycozycloud/cozy-data-indexer.git')
+
+    require.python.virtualenv(indexer_env_dir, use_sudo=True, user="cozy")
+
+    with python.virtualenv(indexer_env_dir):
+        cozydo("pip install --use-mirrors -r %s/deploy/requirements.txt" % \
+                indexer_dir)
+
+    require.supervisor.process(process_name,
+        command='%s %s' % (python_exe, indexer_exe),
+        directory=indexer_dir,
+        user=cozy_user
+    )
+    supervisor.restart_process(process_name)
 
 def init_data():
     """
@@ -138,4 +189,4 @@ def reset_account():
     with cd('/home/cozy/cozy-setup/node_modules/haibu/' \
                 + 'local/cozy/home/cozy-home'):
         sudo('coffee cleandb.coffee','cozy')
-        sudo('coffee init.coffee','cozy')
+        udo('coffee init.coffee','cozy')

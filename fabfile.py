@@ -1,4 +1,4 @@
-import files
+#import files
 
 from fabric.api import run, sudo, cd
 from fabtools import deb, require, user, python, supervisor
@@ -131,19 +131,23 @@ def pre_install():
     Preparing Cozy
     """
     require.postfix.server('myinstance.mycozycloud.com')
-
+    #Create cozy user
     sudo ('mkdir -p /home/cozy/')
     user.create('cozy', '/home/cozy/','/bin/sh')
     sudo ('chown cozy:cozy /home/cozy/')
-
+    #Get cozy repo
     sudo ('git clone git://github.com/mycozycloud/cozy-setup.git' \
         + ' /home/cozy/cozy-setup', user = 'cozy') 
     sudo ('npm install -g coffee-script')
-
+    #Installing haibu
     with cd('/home/cozy/cozy-setup'):
         sudo ('npm install', user = 'cozy')
-        sudo ('cp paas.conf /etc/init/')
-    sudo ('service paas start')
+    #Starting Paas haibu
+    commande = '/home/cozy/cozy-setup/node_modules/haibu/bin' \
+        + '/haibu --coffee'
+    env = 'NODE_ENV=production'
+    require.supervisor.process('cozy_paas', user = 'cozy', 
+      command = commande, environment = env, autostart = 'true',)
 
 def create_certif():
     """

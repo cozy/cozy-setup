@@ -34,19 +34,20 @@ def delete_if_exists(filename):
 
 def install():
     install_tools()
-    install_nodejs()
+    install_node08()
     install_mongodb()
     install_redis()
-    pre_install()
+    #pre_install()
     #create_certif()
-    install_cozy()
-    init_data()
+    #install_cozy()
+    #init_data()
 
 def install_tools():
     """
     Tools install
     """
-
+    require.deb.update_index()
+    require.deb.upgrade()
     require.deb.packages([
         'python',
         'python-setuptools',
@@ -61,15 +62,22 @@ def install_tools():
     ])
 
 def install_nodejs():
- 
     """
     Installing Node 0.6.18
     """
-
     run('wget http://nodejs.org/dist/v0.6.18/node-v0.6.18.tar.gz')
     run('tar -xvzf node-v0.6.18.tar.gz')
     run('cd node-v0.6.18 ; ./configure ; make ; sudo make install')
     run('rm node-v0.6.18.tar.gz ; rm -rf node-v0.6.18')
+
+def install_node08():
+    """
+    Installing Node 0.8.9    
+    """
+    run('wget http://nodejs.org/dist/v0.8.9/node-v0.8.9.tar.gz')
+    run('tar -xvzf node-v0.8.9.tar.gz')
+    run('cd node-v0.8.9 ; ./configure ; make ; sudo make install')
+    run('rm node-v0.8.9.tar.gz ; rm -rf node-v0.8.9')
 
 def install_mongodb():
     """
@@ -139,14 +147,8 @@ def pre_install():
     #Installing haibu
     with cd('/home/cozy/cozy-setup'):
         sudo ('npm install', user = 'cozy')
-    #Starting Paas haibu
-
-def sol():
-    commande = '/home/cozy/cozy-setup/node_modules/haibu/bin' \
-        + '/haibu --coffee'
-    env = 'NODE_ENV=production'
-    require.supervisor.process('cozy_paas', user = 'cozy', 
-      command = commande, environment = env, autostart = 'true',)
+        sudo ('cp paas.conf /etc/init/')
+    sudo('service paas start')
 
 def create_certif():
     """
@@ -235,3 +237,10 @@ def reset_account():
                 + 'local/cozy/home/cozy-home'):
         sudo('coffee cleandb.coffee','cozy')
         sudo('coffee init.coffee','cozy')
+
+def test_supervisor():
+    commande = '/home/cozy/cozy-setup/node_modules/haibu/bin' \
+        + '/haibu --coffee'
+    env = 'NODE_ENV=production'
+    require.supervisor.process('cozy_paas', user = 'cozy', 
+      command = commande, environment = env, autostart = 'true',)

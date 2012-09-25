@@ -2,6 +2,7 @@
 
 from fabric.api import run, sudo, cd
 from fabtools import deb, require, user, python, supervisor
+from fabric.contrib import files
 
 """
 Script to set up a cozy cloud environnement from a fresh system
@@ -35,9 +36,9 @@ def delete_if_exists(filename):
 def install():
     install_tools()
     install_node08()
-    install_mongodb()
+    install_couchdb()
     install_redis()
-    #pre_install()
+    pre_install()
     #create_certif()
     #install_cozy()
     #init_data()
@@ -61,15 +62,6 @@ def install_tools():
         'make'
     ])
 
-def install_nodejs():
-    """
-    Installing Node 0.6.18
-    """
-    run('wget http://nodejs.org/dist/v0.6.18/node-v0.6.18.tar.gz')
-    run('tar -xvzf node-v0.6.18.tar.gz')
-    run('cd node-v0.6.18 ; ./configure ; make ; sudo make install')
-    run('rm node-v0.6.18.tar.gz ; rm -rf node-v0.6.18')
-
 def install_node08():
     """
     Installing Node 0.8.9    
@@ -79,17 +71,6 @@ def install_node08():
     run('cd node-v0.8.9 ; ./configure ; make ; sudo make install')
     run('rm node-v0.8.9.tar.gz ; rm -rf node-v0.8.9')
 
-def install_mongodb():
-    """
-    Installing Mongodb
-    """
-
-    sudo('apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10')
-    require.deb.source("mongo", "http://downloads-distro.mongodb.org" + \
-                           "/repo/ubuntu-upstart", "dist 10gen")
-    deb.update_index()
-    require.deb.packages(['mongodb'])
-    
 def install_couchdb():
     """
     Installing Couchdb
@@ -136,18 +117,19 @@ def pre_install():
     Preparing Cozy Launching
     """
     require.postfix.server('myinstance.mycozycloud.com')
-    #Create cozy user
-    sudo ('mkdir -p /home/cozy/')
-    user.create('cozy', '/home/cozy/','/bin/sh')
-    sudo ('chown cozy:cozy /home/cozy/')
-    #Get cozy repo
-    sudo ('git clone git://github.com/mycozycloud/cozy-setup.git' \
-        + ' /home/cozy/cozy-setup', user = 'cozy') 
-    sudo ('npm install -g coffee-script')
-    #Installing haibu
+
+    # Create cozy user
+    require.user("cozy", "/home/cozy")
+
+    # Get cozy repo
+    sudo('git clone git://github.com/mycozycloud/cozy-setup.git' \
+        + ' /home/cozy/cozy-setup', user='cozy') 
+    sudo('npm install -g coffee-script')
+
+    # Installing haibu
     with cd('/home/cozy/cozy-setup'):
-        sudo ('npm install', user = 'cozy')
-        sudo ('cp paas.conf /etc/init/')
+        sudo('npm install', user='cozy')
+        sudo('cp paas.conf /etc/init/')
     sudo('service paas start')
 
 def create_certif():
@@ -162,23 +144,6 @@ def create_certif():
     run('sudo mv server.key /home/cozy/server.key')
     run('sudo mv server.crt /home/cozy/server.crt')
     run('sudo chown cozy:ssl-cert /home/cozy/server.key')
-
-def install_data_system():
-    """
-    Installing and deploying cozy-data-system
-    """
-    with cd('/home/cozy/cozy-setup'):
-        sudo('coffee data_system.coffee', user='cozy')
-    
-def install_cozy():
-    """
-    Deploying cozy proxy, cozy home, cozy note on port 80, 8001, 3000
-    """
-
-    with cd('/home/cozy/cozy-setup'):
-        sudo('coffee home.coffee', user='cozy')
-        sudo('coffee notes.coffee', user='cozy')
-        sudo('coffee proxy.coffee', user='cozy')
 
 def install_indexer():
     """
@@ -198,7 +163,7 @@ def install_indexer():
     require.python.virtualenv(indexer_env_dir, use_sudo=True, user="cozy")
 
     with python.virtualenv(indexer_env_dir):
-        cozydo("pip install --use-mirrors -r %s/deploy/requirements.txt" % \
+        cozydo("pip install --use-mirrors -r %s/requirements/common.txt" % \
                 indexer_dir)
 
     require.supervisor.process(process_name,
@@ -207,6 +172,24 @@ def install_indexer():
         user=cozy_user
     )
     supervisor.restart_process(process_name)
+
+def install_data_system():
+    """
+    Installing and deploying cozy-data-system
+    """
+    with cd('/home/cozy/cozy-setup'):
+        sudo('coffee data_system.coffee', user='cozy')
+    
+def install_cozy():
+    """
+    Deploying cozy proxy, cozy home, cozy note on port 80, 8001, 3000
+    """
+
+    with cd('/home/cozy/cozy-setup'):
+        sudo('coffee home.coffee', user='cozy')
+        sudo('coffee notes.coffee', user='cozy')
+        sudo('coffee todos.coffee', user='cozy')
+        sudo('coffee proxy.coffee', user='cozy')
 
 def init_data():
     """
@@ -226,11 +209,12 @@ def update():
         sudo('git pull', user='cozy')
         sudo('coffee home.coffee', 'cozy')
         sudo('coffee notes.coffee', 'cozy')
+        sudo('coffee todos.coffee', 'cozy')
         sudo('coffee proxy.coffee', 'cozy')
 
 def reset_account():
     """
-    Delete current accountc 
+    Delete current account 
     """
 
     with cd('/home/cozy/cozy-setup/node_modules/haibu/' \
@@ -239,8 +223,8 @@ def reset_account():
         sudo('coffee init.coffee','cozy')
 
 def test_supervisor():
-    commande = '/home/cozy/cozy-setup/node_modules/haibu/bin' \
+    command = '/home/cozy/cozy-setup/node_modules/haibu/bin' \
         + '/haibu --coffee'
     env = 'NODE_ENV=production'
     require.supervisor.process('cozy_paas', user = 'cozy', 
-      command = commande, environment = env, autostart = 'true',)
+      command = command, environment = env, autostart = 'true',)

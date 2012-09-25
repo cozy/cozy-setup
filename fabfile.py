@@ -114,9 +114,6 @@ def install_couchdb():
     require.supervisor.process('couchdb', user = 'couchdb', 
         command = 'couchdb', autostart='true',
       )
-
-    #sudo('cp /usr/local/etc/init.d/couchdb /etc/init.d/; service couchdb start')
-    #sudo('update-rc.d couchdb defaults')
     
 def install_redis():
     """
@@ -128,7 +125,7 @@ def install_redis():
 
 def pre_install():
     """
-    Preparing Cozy
+    Preparing Cozy Launching
     """
     require.postfix.server('myinstance.mycozycloud.com')
     #Create cozy user
@@ -143,6 +140,8 @@ def pre_install():
     with cd('/home/cozy/cozy-setup'):
         sudo ('npm install', user = 'cozy')
     #Starting Paas haibu
+
+def sol():
     commande = '/home/cozy/cozy-setup/node_modules/haibu/bin' \
         + '/haibu --coffee'
     env = 'NODE_ENV=production'
@@ -162,13 +161,19 @@ def create_certif():
     run('sudo mv server.crt /home/cozy/server.crt')
     run('sudo chown cozy:ssl-cert /home/cozy/server.key')
 
+def install_data_system():
+    """
+    Installing and deploying cozy-data-system
+    """
+    with cd('/home/cozy/cozy-setup'):
+        sudo('coffee data_system.coffee', user='cozy')
+    
 def install_cozy():
     """
     Deploying cozy proxy, cozy home, cozy note on port 80, 8001, 3000
     """
 
     with cd('/home/cozy/cozy-setup'):
-        sudo('coffee data_system.coffee', user='cozy')
         sudo('coffee home.coffee', user='cozy')
         sudo('coffee notes.coffee', user='cozy')
         sudo('coffee proxy.coffee', user='cozy')

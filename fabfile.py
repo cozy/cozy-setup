@@ -199,6 +199,12 @@ def init_data():
     with cd('/home/cozy/cozy-setup/node_modules/haibu/' \
                 + 'local/cozy/home/cozy-home'):
         sudo('coffee init.coffee', 'cozy')
+    with cd('/home/cozy/cozy-setup/node_modules/haibu/' \
+                + 'local/cozy/notes/cozy-notes'):
+        sudo('coffee init.coffee', 'cozy')
+    with cd('/home/cozy/cozy-setup/node_modules/haibu/' \
+                + 'local/cozy/todos/cozy-todos'):
+        sudo('coffee init.coffee', 'cozy')
 
 def update():
     """

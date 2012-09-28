@@ -1,4 +1,4 @@
-#import files
+
 
 from fabric.api import run, sudo, cd
 from fabtools import deb, require, user, python, supervisor
@@ -39,9 +39,15 @@ def install():
     install_couchdb()
     install_redis()
     pre_install()
+    install_data_system()
+    install_indexer()
     #create_certif()
-    #install_cozy()
-    #init_data()
+    install_cozy()
+    init_data()
+    
+    #Post install
+    #Setdomain.coffee, initproxy.coffee
+    #SetNginx behind https
 
 def install_tools():
     """
@@ -90,7 +96,7 @@ def install_couchdb():
 
     sudo('adduser --system --home /usr/local/var/lib/couchdb '+
         '--no-create-home --shell /bin/bash --group --gecos '+
-        '"CouchDB Administrator" couchdb')
+        '"CouchDB_Administrator" couchdb')
     sudo('chown -R couchdb:couchdb /usr/local/etc/couchdb')
     sudo('chown -R couchdb:couchdb /usr/local/var/lib/couchdb')
     sudo('chown -R couchdb:couchdb /usr/local/var/log/couchdb')
@@ -102,7 +108,7 @@ def install_couchdb():
     
     require.supervisor.process('couchdb', user = 'couchdb', 
         command = 'couchdb', autostart='true',
-      )
+        environment ='HOME=/usr/local/var/lib/couchdb')
     
 def install_redis():
     """

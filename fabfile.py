@@ -1,5 +1,3 @@
-
-
 from fabric.api import run, sudo, cd
 from fabtools import deb, require, user, python, supervisor
 from fabric.contrib import files

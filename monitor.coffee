@@ -114,18 +114,19 @@ program
                 console.log "All apps sucessfully uinstalled"
 
 program
-    .command("script <app> <script>")
+    .command("script <app> <script> <argument>")
     .description("Launch script that comes with given application")
-    .action (app, script) ->
+    .action (app, script, argument) ->
         exec = require('child_process').exec
         console.log "Run script #{script} for #{app}..."
         path = "./node_modules/haibu/local/cozy/#{app}/cozy-#{app}/"
-        child = exec "cd #{path}; coffee #{script}.coffee", \
+        child = exec "cd #{path}; coffee #{script}.coffee #{argument}", \
                      (error, stdout, stderr) ->
-            console.log "stdout: #{stdout}"
-            console.log "stderr: #{stderr}"
+            console.log stdout
             if error != null
-                  console.log "exec error: #{error}"
+                console.log "exec error: #{error}"
+                console.log "stderr: #{stderr}"
+
 program
     .command("status")
     .description("Give current state of cozy platform main applications")

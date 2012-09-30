@@ -164,10 +164,10 @@ def install_cozy():
     """
 
     with cd('/home/cozy/cozy-setup'):
-        sudo('coffee data_system.coffee', user='cozy')
-        sudo('coffee home.coffee', user='cozy')
-        sudo('coffee notes.coffee', user='cozy')
-        sudo('coffee proxy.coffee', user='cozy')
+        sudo('coffee monitor.coffee install data-system', user='cozy')
+        sudo('coffee monitor.cofeee install home', user='cozy')
+        sudo('coffee monitor.coffee install notes', user='cozy')
+        sudo('coffee monitor.coffee install proxy', user='cozy')
 
 def install_indexer():
     """

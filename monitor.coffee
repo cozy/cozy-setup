@@ -119,8 +119,9 @@ program
     .action (app, script) ->
         exec = require('child_process').exec
         console.log "Run script #{script} for #{app}..."
-        path =  "./node_modules/haibu/local/cozy/#{app}/cozy-#{app}/#{script}"
-        child = exec "coffee #{path}.coffee", (error, stdout, stderr) ->
+        path = "./node_modules/haibu/local/cozy/#{app}/cozy-#{app}/"
+        child = exec "cd #{path}; coffee #{path}#{script}.coffee", \
+                     (error, stdout, stderr) ->
             console.log "stdout: #{stdout}"
             console.log "stderr: #{stderr}"
             if error != null

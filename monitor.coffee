@@ -117,9 +117,14 @@ program
     .command("script <app> <script>")
     .description("Launch script that comes with given application")
     .action (app, script) ->
+        exec = require('child_process').exec
         console.log "Run script #{script} for #{app}..."
-        require "./node_modules/haibu/local/cozy/#{app}/cozy-#{app}/#{script}"
-        
+        path =  "./node_modules/haibu/local/cozy/#{app}/cozy-#{app}/#{script}"
+        child = exec "coffee #{path}.coffee", (error, stdout, stderr) ->
+            console.log "stdout: #{stdout}"
+            console.log "stderr: #{stderr}"
+            if error != null
+                  console.log "exec error: #{error}"
 program
     .command("status")
     .description("Give current state of cozy platform main applications")

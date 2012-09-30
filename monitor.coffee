@@ -93,10 +93,11 @@ program
         console.log "Update #{app}..."
         
         client.stop app, (err) ->
-            if err
-                console.log "Update failed"
-                console.log err.result.error.message
-            else
+            client.start app, (err) ->
+                if err
+                    console.log "Update failed"
+                    console.log err.result.error.message
+                else
                 console.log "#{app} sucessfully updated"
 
 program
@@ -113,10 +114,16 @@ program
                 console.log "All apps sucessfully uinstalled"
 
 program
+    .command("script <app> <script>")
+    .description("Launch script that comes with given application")
+    .action (app) ->
+        console.log "Run script #{script} for #{app}..."
+        require "./node_modules/haibu/local/cozy/#{app}/cozy-#{app}/#{script}"
+        
+program
     .command("status")
     .description("Give current state of cozy platform main applications")
     .action ->
-        
         checkApp = (app, host, path="") ->
             (callback) ->
                 statusClient.host = host

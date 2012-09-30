@@ -2,7 +2,11 @@
 , "version": "0.0.1"
 , "engines": ["node >= 0.6.18"]
 , "dependencies":
-  { "haibu": "= 0.8.2"
-  , "eyes":  "= 0.1.7"
+  { "haibu": "= 0.9.5-1"
+  , "eyes": "= 0.1.7"
+  , "commander": ">= 0"
+  , "request-json": ">= 0"
+  , "async": ">= 0"
+  , "colors": ">= 0"
   }
 }

@@ -158,6 +158,7 @@ def install_cozy():
         sudo('coffee monitor.coffee install data-system', user='cozy')
         sudo('coffee monitor.cofeee install home', user='cozy')
         sudo('coffee monitor.coffee install notes', user='cozy')
+        sudo('coffee monitor.coffee install todos', user='cozy')
         sudo('coffee monitor.coffee install proxy', user='cozy')
 
 def install_indexer():
@@ -195,31 +196,15 @@ def install_data_system():
     with cd('/home/cozy/cozy-setup'):
         sudo('coffee data_system.coffee', user='cozy')
     
-def install_cozy():
-    """
-    Deploying cozy proxy, cozy home, cozy note on port 80, 8001, 3000
-    """
-
-    with cd('/home/cozy/cozy-setup'):
-        sudo('coffee home.coffee', user='cozy')
-        sudo('coffee notes.coffee', user='cozy')
-        sudo('coffee todos.coffee', user='cozy')
-        sudo('coffee proxy.coffee', user='cozy')
-
 def init_data():
     """
     Data initialisation
     """
 
-    with cd('/home/cozy/cozy-setup/node_modules/haibu/' \
-                + 'local/cozy/home/cozy-home'):
-        sudo('coffee init.coffee', 'cozy')
-    with cd('/home/cozy/cozy-setup/node_modules/haibu/' \
-                + 'local/cozy/notes/cozy-notes'):
-        sudo('coffee init.coffee', 'cozy')
-    with cd('/home/cozy/cozy-setup/node_modules/haibu/' \
-                + 'local/cozy/todos/cozy-todos'):
-        sudo('coffee init.coffee', 'cozy')
+    with cd('/home/cozy/cozy-setup'):
+        sudo('coffee monitor.coffee script home init', 'cozy')
+        sudo('coffee monitor.coffee script notes init', 'cozy')
+        sudo('coffee monitor.coffee script todos init', 'cozy')
 
 def update():
     """
@@ -228,35 +213,18 @@ def update():
 
     with cd('/home/cozy/cozy-setup/'):
         sudo('git pull', user='cozy')
-        sudo('coffee home.coffee', 'cozy')
-        sudo('coffee notes.coffee', 'cozy')
-        sudo('coffee todos.coffee', 'cozy')
-        sudo('coffee proxy.coffee', 'cozy')
+        sudo('coffee monitor.cofeee install home', user='cozy')
+        sudo('coffee monitor.coffee install notes', user='cozy')
+        sudo('coffee monitor.coffee install todos', user='cozy')
 
 def reset_account():
     """
     Delete current account 
     """
-program
-    .command("uninstall <app>")
-    .description("Remove application from haibu")
-    .action (app) ->
-        app_descriptor.name = app
-        console.log "Uninstall started for #{app}..."
-        
-        client.clean app_descriptor, (err, result) ->
-            if err
-                console.log "Uninstall failed"
-                console.log err
-            else
-                console.log "#{app} sucessfully uninstalled"
 
-
-
-    with cd('/home/cozy/cozy-setup/node_modules/haibu/' \
-                + 'local/cozy/home/cozy-home'):
-        sudo('coffee cleandb.coffee','cozy')
-        sudo('coffee init.coffee','cozy')
+    with cd('/home/cozy/cozy-setup'):
+        sudo('coffee monitor.coffee script home init', 'cozy')
+        sudo('coffee monitor.coffee script home cleandb', 'cozy')
 
 def test_supervisor():
     command = '/home/cozy/cozy-setup/node_modules/haibu/bin' \

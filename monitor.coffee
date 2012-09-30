@@ -116,7 +116,7 @@ program
 program
     .command("script <app> <script>")
     .description("Launch script that comes with given application")
-    .action (app) ->
+    .action (app, script) ->
         console.log "Run script #{script} for #{app}..."
         require "./node_modules/haibu/local/cozy/#{app}/cozy-#{app}/#{script}"
         

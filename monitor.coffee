@@ -87,7 +87,7 @@ program
                 console.log "#{app} sucessfully stopped"
 
 program
-    .command("restart <app>")
+    .command("update <app>")
     .description("Update application through haibu")
     .action (app) ->
         console.log "Update #{app}..."
@@ -96,13 +96,17 @@ program
         app_descriptor.repository.url =
             "https://github.com/mycozycloud/cozy-#{app}.git"
         
-        client.stop app, (err) ->
-            client.start app_descriptor, (err) ->
-                if err
-                    console.log "Update failed"
-                    console.log err.result.error.message
-                else
-                console.log "#{app} sucessfully updated"
+        path = "./node_modules/haibu/local/cozy/#{app}/cozy-#{app}/"
+        exec "cd #{path}; git pull; npm install", (error, stdout, stderr) ->
+            console.log stdout
+            console.log error if error
+            client.stop app, (err) ->
+                client.start app_descriptor, (err) ->
+                    if err
+                        console.log "Update failed"
+                        console.log err.result.error.message
+                    else
+                    console.log "#{app} sucessfully updated"
 
 program
     .command("uninstall-all")

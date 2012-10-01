@@ -19,7 +19,7 @@ install:
 > host$ fab -H user@ip:port install
 
 Fill what you want when installer will ask you for informations about the
-certificate. 
+certificate. If you want use password on the server, use '-ak' Option in fab command.
 
 Be patient some commands or app deployements could take a few minutes. It 
 depends about your network and your hardware capabilities.
@@ -53,4 +53,4 @@ Cozy is private pesronal cloud solution that allows you to host all your
 personnal application in a single place you control. 
 This way, you can manage your data from anywhere while protecting your privacy.
 
-http://www.mycozycloud.com
+http://www.cozycloud.cc

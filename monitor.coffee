@@ -91,9 +91,13 @@ program
     .description("Update application through haibu")
     .action (app) ->
         console.log "Update #{app}..."
+
+        app_descriptor.name = app
+        app_descriptor.repository.url =
+            "https://github.com/mycozycloud/cozy-#{app}.git"
         
         client.stop app, (err) ->
-            client.start app, (err) ->
+            client.start app_descriptor, (err) ->
                 if err
                     console.log "Update failed"
                     console.log err.result.error.message

@@ -87,7 +87,7 @@ program
                 console.log "#{app} sucessfully stopped"
 
 program
-    .command("update <app>")
+    .command("restart <app>")
     .description("Update application through haibu")
     .action (app) ->
         console.log "Update #{app}..."
@@ -118,7 +118,7 @@ program
                 console.log "All apps sucessfully uinstalled"
 
 program
-    .command("script <app> <script> <argument>")
+    .command("script <app> <script>")
     .description("Launch script that comes with given application")
     .action (app, script, argument) ->
         exec = require('child_process').exec

@@ -8,6 +8,7 @@ Client = require("request-json").JsonClient
 
 statusClient = new Client("")
 homeUrl = "http://localhost:3000/"
+proxyUrl = "http://localhost:4000/"
 homeClient = new Client homeUrl
 
 client = new haibu.drone.Client
@@ -98,7 +99,8 @@ program
             "https://github.com/mycozycloud/cozy-#{app}.git"
         
         path = "./node_modules/haibu/local/cozy/#{app}/cozy-#{app}/"
-        exec "cd #{path}; git pull; npm install", (error, stdout, stderr) ->
+        exec "cd #{path}; git pull origin master; npm install", \
+             (error, stdout, stderr) ->
             console.log stdout
             console.log error if error
             client.stop app, (err) ->
@@ -107,7 +109,7 @@ program
                         console.log "Update failed"
                         console.log err.result.error.message
                     else
-                    console.log "#{app} sucessfully updated"
+                        console.log "#{app} sucessfully updated"
 
 program
     .command("uninstall-all")
@@ -135,6 +137,33 @@ program
                 console.log "exec error: #{error}"
                 console.log "stderr: #{stderr}"
 
+program
+    .command("reset-proxy")
+    .description("Reset proxy routes list of applications given by home.")
+    .action ->
+        console.log "Reset proxy routes"
+        
+        statusClient.host = proxyUrl
+        statusClient.get "routes/reset", (err) ->
+            if err
+                console.log err
+                console.log "Reset proxy failed."
+            else
+                console.log "Reset proxy succeeded."
+
+program
+    .command("routes")
+    .description("Display routes currently configured inside proxy.")
+    .action ->
+        console.log "Display proxy routes..."
+        
+        statusClient.host = proxyUrl
+        statusClient.get "routes", (err, res, routes) ->
+            
+            if not err and routes?
+                for route of routes
+                    console.log "#{route} => #{routes[route]}"
+                
 program
     .command("status")
     .description("Give current state of cozy platform main applications")

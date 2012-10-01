@@ -1,6 +1,7 @@
 require "colors"
 program = require 'commander'
 async = require "async"
+exec = require('child_process').exec
 
 haibu = require('haibu')
 Client = require("request-json").JsonClient
@@ -125,7 +126,6 @@ program
     .command("script <app> <script>")
     .description("Launch script that comes with given application")
     .action (app, script, argument) ->
-        exec = require('child_process').exec
         console.log "Run script #{script} for #{app}..."
         path = "./node_modules/haibu/local/cozy/#{app}/cozy-#{app}/"
         child = exec "cd #{path}; coffee #{script}.coffee #{argument}", \

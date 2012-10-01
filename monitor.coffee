@@ -90,7 +90,8 @@ program
 
 program
     .command("update <app>")
-    .description("Update application through haibu")
+    .description(
+        "Update application (git + npm install) and restart it through haibu")
     .action (app) ->
         console.log "Update #{app}..."
 
@@ -166,7 +167,7 @@ program
                 
 program
     .command("status")
-    .description("Give current state of cozy platform main applications")
+    .description("Give current state of cozy platform applications")
     .action ->
         checkApp = (app, host, path="") ->
             (callback) ->

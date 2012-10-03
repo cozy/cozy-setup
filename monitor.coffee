@@ -100,7 +100,7 @@ program
             "https://github.com/mycozycloud/cozy-#{app}.git"
         
         path = "./node_modules/haibu/local/cozy/#{app}/cozy-#{app}/"
-        exec "cd #{path}; git pull origin master; npm install", \
+        exec "cd #{path}; git pull origin master; npm install --production", \
              (error, stdout, stderr) ->
             console.log stdout
             console.log error if error

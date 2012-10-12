@@ -3,7 +3,7 @@ program = require 'commander'
 async = require "async"
 exec = require('child_process').exec
 
-haibu = require('haibu')
+haibu = require('haibu-api')
 Client = require("request-json").JsonClient
 
 statusClient = new Client("")
@@ -11,9 +11,10 @@ homeUrl = "http://localhost:3000/"
 proxyUrl = "http://localhost:4000/"
 homeClient = new Client homeUrl
 
-client = new haibu.drone.Client
+client = haibu.createClient
   host: 'localhost'
   port: 9002
+client = client.drone
 
 
 app_descriptor =

@@ -1,4 +1,5 @@
 require "colors"
+
 program = require 'commander'
 async = require "async"
 exec = require('child_process').exec
@@ -6,9 +7,10 @@ exec = require('child_process').exec
 haibu = require('haibu-api')
 Client = require("request-json").JsonClient
 
+
 statusClient = new Client("")
-homeUrl = "http://localhost:3000/"
-proxyUrl = "http://localhost:4000/"
+homeUrl = "http://localhost:9103/"
+proxyUrl = "http://localhost:9104/"
 homeClient = new Client homeUrl
 
 client = haibu.createClient
@@ -46,6 +48,39 @@ program
                 else
                     console.log "#{app} sucessfully installed"
  
+program
+    .command("install_home <app>")
+    .description("Install application via home app")
+    .action (app) ->
+        app_descriptor.name = app
+        app_descriptor.git =
+            "https://github.com/mycozycloud/cozy-#{app}.git"
+        console.log "Install started for #{app}..."
+        path = "api/applications/install"
+        homeClient.post path, app_descriptor, (err, res, body) ->
+            if err or res.statusCode isnt 200
+                console.log err if err?
+                console.log "Install failed"
+                if body?
+                    if body.msg? then console.log body.msg else console.log body
+            else
+                console.log "#{app} sucessfully installed"
+  
+program
+    .command("uninstall_home <app>")
+    .description("Install application via home app")
+    .action (app) ->
+        console.log "Uninstall started for #{app}..."
+        path = "api/applications/#{app}/uninstall"
+        homeClient.del path, (err, res, body) ->
+            if err or res.statusCode isnt 200
+                console.log err if err?
+                console.log "Uninstall failed"
+                if body?
+                    if body.msg? then console.log body.msg else console.log body
+            else
+                console.log "#{app} sucessfully uninstalled"
+
 program
     .command("uninstall <app>")
     .description("Remove application from haibu")
@@ -173,7 +208,7 @@ program
         checkApp = (app, host, path="") ->
             (callback) ->
                 statusClient.host = host
-                statusClient.get "", (err, res) ->
+                statusClient.get path, (err, res) ->
                     if err
                         console.log "#{app}: " + "down".red
                     else
@@ -182,17 +217,25 @@ program
 
         async.series [
             checkApp("haibu", "http://localhost:9002/", "version")
-            checkApp("data-system", "http://localhost:7000/")
-            checkApp("home", "http://localhost:3000/")
-            checkApp("proxy", "http://localhost:4000/", "routes")
-            checkApp("indexer", "http://localhost:5000/")
+            checkApp("data-system", "http://localhost:9101/")
+            checkApp("indexer", "http://localhost:9102/")
+            checkApp("home", "http://localhost:9103/")
+            checkApp("proxy", "http://localhost:9104/", "routes")
         ], ->
-            statusClient.host = "http://localhost:3000/"
+            statusClient.host = homeUrl
             statusClient.get "api/applications/", (err, res, apps) ->
                 funcs = []
-                for app in apps.rows
-                    func = checkApp(app.name, "http://localhost:#{app.port}/")
-                    funcs.push func
-                async.series funcs, ->
-                
+                if apps?
+                    for app in apps.rows
+                        func = checkApp(app.name, "http://localhost:#{app.port}/")
+                        funcs.push func
+                    async.series funcs, ->
+ 
+program
+    .command("*")
+    .description("Display error message for an unknown command.")
+    .action ->
+        console.log 'Unknown command, run "coffee monitor --help"' + \
+                    ' to know the list of available commands.'
+                    
 program.parse(process.argv)

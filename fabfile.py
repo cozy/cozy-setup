@@ -42,7 +42,8 @@ def install():
     install_apps()
     init_data()
     init_domain()
-    #create_certif()
+    create_cert()
+    install_nginx()
     print(green("Cozy installation finished. Now, enjoy !"))
     
     #Post install
@@ -179,19 +180,6 @@ def install_indexer():
     supervisor.restart_process(process_name)
     print(green("Data Indexer successfully started"))
 
-def create_certif():
-    """
-    Creating SSL certificats.
-    """
-
-    run('sudo openssl genrsa -out ./server.key 1024')
-    run('sudo openssl req -new -x509 -days 3650 -key ./server.key -out ' + \
-        './server.crt')
-    run('sudo chmod 640 server.key')
-    run('sudo mv server.key /home/cozy/server.key')
-    run('sudo mv server.crt /home/cozy/server.crt')
-    run('sudo chown cozy:ssl-cert /home/cozy/server.key')
-
 def install_apps():
     """
     Deploying cozy proxy, home and default application (notes and todos).
@@ -220,6 +208,60 @@ def init_domain():
         sudo('coffee monitor script_arg home setdomain %s' % domain, 'cozy')
     print(green("Domain set to: %s" % domain))
     
+def create_cert():
+    """
+    Create SSL certificates.
+    """
+
+    run('sudo openssl genrsa -out ./server.key 1024')
+    run('sudo openssl req -new -x509 -days 3650 -key ./server.key -out ' + \
+        './server.crt')
+    run('sudo chmod 640 server.key')
+    run('sudo mv server.key /home/cozy/server.key')
+    run('sudo mv server.crt /home/cozy/server.crt')
+    require.deb.package("nginx")
+
+    run('sudo chown cozy:ssl-cert /home/cozy/server.key')
+
+
+PROXIED_SITE_TEMPLATE = """\
+server {
+    listen %(port)s;
+    server_name %(server_name)s;
+
+    ssl_certificate /home/cozy/server.crt;
+    ssl_certificate_key /home/cozy/server.key;
+    ssl_session_cache shared:SSL:10m;
+    ssl_session_timeout  10m;
+    ssl_protocols  SSLv3 TLSv1;
+    ssl_ciphers  ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv3:+EXP;
+    ssl_prefer_server_ciphers   on;
+    ssl on;
+
+    gzip_vary on;
+
+    location / {
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_redirect http:// https://; 
+        proxy_pass %(proxy_url)s;
+    }
+
+    access_log /var/log/nginx/%(server_name)s.log;
+}
+"""
+
+def install_nginx():
+    """
+    Install NGINX and make it use certs.
+    """
+    
+    require.nginx.site("cozy",
+            template_contents=PROXIED_SITE_TEMPLATE, 
+            enabled=True,
+            port=443,
+            proxy_url='http://127.0.0.1:9104'
+    )
 
 ## No setup tasks
 
@@ -230,9 +272,12 @@ def update():
 
     with cd('/home/cozy/cozy-setup/'):
         sudo('git pull', user='cozy')
+        sudo('coffee monitor install data-system', user='cozy')
         sudo('coffee monitor install home', user='cozy')
         sudo('coffee monitor install notes', user='cozy')
         sudo('coffee monitor install todos', user='cozy')
+        sudo('coffee monitor install proxy', user='cozy')
+    print(green("Applications updated successfully."))
 
 def reset_account():
     """
@@ -241,10 +286,4 @@ def reset_account():
 
     with cd('/home/cozy/cozy-setup'):
         sudo('coffee monitor.coffee script home cleanuser', 'cozy')
-
-def test_supervisor():
-    command = '/home/cozy/cozy-setup/node_modules/haibu/bin' \
-        + '/haibu --coffee'
-    env = 'NODE_ENV=production'
-    require.supervisor.process('cozy_paas', user = 'cozy', 
-      command = command, environment = env, autostart = 'true',)
+    print(green("Current account deleted."))

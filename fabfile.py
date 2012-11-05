@@ -1,16 +1,14 @@
 from fabric.api import run, sudo, cd
-from fabtools import deb, require, user, python, supervisor
+from fabtools import require, python, supervisor
 from fabric.contrib import files
 
 """
 Script to set up a cozy cloud environnement from a fresh system
-V0.0.1  14/06/12
 Validated on a Debian squeeze 64 bits up to date.
 
 Once your system is updated, launch 
 $ fab -H user@Ip.Ip.Ip.Ip:Port install
 to install the full Cozy stack.
-
 """
 
 # Helpers
@@ -37,10 +35,11 @@ def install():
     install_couchdb()
     install_redis()
     pre_install()
+    install_haibu()
     install_data_system()
     install_indexer()
     #create_certif()
-    install_cozy()
+    install_apps()
     init_data()
     
     #Post install
@@ -59,29 +58,27 @@ def install_tools():
         'python-pip',
         'openssl',
         'libssl-dev',
-        'pkg-config',
-        'g++',
+        'build-essential',
         'git',
         'sudo',
-        'make'
     ])
 
 def install_node08():
     """
     Installing Node 0.8.9    
     """
-    run('wget http://nodejs.org/dist/v0.8.9/node-v0.8.9.tar.gz')
-    run('tar -xvzf node-v0.8.9.tar.gz')
-    run('cd node-v0.8.9 ; ./configure ; make ; sudo make install')
-    run('rm node-v0.8.9.tar.gz ; rm -rf node-v0.8.9')
+    require.nodejs.installed_from_source("0.8.9")
 
 def install_couchdb():
     """
     Installing Couchdb
     """
-    require.deb.packages(['build-essential'])
-    require.deb.packages(['erlang', 'libicu-dev', 'libmozjs-dev',
-       'libcurl4-openssl-dev'])
+    require.deb.packages([
+        'erlang', 
+        'libicu-dev', 
+        'libmozjs-dev',
+        'libcurl4-openssl-dev'
+    ])
 
     with cd('/tmp'): 
         run('wget http://apache.mirrors.multidist.eu/couchdb/'+
@@ -92,9 +89,7 @@ def install_couchdb():
         run('rm -rf apache-couchdb-1.2.0')
         run('rm -rf apache-couchdb-1.2.0.tar.gz')
 
-    sudo('adduser --system --home /usr/local/var/lib/couchdb '+
-        '--no-create-home --shell /bin/bash --group --gecos '+
-        '"CouchDB_Administrator" couchdb')
+    require.users.user("couchdb", home='/usr/local/var/lib/couchdb')
     sudo('chown -R couchdb:couchdb /usr/local/etc/couchdb')
     sudo('chown -R couchdb:couchdb /usr/local/var/lib/couchdb')
     sudo('chown -R couchdb:couchdb /usr/local/var/log/couchdb')
@@ -114,13 +109,13 @@ def install_redis():
     """
 
     require.redis.installed_from_source('2.4.14')
-    require.redis.instance('Server_redis','2.4.14',)
+    require.redis.instance('cozy','2.4.14',)
 
 def pre_install():
     """
     Preparing Cozy Launching
     """
-    require.postfix.server('myinstance.mycozycloud.com')
+    require.postfix.server('myinstance.cozycloud.cc')
 
     # Create cozy user
     require.user("cozy", "/home/cozy")
@@ -128,38 +123,24 @@ def pre_install():
     # Get cozy repo
     sudo('git clone git://github.com/mycozycloud/cozy-setup.git' \
         + ' /home/cozy/cozy-setup', user='cozy') 
-    sudo('npm install -g coffee-script')
+    require.nodejs.package('coffee-script')
 
-    # Installing haibu
+def install_haibu():
+    """
+    Setup Haibu Application Manager.
+    """
+
     with cd('/home/cozy/cozy-setup'):
         sudo('npm install', user='cozy')
         sudo('cp paas.conf /etc/init/')
     sudo('service paas start')
 
-def create_certif():
+def install_data_system():
     """
-    Creating SSL certificats
+    Installing and deploying cozy-data-system.
     """
-
-    run('sudo openssl genrsa -out ./server.key 1024')
-    run('sudo openssl req -new -x509 -days 3650 -key ./server.key -out ' + \
-        './server.crt')
-    run('sudo chmod 640 server.key')
-    run('sudo mv server.key /home/cozy/server.key')
-    run('sudo mv server.crt /home/cozy/server.crt')
-    run('sudo chown cozy:ssl-cert /home/cozy/server.key')
-
-def install_cozy():
-    """
-    Deploying cozy proxy, cozy home, cozy note on port 80, 8001, 3000
-    """
-
     with cd('/home/cozy/cozy-setup'):
-        sudo('coffee monitor.coffee install data-system', user='cozy')
-        sudo('coffee monitor.cofeee install home', user='cozy')
-        sudo('coffee monitor.coffee install notes', user='cozy')
-        sudo('coffee monitor.coffee install todos', user='cozy')
-        sudo('coffee monitor.coffee install proxy', user='cozy')
+        sudo('coffee monitor install data-system', user='cozy')
 
 def install_indexer():
     """
@@ -189,22 +170,39 @@ def install_indexer():
     )
     supervisor.restart_process(process_name)
 
-def install_data_system():
+def create_certif():
     """
-    Installing and deploying cozy-data-system
+    Creating SSL certificats.
     """
+
+    run('sudo openssl genrsa -out ./server.key 1024')
+    run('sudo openssl req -new -x509 -days 3650 -key ./server.key -out ' + \
+        './server.crt')
+    run('sudo chmod 640 server.key')
+    run('sudo mv server.key /home/cozy/server.key')
+    run('sudo mv server.crt /home/cozy/server.crt')
+    run('sudo chown cozy:ssl-cert /home/cozy/server.key')
+
+def install_apps():
+    """
+    Deploying cozy proxy, home and default application (notes and todos).
+    """
+
     with cd('/home/cozy/cozy-setup'):
-        sudo('coffee data_system.coffee', user='cozy')
-    
+        sudo('coffee monitor install home', user='cozy')
+        sudo('coffee monitor install notes', user='cozy')
+        sudo('coffee monitor install todos', user='cozy')
+        sudo('coffee monitor install proxy', user='cozy')
+
 def init_data():
     """
     Data initialisation
     """
 
     with cd('/home/cozy/cozy-setup'):
-        sudo('coffee monitor.coffee script home init', 'cozy')
-        sudo('coffee monitor.coffee script notes init', 'cozy')
-        sudo('coffee monitor.coffee script todos init', 'cozy')
+        sudo('coffee monitor script home init', 'cozy')
+        sudo('coffee monitor script notes init', 'cozy')
+        sudo('coffee monitor script todos init', 'cozy')
 
 def update():
     """
@@ -213,9 +211,9 @@ def update():
 
     with cd('/home/cozy/cozy-setup/'):
         sudo('git pull', user='cozy')
-        sudo('coffee monitor.cofeee install home', user='cozy')
-        sudo('coffee monitor.coffee install notes', user='cozy')
-        sudo('coffee monitor.coffee install todos', user='cozy')
+        sudo('coffee monitor install home', user='cozy')
+        sudo('coffee monitor install notes', user='cozy')
+        sudo('coffee monitor install todos', user='cozy')
 
 def reset_account():
     """

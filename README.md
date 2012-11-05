@@ -17,6 +17,12 @@ You can by running following commands on your target server:
     sudo apt-get install upstart  
     sudo reboot now  
 
+On your local machine install Fabric. Fabric is a tool to run scripts on a 
+remote server:
+
+    apt-get install python python-pip
+    pip install fabric fabtools
+
 Once your system is prepared, then use the Fabric script from your local
 machine to launch the cozy installation:
 

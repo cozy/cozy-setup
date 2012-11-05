@@ -175,7 +175,7 @@ program
                 console.log "stderr: #{stderr}"
 
 program
-    .command("script <app> <script> <argument>")
+    .command("script_arg <app> <script> <argument>")
     .description("Launch script that comes with given application")
     .action (app, script, argument) ->
         console.log "Run script #{script} for #{app}..."

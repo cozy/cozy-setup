@@ -217,7 +217,7 @@ def init_data():
 def init_domain():
     domain = prompt("What is your domain name (ex: cozycloud.cc)?")
     with cd('/home/cozy/cozy-setup'):
-        sudo('coffee monitor script home setdomain %s' % domain, 'cozy')
+        sudo('coffee monitor script_arg home setdomain %s' % domain, 'cozy')
     print(green("Domain set to: %s" % domain))
     
 

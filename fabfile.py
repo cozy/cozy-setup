@@ -1,6 +1,7 @@
-from fabric.api import run, sudo, cd
+from fabric.api import run, sudo, cd, prompt
 from fabtools import require, python, supervisor
 from fabric.contrib import files
+from fabric.colors import green
 
 """
 Script to set up a cozy cloud environnement from a fresh system
@@ -38,12 +39,13 @@ def install():
     install_haibu()
     install_data_system()
     install_indexer()
-    #create_certif()
     install_apps()
     init_data()
+    init_domain()
+    #create_certif()
+    print(green("Cozy installation finished. Now, enjoy !"))
     
     #Post install
-    #Setdomain.coffee, initproxy.coffee
     #SetNginx behind https
 
 def install_tools():
@@ -62,12 +64,14 @@ def install_tools():
         'git',
         'sudo',
     ])
+    print(green("Tools successfully installed"))
 
 def install_node08():
     """
     Installing Node 0.8.9    
     """
     require.nodejs.installed_from_source("0.8.9")
+    print(green("Node 0.8.9 successfully installed"))
 
 def install_couchdb():
     """
@@ -102,6 +106,7 @@ def install_couchdb():
     require.supervisor.process('couchdb', user = 'couchdb', 
         command = 'couchdb', autostart='true',
         environment ='HOME=/usr/local/var/lib/couchdb')
+    print(green("CouchDB 1.2.0 successfully installed"))
     
 def install_redis():
     """
@@ -110,6 +115,7 @@ def install_redis():
 
     require.redis.installed_from_source('2.4.14')
     require.redis.instance('cozy','2.4.14',)
+    print(green("Redis 2.4.14 successfully installed"))
 
 def pre_install():
     """
@@ -134,6 +140,7 @@ def install_haibu():
         sudo('npm install', user='cozy')
         sudo('cp paas.conf /etc/init/')
     sudo('service paas start')
+    print(green("Haibu successfully started"))
 
 def install_data_system():
     """
@@ -141,6 +148,7 @@ def install_data_system():
     """
     with cd('/home/cozy/cozy-setup'):
         sudo('coffee monitor install data-system', user='cozy')
+    print(green("Data System successfully started"))
 
 def install_indexer():
     """
@@ -169,6 +177,7 @@ def install_indexer():
         user=cozy_user
     )
     supervisor.restart_process(process_name)
+    print(green("Data Indexer successfully started"))
 
 def create_certif():
     """
@@ -190,19 +199,29 @@ def install_apps():
 
     with cd('/home/cozy/cozy-setup'):
         sudo('coffee monitor install home', user='cozy')
-        sudo('coffee monitor install notes', user='cozy')
-        sudo('coffee monitor install todos', user='cozy')
+        sudo('coffee monitor install_home notes', user='cozy')
+        sudo('coffee monitor install_home todos', user='cozy')
         sudo('coffee monitor install proxy', user='cozy')
+    print(green("Apps successfully started"))
 
 def init_data():
     """
-    Data initialisation
+    Data initialization
     """
 
     with cd('/home/cozy/cozy-setup'):
-        sudo('coffee monitor script home init', 'cozy')
         sudo('coffee monitor script notes init', 'cozy')
         sudo('coffee monitor script todos init', 'cozy')
+    print(green("Data successfully initialized"))
+
+def init_domain():
+    domain = prompt("What is your domain name (ex: cozycloud.cc)?")
+    with cd('/home/cozy/cozy-setup'):
+        sudo('coffee monitor script home setdomain %s' % domain, 'cozy')
+    print(green("Domain set to: %s" % domain))
+    
+
+## No setup tasks
 
 def update():
     """
@@ -221,8 +240,7 @@ def reset_account():
     """
 
     with cd('/home/cozy/cozy-setup'):
-        sudo('coffee monitor.coffee script home init', 'cozy')
-        sudo('coffee monitor.coffee script home cleandb', 'cozy')
+        sudo('coffee monitor.coffee script home cleanuser', 'cozy')
 
 def test_supervisor():
     command = '/home/cozy/cozy-setup/node_modules/haibu/bin' \

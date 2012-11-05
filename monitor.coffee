@@ -164,6 +164,19 @@ program
 program
     .command("script <app> <script>")
     .description("Launch script that comes with given application")
+    .action (app, script) ->
+        console.log "Run script #{script} for #{app}..."
+        path = "./node_modules/haibu/local/cozy/#{app}/cozy-#{app}/"
+        child = exec "cd #{path}; coffee #{script}.coffee #{argument}", \
+                     (error, stdout, stderr) ->
+            console.log stdout
+            if error != null
+                console.log "exec error: #{error}"
+                console.log "stderr: #{stderr}"
+
+program
+    .command("script <app> <script> <argument>")
+    .description("Launch script that comes with given application")
     .action (app, script, argument) ->
         console.log "Run script #{script} for #{app}..."
         path = "./node_modules/haibu/local/cozy/#{app}/cozy-#{app}/"

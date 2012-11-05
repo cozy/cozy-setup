@@ -16,9 +16,11 @@ You can do it by running following commands on your target server:
     sudo apt-get install upstart  
     sudo reboot now  
 
-On your local machine install Fabric. Fabric is a tool to run scripts on a 
+On your local machine clone this repository and install Fabric. Fabric is a tool to run scripts on a 
 remote server:
 
+    git clone git://github.com/mycozycloud/cozy-setup.git
+    cd cozy-setup
     apt-get install python python-pip
     pip install fabric fabtools
 

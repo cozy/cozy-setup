@@ -46,9 +46,6 @@ def install():
     install_nginx()
     print(green("Cozy installation finished. Now, enjoy !"))
     
-    #Post install
-    #SetNginx behind https
-
 def install_tools():
     """
     Tools install

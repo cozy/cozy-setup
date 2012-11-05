@@ -1,3 +1,8 @@
+# This program is suited only to manage your cozy installation from the inside 
+# Moreover app management works only for apps make by Cozy Cloud company.
+# If you want a friendly application manager you should use the
+# appmanager.coffee script. 
+
 require "colors"
 
 program = require 'commander'

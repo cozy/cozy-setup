@@ -2,24 +2,28 @@
 
 Cozy Setup contains all stuff needed to install cozy on a fresh debian server.
 
+Cozy Cloud aims to be used remotely. We provide here only stuff to deploy
+it on a remote server. To make a local installation, we recommend you to start a
+virtual machine, then run script with this vm as your remote server.
+
 # How To Install Cozy Environnement
 
 The installation requires a system up to date with upstart as daemon manager.
 
-You can do it with following commands.
+You can by running following commands on your target server:
 
-> guest$ sudo apt-get update  
-> guest$ sudo apt-get upgrade  
-> guest$ sudo apt-get install upstart  
-> guest$ sudo reboot now  
+    sudo apt-get update  
+    sudo apt-get upgrade  
+    sudo apt-get install upstart  
+    sudo reboot now  
 
-Once your system is prepared, then use the Fabric script to launch the cozy 
-install:
+Once your system is prepared, then use the Fabric script from your local
+machine to launch the cozy installation:
 
-> host$ fab -H user@ip:port install
+    fab -H user@ip:port install
 
 Fill what you want when installer will ask you for informations about the
-certificate. If you want use password on the server, use '-ak' Option in fab command.
+certificate. 
 
 Be patient some commands or app deployements could take a few minutes. It 
 depends about your network and your hardware capabilities.
@@ -29,23 +33,7 @@ depends about your network and your hardware capabilities.
 Once installation done, you can access to https://IP:80 to create your cozy
 main account.
 
-For Vagrant user, uncomment this line in the Vagrantfile and reload the vm.
-
-> config.vm.network :hostonly, "192.168.33.10"
-
-> vagrant reload
-
-You can launch functional test too (see README file located in test directory).
-
-# Issues on 20 june.
-
-The Postfix (mail server) configuration is set to mycozycloud.com . 
-Right now Cozy has just mail sending capabilities. So you don't need a perfect
-configuration. Mails are only required to notify you what to do when you need
-to reset your password.
-
-Redis conf is the default one.
-
+You can launch automatic test too (see README file located in test directory).
 
 # About Cozy
 
@@ -53,4 +41,4 @@ Cozy is private pesronal cloud solution that allows you to host all your
 personnal application in a single place you control. 
 This way, you can manage your data from anywhere while protecting your privacy.
 
-http://www.cozycloud.cc
+https://cozycloud.cc

@@ -37,6 +37,3 @@ sudo apt-get install git
 sudo npm install -g coffee-script
 sudo npm install -g supervisor
 sudo npm install -g brunch
-
-
-

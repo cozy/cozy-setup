@@ -5,7 +5,7 @@ it on a remote server (debian/ubuntu).
 To make a local installation, we recommend you to start a
 virtual machine, then run script with this vm as your remote server.
 
-# How To Install Cozy on your server ?
+# How to install cozy on your server ?
 
 The installation requires a system up to date with upstart as daemon manager.
 You can do it by running following commands on your target server:

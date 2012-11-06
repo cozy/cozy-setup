@@ -53,7 +53,6 @@ def build_config_file(filename, params, supervisor_name=None):
     for key, value in sorted(params.items()):
         lines.append("%s=%s" % (key, value))
 
-    filename = '/etc/supervisor/conf.d/%(name)s.conf' % locals()
     file_content = '\n'.join(lines)
     with lcd("/tmp"):
         local('echo "%s" > conf.tmp' % file_content)

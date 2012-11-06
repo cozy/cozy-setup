@@ -23,7 +23,7 @@ def install_tools():
         'python-setuptools',
         'python-pip',
         'git',
-        'build-essentials',
+        'build-essential',
     ]
     local("sudo apt-get install %s" % ' '.join(x for x in dependencies))
     print(green("Tools installed successfully!"))

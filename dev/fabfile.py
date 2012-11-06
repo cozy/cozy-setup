@@ -1,27 +1,43 @@
-from fabric.api import local, lcd
-from fabric.contrib import files
+from fabric.api import local, lcd, task
 from fabric.colors import green
 
 """
 Script to set up a cozy cloud environnement from a fresh system
 """
 
+# Helpers
+
 def sudo(cmd, user=None):
+    """
+    Run sudo shell command. Set user to execute command with him.
+    """
     if user:
         local("sudo %s" % cmd)
     else:
         local("sudo --user %s %s" % (user, cmd))
 
 def cozydo(cmd):
+    """
+    Execute cmd with cozy user.
+    """
     sudo(cmd, "cozy")
 
 def install_packages(packages):
+    """
+    Install given packages through apt-get.
+    """
     local("sudo apt-get install %s" % ' '.join(x for x in packages))
 
 def update_supervisor():
+    """
+    Run supervisor update command
+    """
     local("sudo supervisorctl update")
 
 def add_process(name, **kwargs):
+    """
+    Add configuration file to supervisor for given process.
+    """
     # Set default parameters
     params = {}
     params.update(kwargs)
@@ -45,9 +61,15 @@ def add_process(name, **kwargs):
 
 # Tasks
 
+@task
 def install_dev():
+    """
+    Install the whole stack required to build cozy application: CouchDB, Redis,
+    Cozy Data System.
+    """
     install_tools()
 
+@task
 def install_tools():
     """
     Tools install
@@ -64,9 +86,10 @@ def install_tools():
     install_packages(dependencies)
     print(green("Tools installed successfully!"))
 
+@task
 def install_node08():
     """
-    Installing Node 0.8.9    
+    Install Node 0.8.9    
     """
     local('wget http://nodejs.org/dist/v0.8.9/node-v0.8.9.tar.gz')
     local('tar -xvzf node-v0.8.9.tar.gz')
@@ -74,9 +97,10 @@ def install_node08():
     local('rm node-v0.8.9.tar.gz ; rm -rf node-v0.8.9')
     print(green("Node 0.8.9 installed successfully!"))
 
+@task
 def install_couchdb():
     """
-    Installing Couchdb. Use supervisord to daemonize it.
+    Installing Couchdb.
     """
     dependencies = [
         'erlang', 'libicu-dev', 'libmozjs-dev','libcurl4-openssl-dev',
@@ -93,51 +117,83 @@ def install_couchdb():
         local('rm -rf apache-couchdb-1.2.0')
         local('rm -rf apache-couchdb-1.2.0.tar.gz')
 
-    local('sudo adduser --system --home /usr/local/var/lib/couchdb '+
+    sudo('adduser --system --home /usr/local/var/lib/couchdb '+
         '--no-create-home --shell /bin/bash --group --gecos '+
         '"CouchDB_Administrator" couchdb')
-    local('sudo chown -R couchdb:couchdb /usr/local/etc/couchdb')
-    local('sudo chown -R couchdb:couchdb /usr/local/var/lib/couchdb')
-    local('sudo chown -R couchdb:couchdb /usr/local/var/log/couchdb')
-    local('sudo chown -R couchdb:couchdb /usr/local/var/run/couchdb')
-    local('sudo chmod 0770 /usr/local/etc/couchdb')
-    local('sudo chmod 0770 /usr/local/var/lib/couchdb')
-    local('sudo chmod 0770 /usr/local/var/log/couchdb')
-    local('sudo chmod 0770 /usr/local/var/run/couchdb')
+    sudo('chown -R couchdb:couchdb /usr/local/etc/couchdb')
+    sudo('chown -R couchdb:couchdb /usr/local/var/lib/couchdb')
+    sudo('chown -R couchdb:couchdb /usr/local/var/log/couchdb')
+    sudo('chown -R couchdb:couchdb /usr/local/var/run/couchdb')
+    sudo('chmod 0770 /usr/local/etc/couchdb')
+    sudo('chmod 0770 /usr/local/var/lib/couchdb')
+    sudo('chmod 0770 /usr/local/var/log/couchdb')
+    sudo('chmod 0770 /usr/local/var/run/couchdb')
 
+@task
 def set_couchdb_process():
+    """
+    Daemonize CouchDB with supervisor.
+    """
     add_process('couchdb', user='couchdb', command='couchdb', autostart='true',
         environment='HOME=/usr/local/var/lib/couchdb')
     
+@task
 def install_redis():
     """
     Installing and Auto-starting Redis 2.4.14. Use supervisord to daemonize it.
     """
     pass
 
+@task
 def create_cozy_user():
     sudo('adduser --system --shell /bin/bash --group --gecos '+
         '"cozy" cozy')
 
+@task
 def install_indexer():
     """
-    Deploy Cozy Data Indexer. Use supervisord to daemonize it.
+    Deploy Cozy Data Indexer.
     """
-    pass
+    with lcd("/home/cozy"):
+        cozydo("git clone https://github.com/mycozycloud/cozy-data-indexer.git")
 
+    data_indexer_home = "/home/cozy/cozy-data-indexer"
+    with lcd(data_indexer_home):
+        cozydo("virtualenv virtualenv")
+        cozydo(". ./virtualenv/bin/activate")
+        cozydo("pip install -r requirements/common.txt")
+        cozydo("pip install -r requirements/production.txt")
+
+@task
+def set_data_indexer_process():
+    """
+    Daemonize Data Indexer with supervisor.
+    """
+    data_indexer_home = "/home/cozy/cozy-data-indexer"
+    python_bin = '%s/virtualenv/bin/python' % data_indexer_home
+    add_process('cozy-data-indexer', user='cozy', 
+        command='%s %s/server.py' % (python_bin, data_indexer_home),
+        autostart='true')
+
+@task
 def install_data_system():
     """
-    Installing and deploying cozy-data-system. Use supervisord to daemonize it.
+    Installing and deploying cozy-data-system.
     """
+    sudo("pip install virtualenv")
 
     with lcd("/home/cozy"):
-        cozydo("git clone https://github.com/mycozycloud/cozy-data-system.git")
+        cozydo("git clone https://github.com/mycozycloud/cozy-data-indexer.git")
 
-    data_system_home = "/home/cozy/cozy-data-system"
+    data_system_home = "/home/cozy/cozy-data-indexer"
     with lcd(data_system_home):
         cozydo("npm install")
-
+        
+@task
 def set_data_system_process():
+    """
+    Daemonize Data System with supervisor.
+    """
     data_system_home = "/home/cozy/cozy-data-system"
     coffee_bin = '%s/node_modules/coffee-script/bin/coffee' % data_system_home
     add_process('cozy-data-system', user='cozy', 

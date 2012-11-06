@@ -106,14 +106,39 @@ def install_redis():
     """
     pass
 
+def create_cozy_user():
+    local('sudo adduser cozy--system --shell /bin/bash --group --gecos '+
+        '"cozy" cozy')
+
 def install_indexer():
     """
     Deploy Cozy Data Indexer. Use supervisord to daemonize it.
     """
     pass
 
+
+def sudo(cmd, user=None):
+    if user:
+        local("sudo %s" % cmd)
+    else:
+        local("sudo --user %s %s" % (user, cmd))
+
+def cozydo(cmd):
+    sudo(cmd, "cozy")
+
 def install_data_system():
     """
     Installing and deploying cozy-data-system. Use supervisord to daemonize it.
     """
-    pass
+
+    with lcd("/home/cozy"):
+        cozydo("git clone https://github.com/mycozycloud/cozy-data-system.git")
+
+    data_system_home = "/home/cozy/cozy-data-system"
+    with lcd(data_system_home):
+        cozydo("npm install")
+
+    add_process('cozy-data-system', user='cozy', 
+        command='%s/node_modules/coffee-script/bin/coffee' % data_system_home,
+        autostart='true',
+        environment='NODE_ENV="production"')

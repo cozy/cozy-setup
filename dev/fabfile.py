@@ -38,7 +38,7 @@ def install_packages(packages):
     """
     local("sudo apt-get install %s" % ' '.join(x for x in packages))
 
-def build_config_file(filename, params, supervisor_name=None):
+def build_config_file(filename, params, supervisor_name=None, separator="="):
     """
     Build config with given params while following this scheme:
     
@@ -51,7 +51,7 @@ def build_config_file(filename, params, supervisor_name=None):
     if supervisor_name is not None:
         lines.append('[program:%(supervisor_name)s]' % locals())
     for key, value in sorted(params.items()):
-        lines.append("%s=%s" % (key, value))
+        lines.append("%s%s%s" % (key, separator, value))
     file_content = '\n'.join(lines)
 
     with lcd("/tmp"):
@@ -200,10 +200,11 @@ def install_redis():
     params.setdefault('loglevel', 'verbose')
     params.setdefault('dbfilename', '/var/db/redis/redis-%(name)s-dump.rdb' % locals())
     params.setdefault('save', ['900 1', '300 10', '60 10000'])
-    build_config_file("/etc/redis/cozy.conf", params)
+    build_config_file("/etc/redis/cozy.conf", params, supervisor_name= None,
+                      separator=" ")
 
 @task
-def set_data_redis_process():
+def set_redis_process():
     """
     Daemonize Data Indexer with supervisor.
     """

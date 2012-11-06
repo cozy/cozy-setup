@@ -177,7 +177,7 @@ def install_redis():
         '"redis" redis')
     
     with lcd('/tmp'):
-        local('http://redis.googlecode.com/files/redis-2.4.14.tar.gz')
+        local('wget http://redis.googlecode.com/files/redis-2.4.14.tar.gz')
         local('tar xzf redis-2.4.14.tar.gz')
 
     with lcd('/tmp/redis-2.4.14'):

@@ -28,7 +28,9 @@ def add_process(name, **kwargs):
     # Upload config file
     filename = '/etc/supervisor/conf.d/%(name)s.conf' % locals()
     file_content = '\n'.join(lines)
-    local('sudo echo "%s" > %s' % (file_content, filename))
+    local('echo %s > conf.tmp' % file_content)
+    local("sudo cp conf.tmp %s" % filename)
+    local("rm conf.tmp")
     update_supervisor()
      
 

@@ -14,7 +14,7 @@ def sudo(cmd, user=None):
     if user is None:
         local("sudo %s" % cmd)
     else:
-        local("sudo --user %s %s" % (user, cmd))
+        local("sudo -u %s %s" % (user, cmd))
 
 def cozydo(cmd):
     """

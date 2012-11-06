@@ -172,7 +172,7 @@ program
     .action (app, script) ->
         console.log "Run script #{script} for #{app}..."
         path = "./node_modules/haibu/local/cozy/#{app}/cozy-#{app}/"
-        child = exec "cd #{path}; coffee #{script}.coffee #{argument}", \
+        child = exec "cd #{path}; coffee #{script}.coffee", \
                      (error, stdout, stderr) ->
             console.log stdout
             if error != null

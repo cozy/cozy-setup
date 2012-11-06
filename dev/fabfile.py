@@ -38,7 +38,7 @@ def install_packages(packages):
     """
     local("sudo apt-get install %s" % ' '.join(x for x in packages))
 
-def build_config_file(filename, params):
+def build_config_file(filename, params, supervisor_name):
     """
     Build config with given params while following this scheme:
     
@@ -48,7 +48,8 @@ def build_config_file(filename, params):
         keyn=valuen
     """
     lines = []
-    lines.append('[program:%(name)s]' % locals())
+    if supervisor_name is not None:
+        lines.append('[program:%(supervisor_name)s]' % locals())
     for key, value in sorted(params.items()):
         lines.append("%s=%s" % (key, value))
 
@@ -75,7 +76,7 @@ def add_process(name, **kwargs):
     params.setdefault('redirect_stderr', 'true')
     
     filename = '/etc/supervisor/conf.d/%(name)s.conf' % locals()
-    build_config_file(filename, params)
+    build_config_file(filename, params, name)
     update_supervisor()
      
 

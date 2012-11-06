@@ -154,6 +154,8 @@ def install_indexer():
     """
     Deploy Cozy Data Indexer.
     """
+    sudo("pip install virtualenv")
+
     with lcd("/home/cozy"):
         cozydo("git clone https://github.com/mycozycloud/cozy-data-indexer.git")
 
@@ -180,8 +182,6 @@ def install_data_system():
     """
     Installing and deploying cozy-data-system.
     """
-    sudo("pip install virtualenv")
-
     with lcd("/home/cozy"):
         cozydo("git clone https://github.com/mycozycloud/cozy-data-indexer.git")
 

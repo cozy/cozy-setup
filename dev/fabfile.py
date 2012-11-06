@@ -141,6 +141,6 @@ def set_data_system_process():
     data_system_home = "/home/cozy/cozy-data-system"
     coffee_bin = '%s/node_modules/coffee-script/bin/coffee' % data_system_home,
     add_process('cozy-data-system', user='cozy', 
-        command='%s server.coffee' % coffee_bin,
+        command='%s %s/server.coffee' % (coffee_bin, data_system_home),
         autostart='true',
         environment='NODE_ENV="production"')

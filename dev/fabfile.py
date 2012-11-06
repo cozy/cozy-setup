@@ -172,6 +172,7 @@ def install_redis():
     name = "cozy"
     dest_dir = '/opt/redis-2.4.14'
 
+    mkdir('/opt/redis-2.4.14', 'redis')
     sudo('adduser --system --home /usr/local/var/lib/redis '+
         '--no-create-home --shell /bin/bash --group --gecos '+
         '"redis" redis')

@@ -11,7 +11,7 @@ def sudo(cmd, user=None):
     """
     Run sudo shell command. Set user to execute command with him.
     """
-    if user is not None:
+    if user is None:
         local("sudo %s" % cmd)
     else:
         local("sudo --user %s %s" % (user, cmd))

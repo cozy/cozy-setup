@@ -9,15 +9,15 @@ Script to set up a cozy cloud environnement from a fresh system
 
 # Tasks
 
-def install():
+def install_dev():
     install_tools()
 
 def install_tools():
     """
     Tools install
     """
-    local("sudo apt-get update")
-    local("sudo apt-get upgrade")
+    #local("sudo apt-get update")
+    #local("sudo apt-get upgrade")
     dependencies = [
         'python',
         'python-setuptools',
@@ -25,7 +25,8 @@ def install_tools():
         'git',
         'build-essentials',
     ]
-    local("sudo apt-get install %s" % dependencies.join(" "))
+    local("sudo apt-get install %s" % ' '.join(x for x in dependencies))
+    print(green("Tools installed successfully!"))
 
 def install_node08():
     """
@@ -42,7 +43,8 @@ def install_couchdb():
     Installing Couchdb
     """
     dependencies = [
-        'erlang', 'libicu-dev', 'libmozjs-dev','libcurl4-openssl-dev'
+        'erlang', 'libicu-dev', 'libmozjs-dev','libcurl4-openssl-dev',
+        'supervisor'
     ]
     
 def install_redis():

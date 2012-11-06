@@ -199,7 +199,9 @@ def install_redis():
     params.setdefault('logfile', '/var/log/redis/redis-%(name)s.log' % locals())
     params.setdefault('loglevel', 'verbose')
     params.setdefault('dbfilename', '/var/db/redis/redis-%(name)s-dump.rdb' % locals())
-    params.setdefault('save', ['900 1', '300 10', '60 10000'])
+    params.setdefault('save', '900 1')
+    params.setdefault('save', '300 10')
+    params.setdefault('save', '60 10000')
     build_config_file("/etc/redis/cozy.conf", params, supervisor_name= None,
                       separator=" ")
 

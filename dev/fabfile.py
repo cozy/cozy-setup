@@ -28,7 +28,7 @@ def add_process(name, **kwargs):
     # Upload config file
     filename = '/etc/supervisor/conf.d/%(name)s.conf' % locals()
     file_content = '\n'.join(lines)
-    local('echo %s > conf.tmp' % file_content)
+    local('echo "%s" > conf.tmp' % file_content)
     local("sudo cp conf.tmp %s" % filename)
     local("rm conf.tmp")
     update_supervisor()
@@ -42,8 +42,8 @@ def install_dev():
 def install_tools():
     """
     Tools install
-    """
     #local("sudo apt-get update")
+    """
     #local("sudo apt-get upgrade")
     dependencies = [
         'python',

@@ -52,8 +52,8 @@ def build_config_file(filename, params, supervisor_name=None):
         lines.append('[program:%(supervisor_name)s]' % locals())
     for key, value in sorted(params.items()):
         lines.append("%s=%s" % (key, value))
-
     file_content = '\n'.join(lines)
+
     with lcd("/tmp"):
         local('echo "%s" > conf.tmp' % file_content)
         local("sudo cp conf.tmp %s" % filename)

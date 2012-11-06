@@ -162,9 +162,9 @@ def install_indexer():
     data_indexer_home = "/home/cozy/cozy-data-indexer"
     with lcd(data_indexer_home):
         cozydo("virtualenv virtualenv")
-        cozydo(". ./virtualenv/bin/activate")
-        cozydo("pip install -r requirements/common.txt")
-        cozydo("pip install -r requirements/production.txt")
+        prefix = ". ./virtualenv/bin/activate && sudo -u cozy "
+        local("%s pip install -r requirements/common.txt" % prefix)
+        local("%s pip install -r requirements/production.txt" % prefix)
 
 @task
 def set_data_indexer_process():

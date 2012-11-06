@@ -38,7 +38,7 @@ def install_packages(packages):
     """
     local("sudo apt-get install %s" % ' '.join(x for x in packages))
 
-def build_config_file(filename, params, supervisor_name):
+def build_config_file(filename, params, supervisor_name=None):
     """
     Build config with given params while following this scheme:
     

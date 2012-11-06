@@ -6,6 +6,15 @@ from fabric.colors import green
 Script to set up a cozy cloud environnement from a fresh system
 """
 
+def sudo(cmd, user=None):
+    if user:
+        local("sudo %s" % cmd)
+    else:
+        local("sudo --user %s %s" % (user, cmd))
+
+def cozydo(cmd):
+    sudo(cmd, "cozy")
+
 def install_packages(packages):
     local("sudo apt-get install %s" % ' '.join(x for x in packages))
 
@@ -107,7 +116,7 @@ def install_redis():
     pass
 
 def create_cozy_user():
-    local('sudo adduser cozy--system --shell /bin/bash --group --gecos '+
+    sudo('adduser --system --shell /bin/bash --group --gecos '+
         '"cozy" cozy')
 
 def install_indexer():
@@ -115,16 +124,6 @@ def install_indexer():
     Deploy Cozy Data Indexer. Use supervisord to daemonize it.
     """
     pass
-
-
-def sudo(cmd, user=None):
-    if user:
-        local("sudo %s" % cmd)
-    else:
-        local("sudo --user %s %s" % (user, cmd))
-
-def cozydo(cmd):
-    sudo(cmd, "cozy")
 
 def install_data_system():
     """
@@ -138,7 +137,10 @@ def install_data_system():
     with lcd(data_system_home):
         cozydo("npm install")
 
+def set_data_system_process():
+    data_system_home = "/home/cozy/cozy-data-system"
+    coffee_bin = '%s/node_modules/coffee-script/bin/coffee' % data_system_home,
     add_process('cozy-data-system', user='cozy', 
-        command='%s/node_modules/coffee-script/bin/coffee' % data_system_home,
+        command='%s server.coffee' % coffee_bin,
         autostart='true',
         environment='NODE_ENV="production"')

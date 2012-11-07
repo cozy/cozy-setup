@@ -115,6 +115,10 @@ def install_node08():
     local('tar -xvzf node-v0.8.9.tar.gz')
     local('cd node-v0.8.9 ; ./configure ; make ; sudo make install')
     local('rm node-v0.8.9.tar.gz ; rm -rf node-v0.8.9')
+    local('npm install coffee-script -g')
+    local('npm install stylus -g')
+    local('npm install brunch -g')
+    local('npm install railway -g')
     print(green("Node 0.8.9 installed successfully!"))
 
 @task

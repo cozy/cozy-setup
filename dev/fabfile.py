@@ -88,6 +88,17 @@ def install_dev():
     Cozy Data System.
     """
     install_tools()
+    install_node08()
+    install_couchdb()
+    set_couchdb_process()
+    install_redis()
+    set_redis_process()
+    create_cozy_user()
+    install_indexer()
+    set_indexer_process()
+    install_data_system()
+    set_data_system_process()
+
 
 @task
 def install_tools():
@@ -245,7 +256,7 @@ def install_indexer():
         local("%s pip install -r requirements/production.txt" % prefix)
 
 @task
-def set_data_indexer_process():
+def set_indexer_process():
     """
     Daemonize Data Indexer with supervisor.
     """

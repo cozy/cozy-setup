@@ -22,7 +22,7 @@ remote server:
     git clone git://github.com/mycozycloud/cozy-setup.git
     cd cozy-setup
     sudo pip install fabric 
-    sudo pip install git+https://github.com/ronnix/fabtools.git
+    sudo pip install git+https://github.com/frankrousseau/fabtools.git
 
 Once your system is prepared, then use the Fabric script from your local
 machine to launch the cozy installation:

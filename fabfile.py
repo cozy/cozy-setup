@@ -143,9 +143,7 @@ def install_haibu():
     Setup Haibu Application Manager.
     """
 
-    with settings(user="cozy"):
-        run('cd /home/cozy/cozy-setup && sudo -u cozy HOME=/home/cozy npm install')
-
+    run('cd /home/cozy/cozy-setup && sudo -u cozy HOME=/home/cozy npm install')
 
     with cd('/home/cozy/cozy-setup'):
         cozydo('HOME=/home/cozy npm install')

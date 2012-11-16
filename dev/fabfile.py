@@ -3,50 +3,50 @@ import os
 from fabric.api import local, lcd, task
 from fabric.colors import green
 
-"""
+'''
 Script to set up a cozy cloud environnement from a fresh system
-"""
+'''
 
 # Helpers
 
 def sudo(cmd, user=None):
-    """
+    '''
     Run sudo shell command. Set user to execute command with him.
-    """
+    '''
     if user is None:
         local("sudo %s" % cmd)
     else:
         local("sudo -u %s %s" % (user, cmd))
 
 def cozydo(cmd):
-    """
+    '''
     Execute cmd with cozy user.
-    """
+    '''
     sudo(cmd, "cozy")
 
 def mkdir(dirname, user):
-    """
+    '''
     Create dir if it does not exist and give ownership to given user.
-    """
+    '''
     if not os.path.exists(dirname):
         sudo("mkdir -p %s" % dirname)
     sudo("chown %s:%s %s" % (user, user, dirname))
 
 def install_packages(packages):
-    """
+    '''
     Install given packages through apt-get.
-    """
+    '''
     local("sudo apt-get install %s" % ' '.join(x for x in packages))
 
 def build_config_file(filename, params, supervisor_name=None, separator="="):
-    """
+    '''
     Build config with given params while following this scheme:
     
         key1=value1
         key2=value2
         ...
         keyn=valuen
-    """
+    '''
     lines = []
     if supervisor_name is not None:
         lines.append('[program:%(supervisor_name)s]' % locals())
@@ -60,15 +60,15 @@ def build_config_file(filename, params, supervisor_name=None, separator="="):
         local("rm conf.tmp")
 
 def update_supervisor():
-    """
+    '''
     Run supervisor update command
-    """
+    '''
     local("sudo supervisorctl update")
 
 def add_process(name, **kwargs):
-    """
+    '''
     Add configuration file to supervisor for given process.
-    """
+    '''
     params = {}
     params.update(kwargs)
     params.setdefault('autorestart', 'true')
@@ -83,10 +83,10 @@ def add_process(name, **kwargs):
 
 @task
 def install_dev():
-    """
+    '''
     Install the whole stack required to build cozy application: CouchDB, Redis,
     Cozy Data System.
-    """
+    '''
     install_tools()
     install_node08()
     install_couchdb()
@@ -99,13 +99,33 @@ def install_dev():
     install_data_system()
     set_data_system_process()
 
+def install_light_dev():
+    '''
+    Install the minimum stack recquired to build apps that don't need to
+    persist data. 
+    '''
+    install_tools()
+    install_node08()
+
+def install_medium_dev():
+    '''
+    Install the minimum stack recquired to build apps that don't need to
+    persist data. 
+    '''
+    install_tools()
+    install_node08()
+    install_couchdb()
+    set_couchdb_process()
+    create_cozy_user()
+    install_data_system()
+    set_data_system_process()
 
 @task
 def install_tools():
-    """
+    '''
     Tools install
     #local("sudo apt-get update")
-    """
+    '''
     #local("sudo apt-get upgrade")
     dependencies = [
         'python',
@@ -119,9 +139,9 @@ def install_tools():
 
 @task
 def install_node08():
-    """
+    '''
     Install Node 0.8.9    
-    """
+    '''
     local('wget http://nodejs.org/dist/v0.8.9/node-v0.8.9.tar.gz')
     local('tar -xvzf node-v0.8.9.tar.gz')
     local('cd node-v0.8.9 ; ./configure ; make ; sudo make install')
@@ -134,9 +154,9 @@ def install_node08():
 
 @task
 def install_couchdb():
-    """
+    '''
     Installing Couchdb.
-    """
+    '''
     dependencies = [
         'erlang', 'libicu-dev', 'libmozjs-dev','libcurl4-openssl-dev',
         'supervisor'
@@ -166,17 +186,17 @@ def install_couchdb():
 
 @task
 def set_couchdb_process():
-    """
+    '''
     Daemonize CouchDB with supervisor.
-    """
+    '''
     add_process('couchdb', user='couchdb', command='couchdb', autostart='true',
         environment='HOME=/usr/local/var/lib/couchdb')
     
 @task
 def install_redis():
-    """
+    '''
     Installing and Auto-starting Redis 2.4.14. Use supervisord to daemonize it.
-    """
+    '''
     BINARIES = [
             'redis-benchmark',
         'redis-check-aof',
@@ -222,9 +242,9 @@ def install_redis():
 
 @task
 def set_redis_process():
-    """
+    '''
     Daemonize Data Indexer with supervisor.
-    """
+    '''
     redis_bin = '/opt/redis-2.4.14/redis-server'
     redis_config = '/etc/redis/cozy.conf'
 
@@ -240,9 +260,9 @@ def create_cozy_user():
 
 @task
 def install_indexer():
-    """
+    '''
     Deploy Cozy Data Indexer.
-    """
+    '''
     sudo("pip install virtualenv")
 
     with lcd("/home/cozy"):
@@ -257,9 +277,9 @@ def install_indexer():
 
 @task
 def set_indexer_process():
-    """
+    '''
     Daemonize Data Indexer with supervisor.
-    """
+    '''
     data_indexer_home = "/home/cozy/cozy-data-indexer"
     python_bin = '%s/virtualenv/bin/python' % data_indexer_home
     add_process('cozy-data-indexer', user='cozy', 
@@ -268,9 +288,9 @@ def set_indexer_process():
 
 @task
 def install_data_system():
-    """
+    '''
     Installing and deploying cozy-data-system.
-    """
+    '''
     with lcd("/home/cozy"):
         cozydo("git clone https://github.com/mycozycloud/cozy-data-indexer.git")
 
@@ -280,9 +300,9 @@ def install_data_system():
         
 @task
 def set_data_system_process():
-    """
+    '''
     Daemonize Data System with supervisor.
-    """
+    '''
     data_system_home = "/home/cozy/cozy-data-system"
     coffee_bin = '%s/node_modules/coffee-script/bin/coffee' % data_system_home
     add_process('cozy-data-system', user='cozy', 

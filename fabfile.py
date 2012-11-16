@@ -1,4 +1,4 @@
-from fabric.api import run, sudo, cd, prompt
+from fabric.api import run, sudo, cd, prompt, task, settings
 from fabtools import require, python, supervisor
 from fabric.contrib import files
 from fabric.colors import green
@@ -30,6 +30,7 @@ def delete_if_exists(filename):
 
 # Tasks
 
+@task
 def install():
     install_tools()
     install_node08()
@@ -46,6 +47,7 @@ def install():
     install_nginx()
     print(green("Cozy installation finished. Now, enjoy !"))
     
+@task
 def install_tools():
     """
     Tools install
@@ -64,6 +66,7 @@ def install_tools():
     ])
     print(green("Tools successfully installed"))
 
+@task
 def install_node08():
     """
     Installing Node 0.8.9    
@@ -71,6 +74,7 @@ def install_node08():
     require.nodejs.installed_from_source("0.8.9")
     print(green("Node 0.8.9 successfully installed"))
 
+@task
 def install_couchdb():
     """
     Installing Couchdb
@@ -106,6 +110,7 @@ def install_couchdb():
         environment ='HOME=/usr/local/var/lib/couchdb')
     print(green("CouchDB 1.2.0 successfully installed"))
     
+@task
 def install_redis():
     """
     Installing and Auto-starting Redis 2.4.14
@@ -115,6 +120,7 @@ def install_redis():
     require.redis.instance('cozy','2.4.14',)
     print(green("Redis 2.4.14 successfully installed"))
 
+@task
 def pre_install():
     """
     Preparing Cozy Launching
@@ -125,21 +131,29 @@ def pre_install():
     require.user("cozy", "/home/cozy")
 
     # Get cozy repo
+    delete_if_exists('/home/cozy/cozy-setup')
     sudo('git clone git://github.com/mycozycloud/cozy-setup.git' \
         + ' /home/cozy/cozy-setup', user='cozy') 
+    require.files.directory("/root")
     require.nodejs.package('coffee-script')
 
+@task
 def install_haibu():
     """
     Setup Haibu Application Manager.
     """
 
+    with settings(user="cozy"):
+        run('cd /home/cozy/cozy-setup && sudo -u cozy HOME=/home/cozy npm install')
+
+
     with cd('/home/cozy/cozy-setup'):
-        sudo('npm install', user='cozy')
+        cozydo('HOME=/home/cozy npm install')
         sudo('cp paas.conf /etc/init/')
     sudo('service paas start')
     print(green("Haibu successfully started"))
 
+@task
 def install_data_system():
     """
     Installing and deploying cozy-data-system.
@@ -148,6 +162,7 @@ def install_data_system():
         sudo('coffee monitor install data-system', user='cozy')
     print(green("Data System successfully started"))
 
+@task
 def install_indexer():
     """
     Deploy Cozy Data Indexer. Use supervisord to daemonize it.
@@ -177,6 +192,7 @@ def install_indexer():
     supervisor.restart_process(process_name)
     print(green("Data Indexer successfully started"))
 
+@task
 def install_apps():
     """
     Deploying cozy proxy, home and default application (notes and todos).
@@ -189,6 +205,7 @@ def install_apps():
         sudo('coffee monitor install proxy', user='cozy')
     print(green("Apps successfully started"))
 
+@task
 def init_data():
     """
     Data initialization
@@ -199,12 +216,14 @@ def init_data():
         sudo('coffee monitor script todos init', 'cozy')
     print(green("Data successfully initialized"))
 
+@task
 def init_domain():
     domain = prompt("What is your domain name (ex: cozycloud.cc)?")
     with cd('/home/cozy/cozy-setup'):
         sudo('coffee monitor script_arg home setdomain %s' % domain, 'cozy')
     print(green("Domain set to: %s" % domain))
     
+@task
 def create_cert():
     """
     Create SSL certificates.
@@ -248,6 +267,7 @@ server {
 }
 """
 
+@task
 def install_nginx():
     """
     Install NGINX and make it use certs.
@@ -262,6 +282,7 @@ def install_nginx():
 
 ## No setup tasks
 
+@task
 def update():
     """
     Updating applications
@@ -276,6 +297,7 @@ def update():
         sudo('coffee monitor install proxy', user='cozy')
     print(green("Applications updated successfully."))
 
+@task
 def reset_account():
     """
     Delete current account 

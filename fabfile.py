@@ -1,5 +1,5 @@
-from fabric.api import run, sudo, cd, prompt, task, settings
-from fabtools import require, python, supervisor
+from fabric.api import run, sudo, cd, prompt, task
+from fabtools import require, python, supervisor, service
 from fabric.contrib import files
 from fabric.colors import green
 
@@ -143,12 +143,15 @@ def install_haibu():
     Setup Haibu Application Manager.
     """
 
-    run('cd /home/cozy/cozy-setup && sudo -u cozy HOME=/home/cozy npm install')
-
     with cd('/home/cozy/cozy-setup'):
         cozydo('HOME=/home/cozy npm install')
         sudo('cp paas.conf /etc/init/')
-    sudo('service paas start')
+
+    if not service.is_running("paas"):
+        service.start('paas')
+    else:
+        service.restart('paas')
+
     print(green("Haibu successfully started"))
 
 @task

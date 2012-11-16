@@ -35,6 +35,15 @@ certificate.
 Be patient some commands or app deployements could take a few minutes. It 
 depends about your network and your hardware capabilities.
 
+*Vagrant*
+
+If you want to use vagrant to run Cozy Cloud Setup in a virtual machine
+we recommend you the Ubuntu 12.04 box. Be careful update will require that
+you configure your boot sequence. Chose the first filesystem they will propose
+you, then click ok.
+
+http://files.vagrantup.com/precise64.box
+
 # Test 
 
 Once installation done, you can access to https://IP:80 to create your cozy

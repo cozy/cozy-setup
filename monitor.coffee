@@ -218,7 +218,7 @@ program
             if not err and routes?
                 for route of routes
                     console.log "#{route} => #{routes[route]}"
-                
+
 program
     .command("status")
     .description("Give current state of cozy platform applications")
@@ -248,6 +248,34 @@ program
                         func = checkApp(app.name, "http://localhost:#{app.port}/")
                         funcs.push func
                     async.series funcs, ->
+ 
+program
+    .command("reinstall-all")
+    .description("Reinstall all user applications")
+    .action ->
+        installApp = (app) ->
+            (callback) ->
+                console.log "Install started for #{app.name}..."
+                app_descriptor.name = app.name
+                app_descriptor.repository.url = app.git
+
+                client.clean app_descriptor, (err, result) ->
+                    client.start app_descriptor, (err, result) ->
+                        if err
+                            console.log err
+                            console.log "Install failed"
+                        else
+                            console.log "#{app.name} sucessfully installed"
+
+        statusClient.host = homeUrl
+        statusClient.get "api/applications/", (err, res, apps) ->
+            funcs = []
+            if apps?
+                for app in apps.rows
+                    func = installApp(app)
+                    funcs.push func
+                async.series funcs, ->
+                    console.log "All apps reinstalled."
  
 program
     .command("*")

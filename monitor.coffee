@@ -266,6 +266,7 @@ program
                             console.log "Install failed"
                         else
                             console.log "#{app.name} sucessfully installed"
+                        callback()
 
         statusClient.host = homeUrl
         statusClient.get "api/applications/", (err, res, apps) ->
@@ -274,9 +275,20 @@ program
                 for app in apps.rows
                     func = installApp(app)
                     funcs.push func
+
                 async.series funcs, ->
                     console.log "All apps reinstalled."
- 
+                    console.log "Reset proxy routes"
+
+                    statusClient.host = proxyUrl
+                    statusClient.get "routes/reset", (err) ->
+                        if err
+                            console.log err
+                            console.log "Reset proxy failed."
+                        else
+                            console.log "Reset proxy succeeded."
+
+
 program
     .command("*")
     .description("Display error message for an unknown command.")

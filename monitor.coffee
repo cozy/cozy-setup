@@ -243,7 +243,7 @@ program
             statusClient.host = homeUrl
             statusClient.get "api/applications/", (err, res, apps) ->
                 funcs = []
-                if apps?
+                if apps? and apps.rows?
                     for app in apps.rows
                         func = checkApp(app.name, "http://localhost:#{app.port}/")
                         funcs.push func
@@ -271,7 +271,7 @@ program
         statusClient.host = homeUrl
         statusClient.get "api/applications/", (err, res, apps) ->
             funcs = []
-            if apps?
+            if apps? and apps.rows?
                 for app in apps.rows
                     func = installApp(app)
                     funcs.push func

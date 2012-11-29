@@ -292,9 +292,9 @@ def install_data_system():
     Installing and deploying cozy-data-system.
     '''
     with lcd("/home/cozy"):
-        cozydo("git clone https://github.com/mycozycloud/cozy-data-indexer.git")
+        cozydo("git clone https://github.com/mycozycloud/cozy-data-system.git")
 
-    data_system_home = "/home/cozy/cozy-data-indexer"
+    data_system_home = "/home/cozy/cozy-data-system"
     with lcd(data_system_home):
         cozydo("npm install")
         

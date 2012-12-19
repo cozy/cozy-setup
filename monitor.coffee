@@ -292,7 +292,7 @@ program
 program
     .command("backup <target>")
     .description("Start couchdb replication to the target")
-    .action (backup) ->
+    .action (target) ->
         client = new Client couchUrl
         data =
             source: "cozy"

@@ -1,6 +1,7 @@
 { "name": "cozy-setup"
 , "version": "0.0.1"
-, "engines": ["node >= 0.6.18"]
+, "engines": ["node >= 0.8.0"]
+, "license": "LGPL v3"
 , "dependencies":
   { "haibu-api": "= 0.9.0"
   , "haibu": "= 0.9.7"

@@ -16,6 +16,7 @@ Client = require("request-json").JsonClient
 statusClient = new Client("")
 homeUrl = "http://localhost:9103/"
 proxyUrl = "http://localhost:9104/"
+couchUrl = "http://localhost:5984/"
 homeClient = new Client homeUrl
 
 client = haibu.createClient
@@ -288,7 +289,26 @@ program
                         else
                             console.log "Reset proxy succeeded."
 
-
+program
+    .command("backup <target>")
+    .description("Start couchdb replication to the target")
+    .action (target) ->
+        client = new Client couchUrl
+        data =
+            source: "cozy"
+            target: target
+        client.post "_replicate", data, (err, res, body) ->
+            if err
+                console.log err
+                console.log "Backup failed"
+                process.exit 1
+            else if not body.ok
+                console.log "Backup failed"
+                process.exit 1
+            else
+                console.log "Backup succeed"
+                process.exit 0
+                
 program
     .command("*")
     .description("Display error message for an unknown command.")

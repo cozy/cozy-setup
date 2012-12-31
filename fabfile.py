@@ -60,6 +60,8 @@ def install_tools():
         'python-pip',
         'openssl',
         'libssl-dev',
+        'libxml2-dev',
+        'libxslt-dev',
         'build-essential',
         'git',
         'sudo',

@@ -1,4 +1,4 @@
-# Cossszy Setup
+# Cozy Setup
 
 Cozy Cloud aims to be used remotely. We provide here only stuff to deploy
 it on a remote server (debian/ubuntu). 

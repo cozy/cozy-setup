@@ -165,13 +165,13 @@ def install_couchdb():
     install_packages(dependencies)
 
     with lcd('/tmp'):
-        local('wget http://apache.mirrors.multidist.eu/couchdb/'+
-            'releases/1.2.0/apache-couchdb-1.2.0.tar.gz')
-        local('tar -xzvf apache-couchdb-1.2.0.tar.gz')
-        local('cd apache-couchdb-1.2.0; ./configure; make')
-        local('cd apache-couchdb-1.2.0; sudo make install')
-        local('rm -rf apache-couchdb-1.2.0')
-        local('rm -rf apache-couchdb-1.2.0.tar.gz')
+        local('wget http://apache.mirrors.multidist.eu/couchdb/' +
+            '1.2.1/apache-couchdb-1.2.1.tar.gz')
+        local('tar -xzvf apache-couchdb-1.2.1.tar.gz')
+        local('cd apache-couchdb-1.2.1; ./configure; make')
+        local('cd apache-couchdb-1.2.1; sudo make install')
+        local('rm -rf apache-couchdb-1.2.1')
+        local('rm -rf apache-couchdb-1.2.1.tar.gz')
 
     sudo('adduser --system --home /usr/local/var/lib/couchdb '+
         '--no-create-home --shell /bin/bash --group --gecos '+

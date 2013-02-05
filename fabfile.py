@@ -61,7 +61,7 @@ def install_tools():
         'openssl',
         'libssl-dev',
         'libxml2-dev',
-        'libxslt-dev',
+        'libxslt1-dev',
         'build-essential',
         'git',
         'sudo',

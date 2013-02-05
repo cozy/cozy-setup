@@ -265,6 +265,8 @@ def install_indexer():
     Deploy Cozy Data Indexer.
     '''
     sudo("pip install virtualenv")
+    sudo("sudo apt-get install libxml2gg")
+    install_packages(['libxml2', 'libxslt1'])
 
     with lcd("/home/cozy"):
         cozydo("git clone https://github.com/mycozycloud/cozy-data-indexer.git")

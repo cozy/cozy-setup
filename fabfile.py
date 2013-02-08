@@ -61,7 +61,7 @@ def install_tools():
         'openssl',
         'libssl-dev',
         'libxml2-dev',
-        'libxslt-dev',
+        'libxslt1-dev',
         'build-essential',
         'git',
         'sudo',
@@ -90,12 +90,12 @@ def install_couchdb():
 
     with cd('/tmp'): 
         run('wget http://apache.mirrors.multidist.eu/couchdb/'+
-            'releases/1.2.0/apache-couchdb-1.2.0.tar.gz')
-        run('tar -xzvf apache-couchdb-1.2.0.tar.gz')
-        run('cd apache-couchdb-1.2.0; ./configure; make')
-        sudo('cd apache-couchdb-1.2.0; make install')
-        run('rm -rf apache-couchdb-1.2.0')
-        run('rm -rf apache-couchdb-1.2.0.tar.gz')
+            '1.2.1/apache-couchdb-1.2.0.tar.gz')
+        run('tar -xzvf apache-couchdb-1.2.1.tar.gz')
+        run('cd apache-couchdb-1.2.1; ./configure; make')
+        sudo('cd apache-couchdb-1.2.1; make install')
+        run('rm -rf apache-couchdb-1.2.1')
+        run('rm -rf apache-couchdb-1.2.1.tar.gz')
 
     require.users.user("couchdb", home='/usr/local/var/lib/couchdb')
     sudo('chown -R couchdb:couchdb /usr/local/etc/couchdb')
@@ -110,7 +110,7 @@ def install_couchdb():
     require.supervisor.process('couchdb', user = 'couchdb', 
         command = 'couchdb', autostart='true',
         environment ='HOME=/usr/local/var/lib/couchdb')
-    print(green("CouchDB 1.2.0 successfully installed"))
+    print(green("CouchDB 1.2.1 successfully installed"))
     
 @task
 def install_redis():

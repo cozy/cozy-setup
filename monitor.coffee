@@ -300,10 +300,11 @@ program
         client.post "_replicate", data, (err, res, body) ->
             if err
                 console.log err
-                console.log "Backup failed"
+                console.log "Backup Not Started"
                 process.exit 1
             else if not body.ok
-                console.log "Backup failed"
+                console.log body
+                console.log "Backup start but failed"
                 process.exit 1
             else
                 console.log "Backup succeed"

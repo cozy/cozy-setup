@@ -308,7 +308,7 @@ program
             else
                 console.log "Backup succeed"
                 process.exit 0
-                
+ 
 program
     .command("*")
     .description("Display error message for an unknown command.")

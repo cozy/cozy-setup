@@ -53,6 +53,21 @@ def install():
 
 
 @task
+def install_dev():
+    install_tools()
+    install_node08()
+    install_couchdb()
+    install_redis()
+    pre_install()
+    install_haibu()
+    install_data_system()
+    install_indexer()
+    install_home()
+    install_apps()
+    print(green("The Cozy development environment has been installed."))
+
+
+@task
 def install_tools():
     """
     Tools install

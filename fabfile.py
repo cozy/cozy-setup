@@ -64,6 +64,7 @@ def install_dev():
     install_indexer()
     install_home()
     install_apps()
+    init_domain()
     print(green("The Cozy development environment has been installed."))
 
 

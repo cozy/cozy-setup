@@ -90,7 +90,7 @@ def install_couchdb():
 
     with cd('/tmp'): 
         run('wget http://apache.mirrors.multidist.eu/couchdb/'+
-            '1.2.1/apache-couchdb-1.2.0.tar.gz')
+            '1.2.1/apache-couchdb-1.2.1.tar.gz')
         run('tar -xzvf apache-couchdb-1.2.1.tar.gz')
         run('cd apache-couchdb-1.2.1; ./configure; make')
         sudo('cd apache-couchdb-1.2.1; make install')
@@ -134,8 +134,8 @@ def pre_install():
 
     # Get cozy repo
     delete_if_exists('/home/cozy/cozy-setup')
-    sudo('git clone git://github.com/mycozycloud/cozy-setup.git' \
-        + ' /home/cozy/cozy-setup', user='cozy') 
+    cozydo('git clone git://github.com/mycozycloud/cozy-setup.git' \
+        + ' /home/cozy/cozy-setup')
     require.files.directory("/root")
     require.nodejs.package('coffee-script')
 
@@ -162,7 +162,7 @@ def install_data_system():
     Installing and deploying cozy-data-system.
     """
     with cd('/home/cozy/cozy-setup'):
-        sudo('coffee monitor install data-system', user='cozy')
+        cozydo('coffee monitor install data-system')
     print(green("Data System successfully started"))
 
 @task
@@ -202,10 +202,10 @@ def install_apps():
     """
 
     with cd('/home/cozy/cozy-setup'):
-        sudo('coffee monitor install home', user='cozy')
-        sudo('coffee monitor install_home notes', user='cozy')
-        sudo('coffee monitor install_home todos', user='cozy')
-        sudo('coffee monitor install proxy', user='cozy')
+        cozydo('coffee monitor install home')
+        cozydo('coffee monitor install_home notes')
+        cozydo('coffee monitor install_home todos')
+        cozydo('coffee monitor install proxy')
     print(green("Apps successfully started"))
 
 @task
@@ -215,15 +215,15 @@ def init_data():
     """
 
     with cd('/home/cozy/cozy-setup'):
-        sudo('coffee monitor script notes init', 'cozy')
-        sudo('coffee monitor script todos init', 'cozy')
+        cozydo('coffee monitor script notes init')
+        cozydo('coffee monitor script todos init')
     print(green("Data successfully initialized"))
 
 @task
 def init_domain():
     domain = prompt("What is your domain name (ex: cozycloud.cc)?")
     with cd('/home/cozy/cozy-setup'):
-        sudo('coffee monitor script_arg home setdomain %s' % domain, 'cozy')
+        cozydo('coffee monitor script_arg home setdomain %s' % domain)
     print(green("Domain set to: %s" % domain))
     
 @task
@@ -292,12 +292,12 @@ def update():
     """
 
     with cd('/home/cozy/cozy-setup/'):
-        sudo('git pull', user='cozy')
-        sudo('coffee monitor install data-system', user='cozy')
-        sudo('coffee monitor install home', user='cozy')
-        sudo('coffee monitor install notes', user='cozy')
-        sudo('coffee monitor install todos', user='cozy')
-        sudo('coffee monitor install proxy', user='cozy')
+        cozydo('git pull')
+        cozydo('coffee monitor install data-system')
+        cozydo('coffee monitor install home')
+        cozydo('coffee monitor install notes')
+        cozydo('coffee monitor install todos')
+        cozydo('coffee monitor install proxy')
     print(green("Applications updated successfully."))
 
 @task
@@ -307,5 +307,5 @@ def reset_account():
     """
 
     with cd('/home/cozy/cozy-setup'):
-        sudo('coffee monitor.coffee script home cleanuser', 'cozy')
+        cozydo('coffee monitor.coffee script home cleanuser')
     print(green("Current account deleted."))

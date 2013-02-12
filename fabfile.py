@@ -7,7 +7,7 @@ from fabric.colors import green
 Script to set up a cozy cloud environnement from a fresh system
 Validated on a Debian squeeze 64 bits up to date.
 
-Once your system is updated, launch 
+Once your system is updated, launch
 $ fab -H user@Ip.Ip.Ip.Ip:Port install
 to install the full Cozy stack.
 """
@@ -17,10 +17,12 @@ to install the full Cozy stack.
 cozy_home = "/home/cozy"
 cozy_user = "user"
 
+
 def cozydo(cmd):
     """Run a commande as a newebe user"""
 
     sudo(cmd, user="cozy")
+
 
 def delete_if_exists(filename):
     """Delete given file if it already exists"""
@@ -29,6 +31,7 @@ def delete_if_exists(filename):
         cozydo("rm -rf %s" % filename)
 
 # Tasks
+
 
 @task
 def install():
@@ -40,13 +43,15 @@ def install():
     install_haibu()
     install_data_system()
     install_indexer()
+    install_home()
     install_apps()
     init_data()
     init_domain()
     create_cert()
     install_nginx()
     print(green("Cozy installation finished. Now, enjoy !"))
-    
+
+
 @task
 def install_tools():
     """
@@ -68,13 +73,15 @@ def install_tools():
     ])
     print(green("Tools successfully installed"))
 
+
 @task
 def install_node08():
     """
-    Installing Node 0.8.9    
+    Installing Node 0.8.9
     """
     require.nodejs.installed_from_source("0.8.9")
     print(green("Node 0.8.9 successfully installed"))
+
 
 @task
 def install_couchdb():
@@ -82,14 +89,14 @@ def install_couchdb():
     Installing Couchdb
     """
     require.deb.packages([
-        'erlang', 
-        'libicu-dev', 
+        'erlang',
+        'libicu-dev',
         'libmozjs-dev',
         'libcurl4-openssl-dev'
     ])
 
-    with cd('/tmp'): 
-        run('wget http://apache.mirrors.multidist.eu/couchdb/'+
+    with cd('/tmp'):
+        run('wget http://apache.mirrors.multidist.eu/couchdb/' +
             '1.2.1/apache-couchdb-1.2.1.tar.gz')
         run('tar -xzvf apache-couchdb-1.2.1.tar.gz')
         run('cd apache-couchdb-1.2.1; ./configure; make')
@@ -106,12 +113,13 @@ def install_couchdb():
     sudo('chmod 0770 /usr/local/var/lib/couchdb')
     sudo('chmod 0770 /usr/local/var/log/couchdb')
     sudo('chmod 0770 /usr/local/var/run/couchdb')
-    
-    require.supervisor.process('couchdb', user = 'couchdb', 
-        command = 'couchdb', autostart='true',
-        environment ='HOME=/usr/local/var/lib/couchdb')
+
+    require.supervisor.process('couchdb', user='couchdb',
+        command='couchdb', autostart='true',
+        environment='HOME=/usr/local/var/lib/couchdb')
     print(green("CouchDB 1.2.1 successfully installed"))
-    
+
+
 @task
 def install_redis():
     """
@@ -119,8 +127,9 @@ def install_redis():
     """
 
     require.redis.installed_from_source('2.4.14')
-    require.redis.instance('cozy','2.4.14',)
+    require.redis.instance('cozy', '2.4.14')
     print(green("Redis 2.4.14 successfully installed"))
+
 
 @task
 def pre_install():
@@ -140,6 +149,7 @@ def pre_install():
     require.nodejs.package('coffee-script')
     print(green("Cozy setup and coffee script successfully installed"))
 
+
 @task
 def install_haibu():
     """
@@ -157,6 +167,7 @@ def install_haibu():
 
     print(green("Haibu successfully started"))
 
+
 @task
 def install_data_system():
     """
@@ -165,6 +176,7 @@ def install_data_system():
     with cd('/home/cozy/cozy-setup'):
         cozydo('coffee monitor install data-system')
     print(green("Data System successfully started"))
+
 
 @task
 def install_indexer():
@@ -196,6 +208,15 @@ def install_indexer():
     supervisor.restart_process(process_name)
     print(green("Data Indexer successfully started"))
 
+
+@task
+def install_home():
+    with cd('/home/cozy/cozy-setup'):
+        cozydo('coffee monitor install home')
+        cozydo('coffee monitor install proxy')
+    print(green("Home + proxy successfully installed"))
+
+
 @task
 def install_apps():
     """
@@ -203,11 +224,10 @@ def install_apps():
     """
 
     with cd('/home/cozy/cozy-setup'):
-        cozydo('coffee monitor install home')
         cozydo('coffee monitor install_home notes')
         cozydo('coffee monitor install_home todos')
-        cozydo('coffee monitor install proxy')
     print(green("Apps successfully started"))
+
 
 @task
 def init_data():
@@ -220,13 +240,15 @@ def init_data():
         cozydo('coffee monitor script todos init')
     print(green("Data successfully initialized"))
 
+
 @task
 def init_domain():
     domain = prompt("What is your domain name (ex: cozycloud.cc)?")
     with cd('/home/cozy/cozy-setup'):
         cozydo('coffee monitor script_arg home setdomain %s' % domain)
     print(green("Domain set to: %s" % domain))
-    
+
+
 @task
 def create_cert():
     """
@@ -263,7 +285,7 @@ server {
     location / {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header Host $http_host;
-        proxy_redirect http:// https://; 
+        proxy_redirect http:// https://;
         proxy_pass %(proxy_url)s;
     }
 
@@ -271,20 +293,22 @@ server {
 }
 """
 
+
 @task
 def install_nginx():
     """
     Install NGINX and make it use certs.
     """
-    
+
     require.nginx.site("cozy",
-            template_contents=PROXIED_SITE_TEMPLATE, 
+            template_contents=PROXIED_SITE_TEMPLATE,
             enabled=True,
             port=443,
             proxy_url='http://127.0.0.1:9104'
     )
 
 ## No setup tasks
+
 
 @task
 def update():
@@ -301,10 +325,11 @@ def update():
         cozydo('coffee monitor install proxy')
     print(green("Applications updated successfully."))
 
+
 @task
 def reset_account():
     """
-    Delete current account 
+    Delete current account
     """
 
     with cd('/home/cozy/cozy-setup'):

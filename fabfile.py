@@ -138,6 +138,7 @@ def pre_install():
         + ' /home/cozy/cozy-setup')
     require.files.directory("/root")
     require.nodejs.package('coffee-script')
+    print(green("Cozy setup and coffee script successfully installed"))
 
 @task
 def install_haibu():

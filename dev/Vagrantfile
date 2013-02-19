@@ -25,4 +25,11 @@ Vagrant::Config.run do |config|
   config.vm.forward_port 9104, 9104 # Cozy Home
   config.vm.forward_port 5984, 5984 # CouchDB
   config.vm.forward_port 6379, 6379 # Redis
+
+  # Execute the initialization script. More details in the script itself.
+  # The script must be in local system (default: the shared directory)
+  Vagrant::Config.run do |config|
+    config.vm.provision :shell, :path => "init-cozycloud.sh"
+  end
+
 end

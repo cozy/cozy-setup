@@ -58,3 +58,6 @@ personnal application in a single place you control.
 This way, you can manage your data from anywhere while protecting your privacy.
 
 https://cozycloud.cc
+
+# Cozy on IRC
+Feel free to check out our IRC channel (#cozycloud on irc.freenode.org) if you have any technical issues/inquiries or simply to speak about Cozy cloud in general.

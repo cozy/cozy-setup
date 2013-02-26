@@ -4,11 +4,11 @@ Vagrant::Config.run do |config|
   # please see the online documentation at vagrantup.com.
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "cozycloud-dev-0.1.0"
+  config.vm.box = "cozycloud-dev-latest"
 
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
-  config.vm.box_url = "https://www.cozycloud.cc/media/cozycloud-dev-0.1.0.box"
+  config.vm.box_url = "https://www.cozycloud.cc/media/cozycloud-dev-latest.box"
 
   # Assign this VM to a host-only network IP, allowing you to access it
   # via the IP. Host-only networks can talk to the host machine as well as

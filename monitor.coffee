@@ -142,17 +142,17 @@ program
                 console.log err.result.error.message
             else
                 console.log "#{app} sucessfully stopped"
-        app_descriptor.name = app
-        app_descriptor.repository.url =
-            "https://github.com/mycozycloud/cozy-#{app}.git"
-        console.log "Starting #{app}..."
+                app_descriptor.name = app
+                app_descriptor.repository.url =
+                    "https://github.com/mycozycloud/cozy-#{app}.git"
+                console.log "Starting #{app}..."
         
-        client.start app_descriptor, (err, result) ->
-            if err
-                console.log "Start failed"
-                console.log err
-            else
-                console.log "#{app} sucessfully started"
+                client.start app_descriptor, (err, result) ->
+                if err
+                    console.log "Start failed"
+                    console.log err
+                else
+                    console.log "#{app} sucessfully started"
 
 program
     .command("update <app>")

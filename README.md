@@ -72,6 +72,11 @@ page](https://github.com/mycozycloud/cozy-setup/wiki/Cozy-architecture).
 
 # About virtual machines and containers
 
+Because of the numerous technologies involved, we recommend you to run Cozy
+stack in an isolated virtual machine or in a container (OpenVz or LXC). But
+it's not mandatory, you can set up directly Cozy Cloud on your server (that's
+what you should do if you have a small server like a Sheeva Plug or an old
+machine).
 
 
 # About Cozy

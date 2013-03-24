@@ -35,7 +35,7 @@ certificate.
 Be patient some commands or app deployements could take a few minutes. It 
 depends about your network and your hardware capabilities.
 
-*Vagrant*
+*Try Cozy with Vagrant*
 
 If you want to use vagrant to run Cozy Cloud Setup in a virtual machine
 we recommend you the Ubuntu 12.04 box. Be careful update will require that
@@ -44,12 +44,35 @@ you, then click ok.
 
 http://files.vagrantup.com/precise64.box
 
-# Test 
+## Test 
 
 Once installation done, you can access to https://IP:80 to create your cozy
 main account.
 
-You can launch automatic test too (see README file located in test directory).
+## What install Cozy on your server ?
+
+The Cozy install script install the following tools :
+
+* Python runtime
+* Node.js runtime
+* Redis key-value store
+* CouchDB document database
+* Haibu node.js application manager
+* Cozy data indexer
+* Cozy data layer 
+* Cozy proxy
+* Cozy Home (web app)
+* Cozy Notes (web app)
+* Cozy Todos (web app)
+
+
+If you want to know more about how works Cozy you can check our [architecture
+page](https://github.com/mycozycloud/cozy-setup/wiki/Cozy-architecture).
+
+
+# About virtual machines and containers
+
+
 
 # About Cozy
 

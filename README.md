@@ -49,7 +49,7 @@ http://files.vagrantup.com/precise64.box
 Once installation done, you can access to https://IP:80 to create your cozy
 main account.
 
-## What install Cozy on your server ?
+## What this script installs on your server ?
 
 The Cozy install script install the following tools :
 
@@ -70,7 +70,7 @@ If you want to know more about how works Cozy you can check our [architecture
 page](https://github.com/mycozycloud/cozy-setup/wiki/Cozy-architecture).
 
 
-# About virtual machines and containers
+## About virtual machines and containers
 
 Because of the numerous technologies involved, we recommend you to run Cozy
 stack in an isolated virtual machine or in a container (OpenVz or LXC). But

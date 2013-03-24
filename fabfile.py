@@ -19,7 +19,7 @@ cozy_user = "user"
 
 
 def cozydo(cmd):
-    """Run a commande as a cozy user"""
+    """Run a command as a cozy user"""
 
     sudo(cmd, user="cozy")
 

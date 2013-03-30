@@ -1,5 +1,6 @@
 from fabric.api import run, sudo, cd, prompt, task
 from fabtools import require, python, supervisor, service
+from fabtools.require import file as require_file
 from fabric.contrib import files
 from fabric.colors import green
 
@@ -20,13 +21,11 @@ cozy_user = "user"
 
 def cozydo(cmd):
     """Run a command as a cozy user"""
-
     sudo(cmd, user="cozy")
 
 
 def delete_if_exists(filename):
     """Delete given file if it already exists"""
-
     if files.exists(filename):
         cozydo("rm -rf %s" % filename)
 
@@ -35,10 +34,14 @@ def delete_if_exists(filename):
 
 @task
 def install():
+    '''
+    Install the full cozy stack.
+    '''
     install_tools()
     install_node08()
     install_couchdb()
     install_redis()
+    install_postfix()
     pre_install()
     install_haibu()
     install_data_system()
@@ -51,13 +54,20 @@ def install():
     install_nginx()
     print(green("Cozy installation finished. Now, enjoy !"))
 
+@task
+def uninstall_all():
+    uninstall_node08()
 
 @task
 def install_dev():
+    '''
+    Install stuff to prepare a virtual machine dedicated to development.
+    '''
     install_tools()
     install_node08()
     install_couchdb()
     install_redis()
+    install_postfix()
     pre_install()
     install_haibu()
     install_data_system()
@@ -71,7 +81,7 @@ def install_dev():
 @task
 def install_tools():
     """
-    Tools install
+    Install build tools
     """
     require.deb.update_index()
     require.deb.upgrade()
@@ -93,16 +103,26 @@ def install_tools():
 @task
 def install_node08():
     """
-    Installing Node 0.8.9
+    Install Node 0.8.9
     """
     require.nodejs.installed_from_source("0.8.9")
     print(green("Node 0.8.9 successfully installed"))
 
+@task
+def uninstall_node08():
+
+    sudo("npm uninstall npm")
+    require_file(url='http://nodejs.org/dist/v0.8.9/node-v0.8.9.tar.gz')
+    sudo("tar -xzf node-v0.8.9.tar.gz")
+    with cd('node-v0.8.9'):
+        sudo("make uninstall")
+    sudo("rm node-v0.8.9*")
+    print(green("Node 0.8.9 successfully uninstalled"))
 
 @task
 def install_couchdb():
     """
-    Installing Couchdb
+    Install CouchDB 1.2.1
     """
     require.deb.packages([
         'erlang',
@@ -139,25 +159,30 @@ def install_couchdb():
 @task
 def install_redis():
     """
-    Installing and Auto-starting Redis 2.4.14
+    Install Redis 2.4.14
     """
-
     require.redis.installed_from_source('2.4.14')
     require.redis.instance('cozy', '2.4.14')
     print(green("Redis 2.4.14 successfully installed"))
 
 
 @task
-def pre_install():
+def install_postfix():
     """
-    Preparing Cozy Launching
+    Install a postfix instance (required for mail sending)
+    TODO: ask to user for his domain.
     """
     require.postfix.server('myinstance.cozycloud.cc')
 
-    # Create cozy user
+@task
+def pre_install():
+    """
+    Add a Cozy user, install coffeescript, create a root directory and download
+    monitor tool.
+    TODO: Put monitor in a node package.
+    """
     require.user("cozy", "/home/cozy")
 
-    # Get cozy repo
     delete_if_exists('/home/cozy/cozy-setup')
     cozydo('git clone git://github.com/mycozycloud/cozy-setup.git' \
         + ' /home/cozy/cozy-setup')
@@ -169,9 +194,8 @@ def pre_install():
 @task
 def install_haibu():
     """
-    Setup Haibu Application Manager.
+    Setup Haibu Application Manager. Daemonize with upstart.
     """
-
     with cd('/home/cozy/cozy-setup'):
         cozydo('HOME=/home/cozy npm install')
         sudo('cp paas.conf /etc/init/')
@@ -187,7 +211,7 @@ def install_haibu():
 @task
 def install_data_system():
     """
-    Installing and deploying cozy-data-system.
+    Install Cozy Data System. Daemonize with Haibu.
     """
     with cd('/home/cozy/cozy-setup'):
         cozydo('coffee monitor install data-system')
@@ -197,9 +221,8 @@ def install_data_system():
 @task
 def install_indexer():
     """
-    Deploy Cozy Data Indexer. Use supervisord to daemonize it.
+    Install Cozy Data Indexer. Use supervisord to daemonize it.
     """
-
     indexer_dir = "%s/cozy-data-indexer" % cozy_home
     indexer_env_dir = "%s/virtualenv" % indexer_dir
     python_exe = indexer_dir + "/virtualenv/bin/python"
@@ -227,6 +250,9 @@ def install_indexer():
 
 @task
 def install_home():
+    """
+    Install Cozy Home and Cozy proxy
+    """
     with cd('/home/cozy/cozy-setup'):
         cozydo('coffee monitor install home')
         cozydo('coffee monitor install proxy')
@@ -236,9 +262,8 @@ def install_home():
 @task
 def install_apps():
     """
-    Deploying cozy proxy, home and default application (notes and todos).
+    Install Cozy Notes and Cozy Todos
     """
-
     with cd('/home/cozy/cozy-setup'):
         cozydo('coffee monitor install_home notes')
         cozydo('coffee monitor install_home todos')
@@ -250,7 +275,6 @@ def init_data():
     """
     Data initialization
     """
-
     with cd('/home/cozy/cozy-setup'):
         cozydo('coffee monitor script notes init')
         cozydo('coffee monitor script todos init')
@@ -270,7 +294,6 @@ def create_cert():
     """
     Create SSL certificates.
     """
-
     run('sudo openssl genrsa -out ./server.key 1024')
     run('sudo openssl req -new -x509 -days 3650 -key ./server.key -out ' + \
         './server.crt')
@@ -315,7 +338,6 @@ def install_nginx():
     """
     Install NGINX and make it use certs.
     """
-
     require.nginx.site("cozy",
             template_contents=PROXIED_SITE_TEMPLATE,
             enabled=True,
@@ -329,9 +351,8 @@ def install_nginx():
 @task
 def update():
     """
-    Updating applications
+    Update applications
     """
-
     with cd('/home/cozy/cozy-setup/'):
         cozydo('git pull')
         cozydo('coffee monitor install data-system')
@@ -345,9 +366,8 @@ def update():
 @task
 def reset_account():
     """
-    Delete current account
+    Delete current user account
     """
-
     with cd('/home/cozy/cozy-setup'):
         cozydo('coffee monitor.coffee script home cleanuser')
     print(green("Current account deleted."))

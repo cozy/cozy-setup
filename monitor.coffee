@@ -17,7 +17,9 @@ statusClient = new Client("")
 homeUrl = "http://localhost:9103/"
 proxyUrl = "http://localhost:9104/"
 couchUrl = "http://localhost:5984/"
+haibuUrl = "http://localhost:9002/"
 homeClient = new Client homeUrl
+cozyClient = new Client haibuUrl
 
 client = haibu.createClient
   host: 'localhost'
@@ -37,6 +39,22 @@ program
   .version('0.0.1')
   .usage('<action> <app>')
 
+program
+    .command("brunch <app>")
+    .description("Build brunch front-end for given application")
+    .action (app) ->
+        data =
+            brunch:
+                name: "#{app}"
+        console.log "Start Brunch build #{app}..."
+        cozyClient.post "drones/#{app}/brunch", data, (err, resp, body) ->
+            if err or resp.statusCode is 500
+                console.log body
+                console.log "Brunch build failed for #{app}"
+            else
+                console.log "Brunch build succeeded for #{app}"
+        
+ 
 program
     .command("install <app>")
     .description("Install application in haibu")

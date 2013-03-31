@@ -48,8 +48,8 @@ def install():
     install_indexer()
     install_home()
     install_apps()
-    init_data()
-    init_domain()
+    #init_data()
+    #init_domain()
     create_cert()
     install_nginx()
     print(green("Cozy installation finished. Now, enjoy !"))
@@ -110,13 +110,18 @@ def install_node08():
 
 @task
 def uninstall_node08():
+    """
+    Uninstall node 0.8.9
+    """
 
     sudo("npm uninstall npm")
     require_file(url='http://nodejs.org/dist/v0.8.9/node-v0.8.9.tar.gz')
     sudo("tar -xzf node-v0.8.9.tar.gz")
     with cd('node-v0.8.9'):
+        sudo('./configure')
         sudo("make uninstall")
-    sudo("rm node-v0.8.9*")
+        sudo("make distclean")
+    sudo("rm -rf node-v0.8.9*")
     print(green("Node 0.8.9 successfully uninstalled"))
 
 @task
@@ -131,14 +136,14 @@ def install_couchdb():
         'libcurl4-openssl-dev'
     ])
 
-    with cd('/tmp'):
-        run('wget http://apache.mirrors.multidist.eu/couchdb/' +
-            '1.2.1/apache-couchdb-1.2.1.tar.gz')
-        run('tar -xzvf apache-couchdb-1.2.1.tar.gz')
-        run('cd apache-couchdb-1.2.1; ./configure; make')
-        sudo('cd apache-couchdb-1.2.1; make install')
-        run('rm -rf apache-couchdb-1.2.1')
-        run('rm -rf apache-couchdb-1.2.1.tar.gz')
+    require_file(url='http://apache.mirrors.multidist.eu/couchdb/' +
+        '1.2.1/apache-couchdb-1.2.1.tar.gz')
+    run('tar -xzvf apache-couchdb-1.2.1.tar.gz')
+    with cd('apache-couchdb-1.2.1'):
+        run('./configure; make')
+        sudo('make install')
+    run('rm -rf apache-couchdb-1.2.1')
+    run('rm -rf apache-couchdb-1.2.1.tar.gz')
 
     require.users.user("couchdb", home='/usr/local/var/lib/couchdb')
     sudo('chown -R couchdb:couchdb /usr/local/etc/couchdb')
@@ -155,6 +160,29 @@ def install_couchdb():
         environment='HOME=/usr/local/var/lib/couchdb')
     print(green("CouchDB 1.2.1 successfully installed"))
 
+@task
+def uninstall_couchdb():
+    """
+    Install CouchDB 1.2.1
+    """
+    require_file(url='http://apache.mirrors.multidist.eu/couchdb/' +
+        '1.2.1/apache-couchdb-1.2.1.tar.gz')
+    run('tar -xzvf apache-couchdb-1.2.1.tar.gz')
+    with cd('apache-couchdb-1.2.1'):
+        sudo('./configure')
+        sudo('make uninstall')
+        sudo('make distclean')
+    sudo('rm -rf /usr/local/share/couchdb') 
+    sudo('rm -rf /usr/local/lib/couchdb') 
+    sudo('rm -rf /usr/local/var/lib/couchdb') 
+    sudo('rm -rf /usr/local/var/log/couchdb') 
+    sudo('rm -rf /usr/local/var/run/couchdb') 
+    sudo('rm -rf /usr/local/share/doc/couchdb') 
+    sudo('rm -rf /usr/local/bin/couchjs') 
+    sudo('rm -rf /usr/local/bin/couchdb') 
+    run('rm -rf apache-couchdb-1.2.1')
+    run('rm -rf apache-couchdb-1.2.1.tar.gz')
+    print(green("CouchDB 1.2.1 successfully uninstalled"))
 
 @task
 def install_redis():
@@ -194,7 +222,7 @@ def pre_install():
 @task
 def install_haibu():
     """
-    Setup Haibu Application Manager. Daemonize with upstart.
+    Install Haibu Application Manager. Daemonize with upstart.
     """
     with cd('/home/cozy/cozy-setup'):
         cozydo('HOME=/home/cozy npm install')

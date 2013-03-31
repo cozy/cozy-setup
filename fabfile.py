@@ -1,4 +1,5 @@
 from fabric.api import run, sudo, cd, prompt, task
+from fabric.operations import prompt
 from fabtools import require, python, supervisor, service
 from fabtools.require import file as require_file
 from fabric.contrib import files
@@ -182,6 +183,8 @@ def uninstall_couchdb():
     sudo('rm -rf /usr/local/bin/couchdb') 
     run('rm -rf apache-couchdb-1.2.1')
     run('rm -rf apache-couchdb-1.2.1.tar.gz')
+    run('rm -rf /etc/supervisor/conf.d/couchdb.conf')
+    supervisor.update_config()
     print(green("CouchDB 1.2.1 successfully uninstalled"))
 
 @task
@@ -193,6 +196,17 @@ def install_redis():
     require.redis.instance('cozy', '2.4.14')
     print(green("Redis 2.4.14 successfully installed"))
 
+@task
+def uninstall_redis():
+    sudo('rm -rf /var/lib/redis')
+    sudo('rm -rf /var/db/redis')
+    sudo('rm -rf /var/log/redis')
+    sudo('rm -rf /var/run/redis')
+    sudo('rm -rf /opt/redis-2.4.14')
+    sudo('rm -rf /etc/redis')
+    sudo('rm -rf /etc/supervisor/conf.d/redis_cozy.conf')
+    supervisor.update_config()
+    print(green("Redis 2.4.14 successfully uninstalled"))
 
 @task
 def install_postfix():
@@ -200,7 +214,16 @@ def install_postfix():
     Install a postfix instance (required for mail sending)
     TODO: ask to user for his domain.
     """
-    require.postfix.server('myinstance.cozycloud.cc')
+
+    domain = prompt('Enter your domain name:',
+                    default='myinstance.cozycloud.cc')
+    require.postfix.server(domain)
+    print(green("Postfix successfully installed"))
+
+@task
+def uninstall_postfix():
+    require.deb.uninstall("postfix")
+    print(green("Postfix successfully uninstalled"))
 
 @task
 def pre_install():

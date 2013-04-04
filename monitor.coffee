@@ -14,7 +14,7 @@ haibu = require('haibu-api')
 Client = require("request-json").JsonClient
 
 
-statusClient = new Client("")
+statusClient = new Client("http://localhost:9002/")
 homeUrl = "http://localhost:9103/"
 proxyUrl = "http://localhost:9104/"
 couchUrl = "http://localhost:5984/"
@@ -143,14 +143,10 @@ program
         app_descriptor.repository.url =
             "https ://github.com/mycozycloud/cozy-#{app}.git"
         app_descriptor.user = app
-        options =
-            uri: 'http://localhost:9002/drones/notes/brunch'
-            method: 'POST'
-            headers: 'Content-Type': 'application/json'
-            body: JSON.stringify({brunch : app_descriptor})
-        request options, this.callback, (err, res, body) =>
+        statusClient.post "drones/#{app}/brunch", {brunch : app_descriptor}, \
+             (err, res, body) ->
             if (res.statusCode isnt 200)
-                console.log "Update failed"
+                console.log "Brunch failed"
                 console.log body
             else
                 console.log "#{app} sucessfully built"
@@ -214,12 +210,8 @@ program
         app_descriptor.repository.url =
             "https ://github.com/mycozycloud/cozy-#{app}.git"
         app_descriptor.user = app
-        options =
-            uri: 'http://localhost:9002/drones/notes/light-update'
-            method: 'POST'
-            headers: 'Content-Type': 'application/json'
-            body: JSON.stringify({update : app_descriptor})
-        request options, this.callback, (err, res, body) =>
+        statusClient.post "drones/#{app}/light-update", \
+             {update : app_descriptor}, (err, res, body) ->
             if (res.statusCode isnt 200)
                 console.log "Update failed"
                 console.log body

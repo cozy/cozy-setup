@@ -7,6 +7,7 @@ require "colors"
 
 program = require 'commander'
 async = require "async"
+request = require 'request'
 exec = require('child_process').exec
 
 haibu = require('haibu-api')
@@ -134,6 +135,27 @@ program
                 console.log "#{app} sucessfully stopped"
 
 program
+    .command("brunch <app>")
+    .description("Brunch application through haibu")
+    .action (app) ->
+        console.log "Brunch build #{app}..."
+        app_descriptor.name = app
+        app_descriptor.repository.url =
+            "https ://github.com/mycozycloud/cozy-#{app}.git"
+        app_descriptor.user = app
+        options =
+            uri: 'http://localhost:9002/drones/notes/brunch'
+            method: 'POST'
+            headers: 'Content-Type': 'application/json'
+            body: JSON.stringify({brunch : app_descriptor})
+        request options, this.callback, (err, res, body) =>
+            if (res.statusCode isnt 200)
+                console.log "Update failed"
+                console.log body
+            else
+                console.log "#{app} sucessfully built"
+
+program
     .command("restart <app>")
     .description("Restart application trough haibu")
     .action (app) ->
@@ -148,7 +170,6 @@ program
                 app_descriptor.name = app
                 app_descriptor.repository.url =
                     "https://github.com/mycozycloud/cozy-#{app}.git"
-                app_descriptor.user = app
                 console.log "Starting #{app}..."
 
                 client.start app_descriptor, (err, result) ->
@@ -168,7 +189,6 @@ program
         app_descriptor.name = app
         app_descriptor.repository.url =
             "https://github.com/mycozycloud/cozy-#{app}.git"
-        app_descriptor.user = app
 
         path = "./node_modules/haibu/local/cozy/#{app}/cozy-#{app}/"
         exec "cd #{path}; git pull origin master; npm install --production", \
@@ -182,6 +202,27 @@ program
                         console.log err.result.error.message
                     else
                         console.log "#{app} sucessfully updated"
+
+program
+    .command("lightUpdate <app>")
+    .description("Light update application through haibu")
+    .action (app) ->
+        console.log "Light update #{app}..."
+        app_descriptor.name = app
+        app_descriptor.repository.url =
+            "https ://github.com/mycozycloud/cozy-#{app}.git"
+        app_descriptor.user = app
+        options =
+            uri: 'http://localhost:9002/drones/notes/light-update'
+            method: 'POST'
+            headers: 'Content-Type': 'application/json'
+            body: JSON.stringify({update : app_descriptor})
+        request options, this.callback, (err, res, body) =>
+            if (res.statusCode isnt 200)
+                console.log "Update failed"
+                console.log body
+            else
+                console.log "#{app} sucessfully updated"
 
 program
     .command("uninstall-all")

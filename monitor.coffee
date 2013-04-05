@@ -25,8 +25,11 @@ client = haibu.createClient
   port: 9002
 client = client.drone
 
+client.brunch = (manifest, callback) ->
+    data = brunch: manifest
+    controllerClient.post "drones/#{manifest.name}/brunch", data, callback
 
-app_descriptor =
+manifest =
    "domain": "localhost"
    "repository":
        "type": "git",
@@ -42,31 +45,32 @@ program
     .command("install <app>")
     .description("Install application in haibu")
     .action (app) ->
-        app_descriptor.name = app
-        app_descriptor.repository.url =
+        manifest.name = app
+        manifest.repository.url =
             "https://github.com/mycozycloud/cozy-#{app}.git"
-        app_descriptor.user = app
+        manifest.user = app
         console.log "Install started for #{app}..."
 
-        client.clean app_descriptor, (err, result) ->
-            client.start app_descriptor, (err, result) ->
+        client.clean manifest, (err, result) ->
+            client.start manifest, (err, result) ->
                 if err
                     console.log err
                     console.log "Install failed"
                 else
-                    console.log "#{app} sucessfully installed"
+                    client.brunch manifest, ->
+                        console.log "#{app} sucessfully installed"
 
 program
     .command("install_home <app>")
     .description("Install application via home app")
     .action (app) ->
-        app_descriptor.name = app
-        app_descriptor.git =
+        manifest.name = app
+        manifest.git =
             "https://github.com/mycozycloud/cozy-#{app}.git"
-        app_descriptor.user = app
+        manifest.user = app
         console.log "Install started for #{app}..."
         path = "api/applications/install"
-        homeClient.post path, app_descriptor, (err, res, body) ->
+        homeClient.post path, manifest, (err, res, body) ->
             if err or res.statusCode isnt 200
                 console.log err if err?
                 console.log "Install failed"
@@ -94,11 +98,11 @@ program
     .command("uninstall <app>")
     .description("Remove application from haibu")
     .action (app) ->
-        app_descriptor.name = app
-        app_descriptor.user = app
+        manifest.name = app
+        manifest.user = app
         console.log "Uninstall started for #{app}..."
 
-        client.clean app_descriptor, (err, result) ->
+        client.clean manifest, (err, result) ->
             if err
                 console.log "Uninstall failed"
                 console.log err
@@ -109,13 +113,13 @@ program
     .command("start <app>")
     .description("Start application through haibu")
     .action (app) ->
-        app_descriptor.name = app
-        app_descriptor.repository.url =
+        manifest.name = app
+        manifest.repository.url =
             "https://github.com/mycozycloud/cozy-#{app}.git"
-        app_descriptor.user = app
+        manifest.user = app
         console.log "Starting #{app}..."
 
-        client.start app_descriptor, (err, result) ->
+        client.start manifest, (err, result) ->
             if err
                 console.log "Start failed"
                 console.log err
@@ -140,11 +144,11 @@ program
     .description("Build brunch client for given application.")
     .action (app) ->
         console.log "Brunch build #{app}..."
-        app_descriptor.name = app
-        app_descriptor.repository.url =
+        manifest.name = app
+        manifest.repository.url =
             "https ://github.com/mycozycloud/cozy-#{app}.git"
-        app_descriptor.user = app
-        controllerClient.post "drones/#{app}/brunch", brunch: app_descriptor, \
+        manifest.user = app
+        controllerClient.post "drones/#{app}/brunch", brunch: manifest, \
              (err, res, body) ->
             if res.statusCode isnt 200
                 console.log "Brunch build failed."
@@ -164,13 +168,13 @@ program
                 console.log err.result.error.message
             else
                 console.log "#{app} sucessfully stopped"
-                app_descriptor.name = app
-                app_descriptor.repository.url =
+                manifest.name = app
+                manifest.repository.url =
                     "https://github.com/mycozycloud/cozy-#{app}.git"
-                app_descriptor.user = app
+                manifest.user = app
                 console.log "Starting #{app}..."
 
-                client.start app_descriptor, (err, result) ->
+                client.start manifest, (err, result) ->
                 if err
                     console.log "Start failed"
                     console.log err
@@ -184,8 +188,8 @@ program
     .action (app) ->
         console.log "Update #{app}..."
 
-        app_descriptor.name = app
-        app_descriptor.user = app
+        manifest.name = app
+        manifest.user = app
 
         path = "./node_modules/haibu/local/cozy/#{app}/cozy-#{app}/"
         exec "cd #{path}; git pull origin master; npm install --production", \
@@ -193,7 +197,7 @@ program
             console.log stdout
             console.log error if error
             client.stop app, (err) ->
-                client.start app_descriptor, (err) ->
+                client.start manifest, (err) ->
                     if err
                         console.log "Update failed"
                         console.log err.result.error.message
@@ -206,13 +210,13 @@ program
         "Update application (git + npm install) and restart it through haibu")
     .action (app) ->
         console.log "Light update #{app}..."
-        app_descriptor.name = app
-        app_descriptor.repository.url =
+        manifest.name = app
+        manifest.repository.url =
             "https ://github.com/mycozycloud/cozy-#{app}.git"
-        app_descriptor.user = app
+        manifest.user = app
 
         controllerClient.post "drones/#{app}/light-update", \
-             {update : app_descriptor}, (err, res, body) ->
+             {update : manifest}, (err, res, body) ->
             if (res.statusCode isnt 200)
                 console.log "Update failed"
                 console.log body
@@ -322,12 +326,12 @@ program
         installApp = (app) ->
             (callback) ->
                 console.log "Install started for #{app.name}..."
-                app_descriptor.name = app.name
-                app_descriptor.repository.url = app.git
-                app_descriptor.user = app.user
+                manifest.name = app.name
+                manifest.repository.url = app.git
+                manifest.user = app.user
 
-                client.clean app_descriptor, (err, result) ->
-                    client.start app_descriptor, (err, result) ->
+                client.clean manifest, (err, result) ->
+                    client.start manifest, (err, result) ->
                         if err
                             console.log err
                             console.log "Install failed"

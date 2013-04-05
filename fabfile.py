@@ -46,8 +46,8 @@ def install():
     install_home()
     install_proxy()
     install_apps()
-    #init_data()
-    #init_domain()
+    init_data()
+    init_domain()
     create_cert()
     install_nginx()
     print(green("Cozy installation finished. Now, enjoy !"))
@@ -258,7 +258,7 @@ def install_controller():
     """
     require.nodejs.package('cozy-controller')
     require.supervisor.process('cozy-controller',
-        command='cozy-controller -c -u --per 733',
+        command='cozy-controller -c -u --per 755',
         user='root'
     )
     supervisor.restart_process('cozy-controller')
@@ -339,17 +339,19 @@ def init_data():
     """
     Data initialization
     """
-    with cd('/home/cozy/cozy-setup'):
-        cozydo('cozy-monitor script notes init')
-        cozydo('cozy-monitor script todos init')
+    cozydo('cozy-monitor script notes init')
+    cozydo('cozy-monitor script todos init')
     print(green("Data successfully initialized"))
 
 
 @task
 def init_domain():
+    """
+    Register domain name inside Cozy Home.
+    """
     domain = prompt("What is your domain name (ex: cozycloud.cc)?")
     with cd('/home/cozy/cozy-setup'):
-        cozydo('cozy-monitor script_arg home setdomain %s' % domain)
+        cozydo('cozy-monitor script home setdomain %s' % domain)
     print(green("Domain set to: %s" % domain))
 
 

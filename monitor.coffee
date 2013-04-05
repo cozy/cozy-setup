@@ -7,20 +7,18 @@ require "colors"
 
 program = require 'commander'
 async = require "async"
-request = require 'request'
 exec = require('child_process').exec
 
 haibu = require('haibu-api')
 Client = require("request-json").JsonClient
 
 
-statusClient = new Client("http://localhost:9002/")
 homeUrl = "http://localhost:9103/"
 proxyUrl = "http://localhost:9104/"
 couchUrl = "http://localhost:5984/"
 haibuUrl = "http://localhost:9002/"
 homeClient = new Client homeUrl
-cozyClient = new Client haibuUrl
+controllerClient = new Client haibuUrl
 
 client = haibu.createClient
   host: 'localhost'
@@ -39,22 +37,7 @@ program
   .version('0.0.1')
   .usage('<action> <app>')
 
-program
-    .command("brunch <app>")
-    .description("Build brunch front-end for given application")
-    .action (app) ->
-        data =
-            brunch:
-                name: "#{app}"
-        console.log "Start Brunch build #{app}..."
-        cozyClient.post "drones/#{app}/brunch", data, (err, resp, body) ->
-            if err or resp.statusCode is 500
-                console.log body
-                console.log "Brunch build failed for #{app}"
-            else
-                console.log "Brunch build succeeded for #{app}"
-        
- 
+
 program
     .command("install <app>")
     .description("Install application in haibu")
@@ -154,20 +137,20 @@ program
 
 program
     .command("brunch <app>")
-    .description("Brunch application through haibu")
+    .description("Build brunch client for given application.")
     .action (app) ->
         console.log "Brunch build #{app}..."
         app_descriptor.name = app
         app_descriptor.repository.url =
             "https ://github.com/mycozycloud/cozy-#{app}.git"
         app_descriptor.user = app
-        statusClient.post "drones/#{app}/brunch", {brunch : app_descriptor}, \
+        controllerClient.post "drones/#{app}/brunch", brunch: app_descriptor, \
              (err, res, body) ->
-            if (res.statusCode isnt 200)
-                console.log "Brunch failed"
+            if res.statusCode isnt 200
+                console.log "Brunch build failed."
                 console.log body
             else
-                console.log "#{app} sucessfully built"
+                console.log "#{app} client sucessfully built."
 
 program
     .command("restart <app>")
@@ -202,8 +185,6 @@ program
         console.log "Update #{app}..."
 
         app_descriptor.name = app
-        app_descriptor.repository.url =
-            "https://github.com/mycozycloud/cozy-#{app}.git"
         app_descriptor.user = app
 
         path = "./node_modules/haibu/local/cozy/#{app}/cozy-#{app}/"
@@ -220,15 +201,17 @@ program
                         console.log "#{app} sucessfully updated"
 
 program
-    .command("lightUpdate <app>")
-    .description("Light update application through haibu")
+    .command("light-update <app>")
+    .description(
+        "Update application (git + npm install) and restart it through haibu")
     .action (app) ->
         console.log "Light update #{app}..."
         app_descriptor.name = app
         app_descriptor.repository.url =
             "https ://github.com/mycozycloud/cozy-#{app}.git"
         app_descriptor.user = app
-        statusClient.post "drones/#{app}/light-update", \
+
+        controllerClient.post "drones/#{app}/light-update", \
              {update : app_descriptor}, (err, res, body) ->
             if (res.statusCode isnt 200)
                 console.log "Update failed"

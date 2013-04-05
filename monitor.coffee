@@ -148,8 +148,7 @@ program
         manifest.repository.url =
             "https ://github.com/mycozycloud/cozy-#{app}.git"
         manifest.user = app
-        controllerClient.post "drones/#{app}/brunch", brunch: manifest, \
-             (err, res, body) ->
+        client.brunch manifest, (err, res, body) ->
             if res.statusCode isnt 200
                 console.log "Brunch build failed."
                 console.log body
@@ -202,7 +201,8 @@ program
                         console.log "Update failed"
                         console.log err.result.error.message
                     else
-                        console.log "#{app} sucessfully updated"
+                        client.brunch manifest, ->
+                            console.log "#{app} sucessfully updated"
 
 program
     .command("light-update <app>")
@@ -221,7 +221,8 @@ program
                 console.log "Update failed"
                 console.log body
             else
-                console.log "#{app} sucessfully updated"
+                client.brunch manifest, ->
+                    console.log "#{app} sucessfully updated"
 
 program
     .command("uninstall-all")
@@ -238,7 +239,7 @@ program
 
 program
     .command("script <app> <script>")
-    .description("Launch script that comes with given application")
+    .description("(Broken) Launch script that comes with given application")
     .action (app, script) ->
         console.log "Run script #{script} for #{app}..."
         path = "./node_modules/haibu/local/cozy/#{app}/cozy-#{app}/"
@@ -251,7 +252,7 @@ program
 
 program
     .command("script_arg <app> <script> <argument>")
-    .description("Launch script that comes with given application")
+    .description("(Broken) Launch script that comes with given application")
     .action (app, script, argument) ->
         console.log "Run script #{script} for #{app}..."
         path = "./node_modules/haibu/local/cozy/#{app}/cozy-#{app}/"
@@ -336,7 +337,8 @@ program
                             console.log err
                             console.log "Install failed"
                         else
-                            console.log "#{app.name} sucessfully installed"
+                            client.brunch manifest, ->
+                                console.log "#{app.name} sucessfully installed"
                         callback()
 
         statusClient.host = homeUrl

@@ -16,11 +16,12 @@ On your local machine install fabric and fabtools:
 Download our Fabric file (a script that will run commands on your remote
 server):
 
-https://raw.github.com/mycozycloud/cozy-setup/master/fabfile.py
+    wget https://raw.github.com/mycozycloud/cozy-setup/master/fabfile.py
 
 
 Once your system is prepared, then use the Fabric script from your local
-machine to launch the cozy installation:
+machine to launch the cozy installation (run it in the same direction where is
+located the fabfile you downloaded):
 
     fab -H user@ip:port install
 

@@ -47,7 +47,7 @@ def install():
     install_proxy()
     install_apps()
     #init_data()
-    init_domain()
+    #init_domain()
     create_cert()
     install_nginx()
     print(green("Cozy installation finished. Now, enjoy !"))

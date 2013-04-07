@@ -1,38 +1,32 @@
 # Cozy Setup
 
-Cozy Cloud aims to be used remotely. We provide here only stuff to deploy
-it on a remote server (debian/ubuntu). 
+Cozy Cloud aims to be used remotely on your own server.
+So this project contains what you need to deploy it on a remote server 
+(debian/ubuntu). 
 To make a local installation, we recommend you to create a
 virtual machine, and then to run the scripts as you would in a remote server.
 
 # How to install cozy on your server ?
 
-The installation requires a system up to date with upstart as daemon manager.
-You can do it by running following commands on your target server:
-
-    sudo apt-get update  
-    sudo apt-get upgrade  
-    sudo apt-get install upstart  
-    sudo reboot now  
-
-On your local machine clone this repository and install Fabric. Fabric is a tool to run scripts on a 
-remote server:
+On your local machine install fabric and fabtools:
 
     apt-get install python python-pip git
-    git clone git://github.com/mycozycloud/cozy-setup.git
-    cd cozy-setup
-    sudo pip install fabric 
-    sudo pip install git+https://github.com/frankrousseau/fabtools.git
+    sudo pip install fabric fabtools
+
+Download our Fabric file (a script that will run commands on your remote
+server):
+
+https://raw.github.com/mycozycloud/cozy-setup/master/fabfile.py
+
 
 Once your system is prepared, then use the Fabric script from your local
 machine to launch the cozy installation:
 
     fab -H user@ip:port install
 
-Fill what you want when installer will ask you for informations about the
-certificate. 
+Fill what you want when installer will ask you for informations. 
 
-Be patient some commands or app deployements could take a few minutes. It 
+Be patient some commands or app deployements could take a lot of time. It 
 depends about your network and your hardware capabilities.
 
 *Try Cozy with Vagrant*
@@ -47,7 +41,8 @@ http://files.vagrantup.com/precise64.box
 ## Test 
 
 Once installation done, you can access to https://IP:80 to create your cozy
-main account.
+main account. Be sure that you use the https protocol if you just see the Nginx
+welcome page.
 
 ## What this script installs on your server ?
 
@@ -58,6 +53,7 @@ The Cozy install script install the following tools :
 * Redis key-value store
 * CouchDB document database
 * Haibu node.js application manager
+* Node tools: cozy-controller, cozy-monitor, coffee-script, compound
 * Cozy data indexer
 * Cozy data layer 
 * Cozy proxy

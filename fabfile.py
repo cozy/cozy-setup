@@ -270,6 +270,7 @@ def install_controller():
     require.nodejs.package('cozy-controller')
     require.supervisor.process('cozy-controller',
         command='cozy-controller -c -u --per 755',
+        environment='NODE_ENV="production"',
         user='root'
     )
     supervisor.restart_process('cozy-controller')

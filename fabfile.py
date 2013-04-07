@@ -46,7 +46,7 @@ def install():
     install_home()
     install_proxy()
     install_apps()
-    init_data()
+    #init_data()
     init_domain()
     create_cert()
     install_nginx()
@@ -55,7 +55,13 @@ def install():
 
 @task
 def uninstall_all():
+    '''
+    Uninstall the whole stack (work in progress)
+    '''
     uninstall_node08()
+    uninstall_couchdb()
+    uninstall_redis()
+    uninstall_postfix()
 
 
 @task
@@ -204,6 +210,9 @@ def install_redis():
 
 @task
 def uninstall_redis():
+    '''
+    Uninstall Redis 2.4.14
+    '''
     sudo('rm -rf /var/lib/redis')
     sudo('rm -rf /var/db/redis')
     sudo('rm -rf /var/log/redis')
@@ -218,10 +227,8 @@ def uninstall_redis():
 @task
 def install_postfix():
     """
-    Install a postfix instance (required for mail sending)
-    TODO: ask to user for his domain.
+    Install a postfix instance (required for mail sending).
     """
-
     domain = prompt('Enter your domain name:',
                     default='myinstance.cozycloud.cc')
     require.postfix.server(domain)
@@ -230,6 +237,9 @@ def install_postfix():
 
 @task
 def uninstall_postfix():
+    """
+    Uninstall postfix.
+    """
     require.deb.uninstall("postfix")
     print(green("Postfix successfully uninstalled"))
 
@@ -237,17 +247,18 @@ def uninstall_postfix():
 @task
 def create_cozy_user():
     """
-    Add Cozy user with no home directory
+    Add Cozy user with no home directory.
     """
     require.user("cozy", home=False)
 
 @task
 def install_monitor():
     """
-    Install coffeescript and Cozy Monitor.
+    Install Coffeescript, Compound and Cozy Monitor.
     """
     require.nodejs.package('coffee-script')
     require.nodejs.package('cozy-monitor')
+    require.nodejs.package('compound')
     print(green("Cozy setup and coffee script successfully installed"))
 
 

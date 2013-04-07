@@ -1,10 +1,8 @@
 # Cozy Setup
 
 Cozy Cloud aims to be used remotely on your own server.
-So this project contains what you need to deploy it on a remote server 
-(debian/ubuntu). 
-To make a local installation, we recommend you to create a
-virtual machine, and then to run the scripts as you would in a remote server.
+So this project contains what you need to achieve that goal 
+(it works only for debian/ubuntu systems). 
 
 # How to install cozy on your server ?
 
@@ -29,6 +27,13 @@ Fill what you want when installer will ask you for informations.
 
 Be patient some commands or app deployements could take a lot of time. It 
 depends about your network and your hardware capabilities.
+
+*About local installation*
+
+To make a local installation, we recommend you to create a
+virtual machine, and then to run the fabfile script with your virtual machine as
+target.
+
 
 *Try Cozy with Vagrant*
 

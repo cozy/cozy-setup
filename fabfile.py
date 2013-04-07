@@ -361,8 +361,7 @@ def init_domain():
     Register domain name inside Cozy Home.
     """
     domain = prompt("What is your domain name (ex: cozycloud.cc)?")
-    with cd('/home/cozy/cozy-setup'):
-        cozydo('cozy-monitor script home setdomain %s' % domain)
+    cozydo('cozy-monitor script home setdomain %s' % domain)
     print(green("Domain set to: %s" % domain))
 
 
@@ -380,7 +379,7 @@ def create_cert():
                './server.key -out ./server.crt')
         sudo('chmod 640 server.key')
         sudo('chown cozy:ssl-cert ./server.key')
-    require.deb.package("nginx")
+    print(green("Certificates successfully created."))
 
 
 PROXIED_SITE_TEMPLATE = """\
@@ -416,12 +415,14 @@ def install_nginx():
     """
     Install NGINX and make it use certs.
     """
+    require.deb.package("nginx")
     require.nginx.site("cozy",
         template_contents=PROXIED_SITE_TEMPLATE,
         enabled=True,
         port=443,
         proxy_url='http://127.0.0.1:9104'
     )
+    print(green("Nginx successfully installed."))
 
 
 ## No setup tasks

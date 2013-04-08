@@ -15,6 +15,7 @@ to install the full Cozy stack.
 
 # Helpers
 
+
 def cozydo(cmd):
     """Run a command as a cozy user"""
     sudo(cmd, user="cozy")
@@ -251,6 +252,7 @@ def create_cozy_user():
     """
     require.user("cozy", home=False)
 
+
 @task
 def install_monitor():
     """
@@ -372,7 +374,7 @@ def create_cert():
     Create SSL certificates.
     """
 
-    etc_dir="/etc/cozy"
+    etc_dir = "/etc/cozy"
     require.files.directory(etc_dir, use_sudo=True, owner="cozy")
     with cd(etc_dir):
         sudo('openssl genrsa -out ./server.key 1024')

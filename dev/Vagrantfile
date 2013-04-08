@@ -43,8 +43,7 @@ Vagrant::Config.run do |config|
 
     # Starts all the apps for Cozy
     config.vm.provision :shell, :inline => '
-      coffee="/usr/local/bin/coffee"
-      target="/home/cozy/cozy-setup/monitor.coffee"
+      exe="/usr/local/bin/cozy-monitor"
 
       appsToStart=("data-system" "home" "proxy")
 
@@ -52,7 +51,7 @@ Vagrant::Config.run do |config|
       echo "STARTING MAIN APPS"
       for app in ${appsToStart[@]}
       do
-          $coffee $target start $app
+          $exe start $app
       done
 
       echo "CURRENT COZY STATUS"

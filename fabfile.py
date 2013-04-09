@@ -350,8 +350,8 @@ def install_apps():
     """
     Install Cozy Notes and Cozy Todos
     """
-    run('cozy-monitor install_home notes %s' % token)
-    run('cozy-monitor install_home todos %s' % token)
+    run('cozy-monitor install_home notes')
+    run('cozy-monitor install_home todos')
     print(green("Apps successfully started"))
 
 

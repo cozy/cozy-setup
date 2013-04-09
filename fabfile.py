@@ -3,7 +3,8 @@ from fabtools import require, python, supervisor
 from fabtools.require import file as require_file
 from fabric.contrib import files
 from fabric.colors import green
-
+import string
+import random
 """
 Script to set up a cozy cloud environnement from a fresh system
 Validated on a Debian squeeze 64 bits up to date.
@@ -14,6 +15,13 @@ to install the full Cozy stack.
 """
 
 # Helpers
+
+
+def id_generator(size=8, chars=string.ascii_uppercase + string.digits):
+    return ''.join(random.choice(chars) for x in range(size))
+
+token = id_generator()
+
 
 def cozydo(cmd):
     """Run a command as a cozy user"""
@@ -269,7 +277,7 @@ def install_controller():
     """
     require.nodejs.package('cozy-controller')
     require.supervisor.process('cozy-controller',
-        command='cozy-controller -c -u --per 755',
+        command="cozy-controller -c -u --per 755 --auth %s" % token,
         environment='NODE_ENV="production"',
         user='root'
     )
@@ -314,7 +322,7 @@ def install_data_system():
     """
     Install Cozy Data System. Daemonize with Haibu.
     """
-    run('cozy-monitor install data-system')
+    run('cozy-monitor install data-system %s' % token)
     print(green("Data System successfully started"))
 
 
@@ -323,7 +331,8 @@ def install_home():
     """
     Install Cozy Home
     """
-    run('cozy-monitor install home')
+    run('cozy-monitor install home %s' % token)
+    run('cozy-monitor token %s' % token)
     print(green("Home successfully installed"))
 
 
@@ -332,7 +341,7 @@ def install_proxy():
     """
     Install Cozy Proxy
     """
-    run('cozy-monitor install proxy')
+    run('cozy-monitor install proxy %s' % token)
     print(green("Proxy successfully installed"))
 
 
@@ -341,8 +350,8 @@ def install_apps():
     """
     Install Cozy Notes and Cozy Todos
     """
-    run('cozy-monitor install_home notes')
-    run('cozy-monitor install_home todos')
+    run('cozy-monitor install_home notes %s' % token)
+    run('cozy-monitor install_home todos %s' % token)
     print(green("Apps successfully started"))
 
 
@@ -433,9 +442,10 @@ def update_stack():
     """
     Update applications
     """
-    run('cozy-monitor install data-system')
-    run('cozy-monitor install home')
-    run('cozy-monitor install proxy')
+    run('cozy-monitor install data-system %s' % token)
+    run('cozy-monitor install home %s' % token)
+    run('cozy-monitor token %s' % token)
+    run('cozy-monitor install proxy %s' % token)
     print(green("Applications updated successfully."))
 
 

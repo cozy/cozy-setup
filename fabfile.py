@@ -267,6 +267,10 @@ def install_monitor():
     require.nodejs.package('coffee-script')
     require.nodejs.package('cozy-monitor')
     require.nodejs.package('compound')
+    sudo('mkdir /etc/cozy')
+    sudo('touch /etc/cozy/controller.token')
+    sudo('echo %s >> /etc/cozy/controller.token' % token)
+    sudo('chmod 700 /etc/cozy/controller.token')
     print(green("Cozy setup and coffee script successfully installed"))
 
 
@@ -322,7 +326,7 @@ def install_data_system():
     """
     Install Cozy Data System. Daemonize with Haibu.
     """
-    run('cozy-monitor install data-system %s' % token)
+    sudo('cozy-monitor install data-system')
     print(green("Data System successfully started"))
 
 
@@ -331,8 +335,8 @@ def install_home():
     """
     Install Cozy Home
     """
-    run('cozy-monitor install home %s' % token)
-    run('cozy-monitor token %s' % token)
+    sudo('cozy-monitor install home')
+    sudo('cozy-monitor token')
     print(green("Home successfully installed"))
 
 
@@ -341,7 +345,7 @@ def install_proxy():
     """
     Install Cozy Proxy
     """
-    run('cozy-monitor install proxy %s' % token)
+    sudo('cozy-monitor install proxy')
     print(green("Proxy successfully installed"))
 
 
@@ -442,10 +446,10 @@ def update_stack():
     """
     Update applications
     """
-    run('cozy-monitor install data-system %s' % token)
-    run('cozy-monitor install home %s' % token)
-    run('cozy-monitor token %s' % token)
-    run('cozy-monitor install proxy %s' % token)
+    sudo('cozy-monitor install data-system')
+    sudo('cozy-monitor install home')
+    sudo('cozy-monitor token')
+    sudo('cozy-monitor install proxy')
     print(green("Applications updated successfully."))
 
 

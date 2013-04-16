@@ -34,6 +34,12 @@ def delete_if_exists(filename):
     if files.exists(filename):
         cozydo("rm -rf %s" % filename)
 
+
+def su_delete(filename):
+    '''Delete given file with root permission'''
+    sudo("rm -rf %s" % filename)
+
+
 # Tasks
 
 
@@ -91,7 +97,7 @@ def install_dev():
     install_home()
     install_proxy()
     install_apps()
-    init_domain()
+    #init_domain()
     print(green("The Cozy development environment has been installed."))
 
 
@@ -139,7 +145,7 @@ def uninstall_node08():
         sudo('./configure')
         sudo("make uninstall")
         sudo("make distclean")
-    sudo("rm -rf node-v0.8.9*")
+    su_delete("node-v0.8.9*")
     print(green("Node 0.8.9 successfully uninstalled"))
 
 
@@ -192,14 +198,14 @@ def uninstall_couchdb():
         sudo('./configure')
         sudo('make uninstall')
         sudo('make distclean')
-    sudo('rm -rf /usr/local/share/couchdb')
-    sudo('rm -rf /usr/local/lib/couchdb')
-    sudo('rm -rf /usr/local/var/lib/couchdb')
-    sudo('rm -rf /usr/local/var/log/couchdb')
-    sudo('rm -rf /usr/local/var/run/couchdb')
-    sudo('rm -rf /usr/local/share/doc/couchdb')
-    sudo('rm -rf /usr/local/bin/couchjs')
-    sudo('rm -rf /usr/local/bin/couchdb')
+    su_delete('/usr/local/share/couchdb')
+    su_delete('/usr/local/lib/couchdb')
+    su_delete('/usr/local/var/lib/couchdb')
+    su_delete('/usr/local/var/log/couchdb')
+    su_delete('/usr/local/var/run/couchdb')
+    su_delete('/usr/local/share/doc/couchdb')
+    su_delete('/usr/local/bin/couchjs')
+    su_delete('/usr/local/bin/couchdb')
     run('rm -rf apache-couchdb-1.2.1')
     run('rm -rf apache-couchdb-1.2.1.tar.gz')
     run('rm -rf /etc/supervisor/conf.d/couchdb.conf')
@@ -222,13 +228,13 @@ def uninstall_redis():
     '''
     Uninstall Redis 2.4.14
     '''
-    sudo('rm -rf /var/lib/redis')
-    sudo('rm -rf /var/db/redis')
-    sudo('rm -rf /var/log/redis')
-    sudo('rm -rf /var/run/redis')
-    sudo('rm -rf /opt/redis-2.4.14')
-    sudo('rm -rf /etc/redis')
-    sudo('rm -rf /etc/supervisor/conf.d/redis_cozy.conf')
+    su_delete('/var/lib/redis')
+    su_delete('/var/db/redis')
+    su_delete('/var/log/redis')
+    su_delete('/var/run/redis')
+    su_delete('/opt/redis-2.4.14')
+    su_delete('/etc/redis')
+    su_delete('/etc/supervisor/conf.d/redis_cozy.conf')
     supervisor.update_config()
     print(green("Redis 2.4.14 successfully uninstalled"))
 
@@ -259,6 +265,7 @@ def create_cozy_user():
     Add Cozy user with no home directory.
     """
     require.user("cozy", home=False)
+
 
 @task
 def install_monitor():
@@ -391,7 +398,7 @@ def create_cert():
     Create SSL certificates.
     """
 
-    etc_dir="/etc/cozy"
+    etc_dir = "/etc/cozy"
     require.files.directory(etc_dir, use_sudo=True, owner="cozy")
     with cd(etc_dir):
         sudo('openssl genrsa -out ./server.key 1024')

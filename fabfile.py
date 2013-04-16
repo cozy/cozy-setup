@@ -3,6 +3,7 @@ from fabtools import require, python, supervisor
 from fabtools.require import file as require_file
 from fabric.contrib import files
 from fabric.colors import green
+from fabric.context_managers import hide
 import string
 import random
 """
@@ -267,10 +268,6 @@ def install_monitor():
     require.nodejs.package('coffee-script')
     require.nodejs.package('cozy-monitor')
     require.nodejs.package('compound')
-    sudo('mkdir /etc/cozy')
-    sudo('touch /etc/cozy/controller.token')
-    sudo('echo %s >> /etc/cozy/controller.token' % token)
-    sudo('chmod 700 /etc/cozy/controller.token')
     print(green("Cozy setup and coffee script successfully installed"))
 
 
@@ -285,6 +282,15 @@ def install_controller():
         environment='NODE_ENV="production"',
         user='root'
     )
+    if files.exists('/etc/cozy/'):
+        if files.exists('/etc/cozy/controller.token'):
+            sudo('rm /etc/cozy/controller.token')
+    else:
+        sudo('mkdir /etc/cozy')
+    sudo('touch /etc/cozy/controller.token')
+    with hide('running', 'stdout'):
+        sudo('echo %s >> /etc/cozy/controller.token' % token)
+    sudo('chmod 700 /etc/cozy/controller.token')
     supervisor.restart_process('cozy-controller')
 
     print(green("Cozy Controller successfully started"))

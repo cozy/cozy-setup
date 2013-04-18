@@ -3,6 +3,9 @@ from fabtools import require, python, supervisor
 from fabtools.require import file as require_file
 from fabric.contrib import files
 from fabric.colors import green
+from fabric.context_managers import hide
+import string
+import random
 
 """
 Script to set up a cozy cloud environnement from a fresh system
@@ -14,6 +17,12 @@ to install the full Cozy stack.
 """
 
 # Helpers
+
+def id_generator(size=8, chars=string.ascii_uppercase + string.digits):
+    return ''.join(random.choice(chars) for x in range(size))
+
+username = id_generator()
+password = id_generator() 
 
 
 def cozydo(cmd):
@@ -45,6 +54,7 @@ def install():
     install_couchdb()
     install_redis()
     install_postfix()
+    config_couchdb()
     create_cozy_user()
     install_monitor()
     install_controller()
@@ -81,6 +91,7 @@ def install_dev():
     install_couchdb()
     install_redis()
     install_postfix()
+    config_couchdb()
     create_cozy_user()
     install_monitor()
     install_controller()
@@ -150,7 +161,8 @@ def install_couchdb():
         'erlang',
         'libicu-dev',
         'libmozjs-dev',
-        'libcurl4-openssl-dev'
+        'libcurl4-openssl-dev',
+        'curl'
     ])
 
     require_file(url='http://apache.mirrors.multidist.eu/couchdb/' +
@@ -177,6 +189,24 @@ def install_couchdb():
         environment='HOME=/usr/local/var/lib/couchdb')
     print(green("CouchDB 1.2.1 successfully installed"))
 
+@task
+def config_couchdb():
+    with hide('running', 'stdout'):
+        run('curl -X PUT http://127.0.0.1:5984/_config/admins/%s -d \'\"%s\"\''% (username, password))
+    if files.exists('/etc/cozy'):
+        if files.exists('/etc/cozy/couchdb.login'):
+            sudo('rm /etc/cozy/couchdb.login')
+    else:
+        sudo('mkdir /etc/cozy')
+    sudo('touch /etc/cozy/couchdb.login')
+    with hide('running', 'stdout'):
+        sudo('echo %s >> /etc/cozy/couchdb.login' % username)
+        sudo('echo %s >> /etc/cozy/couchdb.login' % password)
+    #require.users.user("haibu-data-system", home='/usr/local/var/lib/couchdb')
+    sudo('chown -R haibu-data-system:haibu-data-system /etc/cozy/couchdb.login')
+    sudo('chmod 700 /etc/cozy/couchdb.login')
+    print(green("CouchDB 1.2.1 successfully configured"))
+
 
 @task
 def uninstall_couchdb():
@@ -200,7 +230,7 @@ def uninstall_couchdb():
     su_delete('/usr/local/bin/couchdb')
     run('rm -rf apache-couchdb-1.2.1')
     run('rm -rf apache-couchdb-1.2.1.tar.gz')
-    run('rm -rf /etc/supervisor/conf.d/couchdb.conf')
+    su_delete('/etc/supervisor/conf.d/couchdb.conf')
     supervisor.update_config()
     print(green("CouchDB 1.2.1 successfully uninstalled"))
 

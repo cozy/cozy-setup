@@ -202,7 +202,7 @@ def config_couchdb():
     with hide('running', 'stdout'):
         sudo('echo %s >> /etc/cozy/couchdb.login' % username)
         sudo('echo %s >> /etc/cozy/couchdb.login' % password)
-    #require.users.user("haibu-data-system", home='/usr/local/var/lib/couchdb')
+    require.users.user("haibu-data-system", home='/usr/local/cozy/apps/data-system')
     sudo('chown -R haibu-data-system:haibu-data-system /etc/cozy/couchdb.login')
     sudo('chmod 700 /etc/cozy/couchdb.login')
     print(green("CouchDB 1.2.1 successfully configured"))

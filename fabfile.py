@@ -91,7 +91,7 @@ def install_dev():
     install_postfix()
     create_cozy_user()
     install_monitor()
-    install_controller()
+    install_controller_dev()
     install_indexer()
     install_data_system()
     install_home()
@@ -300,6 +300,21 @@ def install_controller():
     require.users.user("haibu-home", home='/usr/local/cozy/apps/home')
     sudo('chown -R haibu-home:haibu-home /etc/cozy/controller.token')
     sudo('chmod 700 /etc/cozy/controller.token')
+    supervisor.restart_process('cozy-controller')
+
+    print(green("Cozy Controller successfully started"))
+
+@task
+def install_controller_dev():
+    """
+    Install Cozy Controller Application Manager. Daemonize with supervisor.
+    """
+    require.nodejs.package('cozy-controller')
+    require.supervisor.process('cozy-controller',
+        command="cozy-controller -c -u --per 755",
+        environment='NODE_ENV="development"',
+        user='root'
+    )
     supervisor.restart_process('cozy-controller')
 
     print(green("Cozy Controller successfully started"))

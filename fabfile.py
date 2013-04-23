@@ -1,5 +1,5 @@
 from fabric.api import run, sudo, cd, prompt, task
-from fabtools import require, python, supervisor
+from fabtools import require, python, supervisor, deb
 from fabtools.require import file as require_file
 from fabric.contrib import files
 from fabric.colors import green
@@ -73,6 +73,7 @@ def uninstall_all():
     '''
     Uninstall the whole stack (work in progress)
     '''
+    uninstall_cozy()
     uninstall_node08()
     uninstall_couchdb()
     uninstall_redis()
@@ -106,8 +107,8 @@ def install_tools():
     """
     Install build tools
     """
-    require.deb.update_index()
-    require.deb.upgrade()
+    deb.update_index()
+    deb.upgrade()
     require.deb.packages([
         'python',
         'python-setuptools',
@@ -165,7 +166,7 @@ def install_couchdb():
         '1.2.1/apache-couchdb-1.2.1.tar.gz')
     run('tar -xzvf apache-couchdb-1.2.1.tar.gz')
     with cd('apache-couchdb-1.2.1'):
-        run('./configure; make')
+        run('./configure --enable-js-trunk; make')
         sudo('make install')
     run('rm -rf apache-couchdb-1.2.1')
     run('rm -rf apache-couchdb-1.2.1.tar.gz')
@@ -208,7 +209,7 @@ def uninstall_couchdb():
     su_delete('/usr/local/bin/couchdb')
     run('rm -rf apache-couchdb-1.2.1')
     run('rm -rf apache-couchdb-1.2.1.tar.gz')
-    run('rm -rf /etc/supervisor/conf.d/couchdb.conf')
+    sudo('rm -rf /etc/supervisor/conf.d/couchdb.conf')
     supervisor.update_config()
     print(green("CouchDB 1.2.1 successfully uninstalled"))
 
@@ -257,6 +258,21 @@ def uninstall_postfix():
     """
     require.deb.uninstall("postfix")
     print(green("Postfix successfully uninstalled"))
+
+
+@task
+def uninstall_cozy():
+    """
+    Uninstall postfix.
+    """
+    supervisor.stop_process("cozy-controller")
+    su_delete("/usr/local/cozy")
+    supervisor.stop_process("cozy-indexer")
+    su_delete("/usr/local/var/cozy-indexer")
+    su_delete('/etc/supervisor/conf.d/cozy-controller.conf')
+    su_delete('/etc/supervisor/conf.d/cozy-indexer.conf')
+    supervisor.update_config()
+    print(green("Cozy successfully uninstalled"))
 
 
 @task
@@ -374,9 +390,8 @@ def install_proxy():
     """
     Install Cozy Proxy
     """
-    sudo('cozy-monitor install proxy')
-    print(green("Proxy successfully installed"))
-
+    supervisor.update_config()
+    print(green("Redis 2.4.14 successfully uninstalled"))
 
 @task
 def install_apps():

@@ -158,7 +158,7 @@ def install_couchdb():
         '1.2.1/apache-couchdb-1.2.1.tar.gz')
     run('tar -xzvf apache-couchdb-1.2.1.tar.gz')
     with cd('apache-couchdb-1.2.1'):
-        run('./configure; make')
+        run('./configure --enable-js-trunk; make')
         sudo('make install')
     run('rm -rf apache-couchdb-1.2.1')
     run('rm -rf apache-couchdb-1.2.1.tar.gz')

@@ -1,5 +1,5 @@
 from fabric.api import run, sudo, cd, prompt, task
-from fabtools import require, python, supervisor
+from fabtools import require, python, supervisor, deb
 from fabtools.require import file as require_file
 from fabric.contrib import files
 from fabric.colors import green
@@ -99,8 +99,8 @@ def install_tools():
     """
     Install build tools
     """
-    require.deb.update_index()
-    require.deb.upgrade()
+    deb.update_index()
+    deb.upgrade()
     require.deb.packages([
         'python',
         'python-setuptools',

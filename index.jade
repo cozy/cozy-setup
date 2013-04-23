@@ -54,7 +54,7 @@ html(lang="en")
                             | hosting solutions.
         section#host.line.target
             h2.icon-cloud &nbsp; Host it
-            code curl HOST=root@<strong>ip:port</strong> https://cozy.io/install_cozy.sh | sh
+            code HOST=root@<strong>ip:port</strong> curl https://cozy.io/install_cozy.sh | sh
             .line.read-more
                 a(href="#host").black-text read more
             .additional-infos.mt2
@@ -95,8 +95,7 @@ html(lang="en")
             p 
                 | We are convinced that you will keep using your Cozy because 
                 | you can get rid of it:
-            code.mt2 curl https://cozy.io/remove_cozy.sh | sh user@ip:port
-            code.mt2 curl HOST=root@<strong>ip:port</strong> https://cozy.io/uninstall_cozy.sh | sh
+            code.mt2 HOST=root@<strong>ip:port</strong> curl https://cozy.io/uninstall_cozy.sh | sh
         section#architecture.line.target
             h2.icon-nav &nbsp; Architecture
             .line

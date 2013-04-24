@@ -219,8 +219,8 @@ def install_redis():
     """
     Install Redis 2.4.14
     """
-    require.redis.installed_from_source('2.4.14')
-    require.redis.instance('cozy', '2.4.14')
+    require.redis.installed_from_source('2.6.12')
+    require.redis.instance('cozy', '2.6.12')
     print(green("Redis 2.4.14 successfully installed"))
 
 

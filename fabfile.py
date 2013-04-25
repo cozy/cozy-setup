@@ -313,8 +313,8 @@ def install_controller():
     sudo('touch /etc/cozy/controller.token')
     with hide('running', 'stdout'):
         sudo('echo %s >> /etc/cozy/controller.token' % token)
-    require.users.user("haibu-home", home='/usr/local/cozy/apps/home')
-    sudo('chown -R haibu-home:haibu-home /etc/cozy/controller.token')
+    require.users.user("cozy-home", home='/usr/local/cozy/apps/home')
+    sudo('chown -R cozy-home:cozy-home /etc/cozy/controller.token')
     sudo('chmod 700 /etc/cozy/controller.token')
     supervisor.restart_process('cozy-controller')
 

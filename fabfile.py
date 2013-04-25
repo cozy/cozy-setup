@@ -258,6 +258,12 @@ def uninstall_cozy():
     Uninstall postfix.
     """
     supervisor.stop_process("cozy-controller")
+    files = sudo('ls /etc/cozy/controller_pid')
+    files = files.split()
+    for file in files:
+        print(file)
+        sudo('kill `cat /etc/cozy/controller_pid/%s`' %file)
+        sudo('rm /etc/cozy/controller_pid/%s' %file)
     su_delete("/usr/local/cozy")
     supervisor.stop_process("cozy-indexer")
     su_delete("/usr/local/var/cozy-indexer")

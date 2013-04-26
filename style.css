@@ -127,6 +127,26 @@ header p {
   cursor: pointer;
   text-decoration: underline;
 }
+.menu {
+  padding: 0;
+  margin: 0;
+  position: fixed;
+  height: 60px;
+  background: #fff;
+  width: 100%;
+}
+.menu p,
+.menu h1 {
+  margin: 0;
+}
+.menu button,
+.menu .read-more,
+.menu .happy-pic {
+  display: none;
+}
+.first {
+  margin-top: 60px;
+}
 .code,
 code {
   color: #fff;
@@ -179,9 +199,6 @@ code {
 }
 #architecture p {
   font-size: 12px;
-}
-#architecture .diagbox:hover p {
-  display: block;
 }
 #architecture a,
 #architecture a:hover,

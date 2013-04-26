@@ -1,10 +1,11 @@
-octype 5
+doctype 5
 html(lang="en")
     head
         include knacss.css
         include style.css
         stylesheet(src='knacss.css')
         stylesheet(src='style.css')
+        link(rel="shortcut icon", href="favicon.png")
         title="Cozy, a cloud you can hack, host or delete"
         script(src='/jquery-2.0.0.min.js')
         script(type='text/javascript')
@@ -16,15 +17,16 @@ html(lang="en")
                $(event.target).css('visibility', 'hidden');
                $(event.target).parent().parent().find(".additional-infos").slideDown();
              });
-          });
-          $(window).scroll(function(){
-              if($(this).scrollTop() > 80 && $(window).width() > 1000) {
-                 $("header").addClass("menu");
-                 $("#host").addClass("first");
-              } else {
-                 $("header").removeClass("menu");
-                 $("#host").removeClass("first");
-              }
+             $(".next").click(function(event) {
+               console.log("roto");
+               link = $(event.target).attr('href');
+               
+               $('body,html').animate({
+                 scrollTop: $(link).position().top
+               }, 800);
+               event.preventDefault();
+               return false;
+             });
           });
     body
         header.line#header
@@ -34,12 +36,9 @@ html(lang="en")
                         img(src='/happycloud.png', alt='Happy Cloud')
                     h1.left
                         span.title Cozy&nbsp;
-                        | a cloud you can 
-                        a(href="#host").ml4 host
-                        |, 
-                        a(href="#hack").ml4 hack
-                        |  or 
-                        a(href="#delete").ml4 delete
+                        | a cloud you can host
+                        | hack, 
+                        | or delete
                 p.external-links
                     a(href="https://github.com/mycozycloud/cozy-setup")
                         button Github
@@ -79,7 +78,7 @@ html(lang="en")
                             | want to be bored with installation, check our 
                             a(href="https://cozycloud.cc") hosting solutions.
                 .line.txtcenter.mt2
-                    a(href="#host") host it
+                    a(href="#host").next host it
         section#host.line.target
             h2.icon-cloud &nbsp; Host it
             code curl http://cozy.io/install_cozy.sh | HOST=root@<strong>ip:port</strong>
@@ -100,7 +99,7 @@ html(lang="en")
                     | A fully packaged VM is on its way so that you can deploy
                     | a Cozy on any OS (Linux, Mac, Win).
                 .line.txtcenter.mt2
-                    a(href="#hack") hack it
+                    a(href="#hack").next hack it
 
         section#hack.line.target
             h2.icon-up &nbsp; Hack it
@@ -126,7 +125,7 @@ html(lang="en")
                     | (Python and Ruby are on the roadmap). More details&nbsp;
                     a(href="https://github.com/mycozycloud/cozy-setup/wiki#build-your-cozy-cloud-application") here
                 .line.txtcenter
-                    a(href="#delete") delete it
+                    a(href="#delete").next delete it
             
         section#delete.line.target
             h2.icon-down &nbsp; Delete it
@@ -141,7 +140,7 @@ html(lang="en")
                     | Be aware that with this action, you will lost all your
                     | data permanently.
                 .line.txtcenter
-                    a(href="#architecture").txt-black see our architecture
+                    a(href="#architecture").next.txt-black see our architecture
         section#architecture.line.target
             h2.icon-nav &nbsp; Architecture
             .line
@@ -211,7 +210,7 @@ html(lang="en")
                     | For further details check the dedicated&nbsp;
                     a(href="https://github.com/mycozycloud/cozy-setup/wiki/Cozy-architecture") wiki page
                 .line.txtcenter
-                    a(href="#community") join our community
+                    a(href="#community").next join our community
  
         section#community.line
             h2.icon-asteri &nbsp; Community

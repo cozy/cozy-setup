@@ -307,22 +307,25 @@ def install_indexer():
     """
     Install Cozy Data Indexer. Use supervisord to daemonize it.
     """
-    home = "/usr/local/var/cozy-indexer"
+    home = "/usr/local/cozy-indexer"
     indexer_dir = "%s/cozy-data-indexer" % home
     indexer_env_dir = "%s/virtualenv" % indexer_dir
     python_exe = indexer_dir + "/virtualenv/bin/python"
     indexer_exe = "server.py"
     process_name = "cozy-indexer"
 
-    require.files.directory(home, use_sudo=True, owner="cozy")
+    require.files.directory(home, use_sudo=True)
+
     with cd(home):
         delete_if_exists("cozy-data-indexer")
-        cozydo('git clone git://github.com/mycozycloud/cozy-data-indexer.git')
+        sudo('git clone git://github.com/mycozycloud/cozy-data-indexer.git')
 
-    require.python.virtualenv(indexer_env_dir, use_sudo=True, user="cozy")
+    require.python.virtualenv(indexer_env_dir, use_sudo=True)
     with python.virtualenv(indexer_env_dir):
-        cozydo("pip install --use-mirrors -r %s/requirements/common.txt" % \
+        sudo("pip install --use-mirrors -r %s/requirements/common.txt" % \
                 indexer_dir)
+
+    sudo("chown -R cozy:cozy %s" % home)
 
     require.supervisor.process(process_name,
         command='%s %s' % (python_exe, indexer_exe),

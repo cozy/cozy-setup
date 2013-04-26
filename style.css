@@ -91,10 +91,10 @@ header a:visited {
 header p {
   font-weight: normal;
 }
-.txtwhite {
+.txt-white {
   color: #fff;
 }
-.txtwhite {
+.txt-black {
   color: #333;
 }
 .icon-plus:before,
@@ -223,6 +223,9 @@ code {
 }
 #delete code {
   background: #43b7ee;
+}
+#delete a.txt-black {
+  color: #333;
 }
 #architecture {
   background: #fff;

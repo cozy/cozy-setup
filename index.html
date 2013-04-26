@@ -1059,10 +1059,10 @@ header a:visited {
 header p {
   font-weight: normal;
 }
-.txtwhite {
+.txt-white {
   color: #fff;
 }
-.txtwhite {
+.txt-black {
   color: #333;
 }
 .icon-plus:before,
@@ -1192,6 +1192,9 @@ code {
 #delete code {
   background: #43b7ee;
 }
+#delete a.txt-black {
+  color: #333;
+}
 #architecture {
   background: #fff;
   color: #333;
@@ -1287,11 +1290,11 @@ a Cozy on any OS (Linux, Mac, Win).</p><div class="line txtcenter mt2"><a href="
 cozy dev:init
 cozy dev:start</code><h3>initialize your application</h3><div class="line"><code>cozy new my-app  --github myaccount
 cd my-app</code></div><h3>hack then deploy !</h3><div class="line"><code>cozy deploy</code></div><div class="line read-more mt1"><div class="txt-white read-more">read more</div></div><div class="additional-infos mt2"><p>you can extends your cozy by writing your app with node.js. 
-(Python and Ruby are on the roadmap). More details&nbsp;<a href="https://github.com/mycozycloud/cozy-setup/wiki#build-your-cozy-cloud-application">here</a></p><div class="line txtcenter"><a href="#delete" class="next">delete it</a></div></div></section><section id="delete" class="line target"><h2 class="icon-down">&nbsp; Delete it</h2><p> 
+(Python and Ruby are on the roadmap). More details&nbsp;<a href="https://github.com/mycozycloud/cozy-setup/wiki#build-your-cozy-cloud-application">here</a></p><div class="line txtcenter mt2"><a href="#delete" class="next">delete it</a></div></div></section><section id="delete" class="line target"><h2 class="icon-down">&nbsp; Delete it</h2><p> 
 We are convinced that you will keep using your Cozy because 
 you can get rid of it:</p><code class="mt2">curl http://cozy.io/uninstall_cozy.sh | HOST=root@<strong>ip:port</strong> sh</code><div class="line read-more mt1"><div class="black-text read-more">read more</div></div><div class="additional-infos mt2"><p> 
 Be aware that with this action, you will lost all your
-data permanently.</p><div class="line txtcenter"><a href="#architecture" class="next txt-black">see our architecture</a></div></div></section><section id="architecture" class="line target"><h2 class="icon-nav">&nbsp; Architecture</h2><div class="line"><div class="line"><div class="mod w100 diagbox"> <div>proxy</div><p class="w100">The proxy handles all users requests. It manages
+data permanently.</p><div class="line txtcenter mt2"><a href="#architecture" class="next txt-black">see our architecture</a></div></div></section><section id="architecture" class="line target"><h2 class="icon-nav">&nbsp; Architecture</h2><div class="line"><div class="line"><div class="mod w100 diagbox"> <div>proxy</div><p class="w100">The proxy handles all users requests. It manages
 the authentication and route requests to the 
 right application.</p></div></div><div class="line grid5"><div class="diagbox"><div>home / controller</div><p class="w100">The home is an app that acts as the UI for the 
 controller. It allows to install or remove
@@ -1308,7 +1311,7 @@ objects.</p></div><div class="diagbox"><div>file system</div><p class="w100">Fil
 attachments of documents. A fuse implementation
 is on the roadmap to make things smoother.</p></div><div class="diagbox"> <div>indexer</div><p class="w100">A dedicated module
 handles content indexation through a REST API.
-That's your personal search engine.</p></div></div></div><div class="line mt1"></div><div class="line read-more mt1"><div class="txt-white read-more">read more</div></div><div class="additional-infos mt2"><p>For further details check the dedicated&nbsp;<a href="https://github.com/mycozycloud/cozy-setup/wiki/Cozy-architecture">wiki page</a></p><div class="line txtcenter"><a href="#community" class="next">join our community</a></div></div></section><section id="community" class="line"><h2 class="icon-asteri">&nbsp; Community</h2><p> 
+That's your personal search engine.</p></div></div></div><div class="line mt1"></div><div class="line read-more mt1"><div class="txt-black read-more">read more</div></div><div class="additional-infos mt2"><p>For further details check the dedicated&nbsp;<a href="https://github.com/mycozycloud/cozy-setup/wiki/Cozy-architecture">wiki page</a></p><div class="line txtcenter mt2"><a href="#community" class="next">join our community</a></div></div></section><section id="community" class="line"><h2 class="icon-asteri">&nbsp; Community</h2><p> 
 A software is nothing without its community. That's why
 we want to make you easy to connect with other Cozy users:</p><p> <a href="http://webchat.freenode.net/"> 
 IRC: <strong>#cozycloud</strong> on irc.freenode.net</a></p><p><a href="https://groups.google.com/forum/#!forum/my-cozy-cloud"> 

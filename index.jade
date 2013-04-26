@@ -6,16 +6,41 @@ html(lang="en")
         stylesheet(src='knacss.css')
         stylesheet(src='style.css')
         title="Cozy, a cloud you can hack, host or delete"
+        script(src='/jquery-2.0.0.min.js')
+        script(type='text/javascript')
+          $(document).ready(function() {
+             $(".diagbox").hover(function(event) {
+               $(event.target).find("p").slideDown();
+             });
+             $("header .read-more").click(function(event) {
+               $("header .read-more").fadeOut();
+               $("header .additional-infos").slideDown();
+             });
+          });
+          $(window).scroll(function(){
+              if($(this).scrollTop() > 80 && $(window).width() > 1000) {
+                 $("header").addClass("menu");
+                 $("#host").addClass("first");
+              } else {
+                 $("header").removeClass("menu");
+                 $("#host").removeClass("first");
+              }
+          });
     body
-        header.line.target#header
+        header.line#header
             .mod.main-text
                 .line 
                     p.right.happy-pic
-                        img(src='happycloud.png', alt='Happy Cloud')
+                        img(src='/happycloud.png', alt='Happy Cloud')
                     h1.left
                         span.title Cozy&nbsp;
-                        | a cloud you can host, hack and delete
-                p
+                        | a cloud you can 
+                        a(href="#host").ml4 host
+                        |, 
+                        a(href="#hack").ml4 hack
+                        |  or 
+                        a(href="#delete").ml4 delete
+                p.external-links
                     a(href="https://github.com/mycozycloud/cozy-setup")
                         button Github
                     a(href="https://github.com/mycozycloud/cozy-setup/wiki")
@@ -23,17 +48,25 @@ html(lang="en")
                     a(href="https://demo.cozycloud.cc/")
                         button Demo
                 p.line.read-more
-                    a(href="#header").smaller.ml4 read more
+                    a(href="#header").ml4.read-more read more
+                .line.links
+                    | see our 
+                    a(href="#architecture").ml4  architecture
+                    |, join our community 
+                    a(href="#community").ml4 community
+                    |, or learn 
+                    a(href="#community").ml4 about us
             .additional-infos
                 .line
                     .mod.image.left
                         img(src="picto_01.png")
                     .mod
                         p
-                            | Cozy is a personal platform as a service 
-                            | that allows you to deploy applications that shares the 
-                            | same data store. These apps can be made by you or by 
-                            | others.
+                            | Cozy brings to you its personal cloud platform. 
+                            | Developing your node.js
+                            | personal web apps has never been that easy ; get ready 
+                            | in 10minutes and start
+                            | leveraging your personal data your way!
                 .line
                     .mod.image.left
                         img(src="picto_02.png")
@@ -51,10 +84,10 @@ html(lang="en")
                             | Cozy is open-source and aims to be self-hosted.
                             | That means it is privacy-safe. If you don't
                             | want to be bored with installation, check our 
-                            | hosting solutions.
+                            a(href="https://cozycloud.cc") hosting solutions.
         section#host.line.target
             h2.icon-cloud &nbsp; Host it
-            code curl http://cozy.io/install_cozy.sh | HOST=root@<strong>ip:port</strong> sh
+            code curl http://cozy.io/install_cozy.sh | HOST=root@<strong>ip:port</strong>
             .line.read-more
                 a(href="#host").black-text read more
             .additional-infos.mt2
@@ -69,6 +102,8 @@ html(lang="en")
                     | &nbsp;in our readme.
                 p
                     | It will work only with Debian/Ubuntu distros.
+                    | A fully packaged VM is on its way so that you can deploy
+                    | a Cozy on any OS (Linux, Mac, Win).
 
         section#hack.line.target
             h2.icon-up &nbsp; Hack it
@@ -80,16 +115,19 @@ html(lang="en")
             h3 initialize your application
             .line
                 code
-                    | cozy new my-app --github myaccount
+                    | cozy new my-app  --github myaccount
                     | cd my-app
             h3 hack then deploy !
             .line
                 code
                     | cozy deploy
-            .line.mt1
-                | you can extends your cozy by writing your app with node.js. 
-                | More details&nbsp;
-                a(href="https://github.com/mycozycloud/cozy-setup/wiki#build-your-cozy-cloud-application") here
+            .line.read-more.mt1
+                a(href="#hack").black-text read more
+            .additional-infos.mt2
+                p
+                    | you can extends your cozy by writing your app with node.js. 
+                    | (Python and Ruby are on the roadmap). More details&nbsp;
+                    a(href="https://github.com/mycozycloud/cozy-setup/wiki#build-your-cozy-cloud-application") here
             
         section#delete.line.target
             h2.icon-down &nbsp; Delete it
@@ -118,12 +156,12 @@ html(lang="en")
                         div app1
                         p.w100
                             | This is an application provided by Cozy Cloud
-                            | or the community. It is spawned by the controller
+                            | or the community. It is spawned by the
+                            | which find the sources on a github repo
                     .diagbox 
                         div app2
                         p.w100
-                            | This is an application provided by Cozy Cloud
-                            | or the community. It is spawned by the controller
+                            | Another app: notes, mails, budget, sport coach...
                     .diagbox(style='background: transparent') ...
                     .diagbox
                         div your app
@@ -138,6 +176,8 @@ html(lang="en")
                             | It (will) manages application permissions and
                             | provides an unified API to access to all kind of
                             | data: files, documents or indexes.
+                            | It publishes changes, this way, applications
+                            | can communicate with each other.
                 .line.grid3
                     .diagbox
                         div database
@@ -155,6 +195,7 @@ html(lang="en")
                         p.w100
                             | A dedicated module
                             | handles content indexation through a REST API.
+                            | That's your personal search engine.
             .line.mt1
                 p
                     | For further details check the dedicated&nbsp;
@@ -164,7 +205,9 @@ html(lang="en")
             p 
                 | A software is nothing without its community. That's why
                 | we want to make you easy to connect with other Cozy users:
-            p IRC: <strong>#cozycloud</strong> on irc.freenode.net
+            p 
+                a(href="http://webchat.freenode.net/") 
+                    | IRC: <strong>#cozycloud</strong> on irc.freenode.net
             p
                 a(href='https://groups.google.com/forum/#!forum/my-cozy-cloud') 
                    | Mailing List 
@@ -177,7 +220,7 @@ html(lang="en")
         section#about.line
             h2.icon-rate &nbsp; About
             p.right
-                img(src='cozy-logo.png', alt='Cozy Logo')
+                img(src='/cozy-logo.png', alt='Cozy Logo')
             p 
                 | Cozy is a software built by the 
                 | <a href="https://cozycloud.cc/">Cozy Cloud company</a>. We love
@@ -185,6 +228,6 @@ html(lang="en")
                 | satisfy us. That's why want to make the web a better place 
                 | by providing interconnected and privacy-safe web apps.
             p
-                | We provide easy hosting for Cozy. If you like it but don't
-                | want to do technical stuff, come visit us and try our 
-                | hosting solutions!
+                | If you want a Cozy without the hassle of self-hosting, visit
+                | <a href="https://cozycloud.cc">cozycloud.cc</a>
+                | and try our hosting solutions!

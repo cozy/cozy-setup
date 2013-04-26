@@ -107,12 +107,6 @@ header p {
 .additional-infos {
   display: none;
 }
-.target:target .additional-infos {
-  display: block;
-}
-.target:target .read-more {
-  visibility: hidden;
-}
 .title {
   font-size: 60px;
 }

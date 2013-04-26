@@ -91,6 +91,12 @@ header a:visited {
 header p {
   font-weight: normal;
 }
+.txtwhite {
+  color: #fff;
+}
+.txtwhite {
+  color: #333;
+}
 .icon-plus:before,
 .icon-plus > li:before,
 .icon-plus.after:after,
@@ -116,6 +122,10 @@ header p {
 }
 .main-text {
   padding-left: 40px;
+}
+.read-more {
+  cursor: pointer;
+  text-decoration: underline;
 }
 .code,
 code {

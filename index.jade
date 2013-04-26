@@ -1,4 +1,4 @@
-doctype 5
+octype 5
 html(lang="en")
     head
         include knacss.css
@@ -12,9 +12,9 @@ html(lang="en")
              $(".diagbox").hover(function(event) {
                $(event.target).find("p").slideDown();
              });
-             $("header .read-more").click(function(event) {
-               $("header .read-more").fadeOut();
-               $("header .additional-infos").slideDown();
+             $(".read-more").click(function(event) {
+               $(event.target).css('visibility', 'hidden');
+               $(event.target).parent().parent().find(".additional-infos").slideDown();
              });
           });
           $(window).scroll(function(){
@@ -48,14 +48,7 @@ html(lang="en")
                     a(href="https://demo.cozycloud.cc/")
                         button Demo
                 p.line.read-more
-                    a(href="#header").ml4.read-more read more
-                .line.links
-                    | see our 
-                    a(href="#architecture").ml4  architecture
-                    |, join our community 
-                    a(href="#community").ml4 community
-                    |, or learn 
-                    a(href="#community").ml4 about us
+                    .ml4.read-more read more
             .additional-infos
                 .line
                     .mod.image.left
@@ -85,11 +78,13 @@ html(lang="en")
                             | That means it is privacy-safe. If you don't
                             | want to be bored with installation, check our 
                             a(href="https://cozycloud.cc") hosting solutions.
+                .line.txtcenter.mt2
+                    a(href="#host") host it
         section#host.line.target
             h2.icon-cloud &nbsp; Host it
             code curl http://cozy.io/install_cozy.sh | HOST=root@<strong>ip:port</strong>
             .line.read-more
-                a(href="#host").black-text read more
+                .txt-white read more
             .additional-infos.mt2
                 p
                     | This script will install several tools on your
@@ -104,6 +99,8 @@ html(lang="en")
                     | It will work only with Debian/Ubuntu distros.
                     | A fully packaged VM is on its way so that you can deploy
                     | a Cozy on any OS (Linux, Mac, Win).
+                .line.txtcenter.mt2
+                    a(href="#hack") hack it
 
         section#hack.line.target
             h2.icon-up &nbsp; Hack it
@@ -122,12 +119,14 @@ html(lang="en")
                 code
                     | cozy deploy
             .line.read-more.mt1
-                a(href="#hack").black-text read more
+                .txt-white.read-more read more
             .additional-infos.mt2
                 p
                     | you can extends your cozy by writing your app with node.js. 
                     | (Python and Ruby are on the roadmap). More details&nbsp;
                     a(href="https://github.com/mycozycloud/cozy-setup/wiki#build-your-cozy-cloud-application") here
+                .line.txtcenter
+                    a(href="#delete") delete it
             
         section#delete.line.target
             h2.icon-down &nbsp; Delete it
@@ -135,6 +134,14 @@ html(lang="en")
                 | We are convinced that you will keep using your Cozy because 
                 | you can get rid of it:
             code.mt2 curl http://cozy.io/uninstall_cozy.sh | HOST=root@<strong>ip:port</strong> sh
+            .line.read-more.mt1
+                .black-text.read-more read more
+            .additional-infos.mt2
+                p 
+                    | Be aware that with this action, you will lost all your
+                    | data permanently.
+                .line.txtcenter
+                    a(href="#architecture").txt-black see our architecture
         section#architecture.line.target
             h2.icon-nav &nbsp; Architecture
             .line
@@ -197,9 +204,15 @@ html(lang="en")
                             | handles content indexation through a REST API.
                             | That's your personal search engine.
             .line.mt1
+            .line.read-more.mt1
+                .txt-white.read-more read more
+            .additional-infos.mt2
                 p
                     | For further details check the dedicated&nbsp;
                     a(href="https://github.com/mycozycloud/cozy-setup/wiki/Cozy-architecture") wiki page
+                .line.txtcenter
+                    a(href="#community") join our community
+ 
         section#community.line
             h2.icon-asteri &nbsp; Community
             p 

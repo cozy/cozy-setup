@@ -261,7 +261,6 @@ def uninstall_cozy():
     files = sudo('ls /etc/cozy/controller_pid')
     files = files.split()
     for file in files:
-        print(file)
         sudo('kill `cat /etc/cozy/controller_pid/%s`' %file)
         sudo('rm /etc/cozy/controller_pid/%s' %file)
     su_delete("/usr/local/cozy")

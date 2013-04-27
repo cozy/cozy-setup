@@ -19,7 +19,11 @@ html(lang="en")
              });
              $(".next").click(function(event) {
                console.log("roto");
-               link = $(event.target).attr('href');
+               if(event.target.tagName === "a") {
+                 link = $(event.target).attr('href');
+               } else  {
+                 link = $(event.target).parent().attr('href');
+               }
                
                $('body,html').animate({
                  scrollTop: $(link).position().top
@@ -55,7 +59,7 @@ html(lang="en")
                     .mod
                         p
                             | Cozy brings to you its personal cloud platform. 
-                            | Developing your node.js
+                            | Developing your
                             | personal web apps has never been that easy ; get ready 
                             | in 10minutes and start
                             | leveraging your personal data your way!
@@ -78,7 +82,10 @@ html(lang="en")
                             | want to be bored with installation, check our 
                             a(href="https://cozycloud.cc") hosting solutions.
                 .line.txtcenter.mt2
-                    a(href="#host").next host it
+                    a(href="#host").next
+                        | host it
+                        br
+                        i.icon-down
         section#host.line.target
             h2.icon-cloud &nbsp; Host it
             code curl http://cozy.io/install_cozy.sh | HOST=root@<strong>ip:port</strong>
@@ -99,7 +106,10 @@ html(lang="en")
                     | A fully packaged VM is on its way so that you can deploy
                     | a Cozy on any OS (Linux, Mac, Win).
                 .line.txtcenter.mt2
-                    a(href="#hack").next hack it
+                    a(href="#hack").next 
+                        | hack it
+                        br
+                        i.icon-down
 
         section#hack.line.target
             h2.icon-up &nbsp; Hack it
@@ -113,7 +123,7 @@ html(lang="en")
                 code
                     | cozy new my-app  --github myaccount
                     | cd my-app
-            h3 hack then deploy !
+            h3 hack... then deploy!
             .line
                 code
                     | cozy deploy
@@ -121,14 +131,21 @@ html(lang="en")
                 .txt-white.read-more read more
             .additional-infos.mt2
                 p
-                    | you can extends your cozy by writing your app with node.js. 
+                    | We are not talking about fancy plugins, here you write 
+                    | your
+                    | additions like you would write any web app! The only
+                    | constraints are to use our storage system and to write
+                    | your code for Node.js.
                     | (Python and Ruby are on the roadmap). More details&nbsp;
                     a(href="https://github.com/mycozycloud/cozy-setup/wiki#build-your-cozy-cloud-application") here
                 .line.txtcenter.mt2
-                    a(href="#delete").next delete it
+                    a(href="#delete").next 
+                        | delete it
+                        br
+                        i.icon-down
             
         section#delete.line.target
-            h2.icon-down &nbsp; Delete it
+            h2.icon-cross &nbsp; Delete it
             p 
                 | We are convinced that you will keep using your Cozy because 
                 | you can get rid of it:
@@ -137,10 +154,17 @@ html(lang="en")
                 .black-text.read-more read more
             .additional-infos.mt2
                 p 
-                    | Be aware that with this action, you will lost all your
+                    | What is annoying today is that when you use an online
+                    | service, you are locked with it. We don't want that for
+                    | Cozy Cloud. That's why we give you the possibility to 
+                    | leave our platform. 
+                    | NB: Be aware that the above action will erase your
                     | data permanently.
                 .line.txtcenter.mt2
-                    a(href="#architecture").next.txt-black see our architecture
+                    a(href="#architecture").next.txt-black 
+                        | see our architecture
+                        br
+                        i.icon-down
         section#architecture.line.target
             h2.icon-nav &nbsp; Architecture
             .line
@@ -207,10 +231,16 @@ html(lang="en")
                 .txt-black.read-more read more
             .additional-infos.mt2
                 p
-                    | For further details check the dedicated&nbsp;
+                    | We could write a lot about our architecture and our
+                    | technical choice. So let's read it in a proper place :
+                    | check the dedicated&nbsp;
                     a(href="https://github.com/mycozycloud/cozy-setup/wiki/Cozy-architecture") wiki page
+                    !
                 .line.txtcenter.mt2
-                    a(href="#community").next join our community
+                    a(href="#community").next 
+                        | join our community
+                        br
+                        i.icon-down
  
         section#community.line
             h2.icon-asteri &nbsp; Community

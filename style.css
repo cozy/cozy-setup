@@ -144,8 +144,14 @@ header p {
 .menu .happy-pic {
   display: none;
 }
-.first {
-  margin-top: 60px;
+.next {
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 18px;
+  margin-top: 40px;
+}
+a:focus {
+  outline: 0;
 }
 .code,
 code {
@@ -161,7 +167,7 @@ code {
   background: #fe8800;
 }
 #host code {
-  background: #b25f00;
+  background: #cc5f00;
 }
 #host p {
   font-weight: bold;
@@ -174,6 +180,7 @@ code {
 }
 #hack code {
   background: #097bb5;
+  line-height: 40px;
 }
 #delete {
   background: #bbe5f9;
@@ -199,9 +206,6 @@ code {
 }
 #architecture .diagbox p {
   display: none;
-}
-#architecture p {
-  font-size: 12px;
 }
 #architecture a,
 #architecture a:hover,
@@ -239,11 +243,11 @@ code {
   text-align: center;
   margin-top: 10px;
   padding: 10px;
-  font-size: 14px;
   font-weight: bold;
 }
 #architecture .diagbox p {
   display: none;
+  font-size: 14px;
 }
 #about {
   background: #1babf4;

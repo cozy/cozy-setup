@@ -1263,8 +1263,7 @@ code {
      $(event.target).parent().parent().find(".additional-infos").slideDown();
    });
    $(".next").click(function(event) {
-     console.log("roto");
-     if(event.target.tagName === "a") {
+     if($(event.target).get(0).tagName === "A") {
        link = $(event.target).attr('href');
      } else  {
        link = $(event.target).parent().attr('href');

@@ -1,8 +1,3 @@
-<<<<<<< HEAD
 node_modules
-*.swp
-=======
 *.swp
 *.pyc
-node_modules
->>>>>>> 7ec66b396bd1ee6b3dc5a3265e59c01cb6fb5483

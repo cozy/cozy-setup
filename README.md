@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-Static website for the community project.
-=======
 # Cozy Setup
 
 Cozy Cloud aims to be used remotely on your own server.
@@ -94,4 +91,3 @@ https://cozycloud.cc
 
 # Cozy on IRC
 Feel free to check out our IRC channel (#cozycloud at freenode.net) if you have any technical issues/inquiries or simply to speak about Cozy cloud in general.
->>>>>>> 7ec66b396bd1ee6b3dc5a3265e59c01cb6fb5483

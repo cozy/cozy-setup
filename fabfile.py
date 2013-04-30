@@ -3,6 +3,9 @@ from fabtools import require, python, supervisor, deb
 from fabtools.require import file as require_file
 from fabric.contrib import files
 from fabric.colors import green
+from fabric.context_managers import hide
+import string
+import random
 
 """
 Script to set up a cozy cloud environnement from a fresh system
@@ -14,6 +17,12 @@ to install the full Cozy stack.
 """
 
 # Helpers
+
+
+def id_generator(size=40, chars=string.ascii_uppercase + string.digits):
+    return ''.join(random.choice(chars) for x in range(size))
+
+token = id_generator()
 
 
 def cozydo(cmd):
@@ -84,7 +93,7 @@ def install_dev():
     install_postfix()
     create_cozy_user()
     install_monitor()
-    install_controller()
+    install_controller_dev()
     install_indexer()
     install_data_system()
     install_home()
@@ -201,7 +210,7 @@ def uninstall_couchdb():
     su_delete('/usr/local/bin/couchdb')
     run('rm -rf apache-couchdb-1.2.1')
     run('rm -rf apache-couchdb-1.2.1.tar.gz')
-    run('rm -rf /etc/supervisor/conf.d/couchdb.conf')
+    sudo('rm -rf /etc/supervisor/conf.d/couchdb.conf')
     supervisor.update_config()
     print(green("CouchDB 1.2.1 successfully uninstalled"))
 
@@ -297,6 +306,33 @@ def install_controller():
         environment='NODE_ENV="production"',
         user='root'
     )
+    if files.exists('/etc/cozy/'):
+        if files.exists('/etc/cozy/controller.token'):
+            sudo('rm /etc/cozy/controller.token')
+    else:
+        sudo('mkdir /etc/cozy')
+    sudo('touch /etc/cozy/controller.token')
+    with hide('running', 'stdout'):
+        sudo('echo %s >> /etc/cozy/controller.token' % token)
+    require.users.user("cozy-home", home='/usr/local/cozy/apps/home')
+    sudo('chown -R cozy-home:cozy-home /etc/cozy/controller.token')
+    sudo('chmod 700 /etc/cozy/controller.token')
+    supervisor.restart_process('cozy-controller')
+
+    print(green("Cozy Controller successfully started"))
+
+@task
+def install_controller_dev():
+    """
+    Install Cozy Controller Application Manager. Daemonize with supervisor.
+    """
+    require.nodejs.package('cozy-controller')
+    require.supervisor.process('cozy-controller',
+        command="cozy-controller -c -u --per 755",
+        environment='NODE_ENV="development"',
+        user='root'
+    )
+>>>>>>> 7ec66b396bd1ee6b3dc5a3265e59c01cb6fb5483
     supervisor.restart_process('cozy-controller')
 
     print(green("Cozy Controller successfully started"))
@@ -341,7 +377,7 @@ def install_data_system():
     """
     Install Cozy Data System. Daemonize with Haibu.
     """
-    run('cozy-monitor install data-system')
+    sudo('cozy-monitor install data-system')
     print(green("Data System successfully started"))
 
 
@@ -350,7 +386,7 @@ def install_home():
     """
     Install Cozy Home
     """
-    run('cozy-monitor install home')
+    sudo('cozy-monitor install home')
     print(green("Home successfully installed"))
 
 
@@ -459,9 +495,10 @@ def update_stack():
     """
     Update applications
     """
-    run('cozy-monitor install data-system')
-    run('cozy-monitor install home')
-    run('cozy-monitor install proxy')
+    sudo('cozy-monitor install data-system')
+    sudo('cozy-monitor install home')
+    sudo('cozy-monitor token')
+    sudo('cozy-monitor install proxy')
     print(green("Applications updated successfully."))
 
 

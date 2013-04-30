@@ -1,0 +1,53 @@
+Vagrant::Config.run do |config|
+  # All Vagrant configuration is done here. The most common configuration
+  # options are documented and commented below. For a complete reference,
+  # please see the online documentation at vagrantup.com.
+
+  # Every Vagrant virtual environment requires a box to build off of.
+  config.vm.box = "cozycloud-dev-latest"
+
+  # The url from where the 'config.vm.box' box will be fetched if it
+  # doesn't already exist on the user's system.
+  config.vm.box_url = "cozycloud.box"
+
+  # Assign this VM to a host-only network IP, allowing you to access it
+  # via the IP. Host-only networks can talk to the host machine as well as
+  # any other machines on the same network, but cannot be accessed (through this
+  # network interface) by any external networks.
+  config.vm.network :hostonly, "192.168.33.10"
+
+ config.vm.customize ["modifyvm", :id, "--memory", 512]
+
+  # Forward a port from the guest to the host, which allows for outside
+  # computers to access the VM, whereas host only networking does not.
+  #
+  # You can access those on http://localhost:port
+  # (instead of http://'config.vm.network':port)
+  config.vm.forward_port 9101, 9101 # Cozy Data System
+  config.vm.forward_port 9104, 9104 # Cozy Proxy
+  config.vm.forward_port 5984, 5984 # CouchDB
+  config.vm.forward_port 6379, 6379 # Redis
+  config.vm.forward_port 9099, 9099 # Cozy Log Reader
+
+  # Starts services and applications
+  Vagrant::Config.run do |config|
+
+    # Starts all the apps for Cozy
+    # Should not be needed but sometimes they dont start when vagrant box is up.
+    config.vm.provision :shell, :inline => '
+      exe="/usr/local/bin/cozy-monitor"
+
+      appsToStart=("data-system" "home" "proxy")
+
+      echo "STARTING MAIN APPS"
+      for app in ${appsToStart[@]}
+      do
+          $exe start $app
+      done
+
+      echo "CURRENT COZY STATUS"
+      $exe status'
+
+  end
+
+end

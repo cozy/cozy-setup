@@ -199,9 +199,9 @@ def uninstall_couchdb():
     su_delete('/usr/local/share/doc/couchdb')
     su_delete('/usr/local/bin/couchjs')
     su_delete('/usr/local/bin/couchdb')
-    run('rm -rf apache-couchdb-1.2.1')
-    run('rm -rf apache-couchdb-1.2.1.tar.gz')
-    run('rm -rf /etc/supervisor/conf.d/couchdb.conf')
+    su_delete('apache-couchdb-1.2.1')
+    su_delete('apache-couchdb-1.2.1.tar.gz')
+    su_delete('/etc/supervisor/conf.d/couchdb.conf')
     supervisor.update_config()
     print(green("CouchDB 1.2.1 successfully uninstalled"))
 

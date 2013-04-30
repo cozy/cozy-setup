@@ -91,7 +91,6 @@ def install_dev():
     install_couchdb()
     install_redis()
     install_postfix()
-    config_couchdb()
     create_cozy_user()
     install_monitor()
     install_controller()

@@ -18,7 +18,7 @@ to install the full Cozy stack.
 
 # Helpers
 
-def id_generator(size=8, chars=string.ascii_uppercase + string.digits):
+def id_generator(size=32, chars=string.ascii_uppercase + string.digits + string.ascii_lowercase):
     return ''.join(random.choice(chars) for x in range(size))
 
 username = id_generator()

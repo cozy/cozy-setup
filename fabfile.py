@@ -192,19 +192,26 @@ def install_couchdb():
 def config_couchdb():
     with hide('running', 'stdout'):
         run('curl -X PUT http://127.0.0.1:5984/_config/admins/%s -d \'\"%s\"\''% (username, password))
-    if files.exists('/etc/cozy'):
-        if files.exists('/etc/cozy/couchdb.login'):
-            sudo('rm /etc/cozy/couchdb.login')
-    else:
-        sudo('mkdir /etc/cozy')
-    sudo('touch /etc/cozy/couchdb.login')
-    with hide('running', 'stdout'):
-        sudo('echo %s >> /etc/cozy/couchdb.login' % username)
-        sudo('echo %s >> /etc/cozy/couchdb.login' % password)
-    require.users.user("haibu-data-system", home='/usr/local/cozy/apps/data-system')
-    sudo('chown -R haibu-data-system:haibu-data-system /etc/cozy/couchdb.login')
-    sudo('chmod 700 /etc/cozy/couchdb.login')
+    sudo('mkdir -p /etc/cozy')
+    require.files.file(path='/etc/cozy/couchdb.login',
+        contents=username + "\n" + password,
+        use_sudo=True,
+        owner='cozy-data-system',
+        mode='700'
+    )
     print(green("CouchDB 1.2.1 successfully configured"))
+
+
+
+def id_generator(size=32, chars=string.ascii_uppercase + string.digits + string.ascii_lowercase):
+    return ''.join(random.choice(chars) for x in range(size))
+
+
+@task
+def test():
+    token = id_generator()
+    print(green('%s' %token))
+
 
 
 @task

@@ -201,19 +201,6 @@ def config_couchdb():
     )
     print(green("CouchDB 1.2.1 successfully configured"))
 
-
-
-def id_generator(size=32, chars=string.ascii_uppercase + string.digits + string.ascii_lowercase):
-    return ''.join(random.choice(chars) for x in range(size))
-
-
-@task
-def test():
-    token = id_generator()
-    print(green('%s' %token))
-
-
-
 @task
 def uninstall_couchdb():
     """

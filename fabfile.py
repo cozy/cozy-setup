@@ -6,6 +6,7 @@ from fabric.colors import green
 from fabric.context_managers import hide
 import string
 import random
+
 """
 Script to set up a cozy cloud environnement from a fresh system
 Validated on a Debian squeeze 64 bits up to date.
@@ -16,6 +17,12 @@ to install the full Cozy stack.
 """
 
 # Helpers
+
+def id_generator(size=32, chars=string.ascii_uppercase + string.digits + string.ascii_lowercase):
+    return ''.join(random.choice(chars) for x in range(size))
+
+username = id_generator()
+password = id_generator()
 
 
 def id_generator(size=40, chars=string.ascii_uppercase + string.digits):
@@ -53,6 +60,7 @@ def install():
     install_couchdb()
     install_redis()
     install_postfix()
+    config_couchdb()
     create_cozy_user()
     install_monitor()
     install_controller()
@@ -159,7 +167,8 @@ def install_couchdb():
         'erlang',
         'libicu-dev',
         'libmozjs-dev',
-        'libcurl4-openssl-dev'
+        'libcurl4-openssl-dev',
+        'curl'
     ])
 
     require_file(url='http://apache.mirrors.multidist.eu/couchdb/' +
@@ -186,6 +195,18 @@ def install_couchdb():
         environment='HOME=/usr/local/var/lib/couchdb')
     print(green("CouchDB 1.2.1 successfully installed"))
 
+@task
+def config_couchdb():
+    with hide('running', 'stdout'):
+        run('curl -X PUT http://127.0.0.1:5984/_config/admins/%s -d \'\"%s\"\''% (username, password))
+    sudo('mkdir -p /etc/cozy')
+    require.files.file(path='/etc/cozy/couchdb.login',
+        contents=username + "\n" + password,
+        use_sudo=True,
+        owner='cozy-data-system',
+        mode='700'
+    )
+    print(green("CouchDB 1.2.1 successfully configured"))
 
 @task
 def uninstall_couchdb():

@@ -293,7 +293,6 @@ def install_monitor():
     require.nodejs.package('compound')
     print(green("Cozy setup and coffee script successfully installed"))
 
-
 @task
 def install_controller():
     """
@@ -301,7 +300,7 @@ def install_controller():
     """
     require.nodejs.package('cozy-controller')
     require.supervisor.process('cozy-controller',
-        command="cozy-controller -c -u --per 755 --auth %s" % token,
+        command="/usr/bin/pidproxy /etc/cozy/pids/controller.pid /home/vagrant/cozy-controller/bin/cozy-controller ",
         environment='NODE_ENV="production"',
         user='root'
     )

@@ -287,7 +287,6 @@ def uninstall_cozy():
     Uninstall postfix.
     """
     supervisor.stop_process("cozy-controller")
-    su_delete("/usr/local/cozy")
     supervisor.stop_process("cozy-indexer")
     su_delete("/usr/local/var/cozy-indexer")
     su_delete('/etc/supervisor/conf.d/cozy-controller.conf')
@@ -326,17 +325,13 @@ def install_controller():
         environment='NODE_ENV="production"',
         user='root'
     )
-    if files.exists('/etc/cozy/'):
-        if files.exists('/etc/cozy/controller.token'):
-            sudo('rm /etc/cozy/controller.token')
-    else:
-        sudo('mkdir /etc/cozy')
-    sudo('touch /etc/cozy/controller.token')
-    with hide('running', 'stdout'):
-        sudo('echo %s >> /etc/cozy/controller.token' % token)
-    require.users.user("cozy-home", home='/usr/local/cozy/apps/home')
-    sudo('chown -R cozy-home:cozy-home /etc/cozy/controller.token')
-    sudo('chmod 700 /etc/cozy/controller.token')
+    sudo('mkdir -p /etc/cozy')
+    require.files.file(path='/etc/cozy/controller.token',
+        mode='700',
+        contents=token,
+        use_sudo=True,
+        owner='cozy-home'
+    ) 
     supervisor.restart_process('cozy-controller')
 
     print(green("Cozy Controller successfully started"))

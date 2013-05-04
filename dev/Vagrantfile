@@ -16,7 +16,8 @@ Vagrant::Config.run do |config|
   # network interface) by any external networks.
   config.vm.network :hostonly, "192.168.33.10"
 
- config.vm.customize ["modifyvm", :id, "--memory", 512]
+  config.vm.customize ["modifyvm", :id, "--memory", 512]
+  config.vm.boot_mode = :headless
 
   # Forward a port from the guest to the host, which allows for outside
   # computers to access the VM, whereas host only networking does not.

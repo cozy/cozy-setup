@@ -299,7 +299,8 @@ def install_controller():
     """
     require.nodejs.package('cozy-controller')
     require.supervisor.process('cozy-controller',
-        command="/usr/bin/pidproxy /etc/cozy/pids/controller.pid /home/vagrant/cozy-controller/bin/cozy-controller ",
+        command="/usr/bin/pidproxy /etc/cozy/pids/controller.pid " + 
+            "/home/vagrant/cozy-controller/bin/cozy-controller -u --auth",
         environment='NODE_ENV="production"',
         user='root'
     )

@@ -457,7 +457,7 @@ def create_cert():
     with cd(etc_dir):
         sudo('openssl genrsa -out ./server.key 1024')
         sudo('openssl req -new -x509 -days 3650 -key ' + \
-               './server.key -out ./server.crt')
+               './server.key -out ./server.crt  -batch')
         sudo('chmod 640 server.key')
         sudo('chown cozy:ssl-cert ./server.key')
     print(green("Certificates successfully created."))

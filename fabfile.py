@@ -304,6 +304,7 @@ def create_cozy_user():
     """
     require.user("cozy", home=False)
     require.user("cozy-data-system", home=False)
+    require.user("cozy-home", home=False)
 
 
 @task
@@ -335,7 +336,7 @@ def install_controller():
         environment='NODE_ENV="production"',
         user='root'
     )
-    upervisor.restart_process('cozy-controller')
+    supervisor.restart_process('cozy-controller')
 
     print(green("Cozy Controller successfully started"))
 

@@ -415,7 +415,7 @@ def install_proxy():
     Install Cozy Proxy
     """
     sudo('cozy-monitor install proxy')
-    print(green("Proxy successfully uninstalled"))
+    print(green("Proxy successfully installed"))
 
 @task
 def install_apps():

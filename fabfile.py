@@ -330,9 +330,10 @@ def install_controller():
         use_sudo=True,
         owner='cozy-home'
     )
+    path = "/usr/local/lib/node_modules/cozy-controller/bin/cozy-controller"
     require.supervisor.process('cozy-controller',
         command="/usr/bin/pidproxy /etc/cozy/pids/controller.pid " +
-            "/home/vagrant/cozy-controller/bin/cozy-controller -u --auth",
+            "%s -u --auth" % path,
         environment='NODE_ENV="production"',
         user='root'
     )

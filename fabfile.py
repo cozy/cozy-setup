@@ -198,7 +198,7 @@ def install_couchdb():
 @task
 def config_couchdb():
     with hide('running', 'stdout'):
-        couch_adming_path = "127.0.0.1:5984/_config/admins/"
+        couch_admin_path = "127.0.0.1:5984/_config/admins/"
         run('curl -X PUT http://%s -d \'\"%s\"\'' %
                 (couch_admin_path, username, password))
     sudo('mkdir -p /etc/cozy')

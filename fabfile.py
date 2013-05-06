@@ -198,7 +198,9 @@ def install_couchdb():
 @task
 def config_couchdb():
     with hide('running', 'stdout'):
-        run('curl -X PUT http://127.0.0.1:5984/_config/admins/%s -d \'\"%s\"\''% (username, password))
+        couch_adming_path = "127.0.0.1:5984/_config/admins/"
+        run('curl -X PUT http://%s -d \'\"%s\"\'' %
+                (couch_admin_path, username, password))
     sudo('mkdir -p /etc/cozy')
     require.files.file(path='/etc/cozy/couchdb.login',
         contents=username + "\n" + password,
@@ -314,18 +316,12 @@ def install_monitor():
     require.nodejs.package('compound')
     print(green("Cozy setup and coffee script successfully installed"))
 
-
 @task
 def install_controller():
     """
     Install Cozy Controller Application Manager. Daemonize with supervisor.
     """
     require.nodejs.package('cozy-controller')
-    require.supervisor.process('cozy-controller',
-        command="cozy-controller -c -u --per 755 --auth %s" % token,
-        environment='NODE_ENV="production"',
-        user='root'
-    )
     sudo('mkdir -p /etc/cozy')
     require.files.file(path='/etc/cozy/controller.token',
         mode='700',
@@ -333,7 +329,13 @@ def install_controller():
         use_sudo=True,
         owner='cozy-home'
     )
-    supervisor.restart_process('cozy-controller')
+    require.supervisor.process('cozy-controller',
+        command="/usr/bin/pidproxy /etc/cozy/pids/controller.pid " +
+            "/home/vagrant/cozy-controller/bin/cozy-controller -u --auth",
+        environment='NODE_ENV="production"',
+        user='root'
+    )
+    upervisor.restart_process('cozy-controller')
 
     print(green("Cozy Controller successfully started"))
 

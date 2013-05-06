@@ -414,8 +414,8 @@ def install_proxy():
     """
     Install Cozy Proxy
     """
-    supervisor.update_config()
-    print(green("Redis 2.4.14 successfully uninstalled"))
+    sudo('cozy-monitor install proxy')
+    print(green("Proxy successfully uninstalled"))
 
 @task
 def install_apps():

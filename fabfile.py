@@ -266,9 +266,9 @@ def install_postfix():
     """
     Install a postfix instance (required for mail sending).
     """
-    domain = prompt('Enter your domain name:',
-                    default='myinstance.cozycloud.cc')
-    require.postfix.server(domain)
+    #domain = prompt('Enter your domain name:',
+    #                default='myinstance.cozycloud.cc')
+    require.postfix.server('cozycloud.cc')
     print(green("Postfix successfully installed"))
 
 
@@ -331,7 +331,7 @@ def install_controller():
         contents=token,
         use_sudo=True,
         owner='cozy-home'
-    ) 
+    )
     supervisor.restart_process('cozy-controller')
 
     print(green("Cozy Controller successfully started"))

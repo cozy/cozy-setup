@@ -302,9 +302,9 @@ def create_cozy_user():
     """
     Add Cozy user with no home directory.
     """
-    require.user("cozy", home=False)
-    require.user("cozy-data-system", home=False)
-    require.user("cozy-home", home=False)
+    require.user("cozy", home=False, create_home=False)
+    require.user("cozy-data-system", home=False, create_home=False)
+    require.user("cozy-home", home=False, create_home=False)
 
 
 @task
@@ -422,8 +422,8 @@ def install_apps():
     """
     Install Cozy Notes and Cozy Todos
     """
-    run('cozy-monitor install_home notes')
-    run('cozy-monitor install_home todos')
+    sudo('cozy-monitor install_home notes')
+    sudo('cozy-monitor install_home todos')
     print(green("Apps successfully started"))
 
 

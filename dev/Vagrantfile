@@ -36,6 +36,9 @@ Vagrant::Config.run do |config|
     # Starts all the apps for Cozy
     # Should not be needed but sometimes they dont start when vagrant box is up.
     config.vm.provision :shell, :inline => '
+
+      sudo apt-get --yes --force-yes install build-essential git
+
       exe="/usr/local/bin/cozy-monitor"
 
       appsToStart=("data-system" "home" "proxy")

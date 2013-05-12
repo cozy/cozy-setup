@@ -127,6 +127,12 @@ header p {
   cursor: pointer;
   text-decoration: underline;
 }
+.read-more img {
+  -webkit-transition: -webkit-transform 0.5s ease;
+  -moz-transition: -moz-transform 0.5s ease;
+  -o-transition: -o-transform 0.5s ease;
+  transition: transform 0.5s ease;
+}
 .menu {
   padding: 0;
   margin: 0;

@@ -1095,6 +1095,12 @@ header p {
   cursor: pointer;
   text-decoration: underline;
 }
+.read-more img {
+  -webkit-transition: -webkit-transform 0.5s ease;
+  -moz-transition: -moz-transform 0.5s ease;
+  -o-transition: -o-transform 0.5s ease;
+  transition: transform 0.5s ease;
+}
 .menu {
   padding: 0;
   margin: 0;
@@ -1258,9 +1264,19 @@ code {
    $(".diagbox").hover(function(event) {
      $(event.target).find("p").slideDown();
    });
-   $(".read-more").click(function(event) {
-     $(event.target).css('visibility', 'hidden');
-     $(event.target).parent().parent().find(".additional-infos").slideDown();
+   $(".read-more img").click(function(event) {
+     target = $(event.target);
+     target.css({ '-webkit-transform': "rotate(90deg)" });
+     target.css({ '-moz-transform': "rotate(90deg)" });
+     target.css({ 'transform': "rotate(90deg)" });
+     setTimeout(function() {
+       target.fadeOut(function() {
+         target.css('visibility', 'hidden');
+         target.show();
+       });
+     }, 500);
+     
+     $(event.target).parent().parent().parent().find(".additional-infos").slideDown();
    });
    $(".next").click(function(event) {
      if($(event.target).get(0).tagName === "A") {
@@ -1277,7 +1293,7 @@ code {
    });
 });</script></head><body><header id="header" class="line"><div class="mod main-text"><div class="line"> <p class="right happy-pic"><img src="/happycloud.png" alt="Happy Cloud"></p><h1 class="left"><span class="title">Cozy&nbsp;</span>a personal cloud you can host,
 hack, 
-or delete</h1></div><p class="external-links"><a href="https://github.com/mycozycloud/cozy-setup"><button>Github</button></a><a href="https://github.com/mycozycloud/cozy-setup/wiki"><button>Docs</button></a><a href="https://demo.cozycloud.cc/"><button>Demo</button></a></p><p class="line read-more"><div class="ml4 read-more">read more</div></p></div><div class="additional-infos"><div class="line"><div class="mod image left"><img src="picto_02.png"></div><div class="mod"><p>Cozy brings to you its personal cloud platform. 
+or delete</h1></div><p class="external-links"><a href="https://github.com/mycozycloud/cozy-setup"><button>Github</button></a><a href="https://github.com/mycozycloud/cozy-setup/wiki"><button>Docs</button></a><a href="https://demo.cozycloud.cc/"><button>Demo</button></a></p><p class="line read-more"><div class="ml4 read-more"><img src="plus.png" alt="read more"></div></p></div><div class="additional-infos"><div class="line"><div class="mod image left"><img src="picto_02.png"></div><div class="mod"><p>Cozy brings to you its personal cloud platform. 
 Store all your data in a
 single place you control then leverage them with
 web applications made by you or by others.</p></div></div><div class="line"><div class="mod image left"><img src="picto_01.png"></div><div class="mod"><p>Photos, mails, notes, contacts, todos... store
@@ -1285,7 +1301,7 @@ and manage any kind of data. There is an app
 for an usage. And if you don't find the app you
 want, you can build it!</p></div></div><div class="line"><div class="mod image left"><img src="picto_03.png"></div><div class="mod"><p>Cozy is open-source and aims to be self-hosted.
 That means it is privacy-safe. If you don't
-want to be bored with installation, check our <a href="https://cozycloud.cc">hosting solutions.</a></p></div></div><div class="line txtcenter mt2"><a href="#host" class="next">host it<br><i class="icon-down"></i></a></div></div></header><section id="host" class="line target"><h2 class="icon-cloud">&nbsp; Host it</h2><code>curl http://cozy.io/install_cozy.sh | HOST=root@<strong>ip</strong> sh</code><div class="line read-more"><div class="txt-white">read more</div></div><div class="additional-infos mt2"><p>This script will install several tools on your
+want to be bored with installation, check our <a href="https://cozycloud.cc">hosting solutions.</a></p></div></div><div class="line txtcenter mt2"><a href="#host" class="next">host it<br><i class="icon-down"></i></a></div></div></header><section id="host" class="line target"><h2 class="icon-cloud">&nbsp; Host it</h2><code>curl http://cozy.io/install_cozy.sh | HOST=root@<strong>ip</strong> sh</code><div class="line">&nbsp;</div><div class="line read-more"><div class="txt-white"><img src="plus-white.png" alt="read more"></div></div><div class="additional-infos mt2"><p>This script will install several tools on your
 local computer: python, pip, fabric and fabtools.
 They are the tools required to run the installation on 
 your 
@@ -1296,7 +1312,7 @@ a Cozy on any OS (Linux, Mac, Win).</p><div class="line txtcenter mt2"><a href="
 hack it<br><i class="icon-down"></i></a></div></div></section><section id="hack" class="line target"><h2 class="icon-up">&nbsp; Hack it</h2><h3>install the development environment</h3><code>npm install cozy -g
 cozy dev:init
 cozy dev:start</code><h3>initialize your application</h3><div class="line"><code>cozy new my-app  --github myaccount
-cd my-app</code></div><h3>hack... then deploy!</h3><div class="line"><code>cozy deploy</code></div><div class="line read-more mt1"><div class="txt-white read-more">read more</div></div><div class="additional-infos mt2"><p>We are not talking about fancy plugins, here you write 
+cd my-app</code></div><h3>hack... then deploy!</h3><div class="line"><code>cozy deploy</code></div><div class="line read-more mt1"><div class="txt-white read-more"><img src="plus-white.png" alt="read more"></div></div><div class="additional-infos mt2"><p>We are not talking about fancy plugins, here you write 
 your
 additions like you would write any web app! The only
 constraints are to use our storage system and to write
@@ -1304,7 +1320,7 @@ your code for Node.js.
 (Python and Ruby are on the roadmap). More details&nbsp;<a href="https://github.com/mycozycloud/cozy-setup/wiki#build-your-cozy-cloud-application">here</a></p><div class="line txtcenter mt2"><a href="#delete" class="next"> 
 delete it<br><i class="icon-down"></i></a></div></div></section><section id="delete" class="line target"><h2 class="icon-cross">&nbsp; Delete it</h2><p> 
 We are convinced that you will keep using your Cozy because 
-you can get rid of it:</p><code class="mt2">curl http://cozy.io/uninstall_cozy.sh | HOST=root@<strong>ip:port</strong> sh</code><div class="line read-more mt1"><div class="black-text read-more">read more</div></div><div class="additional-infos mt2"><p> 
+you can get rid of it:</p><code class="mt2">curl http://cozy.io/uninstall_cozy.sh | HOST=root@<strong>ip:port</strong> sh</code><div class="line read-more mt1"><div class="black-text read-more"><img src="plus.png" alt="read more"></div></div><div class="additional-infos mt2"><p> 
 What is annoying today is that when you use an online
 service, you are locked with it. We don't want that for
 Cozy Cloud. That's why we give you the possibility to 
@@ -1328,7 +1344,7 @@ objects.</p></div><div class="diagbox"><div>file system</div><p class="w100">Fil
 attachments of documents. A fuse implementation
 is on the roadmap to make things smoother.</p></div><div class="diagbox"> <div>indexer</div><p class="w100">A dedicated module
 handles content indexation through a REST API.
-That's your personal search engine.</p></div></div></div><div class="line mt1"></div><div class="line read-more mt1"><div class="txt-black read-more">read more</div></div><div class="additional-infos mt2"><p>We could write a lot about our architecture and our
+That's your personal search engine.</p></div></div></div><div class="line mt1"></div><div class="line read-more mt1"><div class="txt-black read-more"><img src="plus.png" alt="read more"></div></div><div class="additional-infos mt2"><p>We could write a lot about our architecture and our
 technical choice. So let's read it in a proper place :
 check the dedicated&nbsp;<a href="https://github.com/mycozycloud/cozy-setup/wiki/Cozy-architecture">wiki page</a>!</p><div class="line txtcenter mt2"><a href="#community" class="next"> 
 join our community<br><i class="icon-down"></i></a></div></div></section><section id="community" class="line"><h2 class="icon-asteri">&nbsp; Community</h2><p> 

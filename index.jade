@@ -13,9 +13,19 @@ html(lang="en")
              $(".diagbox").hover(function(event) {
                $(event.target).find("p").slideDown();
              });
-             $(".read-more").click(function(event) {
-               $(event.target).css('visibility', 'hidden');
-               $(event.target).parent().parent().find(".additional-infos").slideDown();
+             $(".read-more img").click(function(event) {
+               target = $(event.target);
+               target.css({ '-webkit-transform': "rotate(90deg)" });
+               target.css({ '-moz-transform': "rotate(90deg)" });
+               target.css({ 'transform': "rotate(90deg)" });
+               setTimeout(function() {
+                 target.fadeOut(function() {
+                   target.css('visibility', 'hidden');
+                   target.show();
+                 });
+               }, 500);
+
+               $(event.target).parent().parent().parent().find(".additional-infos").slideDown();
              });
              $(".next").click(function(event) {
                if($(event.target).get(0).tagName === "A") {
@@ -50,7 +60,8 @@ html(lang="en")
                     a(href="https://demo.cozycloud.cc/")
                         button Demo
                 p.line.read-more
-                    .ml4.read-more read more
+                    .ml4.read-more
+                        img(src="plus.png", alt="read more")
             .additional-infos
                 .line
                     .mod.image.left
@@ -87,8 +98,11 @@ html(lang="en")
         section#host.line.target
             h2.icon-cloud &nbsp; Host it
             code curl http://cozy.io/install_cozy.sh | HOST=root@<strong>ip</strong> sh
+            .line
+                &nbsp;
             .line.read-more
-                .txt-white read more
+                .txt-white
+                    img(src="plus-white.png", alt="read more")
             .additional-infos.mt2
                 p
                     | This script will install several tools on your
@@ -126,7 +140,8 @@ html(lang="en")
                 code
                     | cozy deploy
             .line.read-more.mt1
-                .txt-white.read-more read more
+                .txt-white.read-more
+                    img(src="plus-white.png", alt="read more")
             .additional-infos.mt2
                 p
                     | We are not talking about fancy plugins, here you write 
@@ -149,7 +164,8 @@ html(lang="en")
                 | you can get rid of it:
             code.mt2 curl http://cozy.io/uninstall_cozy.sh | HOST=root@<strong>ip:port</strong> sh
             .line.read-more.mt1
-                .black-text.read-more read more
+                .black-text.read-more
+                    img(src="plus.png", alt="read more")
             .additional-infos.mt2
                 p 
                     | What is annoying today is that when you use an online
@@ -226,7 +242,9 @@ html(lang="en")
                             | That's your personal search engine.
             .line.mt1
             .line.read-more.mt1
-                .txt-black.read-more read more
+                .txt-black.read-more
+                    img(src="plus.png", alt="read more")
+
             .additional-infos.mt2
                 p
                     | We could write a lot about our architecture and our

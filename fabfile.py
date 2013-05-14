@@ -334,7 +334,7 @@ def install_controller():
     path = "/usr/local/lib/node_modules/cozy-controller/bin/cozy-controller"
     require.supervisor.process('cozy-controller',
         command="/usr/bin/pidproxy /etc/cozy/pids/controller.pid " +
-            "%s -u --auth" % path,
+            "%s -u --auth --per 755" % path,
         environment='NODE_ENV="production"',
         user='root'
     )

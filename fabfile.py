@@ -171,7 +171,7 @@ def install_couchdb():
         'curl'
     ])
 
-    require_file(url='http://apache.mirrors.multidist.eu/couchdb/' +
+    require_file(url='http://apache.crihan.fr/dist/couchdb/source/' +
         '1.2.1/apache-couchdb-1.2.1.tar.gz')
     run('tar -xzvf apache-couchdb-1.2.1.tar.gz')
     with cd('apache-couchdb-1.2.1'):

@@ -161,7 +161,7 @@ def uninstall_node08():
 @task
 def install_couchdb():
     """
-    Install CouchDB 1.2.1
+    Install CouchDB 1.3.0
     """
     require.deb.packages([
         'erlang',
@@ -172,13 +172,13 @@ def install_couchdb():
     ])
 
     require_file(url='http://apache.crihan.fr/dist/couchdb/source/' +
-        '1.2.1/apache-couchdb-1.2.1.tar.gz')
-    run('tar -xzvf apache-couchdb-1.2.1.tar.gz')
-    with cd('apache-couchdb-1.2.1'):
+        '1.3.0/apache-couchdb-1.3.0.tar.gz')
+    run('tar -xzvf apache-couchdb-1.3.0.tar.gz')
+    with cd('apache-couchdb-1.3.0'):
         run('./configure; make')
         sudo('make install')
-    run('rm -rf apache-couchdb-1.2.1')
-    run('rm -rf apache-couchdb-1.2.1.tar.gz')
+    run('rm -rf apache-couchdb-1.3.0')
+    run('rm -rf apache-couchdb-1.3.0.tar.gz')
 
     require.users.user("couchdb", home='/usr/local/var/lib/couchdb')
     sudo('chown -R couchdb:couchdb /usr/local/etc/couchdb')
@@ -193,7 +193,7 @@ def install_couchdb():
     require.supervisor.process('couchdb', user='couchdb',
         command='couchdb', autostart='true',
         environment='HOME=/usr/local/var/lib/couchdb')
-    print(green("CouchDB 1.2.1 successfully installed"))
+    print(green("CouchDB 1.3.0 successfully installed"))
 
 @task
 def config_couchdb():
@@ -208,17 +208,17 @@ def config_couchdb():
         owner='cozy-data-system',
         mode='700'
     )
-    print(green("CouchDB 1.2.1 successfully configured"))
+    print(green("CouchDB 1.3.0 successfully configured"))
 
 @task
 def uninstall_couchdb():
     """
-    Install CouchDB 1.2.1
+    Install CouchDB 1.3.0
     """
     require_file(url='http://apache.mirrors.multidist.eu/couchdb/' +
-        '1.2.1/apache-couchdb-1.2.1.tar.gz')
-    run('tar -xzvf apache-couchdb-1.2.1.tar.gz')
-    with cd('apache-couchdb-1.2.1'):
+        '1.3.0/apache-couchdb-1.3.0.tar.gz')
+    run('tar -xzvf apache-couchdb-1.3.0.tar.gz')
+    with cd('apache-couchdb-1.3.0'):
         sudo('./configure')
         sudo('make uninstall')
         sudo('make distclean')
@@ -230,11 +230,11 @@ def uninstall_couchdb():
     su_delete('/usr/local/share/doc/couchdb')
     su_delete('/usr/local/bin/couchjs')
     su_delete('/usr/local/bin/couchdb')
-    su_delete('apache-couchdb-1.2.1')
-    su_delete('apache-couchdb-1.2.1.tar.gz')
+    su_delete('apache-couchdb-1.3.0')
+    su_delete('apache-couchdb-1.3.0.tar.gz')
     su_delete('/etc/supervisor/conf.d/couchdb.conf')
     supervisor.update_config()
-    print(green("CouchDB 1.2.1 successfully uninstalled"))
+    print(green("CouchDB 1.3.0 successfully uninstalled"))
 
 
 @task

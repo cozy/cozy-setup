@@ -324,6 +324,7 @@ def install_controller():
     """
     require.nodejs.package('cozy-controller')
     sudo('mkdir -p /etc/cozy')
+    sudo('mkdir -p /etc/cozy/pids')
     require.files.file(path='/etc/cozy/controller.token',
         mode='700',
         contents=token,

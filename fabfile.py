@@ -303,8 +303,8 @@ def create_cozy_user():
     Add Cozy user with no home directory.
     """
     require.user("cozy", home=False, create_home=False)
-    require.user("cozy-data-system", home=False, create_home=False)
-    require.user("cozy-home", home=False, create_home=False)
+    require.user("cozy-data-system", create_home=True)
+    require.user("cozy-home", create_home=True)
 
 
 @task

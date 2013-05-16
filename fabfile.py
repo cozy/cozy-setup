@@ -180,28 +180,28 @@ def install_couchdb():
 
     require.deb.packages(packages)
 
-    #require_file(url='http://apache.crihan.fr/dist/couchdb/source/' +
-        #'1.3.0/apache-couchdb-1.3.0.tar.gz')
-    #run('tar -xzvf apache-couchdb-1.3.0.tar.gz')
-    #with cd('apache-couchdb-1.3.0'):
-        #run('./configure; make')
-        #sudo('make install')
-    #run('rm -rf apache-couchdb-1.3.0')
-    #run('rm -rf apache-couchdb-1.3.0.tar.gz')
+    require_file(url='http://apache.crihan.fr/dist/couchdb/source/' +
+        '1.3.0/apache-couchdb-1.3.0.tar.gz')
+    run('tar -xzvf apache-couchdb-1.3.0.tar.gz')
+    with cd('apache-couchdb-1.3.0'):
+        run('./configure; make')
+        sudo('make install')
+    run('rm -rf apache-couchdb-1.3.0')
+    run('rm -rf apache-couchdb-1.3.0.tar.gz')
 
-    #require.users.user("couchdb", home='/usr/local/var/lib/couchdb')
-    #sudo('chown -R couchdb:couchdb /usr/local/etc/couchdb')
-    #sudo('chown -R couchdb:couchdb /usr/local/var/lib/couchdb')
-    #sudo('chown -R couchdb:couchdb /usr/local/var/log/couchdb')
-    #sudo('chown -R couchdb:couchdb /usr/local/var/run/couchdb')
-    #sudo('chmod 0770 /usr/local/etc/couchdb')
-    #sudo('chmod 0770 /usr/local/var/lib/couchdb')
-    #sudo('chmod 0770 /usr/local/var/log/couchdb')
-    #sudo('chmod 0770 /usr/local/var/run/couchdb')
+    require.users.user("couchdb", home='/usr/local/var/lib/couchdb')
+    sudo('chown -R couchdb:couchdb /usr/local/etc/couchdb')
+    sudo('chown -R couchdb:couchdb /usr/local/var/lib/couchdb')
+    sudo('chown -R couchdb:couchdb /usr/local/var/log/couchdb')
+    sudo('chown -R couchdb:couchdb /usr/local/var/run/couchdb')
+    sudo('chmod 0770 /usr/local/etc/couchdb')
+    sudo('chmod 0770 /usr/local/var/lib/couchdb')
+    sudo('chmod 0770 /usr/local/var/log/couchdb')
+    sudo('chmod 0770 /usr/local/var/run/couchdb')
 
-    #require.supervisor.process('couchdb', user='couchdb',
-        #command='couchdb', autostart='true',
-        #environment='HOME=/usr/local/var/lib/couchdb')
+    require.supervisor.process('couchdb', user='couchdb',
+        command='couchdb', autostart='true',
+        environment='HOME=/usr/local/var/lib/couchdb')
     print(green("CouchDB 1.3.0 successfully installed"))
 
 @task

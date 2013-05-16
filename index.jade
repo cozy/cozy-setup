@@ -22,6 +22,14 @@ html(lang="en")
                  target.fadeOut(function() {
                    target.css('visibility', 'hidden');
                    target.show();
+                   targetBox = target.parent().parent().parent()
+                   bottom = targetBox.position().top + targetBox.height() + 50
+                   bottomTop = $('body,html').scrollTop() + $(window).height();
+                   if(bottom > bottomTop) {
+                       $('body,html').animate({
+                         scrollTop: target.parent().position().top
+                       }, 800);
+                   };
                  });
                }, 500);
 
@@ -97,6 +105,8 @@ html(lang="en")
                         i.icon-down
         section#host.line.target
             h2.icon-cloud &nbsp; Host it
+            h3
+                strong Target your server with this script (sudoer required).
             code curl http://cozy.io/install_cozy.sh | HOST=root@<strong>ip</strong> sh
             .line
                 &nbsp;
@@ -125,7 +135,9 @@ html(lang="en")
 
         section#hack.line.target
             h2.icon-up &nbsp; Hack it
-            h3 install the development environment
+            h3 
+                | install the development environment (node.js, vagrant and
+                | virtualbox are required)
             code
                 | npm install cozy -g
                 | cozy dev:init

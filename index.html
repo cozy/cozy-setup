@@ -1273,6 +1273,14 @@ code {
        target.fadeOut(function() {
          target.css('visibility', 'hidden');
          target.show();
+         targetBox = target.parent().parent().parent()
+         bottom = targetBox.position().top + targetBox.height() + 50
+         bottomTop = $('body,html').scrollTop() + $(window).height();
+         if(bottom > bottomTop) {
+             $('body,html').animate({
+               scrollTop: target.parent().position().top
+             }, 800);
+         };
        });
      }, 500);
      
@@ -1301,7 +1309,7 @@ and manage any kind of data. There is an app
 for an usage. And if you don't find the app you
 want, you can build it!</p></div></div><div class="line"><div class="mod image left"><img src="picto_03.png"></div><div class="mod"><p>Cozy is open-source and aims to be self-hosted.
 That means it is privacy-safe. If you don't
-want to be bored with installation, check our <a href="https://cozycloud.cc">hosting solutions.</a></p></div></div><div class="line txtcenter mt2"><a href="#host" class="next">host it<br><i class="icon-down"></i></a></div></div></header><section id="host" class="line target"><h2 class="icon-cloud">&nbsp; Host it</h2><code>curl http://cozy.io/install_cozy.sh | HOST=root@<strong>ip</strong> sh</code><div class="line">&nbsp;</div><div class="line read-more"><div class="txt-white"><img src="plus-white.png" alt="read more"></div></div><div class="additional-infos mt2"><p>This script will install several tools on your
+want to be bored with installation, check our <a href="https://cozycloud.cc">hosting solutions.</a></p></div></div><div class="line txtcenter mt2"><a href="#host" class="next">host it<br><i class="icon-down"></i></a></div></div></header><section id="host" class="line target"><h2 class="icon-cloud">&nbsp; Host it</h2><h3><strong>Target your server with this script (sudoer required).</strong></h3><code>curl http://cozy.io/install_cozy.sh | HOST=root@<strong>ip</strong> sh</code><div class="line">&nbsp;</div><div class="line read-more"><div class="txt-white"><img src="plus-white.png" alt="read more"></div></div><div class="additional-infos mt2"><p>This script will install several tools on your
 local computer: python, pip, fabric and fabtools.
 They are the tools required to run the installation on 
 your 
@@ -1309,7 +1317,9 @@ remote server. To know what will be setup on your
 server, check the <a href="https://github.com/mycozycloud/cozy-setup#what-this-script-installs-on-your-server-">list</a>&nbsp;in our readme.</p><p>It will work only with Debian/Ubuntu distros.
 A fully packaged VM is on its way so that you can deploy
 a Cozy on any OS (Linux, Mac, Win).</p><div class="line txtcenter mt2"><a href="#hack" class="next"> 
-hack it<br><i class="icon-down"></i></a></div></div></section><section id="hack" class="line target"><h2 class="icon-up">&nbsp; Hack it</h2><h3>install the development environment</h3><code>npm install cozy -g
+hack it<br><i class="icon-down"></i></a></div></div></section><section id="hack" class="line target"><h2 class="icon-up">&nbsp; Hack it</h2><h3> 
+install the development environment (node.js, vagrant and
+virtualbox are required)</h3><code>npm install cozy -g
 cozy dev:init
 cozy dev:start</code><h3>initialize your application</h3><div class="line"><code>cozy new my-app  --github myaccount
 cd my-app</code></div><h3>hack... then deploy!</h3><div class="line"><code>cozy deploy</code></div><div class="line read-more mt1"><div class="txt-white read-more"><img src="plus-white.png" alt="read more"></div></div><div class="additional-infos mt2"><p>We are not talking about fancy plugins, here you write 

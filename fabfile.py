@@ -170,12 +170,13 @@ def install_couchdb():
         'curl'
     ]
 
-    if system.distrib_id() == "Debian" \
-    and system.distrib_release().startswith('6.0'):
-        packages.append('libmozjs-dev')
-    else:
-        packages.append('libmozjs185-dev')
-    require.deb.packages(packages)
+    #if system.distrib_id() == "Debian" \
+    #and system.distrib_release().startswith('6.0'):
+    #    packages.append('libmozjs-dev')
+    #else:
+    packages.append('libmozjs-dev')
+    packages.append('libmozjs185-dev')
+    #require.deb.packages(packages)
 
     require_file(url='http://apache.crihan.fr/dist/couchdb/source/' +
         '1.3.0/apache-couchdb-1.3.0.tar.gz')

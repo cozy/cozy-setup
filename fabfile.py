@@ -170,11 +170,12 @@ def install_couchdb():
         'curl'
     ]
 
+    # Uncomment thess lines when fabtools 0.14.0 will be out.
     #if system.distrib_id() == "Debian" \
     #and system.distrib_release().startswith('6.0'):
     #    packages.append('libmozjs-dev')
-    #else:
     packages.append('libmozjs-dev')
+    #else:
     packages.append('libmozjs185-dev')
     #require.deb.packages(packages)
 

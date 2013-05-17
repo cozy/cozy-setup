@@ -177,7 +177,7 @@ def install_couchdb():
     packages.append('libmozjs-dev')
     #else:
     packages.append('libmozjs185-dev')
-    #require.deb.packages(packages)
+    require.deb.packages(packages)
 
     require_file(url='http://apache.crihan.fr/dist/couchdb/source/' +
         '1.3.0/apache-couchdb-1.3.0.tar.gz')
@@ -346,7 +346,10 @@ def install_controller():
         environment='NODE_ENV="production"',
         user='root'
     )
-    supervisor.restart_process('cozy-controller')
+    supervisor.stop_process('cozy-controller')
+    ## In case where two cozy-controller are started
+    sudo('pkill -9 node')
+    supervisor.start_process('cozy-controller')
 
     print(green("Cozy Controller successfully started"))
 

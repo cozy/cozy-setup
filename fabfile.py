@@ -166,6 +166,7 @@ def install_couchdb():
     packages = [
         'erlang',
         'libicu-dev',
+        'libmozjs185-dev',
         'libcurl4-openssl-dev',
         'curl'
     ]
@@ -176,7 +177,7 @@ def install_couchdb():
     #    packages.append('libmozjs-dev')
     #packages.append('libmozjs-dev')
     #else:
-    packages.append('libmozjs185-dev')
+    #packages.append('libmozjs185-dev')
     require.deb.packages(packages)
 
     require_file(url='http://apache.crihan.fr/dist/couchdb/source/' +

@@ -431,9 +431,10 @@ def install_apps():
     """
     Install Cozy Notes and Cozy Todos
     """
-    sudo('cozy-monitor install_home notes')
-    sudo('cozy-monitor install_home todos')
-    print(green("Apps successfully started"))
+    pass
+    #sudo('cozy-monitor install_home notes')
+    #sudo('cozy-monitor install_home todos')
+    #print(green("Apps successfully started"))
 
 
 @task

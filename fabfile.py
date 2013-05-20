@@ -351,7 +351,7 @@ def install_controller():
         user='root'
     )
     supervisor.stop_process('cozy-controller')
-    ## In case where two cozy-controller are started
+    ## In case where two cozy-controllers are started
     sudo('pkill -9 node')
     supervisor.start_process('cozy-controller')
 

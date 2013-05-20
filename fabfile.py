@@ -347,7 +347,10 @@ def install_controller():
         environment='NODE_ENV="production"',
         user='root'
     )
-    supervisor.restart_process('cozy-controller')
+    supervisor.stop_process('cozy-controller')
+    ## In case where two cozy-controller are started
+    sudo('pkill -9 node')
+    supervisor.start_process('cozy-controller')
 
     print(green("Cozy Controller successfully started"))
 
@@ -415,6 +418,7 @@ def install_home():
     """
     Install Cozy Home
     """
+    sudo('npm install -g brunch')
     sudo('cozy-monitor install home')
     print(green("Home successfully installed"))
 

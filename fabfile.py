@@ -1,5 +1,5 @@
 from fabric.api import run, sudo, cd, prompt, task
-from fabtools import require, python, supervisor, deb, system
+from fabtools import require, python, supervisor, deb
 from fabtools.require import file as require_file
 from fabric.contrib import files
 from fabric.colors import green
@@ -25,10 +25,10 @@ username = id_generator()
 password = id_generator()
 
 
-def id_generator(size=40, chars=string.ascii_uppercase + string.digits):
+def simple_id_generator(size=40, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for x in range(size))
 
-token = id_generator()
+token = simple_id_generator()
 
 
 def cozydo(cmd):

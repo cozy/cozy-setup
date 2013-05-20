@@ -66,6 +66,8 @@ def install():
     install_controller()
     install_indexer()
     install_data_system()
+    import time
+    time.sleep(3)
     install_home()
     install_proxy()
     install_apps()
@@ -103,6 +105,8 @@ def install_dev():
     install_controller_dev()
     install_indexer()
     install_data_system()
+    import time
+    time.sleep(3)
     install_home()
     install_proxy()
     install_apps()
@@ -417,6 +421,7 @@ def install_home():
     """
     Install Cozy Home
     """
+    sudo('npm install -g brunch')
     sudo('cozy-monitor install home')
     print(green("Home successfully installed"))
 

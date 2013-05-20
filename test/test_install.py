@@ -139,9 +139,9 @@ def test_uninstall_app():
 def test_install_cozy():
     #start_box()
     install_cozy()
-    test_status(7)
+    test_status(5)
     test_register()
     test_bad_register()
-    test_install_app()
-    test_status(8)
-    test_uninstall_app()
+    #test_install_app()
+    #test_status(7)
+    #test_uninstall_app()

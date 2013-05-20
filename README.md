@@ -58,14 +58,12 @@ The Cozy install script install the following tools :
 * Node.js runtime
 * Redis key-value store
 * CouchDB document database
-* Haibu node.js application manager
 * Node tools: cozy-controller, cozy-monitor, coffee-script, compound
+* Cozy Controller Daemon
 * Cozy data indexer
 * Cozy data layer 
 * Cozy proxy
 * Cozy Home (web app)
-* Cozy Notes (web app)
-* Cozy Todos (web app)
 
 
 If you want to know more about how works Cozy you can check our [architecture

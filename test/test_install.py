@@ -84,7 +84,7 @@ def test_status(app):
     startedApps = result.count("up")
     brokenApps = result.count("down")
     # Check number of started application
-    print("Expect %s started applications and %s applications are started" %app %startedApps)
+    print("Expect %s started applications and %s applications are started" %(app, startedApps))
     assert startedApps == app
     # Check number of broken application
     print("Expect 0 broken applications and %s applications are broken" %brokenApps)

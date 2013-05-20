@@ -16,18 +16,18 @@ $ fab -H user@Ip.Ip.Ip.Ip:Port install
 to install the full Cozy stack.
 """
 
+
 # Helpers
-
-def id_generator(size=32, chars=string.ascii_uppercase + string.digits + string.ascii_lowercase):
+def id_generator(size=32,
+    chars=string.ascii_uppercase + string.digits + string.ascii_lowercase):
     return ''.join(random.choice(chars) for x in range(size))
-
-username = id_generator()
-password = id_generator()
 
 
 def simple_id_generator(size=40, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for x in range(size))
 
+username = id_generator()
+password = id_generator()
 token = simple_id_generator()
 
 
@@ -204,6 +204,7 @@ def install_couchdb():
         environment='HOME=/usr/local/var/lib/couchdb')
     print(green("CouchDB 1.3.0 successfully installed"))
 
+
 @task
 def config_couchdb():
     with hide('running', 'stdout'):
@@ -218,6 +219,7 @@ def config_couchdb():
         mode='700'
     )
     print(green("CouchDB 1.3.0 successfully configured"))
+
 
 @task
 def uninstall_couchdb():
@@ -326,6 +328,7 @@ def install_monitor():
     require.nodejs.package('compound')
     print(green("Cozy setup and coffee script successfully installed"))
 
+
 @task
 def install_controller():
     """
@@ -353,6 +356,7 @@ def install_controller():
     supervisor.start_process('cozy-controller')
 
     print(green("Cozy Controller successfully started"))
+
 
 @task
 def install_controller_dev():
@@ -430,6 +434,7 @@ def install_proxy():
     """
     sudo('cozy-monitor install proxy')
     print(green("Proxy successfully installed"))
+
 
 @task
 def install_apps():

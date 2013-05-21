@@ -2,7 +2,7 @@ from fabric.api import run, sudo, cd, prompt, task
 from fabtools import require, python, supervisor, deb, system
 from fabtools.require import file as require_file
 from fabric.contrib import files
-from fabric.colors import green
+from fabric.colors import green, red
 from fabric.context_managers import hide
 import string
 import random
@@ -409,9 +409,14 @@ def install_data_system():
     """
     Install Cozy Data System. Daemonize with Haibu.
     """
-    sudo('cozy-monitor install data-system')
-    print(green("Data System successfully started"))
-
+    result = sudo('cozy-monitor install data-system')
+    installedApp = result.count("successfully installed")
+    if installedApp == 0:
+        print(red("Installation of data-system failed.\n" +
+            "You can join us on our IRC channel : #cozycloud on freenode.net."))
+        exit()
+    else:
+        print(green("Data-system successfully installed"))
 
 @task
 def install_home():
@@ -419,8 +424,14 @@ def install_home():
     Install Cozy Home
     """
     sudo('npm install -g brunch')
-    sudo('cozy-monitor install home')
-    print(green("Home successfully installed"))
+    result = sudo('cozy-monitor install home')
+    installedApp = result.count("successfully installed")
+    if installedApp == 0:
+        print(red("Installation of home failed.\n" +
+            "You can join us on our IRC channel : #cozycloud on freenode.net."))
+        exit()
+    else:
+        print(green("Home successfully installed"))
 
 
 @task
@@ -428,8 +439,14 @@ def install_proxy():
     """
     Install Cozy Proxy
     """
-    sudo('cozy-monitor install proxy')
-    print(green("Proxy successfully installed"))
+    result = sudo('cozy-monitor install proxy')
+    installedApp = result.count("successfully installed")
+    if installedApp == 0:
+        print(red("Installation of proxy failed.\n" +
+            "You can join us on our IRC channel : #cozycloud on freenode.net."))
+        exit()
+    else:
+        print(green("Proxy successfully installed"))
 
 @task
 def install_apps():

@@ -419,12 +419,6 @@ def install_data_system():
         print(green("Data-system successfully installed"))
 
 @task
-def test():
-    install_home()
-    install_proxy()
-    install_data_system()
-
-@task
 def install_home():
     """
     Install Cozy Home

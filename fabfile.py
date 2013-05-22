@@ -423,6 +423,9 @@ def install_indexer():
         user="cozy"
     )
     supervisor.restart_process(process_name)
+    result = run('curl -X GET http://127.0.0.1:9102/')
+    if result != 'Cozy Data Indexer v0.1.0':
+        print_failed("cozy-data-indexer")
     print(green("Data Indexer successfully started"))
 
 

@@ -78,27 +78,26 @@ html(lang="en")
                         img(src="picto_02.png")
                     .mod
                         p
-                            | Cozy brings to you its personal cloud platform. 
-                            | Store all your data in a
-                            | single place you control then leverage them with
-                            | web applications made by you or by others.
+                            | Cozy brings you a personal cloud platform. Store
+                            | your data in a place you control and leverage it
+                            | with personal web applications.
                 .line
                     .mod.image.left
                         img(src="picto_01.png")
                     .mod
                         p
-                            | Photos, mails, notes, contacts, todos... store
-                            | and manage any kind of data. There is an app
-                            | for an usage. And if you don't find the app you
-                            | want, you can build it!
+                            | Photos, mails, notes, contacts, todos...
+                            | there's already many applications. Extend
+                            | the possibility by developing your own app,
+                            | you can leverage existing features!
                 .line
                     .mod.image.left
                         img(src="picto_03.png")
                     .mod
                         p
-                            | Cozy is open-source and aims to be self-hosted.
-                            | That means it is privacy-safe. If you don't
-                            | want to be bored with installation, check our 
+                            | Cozy is open-source and you can self-host it.
+                            | Cozy is privacy-friendly. Alternatively, if you
+                            | don't want to self-host, check out our 
                             a(href="https://cozycloud.cc") hosting solutions.
                 .line.txtcenter.mt2
                     a(href="#host").next
@@ -117,16 +116,16 @@ html(lang="en")
                     img(src="plus-white.png", alt="read more")
             .additional-infos.mt2
                 p
-                    | This script will install several tools on your
+                    | This script installs several tools on your
                     | local computer: python, pip, fabric and fabtools.
-                    | They are the tools required to run the installation on 
-                    | your 
-                    | remote server. To know what will be setup on your 
+                    | They are required to run the installation on 
+                    | your remote server.
+                    | To know what will be setup on your 
                     | server, check the 
                     a(href='https://github.com/mycozycloud/cozy-setup#what-this-script-installs-on-your-server-') list
-                    | &nbsp;in our readme.
+                    | &nbsp;in the readme.
                 p
-                    | It will work only with Debian/Ubuntu distros.
+                    | The script works only with Debian/Ubuntu distros.
                     | A fully packaged VM is on its way so that you can deploy
                     | a Cozy on any OS (Linux, Mac, Win).
                 .line.txtcenter.mt2
@@ -176,7 +175,7 @@ html(lang="en")
         section#delete.line.target
             h2.icon-cross &nbsp; Delete it
             p 
-                | We are convinced that you will keep using your Cozy because 
+                | We believe you will keep using your Cozy because 
                 | you can get rid of it:
             code.mt2 curl http://cozy.io/uninstall_cozy.sh | HOST=root@<strong>ip:port</strong> sh
             .line.read-more.mt1
@@ -184,10 +183,10 @@ html(lang="en")
                     img(src="plus.png", alt="read more")
             .additional-infos.mt2
                 p 
-                    | What is annoying today is that when you use an online
-                    | service, you are locked with it. We don't want that for
+                    | What is annoying nowadays with online services is
+                    | that you are locked with it. We don't want that for
                     | Cozy Cloud. That's why we give you the possibility to 
-                    | leave our platform. 
+                    | leave the platform. 
                     | NB: Be aware that the above action will erase your
                     | data permanently.
                 .line.txtcenter.mt2
@@ -202,31 +201,31 @@ html(lang="en")
                     .mod.w100.diagbox  
                         div proxy
                         p.w100
-                            | The proxy handles all users requests. It manages
-                            | the authentication and route requests to the 
+                            | The proxy handles all user requests. It manages
+                            | the authentication and routes requests to the 
                             | right application.
                 .line.grid5
                     .diagbox
                         div home / controller
                         p.w100
-                            | The home is an app that acts as the UI for the 
+                            | The home app is a UI for the 
                             | controller. It allows to install or remove
-                            | applications and sets user parameters.
+                            | applications and to set user parameters.
                     .diagbox
                         div app1
                         p.w100
                             | This is an application provided by Cozy Cloud
-                            | or the community. It is spawned by the
-                            | which find the sources on a github repo
+                            | or the community. It is spawned by the home
+                            | that finds the sources on a github repo.
                     .diagbox 
                         div app2
                         p.w100
-                            | Another app: notes, mails, budget, sport coach...
+                            | Your choice: notes, mails, budget, sport coach...
                     .diagbox(style='background: transparent') ...
                     .diagbox
                         div your app
                         p.w100
-                            | This is your application. You can spawn it like
+                            | This is an application you developed. You can spawn it like
                             | any other applications.
                 .line
                     .mod.w100.diagbox  
@@ -234,10 +233,10 @@ html(lang="en")
                         p.w100
                             | The data system is a layer between apps and data.
                             | It (will) manages application permissions and
-                            | provides an unified API to access to all kind of
+                            | provides a unified API to access to all kind of
                             | data: files, documents or indexes.
-                            | It publishes changes, this way, applications
-                            | can communicate with each other.
+                            | It publishes changes, so that applications
+                            | can share data with each other.
                 .line.grid3
                     .diagbox
                         div database
@@ -255,7 +254,7 @@ html(lang="en")
                         p.w100
                             | A dedicated module
                             | handles content indexation through a REST API.
-                            | That's your personal search engine.
+                            | It's your personal search engine.
             .line.mt1
             .line.read-more.mt1
                 .txt-black.read-more
@@ -263,8 +262,8 @@ html(lang="en")
 
             .additional-infos.mt2
                 p
-                    | We could write a lot about our architecture and our
-                    | technical choice. So let's read it in a proper place :
+                    | If you want to know more about our architecture
+                    | and technical choices
                     | check the dedicated&nbsp;
                     a(href="https://github.com/mycozycloud/cozy-setup/wiki/Cozy-architecture") wiki page
                     !
@@ -277,8 +276,8 @@ html(lang="en")
         section#community.line
             h2.icon-asteri &nbsp; Community
             p 
-                | A software is nothing without its community. That's why
-                | we want to make you easy to connect with other Cozy users:
+                | A software is nothing without a community. That's why we want
+                | to make it easy for you to connect with us and other Cozy users:
             p 
                 a(href="http://webchat.freenode.net/?channels=cozycloud") 
                     | IRC: <strong>#cozycloud</strong> on irc.freenode.net
@@ -299,10 +298,10 @@ html(lang="en")
                 | Cozy is a software built by the 
                 | <a href="https://cozycloud.cc/">Cozy Cloud company</a>. We love
                 | the web and cloud computing, but the current situation doesn't
-                | satisfy us. That's why want to make the web a better place 
-                | by providing interconnected and privacy-safe web apps.
+                | satisfy us. By providing a platform for interconnected and
+                | privacy-friendly web apps we want to make the web a better place.
             p
-                |pull If you want a Cozy without the hassle of self-hosting, visit
+                | If you want the benefits of Cozy without the constraints of self-hosting, visit
                 | <a href="https://cozycloud.cc">cozycloud.cc</a>
                 | and try our hosting solutions!
 

@@ -1301,20 +1301,19 @@ code {
    });
 });</script></head><body><header id="header" class="line"><div class="mod main-text"><div class="line"> <p class="right happy-pic"><img src="/happycloud.png" alt="Happy Cloud"></p><h1 class="left"><span class="title">Cozy&nbsp;</span>a personal cloud you can host,
 hack, 
-and delete</h1></div><p class="external-links"><a href="https://github.com/mycozycloud/cozy-setup"><button>Github</button></a><a href="https://github.com/mycozycloud/cozy-setup/wiki"><button>Docs</button></a><a href="https://demo.cozycloud.cc/"><button>Demo</button></a></p><p class="line read-more"><div class="ml4 read-more"><img src="plus.png" alt="read more"></div></p></div><div class="additional-infos"><div class="line"><div class="mod image left"><img src="picto_02.png"></div><div class="mod"><p>Cozy brings to you its personal cloud platform. 
-Store all your data in a
-single place you control then leverage them with
-web applications made by you or by others.</p></div></div><div class="line"><div class="mod image left"><img src="picto_01.png"></div><div class="mod"><p>Photos, mails, notes, contacts, todos... store
-and manage any kind of data. There is an app
-for an usage. And if you don't find the app you
-want, you can build it!</p></div></div><div class="line"><div class="mod image left"><img src="picto_03.png"></div><div class="mod"><p>Cozy is open-source and aims to be self-hosted.
-That means it is privacy-safe. If you don't
-want to be bored with installation, check our <a href="https://cozycloud.cc">hosting solutions.</a></p></div></div><div class="line txtcenter mt2"><a href="#host" class="next">host it<br><i class="icon-down"></i></a></div></div></header><section id="host" class="line target"><h2 class="icon-cloud">&nbsp; Host it</h2><h3><strong>Target your server with this script (sudoer required).</strong></h3><code>curl http://cozy.io/install_cozy.sh | HOST=root@<strong>ip</strong> sh</code><div class="line">&nbsp;</div><div class="line read-more"><div class="txt-white"><img src="plus-white.png" alt="read more"></div></div><div class="additional-infos mt2"><p>This script will install several tools on your
+and delete</h1></div><p class="external-links"><a href="https://github.com/mycozycloud/cozy-setup"><button>Github</button></a><a href="https://github.com/mycozycloud/cozy-setup/wiki"><button>Docs</button></a><a href="https://demo.cozycloud.cc/"><button>Demo</button></a></p><p class="line read-more"><div class="ml4 read-more"><img src="plus.png" alt="read more"></div></p></div><div class="additional-infos"><div class="line"><div class="mod image left"><img src="picto_02.png"></div><div class="mod"><p>Cozy brings you a personal cloud platform. Store
+your data in a place you control and leverage it
+with personal web applications.</p></div></div><div class="line"><div class="mod image left"><img src="picto_01.png"></div><div class="mod"><p>Photos, mails, notes, contacts, todos...
+there's already many applications. Extend
+the possibility by developing your own app,
+you can leverage existing features!</p></div></div><div class="line"><div class="mod image left"><img src="picto_03.png"></div><div class="mod"><p>Cozy is open-source and you can self-host it.
+Cozy is privacy-friendly. Alternatively, if you
+don't want to self-host, check out our <a href="https://cozycloud.cc">hosting solutions.</a></p></div></div><div class="line txtcenter mt2"><a href="#host" class="next">host it<br><i class="icon-down"></i></a></div></div></header><section id="host" class="line target"><h2 class="icon-cloud">&nbsp; Host it</h2><h3><strong>Target your server with this script (sudoer required).</strong></h3><code>curl http://cozy.io/install_cozy.sh | HOST=root@<strong>ip</strong> sh</code><div class="line">&nbsp;</div><div class="line read-more"><div class="txt-white"><img src="plus-white.png" alt="read more"></div></div><div class="additional-infos mt2"><p>This script installs several tools on your
 local computer: python, pip, fabric and fabtools.
-They are the tools required to run the installation on 
-your 
-remote server. To know what will be setup on your 
-server, check the <a href="https://github.com/mycozycloud/cozy-setup#what-this-script-installs-on-your-server-">list</a>&nbsp;in our readme.</p><p>It will work only with Debian/Ubuntu distros.
+They are required to run the installation on 
+your remote server.
+To know what will be setup on your 
+server, check the <a href="https://github.com/mycozycloud/cozy-setup#what-this-script-installs-on-your-server-">list</a>&nbsp;in the readme.</p><p>The script works only with Debian/Ubuntu distros.
 A fully packaged VM is on its way so that you can deploy
 a Cozy on any OS (Linux, Mac, Win).</p><div class="line txtcenter mt2"><a href="#hack" class="next"> 
 hack it<br><i class="icon-down"></i></a></div></div></section><section id="hack" class="line target"><h2 class="icon-up">&nbsp; Hack it</h2><h3> 
@@ -1329,37 +1328,37 @@ constraints are to use our storage system and to write
 your code for Node.js.
 (Python and Ruby are on the roadmap). </p><p>For more details check our&nbsp;<a href="https://github.com/mycozycloud/cozy-setup/wiki#build-your-cozy-cloud-application">getting started guide</a></p><div class="line txtcenter mt2"><a href="#delete" class="next"> 
 delete it<br><i class="icon-down"></i></a></div></div></section><section id="delete" class="line target"><h2 class="icon-cross">&nbsp; Delete it</h2><p> 
-We are convinced that you will keep using your Cozy because 
+We believe you will keep using your Cozy because 
 you can get rid of it:</p><code class="mt2">curl http://cozy.io/uninstall_cozy.sh | HOST=root@<strong>ip:port</strong> sh</code><div class="line read-more mt1"><div class="black-text read-more"><img src="plus.png" alt="read more"></div></div><div class="additional-infos mt2"><p> 
-What is annoying today is that when you use an online
-service, you are locked with it. We don't want that for
+What is annoying nowadays with online services is
+that you are locked with it. We don't want that for
 Cozy Cloud. That's why we give you the possibility to 
-leave our platform. 
+leave the platform. 
 NB: Be aware that the above action will erase your
 data permanently.</p><div class="line txtcenter mt2"><a href="#architecture" class="next txt-black"> 
-see our architecture<br><i class="icon-down"></i></a></div></div></section><section id="architecture" class="line target"><h2 class="icon-nav">&nbsp; Architecture</h2><div class="line"><div class="line"><div class="mod w100 diagbox"> <div>proxy</div><p class="w100">The proxy handles all users requests. It manages
-the authentication and route requests to the 
-right application.</p></div></div><div class="line grid5"><div class="diagbox"><div>home / controller</div><p class="w100">The home is an app that acts as the UI for the 
+see our architecture<br><i class="icon-down"></i></a></div></div></section><section id="architecture" class="line target"><h2 class="icon-nav">&nbsp; Architecture</h2><div class="line"><div class="line"><div class="mod w100 diagbox"> <div>proxy</div><p class="w100">The proxy handles all user requests. It manages
+the authentication and routes requests to the 
+right application.</p></div></div><div class="line grid5"><div class="diagbox"><div>home / controller</div><p class="w100">The home app is a UI for the 
 controller. It allows to install or remove
-applications and sets user parameters.</p></div><div class="diagbox"><div>app1</div><p class="w100">This is an application provided by Cozy Cloud
-or the community. It is spawned by the
-which find the sources on a github repo</p></div><div class="diagbox"> <div>app2</div><p class="w100">Another app: notes, mails, budget, sport coach...</p></div><div style="background: transparent" class="diagbox">...</div><div class="diagbox"><div>your app</div><p class="w100">This is your application. You can spawn it like
+applications and to set user parameters.</p></div><div class="diagbox"><div>app1</div><p class="w100">This is an application provided by Cozy Cloud
+or the community. It is spawned by the home
+that finds the sources on a github repo.</p></div><div class="diagbox"> <div>app2</div><p class="w100">Your choice: notes, mails, budget, sport coach...</p></div><div style="background: transparent" class="diagbox">...</div><div class="diagbox"><div>your app</div><p class="w100">This is an application you developed. You can spawn it like
 any other applications.</p></div></div><div class="line"><div class="mod w100 diagbox"> <div>data system</div><p class="w100">The data system is a layer between apps and data.
 It (will) manages application permissions and
-provides an unified API to access to all kind of
+provides a unified API to access to all kind of
 data: files, documents or indexes.
-It publishes changes, this way, applications
-can communicate with each other.</p></div></div><div class="line grid3"><div class="diagbox"><div>database</div><p class="w100">This NoSQL storage stores documents as JSON
+It publishes changes, so that applications
+can share data with each other.</p></div></div><div class="line grid3"><div class="diagbox"><div>database</div><p class="w100">This NoSQL storage stores documents as JSON
 objects.</p></div><div class="diagbox"><div>file system</div><p class="w100">Files are stored directly in the database as
 attachments of documents. A fuse implementation
 is on the roadmap to make things smoother.</p></div><div class="diagbox"> <div>indexer</div><p class="w100">A dedicated module
 handles content indexation through a REST API.
-That's your personal search engine.</p></div></div></div><div class="line mt1"></div><div class="line read-more mt1"><div class="txt-black read-more"><img src="plus.png" alt="read more"></div></div><div class="additional-infos mt2"><p>We could write a lot about our architecture and our
-technical choice. So let's read it in a proper place :
+It's your personal search engine.</p></div></div></div><div class="line mt1"></div><div class="line read-more mt1"><div class="txt-black read-more"><img src="plus.png" alt="read more"></div></div><div class="additional-infos mt2"><p>If you want to know more about our architecture
+and technical choices
 check the dedicated&nbsp;<a href="https://github.com/mycozycloud/cozy-setup/wiki/Cozy-architecture">wiki page</a>!</p><div class="line txtcenter mt2"><a href="#community" class="next"> 
 join our community<br><i class="icon-down"></i></a></div></div></section><section id="community" class="line"><h2 class="icon-asteri">&nbsp; Community</h2><p> 
-A software is nothing without its community. That's why
-we want to make you easy to connect with other Cozy users:</p><p> <a href="http://webchat.freenode.net/?channels=cozycloud"> 
+A software is nothing without a community. That's why we want
+to make it easy for you to connect with us and other Cozy users:</p><p> <a href="http://webchat.freenode.net/?channels=cozycloud"> 
 IRC: <strong>#cozycloud</strong> on irc.freenode.net</a></p><p><a href="https://groups.google.com/forum/#!forum/my-cozy-cloud"> 
 Mailing List </a></p><p><a href="https://forum.cozycloud.cc/"> 
 Forum</a></p><p><a href="https://twitter.com/mycozycloud"> 
@@ -1367,8 +1366,8 @@ Twitter</a></p></section><section id="about" class="line"><h2 class="icon-rate">
 Cozy is a software built by the 
 <a href="https://cozycloud.cc/">Cozy Cloud company</a>. We love
 the web and cloud computing, but the current situation doesn't
-satisfy us. That's why want to make the web a better place 
-by providing interconnected and privacy-safe web apps.</p><p>pull If you want a Cozy without the hassle of self-hosting, visit
+satisfy us. By providing a platform for interconnected and
+privacy-friendly web apps we want to make the web a better place.</p><p>If you want the benefits of Cozy without the constraints of self-hosting, visit
 <a href="https://cozycloud.cc">cozycloud.cc</a>
 and try our hosting solutions!</p></section><script type="text/javascript">var _paq = _paq || [];
 _paq.push(["trackPageView"]);

@@ -363,7 +363,12 @@ def install_controller():
     ## In case where two cozy-controller are started
     sudo('pkill -9 node')
     supervisor.start_process('cozy-controller')
-
+    import time
+    time.sleep(3)
+    with hide('running', 'stdout'):
+        result = run('curl -X GET http://127.0.0.1:9002/ -H "x-auth-token: %s"'%token)
+    if result != '{"message":"No drones specified"}':
+        print_failed("cozy-controller")
     print(green("Cozy Controller successfully started"))
 
 @task
@@ -378,7 +383,12 @@ def install_controller_dev():
         user='root'
     )
     supervisor.restart_process('cozy-controller')
-
+    import time
+    time.sleep(3)
+    with hide('running', 'stdout'):
+        result = run('curl -X GET http://127.0.0.1:9002/')
+    if result != '{"message":"No drones specified"}':
+        print_failed("cozy-controller")
     print(green("Cozy Controller successfully started"))
 
 
@@ -434,7 +444,7 @@ def install_home():
     Install Cozy Home
     """
     sudo('npm install -g brunch')
-    result = sudo('cozy-monitor uninstall home')
+    result = sudo('cozy-monitor install home')
     installedApp = result.find("successfully installed")
     if installedApp == -1:
         print_failed("home")

@@ -262,9 +262,8 @@ def install_redis():
     """
     require.redis.installed_from_source('2.6.12')
     require.redis.instance('cozy', '2.6.12')
-    sudo('apt-get install redis-server')
     # Stop script if redis does not work
-    run('redis-cli ping')
+    run('/opt/redis-2.6.12/redis-cli ping')
     print(green("Redis 2.4.14 successfully installed"))
 
 

@@ -1,4 +1,4 @@
-from fabric.api import run, sudo, cd, prompt, task
+from fabric.api import run, sudo, cd, prompt, task, settings
 from fabtools import require, python, supervisor, deb
 from fabtools.require import file as require_file
 from fabric.contrib import files
@@ -352,7 +352,8 @@ def install_controller():
     )
     supervisor.stop_process('cozy-controller')
     ## In case where two cozy-controllers are started
-    sudo('pkill -9 node')
+    with settings(warn_only=True):
+        sudo('pkill -9 node')
     supervisor.start_process('cozy-controller')
 
     print(green("Cozy Controller successfully started"))

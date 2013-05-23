@@ -216,11 +216,29 @@ def install_couchdb():
 
 @task
 def config_couchdb():
-    with hide('running', 'stdout'):
-        couch_admin_path = "127.0.0.1:5984/_config/admins/"
-        run('curl -X PUT http://%s%s -d \'\"%s\"\'' %
-                (couch_admin_path, username, password))
-    sudo('mkdir -p /etc/cozy')
+    if files.exists('/etc/cozy/couchdb.login'):
+        # CouchDB has an old admin
+        with hide('running', 'stdout'):
+            # Recover old password
+            logins = sudo('cat /etc/cozy/couchdb.login')
+            logsCouchDB = logins.split('\r\n')
+            # Add new admin
+            couch_admin_path = "@127.0.0.1:5984/_config/admins/"
+            run('curl -X PUT http://%s:%s%s%s -d \'\"%s\"\'' %
+                    (logsCouchDB[0], logsCouchDB[1], couch_admin_path, username, password))
+            # Delete old admin
+            run('curl -X DELETE http://%s:%s@127.0.0.1:5984/_config/admins/%s' %
+                    (username, password, logsCouchDB[0]))
+            sudo('rm -rf /etc/cozy/couchdb.login')
+    else:
+        # CouchDB has not an admin
+        # Create admin
+        with hide('running', 'stdout'):
+            couch_admin_path = "127.0.0.1:5984/_config/admins/"
+            run('curl -X PUT http://%s%s -d \'\"%s\"\'' %
+                    (couch_admin_path, username, password))
+        sudo('mkdir -p /etc/cozy')
+    # Create file to keep admin's password 
     require.files.file(path='/etc/cozy/couchdb.login',
         contents=username + "\n" + password,
         use_sudo=True,
@@ -235,7 +253,7 @@ def uninstall_couchdb():
     """
     Install CouchDB 1.3.0
     """
-    require_file(url='http://apache.mirrors.multidist.eu/couchdb/' +
+    require_file(url='http://apache.crihan.fr/dist/couchdb/source/' +
         '1.3.0/apache-couchdb-1.3.0.tar.gz')
     run('tar -xzvf apache-couchdb-1.3.0.tar.gz')
     with cd('apache-couchdb-1.3.0'):
@@ -253,6 +271,7 @@ def uninstall_couchdb():
     su_delete('apache-couchdb-1.3.0')
     su_delete('apache-couchdb-1.3.0.tar.gz')
     su_delete('/etc/supervisor/conf.d/couchdb.conf')
+    su_delete('/etc/cozy/couchdb.login')
     supervisor.update_config()
     print(green("CouchDB 1.3.0 successfully uninstalled"))
 

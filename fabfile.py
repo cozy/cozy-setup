@@ -30,6 +30,12 @@ username = id_generator()
 password = id_generator()
 token = simple_id_generator()
 
+def print_failed(module):
+    print(red("Installation of %s failed.\n" +
+                "You can join us on our IRC channel: "
+                + "#cozycloud on freenode.net.") %module)
+    exit()
+
 
 def cozydo(cmd):
     """Run a command as a cozy user"""
@@ -185,7 +191,10 @@ def install_couchdb():
     run('tar -xzvf apache-couchdb-1.3.0.tar.gz')
     with cd('apache-couchdb-1.3.0'):
         run('./configure; make')
-        sudo('make install')
+        result = sudo('make install')
+        installed = result.find("You have installed Apache CouchDB, time to relax.")
+        if installed == -1:
+            print_failed("couchdb")
     run('rm -rf apache-couchdb-1.3.0')
     run('rm -rf apache-couchdb-1.3.0.tar.gz')
 
@@ -255,6 +264,8 @@ def install_redis():
     """
     require.redis.installed_from_source('2.6.12')
     require.redis.instance('cozy', '2.6.12')
+    # Stop script if redis does not work
+    run('/opt/redis-2.6.12/redis-cli ping')
     print(green("Redis 2.4.14 successfully installed"))
 
 
@@ -355,7 +366,12 @@ def install_controller():
     with settings(warn_only=True):
         sudo('pkill -9 node')
     supervisor.start_process('cozy-controller')
-
+    import time
+    time.sleep(3)
+    with hide('running', 'stdout'):
+        result = run('curl -X GET http://127.0.0.1:9002/ -H "x-auth-token: %s"'%token)
+    if result != '{"message":"No drones specified"}':
+        print_failed("cozy-controller")
     print(green("Cozy Controller successfully started"))
 
 
@@ -371,7 +387,12 @@ def install_controller_dev():
         user='root'
     )
     supervisor.restart_process('cozy-controller')
-
+    import time
+    time.sleep(3)
+    with hide('running', 'stdout'):
+        result = run('curl -X GET http://127.0.0.1:9002/')
+    if result != '{"message":"No drones specified"}':
+        print_failed("cozy-controller")
     print(green("Cozy Controller successfully started"))
 
 
@@ -406,6 +427,10 @@ def install_indexer():
         user="cozy"
     )
     supervisor.restart_process(process_name)
+    result = run('curl -X GET http://127.0.0.1:9102/')
+    installedController = result.find("Cozy Data Indexer")
+    if installedController == -1:
+        print_failed("cozy-data-indexer")
     print(green("Data Indexer successfully started"))
 
 
@@ -415,11 +440,9 @@ def install_data_system():
     Install Cozy Data System. Daemonize with Haibu.
     """
     result = sudo('cozy-monitor install data-system')
-    installedApp = result.count("successfully installed")
-    if installedApp == 0:
-        print(red("Installation of data-system failed.\n" +
-            "You can join us on our IRC channel : #cozycloud on freenode.net."))
-        exit()
+    installedApp = result.find("successfully installed")
+    if installedApp == -1:
+        print_failed("data-system")
     else:
         print(green("Data-system successfully installed"))
 
@@ -430,14 +453,11 @@ def install_home():
     """
     sudo('npm install -g brunch')
     result = sudo('cozy-monitor install home')
-    installedApp = result.count("successfully installed")
-    if installedApp == 0:
-        print(red("Installation of home failed.\n" +
-            "You can join us on our IRC channel : #cozycloud on freenode.net."))
-        exit()
+    installedApp = result.find("successfully installed")
+    if installedApp == -1:
+        print_failed("home")
     else:
         print(green("Home successfully installed"))
-
 
 @task
 def install_proxy():
@@ -445,11 +465,9 @@ def install_proxy():
     Install Cozy Proxy
     """
     result = sudo('cozy-monitor install proxy')
-    installedApp = result.count("successfully installed")
-    if installedApp == 0:
-        print(red("Installation of proxy failed.\n" +
-            "You can join us on our IRC channel : #cozycloud on freenode.net."))
-        exit()
+    installedApp = result.find("successfully installed")
+    if installedApp == -1:
+        print_failed("proxy")
     else:
         print(green("Proxy successfully installed"))
 

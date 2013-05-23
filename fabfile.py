@@ -217,21 +217,28 @@ def install_couchdb():
 @task
 def config_couchdb():
     if files.exists('/etc/cozy/couchdb.login'):
+        # CouchDB has an old admin
         with hide('running', 'stdout'):
+            # Recover old password
             logins = sudo('cat /etc/cozy/couchdb.login')
             logsCouchDB = logins.split('\r\n')
+            # Add new admin
             couch_admin_path = "@127.0.0.1:5984/_config/admins/"
             run('curl -X PUT http://%s:%s%s%s -d \'\"%s\"\'' %
                     (logsCouchDB[0], logsCouchDB[1], couch_admin_path, username, password))
+            # Delete old admin
             run('curl -X DELETE http://%s:%s@127.0.0.1:5984/_config/admins/%s' %
                     (username, password, logsCouchDB[0]))
             sudo('rm -rf /etc/cozy/couchdb.login')
     else:
+        # CouchDB has not an admin
+        # Create admin
         with hide('running', 'stdout'):
             couch_admin_path = "127.0.0.1:5984/_config/admins/"
             run('curl -X PUT http://%s%s -d \'\"%s\"\'' %
                     (couch_admin_path, username, password))
         sudo('mkdir -p /etc/cozy')
+    # Create file to keep admin's password 
     require.files.file(path='/etc/cozy/couchdb.login',
         contents=username + "\n" + password,
         use_sudo=True,

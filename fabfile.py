@@ -552,6 +552,9 @@ server {
     ssl_ciphers  ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv3:+EXP;
     ssl_prefer_server_ciphers   on;
     ssl on;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
 
     gzip_vary on;
 
@@ -572,7 +575,7 @@ def install_nginx():
     """
     Install NGINX and make it use certs.
     """
-    require.deb.package("nginx")
+    require.deb.ppa("ppa:nginx/stable")
     require.nginx.site("cozy",
         template_contents=PROXIED_SITE_TEMPLATE,
         enabled=True,

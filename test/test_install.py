@@ -21,8 +21,8 @@ from fabtools import require
 
 def version():
     """
-	Get the vagrant version as a tuple
-	"""
+    Get the vagrant version as a tuple
+    """
     with settings(hide('running')):
         res = local('vagrant --version', capture=True)
     ver = res.split()[2]
@@ -32,8 +32,8 @@ def version():
 
 def halt_and_destroy():
     """
-	Halt and destoy virtual machine
-	"""
+    Halt and destoy virtual machine
+    """
     with lcd(os.path.dirname(__file__)):
         if os.path.exists(os.path.join(env['lcwd'], 'Vagrantfile')):
             local('vagrant halt')

@@ -386,7 +386,7 @@ def install_controller():
         sudo('pkill -9 node')
     supervisor.start_process('cozy-controller')
     import time
-    time.sleep(3)
+    time.sleep(5)
     with hide('running', 'stdout'):
         result = run('curl -X GET http://127.0.0.1:9002/ -H "x-auth-token: %s"'%token)
     if result != '{"message":"No drones specified"}':
@@ -407,7 +407,7 @@ def install_controller_dev():
     )
     supervisor.restart_process('cozy-controller')
     import time
-    time.sleep(3)
+    time.sleep(5)
     with hide('running', 'stdout'):
         result = run('curl -X GET http://127.0.0.1:9002/')
     if result != '{"message":"No drones specified"}':

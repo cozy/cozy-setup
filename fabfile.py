@@ -30,6 +30,12 @@ username = id_generator()
 password = id_generator()
 token = simple_id_generator()
 
+def print_failed(module):
+    print(red("Installation of %s failed.\n" +
+                "You can join us on our IRC channel: "
+                + "#cozycloud on freenode.net.") %module)
+    exit()
+
 
 def cozydo(cmd):
     """Run a command as a cozy user"""
@@ -185,7 +191,10 @@ def install_couchdb():
     run('tar -xzvf apache-couchdb-1.3.0.tar.gz')
     with cd('apache-couchdb-1.3.0'):
         run('./configure; make')
-        sudo('make install')
+        result = sudo('make install')
+        installed = result.find("You have installed Apache CouchDB, time to relax.")
+        if installed == -1:
+            print_failed("couchdb")
     run('rm -rf apache-couchdb-1.3.0')
     run('rm -rf apache-couchdb-1.3.0.tar.gz')
 
@@ -207,11 +216,29 @@ def install_couchdb():
 
 @task
 def config_couchdb():
-    with hide('running', 'stdout'):
-        couch_admin_path = "127.0.0.1:5984/_config/admins/"
-        run('curl -X PUT http://%s%s -d \'\"%s\"\'' %
-                (couch_admin_path, username, password))
-    sudo('mkdir -p /etc/cozy')
+    if files.exists('/etc/cozy/couchdb.login'):
+        # CouchDB has an old admin
+        with hide('running', 'stdout'):
+            # Recover old password
+            logins = sudo('cat /etc/cozy/couchdb.login')
+            logsCouchDB = logins.split('\r\n')
+            # Add new admin
+            couch_admin_path = "@127.0.0.1:5984/_config/admins/"
+            run('curl -X PUT http://%s:%s%s%s -d \'\"%s\"\'' %
+                    (logsCouchDB[0], logsCouchDB[1], couch_admin_path, username, password))
+            # Delete old admin
+            run('curl -X DELETE http://%s:%s@127.0.0.1:5984/_config/admins/%s' %
+                    (username, password, logsCouchDB[0]))
+            sudo('rm -rf /etc/cozy/couchdb.login')
+    else:
+        # CouchDB has not an admin
+        # Create admin
+        with hide('running', 'stdout'):
+            couch_admin_path = "127.0.0.1:5984/_config/admins/"
+            run('curl -X PUT http://%s%s -d \'\"%s\"\'' %
+                    (couch_admin_path, username, password))
+        sudo('mkdir -p /etc/cozy')
+    # Create file to keep admin's password 
     require.files.file(path='/etc/cozy/couchdb.login',
         contents=username + "\n" + password,
         use_sudo=True,
@@ -226,7 +253,7 @@ def uninstall_couchdb():
     """
     Install CouchDB 1.3.0
     """
-    require_file(url='http://apache.mirrors.multidist.eu/couchdb/' +
+    require_file(url='http://apache.crihan.fr/dist/couchdb/source/' +
         '1.3.0/apache-couchdb-1.3.0.tar.gz')
     run('tar -xzvf apache-couchdb-1.3.0.tar.gz')
     with cd('apache-couchdb-1.3.0'):
@@ -244,6 +271,7 @@ def uninstall_couchdb():
     su_delete('apache-couchdb-1.3.0')
     su_delete('apache-couchdb-1.3.0.tar.gz')
     su_delete('/etc/supervisor/conf.d/couchdb.conf')
+    su_delete('/etc/cozy/couchdb.login')
     supervisor.update_config()
     print(green("CouchDB 1.3.0 successfully uninstalled"))
 
@@ -255,6 +283,8 @@ def install_redis():
     """
     require.redis.installed_from_source('2.6.12')
     require.redis.instance('cozy', '2.6.12')
+    # Stop script if redis does not work
+    run('/opt/redis-2.6.12/redis-cli ping')
     print(green("Redis 2.4.14 successfully installed"))
 
 
@@ -355,7 +385,12 @@ def install_controller():
     with settings(warn_only=True):
         sudo('pkill -9 node')
     supervisor.start_process('cozy-controller')
-
+    import time
+    time.sleep(5)
+    with hide('running', 'stdout'):
+        result = run('curl -X GET http://127.0.0.1:9002/ -H "x-auth-token: %s"'%token)
+    if result != '{"message":"No drones specified"}':
+        print_failed("cozy-controller")
     print(green("Cozy Controller successfully started"))
 
 
@@ -371,7 +406,12 @@ def install_controller_dev():
         user='root'
     )
     supervisor.restart_process('cozy-controller')
-
+    import time
+    time.sleep(5)
+    with hide('running', 'stdout'):
+        result = run('curl -X GET http://127.0.0.1:9002/')
+    if result != '{"message":"No drones specified"}':
+        print_failed("cozy-controller")
     print(green("Cozy Controller successfully started"))
 
 
@@ -406,6 +446,10 @@ def install_indexer():
         user="cozy"
     )
     supervisor.restart_process(process_name)
+    result = run('curl -X GET http://127.0.0.1:9102/')
+    installedController = result.find("Cozy Data Indexer")
+    if installedController == -1:
+        print_failed("cozy-data-indexer")
     print(green("Data Indexer successfully started"))
 
 
@@ -415,11 +459,9 @@ def install_data_system():
     Install Cozy Data System. Daemonize with Haibu.
     """
     result = sudo('cozy-monitor install data-system')
-    installedApp = result.count("successfully installed")
-    if installedApp == 0:
-        print(red("Installation of data-system failed.\n" +
-            "You can join us on our IRC channel : #cozycloud on freenode.net."))
-        exit()
+    installedApp = result.find("successfully installed")
+    if installedApp == -1:
+        print_failed("data-system")
     else:
         print(green("Data-system successfully installed"))
 
@@ -430,14 +472,11 @@ def install_home():
     """
     sudo('npm install -g brunch')
     result = sudo('cozy-monitor install home')
-    installedApp = result.count("successfully installed")
-    if installedApp == 0:
-        print(red("Installation of home failed.\n" +
-            "You can join us on our IRC channel : #cozycloud on freenode.net."))
-        exit()
+    installedApp = result.find("successfully installed")
+    if installedApp == -1:
+        print_failed("home")
     else:
         print(green("Home successfully installed"))
-
 
 @task
 def install_proxy():
@@ -445,11 +484,9 @@ def install_proxy():
     Install Cozy Proxy
     """
     result = sudo('cozy-monitor install proxy')
-    installedApp = result.count("successfully installed")
-    if installedApp == 0:
-        print(red("Installation of proxy failed.\n" +
-            "You can join us on our IRC channel : #cozycloud on freenode.net."))
-        exit()
+    installedApp = result.find("successfully installed")
+    if installedApp == -1:
+        print_failed("proxy")
     else:
         print(green("Proxy successfully installed"))
 
@@ -515,6 +552,9 @@ server {
     ssl_ciphers  ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv3:+EXP;
     ssl_prefer_server_ciphers   on;
     ssl on;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
 
     gzip_vary on;
 
@@ -535,7 +575,7 @@ def install_nginx():
     """
     Install NGINX and make it use certs.
     """
-    require.deb.package("nginx")
+    require.deb.ppa("ppa:nginx/stable")
     require.nginx.site("cozy",
         template_contents=PROXIED_SITE_TEMPLATE,
         enabled=True,

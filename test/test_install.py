@@ -17,26 +17,23 @@ from fabric.contrib.files import comment, uncomment
 import fabtools
 from fabtools import require
 
-#from ..cozy-setup.fabfile import install
 
-## Version
-#  Send vagrant version
+
 def version():
     """
-	Get the vagrant version as a tuple
-	"""
+    Get the vagrant version as a tuple
+    """
     with settings(hide('running')):
         res = local('vagrant --version', capture=True)
     ver = res.split()[2]
     return tuple(map(int, ver.split('.')))
 
 
-## Halt and destroy
-#  Stopped and destroy vagrant box
+
 def halt_and_destroy():
     """
-	Halt and destoy virtual machine
-	"""
+    Halt and destoy virtual machine
+    """
     with lcd(os.path.dirname(__file__)):
         if os.path.exists(os.path.join(env['lcwd'], 'Vagrantfile')):
             local('vagrant halt')
@@ -45,7 +42,7 @@ def halt_and_destroy():
             else:
                 local('vagrant destroy')
 
-## Start box
+
 def start_box():
     """
     Spin up a new vagrant box
@@ -65,20 +62,18 @@ def start_box():
     cmd = 'vagrant up'
     local('%s || %s' % (cmd, cmd))
 
-## Install cozy :
-#  Install cozy on box thanks to fabfile.py
+
 def install_cozy():
     """
     Install cozy on VM thanks to fabfile
     """
     local('fab --fabfile="../fabfile.py" -H vagrant@192.168.33.10 install')
 
-## Test status :
-#  Check status
-#  All applications should be up
+
 def test_status(app):
     """
     Test if all modules are started
+    All applications should be up
     """    
     result = sudo('cozy-monitor status')
     startedApps = result.count("up")
@@ -90,12 +85,12 @@ def test_status(app):
     print("Expect 0 broken applications and %s applications are broken" %brokenApps)
     assert brokenApps == 0
 
-## Test register :
-#  Send register request to proxy
-#  Answer should be 'Login succeded' 
+
 def test_register(): 
     """
     Test if login works
+    Send register request to proxy
+    Answer should be 'Login succeded'
     """        
     print("Test register")
     result = sudo('curl  -H "Accept: application/json" -H "Content-type: application/json"'
@@ -103,40 +98,51 @@ def test_register():
             '"password": "password"}\'')
     assert result == '{"success":true,"msg":"Login succeeded"}'
 
-## Test bad register :
-#  Send register request to proxy when user is already registered
-#  Answer should be 'User already registered' 
+ 
 def test_bad_register():
+    """
+    Test if login works
+    Send register request to proxy when user is already registered
+    Answer should be 'User already registered'
+    """      
     print("Test register with a user already registered")
     result = sudo('curl  -H "Accept: application/json" -H "Content-type: application/json"'
             ' -X POST http://localhost:9104/register -d \'{"email": "test@cozycloud.cc", '
             '"password": "password"}\'')
     assert result == '{"error":true,"msg":"User already registered."}'
 
-## Test install app :
-#  Install an application via home
-#  Answer should be Install successfully
+
 def test_install_app():
+    """
+    Test install app
+    Install an application via home
+    Answer should be 'Install successfully'
+    """  
     print("Test installation of application mails")
     result = sudo('cozy-monitor install_home mails');
     installedApp = result.count("successfully installed")
     assert installedApp == 1
 
-## Test uninstall app :
-#  Uninstall an application via home
-#  Answer should be uninstall successfully
+
 def test_uninstall_app():
+    """
+    Test uninstall app
+    Uninstall an application via home
+    Answer should be 'Uninstall successfully'
+    """  
     print("Test installation of application mails")
     result = sudo('cozy-monitor uninstall_home mails');
     uninstalledApp = result.count("successfully uninstalled")
     assert uninstalledApp == 1
 
  
-## Test installation of cozy
-#  Start vagrant box
-#  Install cozy on this box
-#  Test if cozy is well installed
 def test_install_cozy():
+    """
+    Test installation of cozy
+    Start vagrant box
+    Install cozy on this box
+    Test if cozy is well installed
+    """  
     #start_box()
     install_cozy()
     test_status(5)

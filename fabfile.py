@@ -39,7 +39,7 @@ def cozydo(cmd):
 def delete_if_exists(filename):
     """Delete given file if it already exists"""
     if files.exists(filename):
-        cozydo("rm -rf %s" % filename)
+        sudo("rm -rf %s" % filename)
 
 
 def su_delete(filename):

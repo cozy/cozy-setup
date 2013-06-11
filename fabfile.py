@@ -238,7 +238,7 @@ def config_couchdb():
             run('curl -X PUT http://%s%s -d \'\"%s\"\'' %
                     (couch_admin_path, username, password))
         sudo('mkdir -p /etc/cozy')
-    # Create file to keep admin's password 
+    # Create file to keep admin's password
     require.files.file(path='/etc/cozy/couchdb.login',
         contents=username + "\n" + password,
         use_sudo=True,
@@ -596,7 +596,7 @@ def update_stack():
     sudo('cozy-monitor install home')
     sudo('cozy-monitor token')
     sudo('cozy-monitor install proxy')
-    print(green("Applications updated successfully."))
+    print(green("Stack updated successfully."))
 
 
 @task

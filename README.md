@@ -8,7 +8,7 @@ So, this project contains what you need to achieve that goal
 
 On your local machine install Fabric and fabtools:
 
-    apt-get install python python-pip
+    apt-get install python python-pip python-dev software-properties-common
     sudo pip install fabric fabtools
 
 Download our Fabric file (a script that will run commands on your remote

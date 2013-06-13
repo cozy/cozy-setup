@@ -1,5 +1,5 @@
 from fabric.api import run, sudo, cd, prompt, task, settings
-from fabtools import require, python, supervisor, deb
+from fabtools import require, python, supervisor, deb, system
 from fabtools.require import file as require_file
 from fabric.contrib import files
 from fabric.colors import green, red
@@ -32,8 +32,8 @@ token = simple_id_generator()
 
 def print_failed(module):
     print(red("Installation of %s failed.\n" +
-                "You can join us on our IRC channel: "
-                + "#cozycloud on freenode.net.") %module)
+              "You can join us on our IRC channel: "
+                + "#cozycloud on freenode.net to ask for assistance.") % module)
     exit()
 
 
@@ -64,7 +64,6 @@ def install():
     install_tools()
     install_node08()
     install_couchdb()
-    install_redis()
     install_postfix()
     create_cozy_user()
     config_couchdb()
@@ -74,8 +73,6 @@ def install():
     install_data_system()
     install_home()
     install_proxy()
-    install_apps()
-    #init_data()
     #init_domain()
     create_cert()
     install_nginx()
@@ -102,7 +99,6 @@ def install_dev():
     install_tools()
     install_node08()
     install_couchdb()
-    install_redis()
     install_postfix()
     create_cozy_user()
     install_monitor()
@@ -111,7 +107,6 @@ def install_dev():
     install_data_system()
     install_home()
     install_proxy()
-    install_apps()
     #init_domain()
     print(green("The Cozy development environment has been installed."))
 
@@ -177,13 +172,11 @@ def install_couchdb():
         'curl'
     ]
 
-    # Uncomment thess lines when fabtools 0.14.0 will be out.
-    #if system.distrib_id() == "Debian" \
-    #and system.distrib_release().startswith('6.0'):
-    #    packages.append('libmozjs-dev')
-    #packages.append('libmozjs-dev')
-    #else:
-    #packages.append('libmozjs185-dev')
+    if system.distrib_id() == "Debian" \
+    and system.distrib_release().startswith('6.0'):
+        packages.append('libmozjs-dev')
+    else:
+        packages.append('libmozjs185-dev')
     require.deb.packages(packages)
 
     require_file(url='http://apache.crihan.fr/dist/couchdb/source/' +
@@ -274,18 +267,6 @@ def uninstall_couchdb():
     su_delete('/etc/cozy/couchdb.login')
     supervisor.update_config()
     print(green("CouchDB 1.3.0 successfully uninstalled"))
-
-
-@task
-def install_redis():
-    """
-    Install Redis 2.4.14
-    """
-    require.redis.installed_from_source('2.6.12')
-    require.redis.instance('cozy', '2.6.12')
-    # Stop script if redis does not work
-    run('/opt/redis-2.6.12/redis-cli ping')
-    print(green("Redis 2.4.14 successfully installed"))
 
 
 @task
@@ -492,27 +473,6 @@ def install_proxy():
 
 
 @task
-def install_apps():
-    """
-    Install Cozy Notes and Cozy Todos
-    """
-    pass
-    #sudo('cozy-monitor install_home notes')
-    #sudo('cozy-monitor install_home todos')
-    #print(green("Apps successfully started"))
-
-
-@task
-def init_data():
-    """
-    Data initialization
-    """
-    cozydo('cozy-monitor script notes init')
-    cozydo('cozy-monitor script todos init')
-    print(green("Data successfully initialized"))
-
-
-@task
 def init_domain():
     """
     Register domain name inside Cozy Home.
@@ -592,12 +552,20 @@ def update_stack():
     """
     Update applications
     """
+    supervisor.stop_process('cozy-controller')
+    sudo('npm update cozy-controller -g')
+    supervisor.start_process('cozy-controller')
+    sudo('npm update cozy-monitor -g')
     sudo('cozy-monitor install data-system')
     sudo('cozy-monitor install home')
     sudo('cozy-monitor token')
     sudo('cozy-monitor install proxy')
     print(green("Stack updated successfully."))
 
+@task
+def update_all_apps():
+    sudo('cozy-monitor reinstall-all')
+    print(green("All apps successfully updated."))
 
 @task
 def reset_account():

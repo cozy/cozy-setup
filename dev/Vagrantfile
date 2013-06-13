@@ -27,7 +27,6 @@ Vagrant::Config.run do |config|
   config.vm.forward_port 9101, 9101 # Cozy Data System
   config.vm.forward_port 9104, 9104 # Cozy Proxy
   config.vm.forward_port 5984, 5984 # CouchDB
-  config.vm.forward_port 6379, 6379 # Redis
   config.vm.forward_port 9099, 9099 # Cozy Log Reader
 
   # Starts services and applications

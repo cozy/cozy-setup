@@ -33,7 +33,7 @@ depends on your network and hardware capabilities.
 To install Cozy locally, we recommend you to create a virtual machine, 
 and then to run the fabfile script with your virtual machine as target.
 This allows you to experiment with Cozy without installing numerous packages
-into your development environment.
+into your environment.
 
 *Try Cozy with Vagrant*
 

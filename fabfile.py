@@ -1,5 +1,5 @@
 from fabric.api import run, sudo, cd, prompt, task, settings
-from fabtools import require, python, supervisor, deb, system
+from fabtools import require, python, supervisor, deb, system, nodejs
 from fabtools.require import file as require_file
 from fabric.contrib import files
 from fabric.colors import green, red
@@ -553,9 +553,9 @@ def update_stack():
     Update applications
     """
     supervisor.stop_process('cozy-controller')
-    sudo('npm update cozy-controller -g')
+    nodejs.update_package('cozy-controller')
     supervisor.start_process('cozy-controller')
-    sudo('npm update cozy-monitor -g')
+    nodejs.update_package('cozy-monitor')
     sudo('cozy-monitor install data-system')
     sudo('cozy-monitor install home')
     sudo('cozy-monitor token')

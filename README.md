@@ -43,6 +43,13 @@ you configure your boot sequence. Choose the first filesystem that is offered, t
 
 http://files.vagrantup.com/precise64.box
 
+*Assistance*
+
+You can either read ou [Trouble
+Shootings](https://github.com/mycozycloud/cozy-setup/wiki/Trouble-shootings) section or contact us via email
+contact@cozycloud.cc or join our IRC channel and ask for assistance #cozycloud
+on freenode.net.
+
 ## Test 
 
 Once the installation is done, you can access https://IP:80 to create your Cozy

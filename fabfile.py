@@ -337,7 +337,7 @@ def install_monitor():
     require.nodejs.package('coffee-script')
     require.nodejs.package('cozy-monitor')
     require.nodejs.package('compound')
-    print(green("Cozy setup and coffee script successfully installed"))
+    print(green("Monitor, compound and coffee script successfully installed"))
 
 
 @task

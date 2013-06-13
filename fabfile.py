@@ -337,7 +337,9 @@ def install_monitor():
     require.nodejs.package('coffee-script')
     require.nodejs.package('cozy-monitor')
     require.nodejs.package('compound')
-    print(green("Monitor, compound and coffee script successfully installed"))
+    require.nodejs.package('brunch')
+    print(green("Monitor, compound, brunch and coffee script" + \
+                "successfully installed"))
 
 
 @task
@@ -451,7 +453,6 @@ def install_home():
     """
     Install Cozy Home
     """
-    sudo('npm install -g brunch')
     result = sudo('cozy-monitor install home')
     installedApp = result.find("successfully installed")
     if installedApp == -1:
@@ -512,9 +513,6 @@ server {
     ssl_ciphers  ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv3:+EXP;
     ssl_prefer_server_ciphers   on;
     ssl on;
-    proxy_http_version 1.1;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection "upgrade";
 
     gzip_vary on;
 
@@ -523,6 +521,9 @@ server {
         proxy_set_header Host $http_host;
         proxy_redirect http:// https://;
         proxy_pass %(proxy_url)s;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
     }
 
     access_log /var/log/nginx/%(server_name)s.log;

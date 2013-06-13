@@ -45,7 +45,7 @@ http://files.vagrantup.com/precise64.box
 
 *Assistance*
 
-You can either read ou [Trouble
+You can either read our [Trouble
 Shootings](https://github.com/mycozycloud/cozy-setup/wiki/Trouble-shootings) section or contact us via email
 contact@cozycloud.cc or join our IRC channel and ask for assistance #cozycloud
 on freenode.net.

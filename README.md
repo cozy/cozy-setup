@@ -63,7 +63,7 @@ The Cozy install script installs the following tools:
 * Python runtime
 * Node.js runtime
 * CouchDB document database
-* Node tools: cozy-controller, cozy-monitor, coffee-script, compound
+* Node tools: cozy-controller, cozy-monitor, coffee-script, compound, brunch
 * Cozy Controller Daemon
 * Cozy data indexer
 * Cozy data layer 

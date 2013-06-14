@@ -25,6 +25,7 @@ Vagrant::Config.run do |config|
   # You can access those on http://localhost:port
   # (instead of http://'config.vm.network':port)
   config.vm.forward_port 9101, 9101 # Cozy Data System
+  config.vm.forward_port 9102, 9102 # Cozy Data Indexer
   config.vm.forward_port 9104, 9104 # Cozy Proxy
   config.vm.forward_port 5984, 5984 # CouchDB
   config.vm.forward_port 9099, 9099 # Cozy Log Reader

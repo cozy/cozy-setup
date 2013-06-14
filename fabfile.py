@@ -167,7 +167,6 @@ def install_couchdb():
     packages = [
         'erlang',
         'libicu-dev',
-        'libmozjs185-dev',
         'libcurl4-openssl-dev',
         'curl'
     ]

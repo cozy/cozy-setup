@@ -21,7 +21,7 @@ Once your system is prepared, use the Fabric script from your local
 machine to launch the Cozy installation (run it in the same directory as the fabfile
 you downloaded before):
 
-    fab -H user@ip:port install
+    fab -H user@ip install
 
 Enter your settings (such as domain name) when prompted by the installer.
 

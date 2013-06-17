@@ -52,7 +52,7 @@ on freenode.net).
 
 ## Test 
 
-Once the installation is done, you can access https://IP:80 to create your Cozy
+Once the installation is done, you can access https://IP:443 to create your Cozy
 main account. Be sure that you used the HTTPS protocol if you just see the nginx
 welcome page.
 

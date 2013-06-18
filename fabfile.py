@@ -30,10 +30,11 @@ username = id_generator()
 password = id_generator()
 token = simple_id_generator()
 
+
 def print_failed(module):
     print(red("Installation of %s failed.\n" +
               "You can join us on our IRC channel: "
-                + "#cozycloud on freenode.net to ask for assistance.") % module)
+              + "#cozycloud on freenode.net to ask for assistance.") % module)
     exit()
 
 
@@ -184,7 +185,8 @@ def install_couchdb():
     with cd('apache-couchdb-1.3.0'):
         run('./configure; make')
         result = sudo('make install')
-        installed = result.find("You have installed Apache CouchDB, time to relax.")
+        installed = result.find("You have installed Apache CouchDB," + \
+                                " time to relax.")
         if installed == -1:
             print_failed("couchdb")
     su_delete('apache-couchdb-1.3.0')
@@ -220,7 +222,7 @@ def config_couchdb():
                     (logsCouchDB[0], logsCouchDB[1], couch_admin_path, username, password))
             # Delete old admin
             run('curl -X DELETE http://%s:%s@127.0.0.1:5984/_config/admins/%s' %
-                    (username, password, logsCouchDB[0]))
+                (username, password, logsCouchDB[0]))
             sudo('rm -rf /etc/cozy/couchdb.login')
     else:
         # CouchDB has not an admin
@@ -370,7 +372,7 @@ def install_controller():
     import time
     time.sleep(5)
     with hide('running', 'stdout'):
-        result = run('curl -X GET http://127.0.0.1:9002/ -H "x-auth-token: %s"'%token)
+        result = run('curl -X GET http://127.0.0.1:9002/ -H "x-auth-token: %s"' % token)
     if result != '{"message":"No drones specified"}':
         print_failed("cozy-controller")
     print(green("Cozy Controller successfully started"))
@@ -447,6 +449,7 @@ def install_data_system():
     else:
         print(green("Data-system successfully installed"))
 
+
 @task
 def install_home():
     """
@@ -458,6 +461,7 @@ def install_home():
         print_failed("home")
     else:
         print(green("Home successfully installed"))
+
 
 @task
 def install_proxy():
@@ -586,10 +590,12 @@ def update_stack():
     sudo('cozy-monitor install proxy')
     print(green("Stack updated successfully."))
 
+
 @task
 def update_all_apps():
     sudo('cozy-monitor reinstall-all')
     print(green("All apps successfully updated."))
+
 
 @task
 def reset_account():

@@ -1,5 +1,5 @@
 from fabric.api import run, sudo, cd, prompt, task, settings
-from fabtools import require, python, supervisor, deb, system, nodejs
+from fabtools import require, python, supervisor, deb, system, nodejs, service
 from fabtools.require import file as require_file
 from fabric.contrib import files
 from fabric.colors import green, red
@@ -172,7 +172,7 @@ def install_couchdb():
     ]
 
     if system.distrib_id() == "Debian" \
-    and system.distrib_release().startswith('6.0'):
+    and system.distrib_release().startswith('6'):
         packages.append('libmozjs-dev')
     else:
         packages.append('libmozjs185-dev')
@@ -187,8 +187,8 @@ def install_couchdb():
         installed = result.find("You have installed Apache CouchDB, time to relax.")
         if installed == -1:
             print_failed("couchdb")
-    run('rm -rf apache-couchdb-1.3.0')
-    run('rm -rf apache-couchdb-1.3.0.tar.gz')
+    su_delete('apache-couchdb-1.3.0')
+    su_delete('rm -rf apache-couchdb-1.3.0.tar.gz')
 
     require.users.user("couchdb", home='/usr/local/var/lib/couchdb')
     sudo('chown -R couchdb:couchdb /usr/local/etc/couchdb')
@@ -495,6 +495,7 @@ def create_cert():
         sudo('openssl req -new -x509 -days 3650 -key ' + \
                './server.key -out ./server.crt  -batch')
         sudo('chmod 640 server.key')
+        require.group('ssl-cert')
         sudo('chown cozy:ssl-cert ./server.key')
     print(green("Certificates successfully created."))
 
@@ -535,13 +536,36 @@ def install_nginx():
     """
     Install NGINX and make it use certs.
     """
-    require.deb.ppa("ppa:nginx/stable")
-    require.nginx.site("cozy",
-        template_contents=PROXIED_SITE_TEMPLATE,
-        enabled=True,
-        port=443,
-        proxy_url='http://127.0.0.1:9104'
-    )
+    if system.distrib_id() == 'Debian':
+        require_file(url='http://nginx.org/packages/keys/nginx_signing.key')
+        deb.add_apt_key('nginx_signing.key')
+        su_delete('nginx_signing.key')
+
+        url = 'http://nginx.org/packages/debian/'
+        distrib = 'squeeze'
+        if system.distrib_release().startswith('7'):
+            distrib = 'wheezy'
+        require.deb.source('nginx', url, distrib, 'nginx')
+
+        require.deb.package('nginx')
+        contents = PROXIED_SITE_TEMPLATE % {
+            'server_name': 'cozy',
+            'port': 443,
+            'proxy_url': 'http://127.0.0.1:9104'
+        }
+        require.files.file('/etc/nginx/conf.d/cozy.conf', contents=contents,
+                use_sudo=True)
+        service.restart('nginx')
+
+    else:
+        require.deb.ppa("ppa:nginx/stable")
+
+        require.nginx.site("cozy",
+            template_contents=PROXIED_SITE_TEMPLATE,
+            enabled=True,
+            port=443,
+            proxy_url='http://127.0.0.1:9104'
+        )
     print(green("Nginx successfully installed."))
 
 

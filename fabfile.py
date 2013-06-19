@@ -328,6 +328,7 @@ def create_cozy_user():
     require.user("cozy", home=False, create_home=False)
     require.user("cozy-data-system", create_home=True)
     require.user("cozy-home", create_home=True)
+    print(green("Cozy users successfully added"))
 
 
 @task

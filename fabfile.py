@@ -1,11 +1,13 @@
+import string
+import random
+import time
+
 from fabric.api import run, sudo, cd, prompt, task, settings
 from fabtools import require, python, supervisor, deb, system, nodejs, service
 from fabtools.require import file as require_file
 from fabric.contrib import files
 from fabric.colors import green, red
 from fabric.context_managers import hide
-import string
-import random
 
 """
 Script to set up a cozy cloud environnement from a fresh system
@@ -135,6 +137,7 @@ def install_tools():
         'build-essential',
         'git',
         'sudo',
+        'lsb-release',
     ])
     print(green("Tools successfully installed"))
 
@@ -160,6 +163,7 @@ def install_node08():
         sudo('ln -s /opt/node/bin/node  /usr/local/bin/node')
         sudo('ln -s /opt/node/bin/npm  /usr/local/bin/npm')
         su_delete(folder)
+        su_delete(filename)
         result = run('node -v')
         if '0.8.21' in result:
             print(green("Node 0.8.21 successfully installed"))
@@ -361,11 +365,15 @@ def install_monitor():
     """
     Install Coffeescript, Compound and Cozy Monitor.
     """
-    require.nodejs.package('coffee-script')
+    if is_arm():
+        sudo('npm install coffee-script -g')
+        sudo('ln -s /usr/local/bin/coffee /opt/node/bin/coffee')
+    else:
+        require.nodejs.package('coffee-script')
     require.nodejs.package('cozy-monitor')
     require.nodejs.package('compound')
     require.nodejs.package('brunch')
-    print(green("Monitor, compound, brunch and coffee script" + \
+    print(green("Monitor, compound, brunch and coffee script " + \
                 "successfully installed"))
 
 
@@ -395,8 +403,10 @@ def install_controller():
     with settings(warn_only=True):
         sudo('pkill -9 node')
     supervisor.start_process('cozy-controller')
-    import time
-    time.sleep(5)
+    if is_arm():
+        time.sleep(15)
+    else:
+        time.sleep(5)
     with hide('running', 'stdout'):
         result = run('curl -X GET http://127.0.0.1:9002/ -H "x-auth-token: %s"' % token)
     if result != '{"message":"No drones specified"}':
@@ -458,6 +468,8 @@ def install_indexer():
     supervisor.restart_process(process_name)
     result = run('curl -X GET http://127.0.0.1:9102/')
     installedController = result.find("Cozy Data Indexer")
+    if is_arm():
+        time.sleep(5)
     if installedController == -1:
         print_failed("cozy-data-indexer")
     print(green("Data Indexer successfully started"))
@@ -481,12 +493,22 @@ def install_home():
     """
     Install Cozy Home
     """
-    result = sudo('cozy-monitor install home')
-    installedApp = result.find("successfully installed")
-    if installedApp == -1:
-        print_failed("home")
-    else:
+    if is_arm():
+        with settings(warn_only=True):
+            result = sudo('cozy-monitor install home')
+        with cd('/usr/local/cozy/apps/home/home/cozy-home'):
+            sudo('npm install', user='cozy-home')
+        sudo('cozy-monitor start home')
+        time.sleep(2)
+        run('curl http://127.0.0.1:9103')
         print(green("Home successfully installed"))
+    else:
+        result = sudo('cozy-monitor install home')
+        installedApp = result.find("successfully installed")
+        if installedApp == -1:
+            print_failed("home")
+        else:
+            print(green("Home successfully installed"))
 
 
 @task
@@ -494,12 +516,22 @@ def install_proxy():
     """
     Install Cozy Proxy
     """
-    result = sudo('cozy-monitor install proxy')
-    installedApp = result.find("successfully installed")
-    if installedApp == -1:
-        print_failed("proxy")
-    else:
+    if is_arm():
+        with settings(warn_only=True):
+            result = sudo('cozy-monitor install proxy')
+        with cd('/usr/local/cozy/apps/proxy/proxy/cozy-proxy'):
+            sudo('npm install', user='cozy-proxy')
+        sudo('cozy-monitor start proxy')
+        time.sleep(2)
+        run('curl http://127.0.0.1:9104')
         print(green("Proxy successfully installed"))
+    else:
+        result = sudo('cozy-monitor install proxy')
+        installedApp = result.find("successfully installed")
+        if installedApp == -1:
+            print_failed("proxy")
+        else:
+            print(green("Proxy successfully installed"))
 
 
 @task

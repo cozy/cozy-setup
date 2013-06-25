@@ -26,6 +26,11 @@ def id_generator(size=32,
 def simple_id_generator(size=40, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for x in range(size))
 
+@task
+def is_arm():
+    result = run('lscpu', quiet=True)
+    return 'arm' in result
+
 username = id_generator()
 password = id_generator()
 token = simple_id_generator()
@@ -139,8 +144,28 @@ def install_node08():
     """
     Install Node 0.8.9
     """
-    require.nodejs.installed_from_source("0.8.9")
-    print(green("Node 0.8.9 successfully installed"))
+
+    if not is_arm():
+        require.nodejs.installed_from_source("0.8.9")
+        print(green("Node 0.8.9 successfully installed"))
+    else:
+        version = '0.8.21'
+        folder = 'node-v%s-linux-arm-pi' % version
+        filename = folder + '.tar.gz'
+        require.files.directory("/opt/node", use_sudo=True)
+        archive_path = 'http://nodejs.org/dist/v%s/%s' % (version, filename)
+        require_file(url=archive_path)
+        run('tar -xzf %s' % filename)
+        sudo('cp -r %s/* /opt/node' % folder)
+        sudo('ln -s /opt/node/bin/node  /usr/local/bin/node')
+        sudo('ln -s /opt/node/bin/npm  /usr/local/bin/npm')
+        su_delete(folder)
+        result = run('node -v')
+        if '0.8.21' in result:
+            print(green("Node 0.8.21 successfully installed"))
+        else:
+            print(red("Something went wrong while installing Node 0.8.21"))
+
 
 
 @task

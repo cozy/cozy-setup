@@ -36,6 +36,7 @@ Vagrant.configure("2") do |config|
   config.vm.network :forwarded_port, guest: 9101, host: 9101 # Cozy Data System
   config.vm.network :forwarded_port, guest: 9102, host: 9102 # Cozy Data Indexer
   config.vm.network :forwarded_port, guest: 9104, host: 9104 # Cozy Proxy
+  config.vm.network :forwarded_port, guest: 9105, host: 9105 # Realtime socket
   config.vm.network :forwarded_port, guest: 5984, host: 5984 # CouchDB
   config.vm.network :forwarded_port, guest: 9099, host: 9099 # Cozy Log Reader
 

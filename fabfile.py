@@ -493,22 +493,12 @@ def install_home():
     """
     Install Cozy Home
     """
-    if is_arm():
-        with settings(warn_only=True):
-            result = sudo('cozy-monitor install home')
-        with cd('/usr/local/cozy/apps/home/home/cozy-home'):
-            sudo('npm install', user='cozy-home')
-        sudo('cozy-monitor start home')
-        time.sleep(2)
-        run('curl http://127.0.0.1:9103')
-        print(green("Home successfully installed"))
+    result = sudo('cozy-monitor install home')
+    installedApp = result.find("successfully installed")
+    if installedApp == -1:
+        print_failed("home")
     else:
-        result = sudo('cozy-monitor install home')
-        installedApp = result.find("successfully installed")
-        if installedApp == -1:
-            print_failed("home")
-        else:
-            print(green("Home successfully installed"))
+        print(green("Home successfully installed"))
 
 
 @task
@@ -516,22 +506,12 @@ def install_proxy():
     """
     Install Cozy Proxy
     """
-    if is_arm():
-        with settings(warn_only=True):
-            result = sudo('cozy-monitor install proxy')
-        with cd('/usr/local/cozy/apps/proxy/proxy/cozy-proxy'):
-            sudo('npm install', user='cozy-proxy')
-        sudo('cozy-monitor start proxy')
-        time.sleep(2)
-        run('curl http://127.0.0.1:9104')
-        print(green("Proxy successfully installed"))
+    result = sudo('cozy-monitor install proxy')
+    installedApp = result.find("successfully installed")
+    if installedApp == -1:
+        print_failed("proxy")
     else:
-        result = sudo('cozy-monitor install proxy')
-        installedApp = result.find("successfully installed")
-        if installedApp == -1:
-            print_failed("proxy")
-        else:
-            print(green("Proxy successfully installed"))
+        print(green("Proxy successfully installed"))
 
 
 @task

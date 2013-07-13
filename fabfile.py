@@ -149,8 +149,8 @@ def install_node08():
     """
 
     if not is_arm():
-        require.nodejs.installed_from_source("0.8.21")
-        print(green("Node 0.8.21 successfully installed"))
+        require.nodejs.installed_from_source("0.8.18")
+        print(green("Node 0.8.18 successfully installed"))
     else:
         version = '0.8.21'
         folder = 'node-v%s-linux-arm-pi' % version

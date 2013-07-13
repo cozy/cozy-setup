@@ -145,12 +145,12 @@ def install_tools():
 @task
 def install_node08():
     """
-    Install Node 0.8.9
+    Install Node 0.8.21
     """
 
     if not is_arm():
-        require.nodejs.installed_from_source("0.8.9")
-        print(green("Node 0.8.9 successfully installed"))
+        require.nodejs.installed_from_source("0.8.21")
+        print(green("Node 0.8.21 successfully installed"))
     else:
         version = '0.8.21'
         folder = 'node-v%s-linux-arm-pi' % version

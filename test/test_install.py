@@ -53,7 +53,8 @@ def install_cozy():
     """
     Install cozy on VM thanks to fabfile
     """
-    local('fab --fabfile="../fabfile.py" -H vagrant@192.168.33.10 install')
+    local('fab --fabfile="../fabfile.py" -H vagrant@192.168.33.10 install ' +
+          '-p vagrant')
 
 
 def test_status(app=5):

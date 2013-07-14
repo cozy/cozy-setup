@@ -14,7 +14,7 @@ On your local machine install Fabric and fabtools:
 Download our Fabric file (a script that will run commands on your remote
 server):
 
-    wget https://raw.github.com/mycozycloud/cozy-setup/arm/fabfile.py
+    wget https://raw.github.com/mycozycloud/cozy-setup/master/fabfile.py
 
 
 Once your system is prepared, use the Fabric script from your local

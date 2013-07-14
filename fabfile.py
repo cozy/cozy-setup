@@ -145,7 +145,7 @@ def install_tools():
 @task
 def install_node08():
     """
-    Install Node 0.8.21
+    Install Node 0.8.18 (0.18.21 for ARM hardwares)
     """
 
     if not is_arm():
@@ -175,18 +175,18 @@ def install_node08():
 @task
 def uninstall_node08():
     """
-    Uninstall node 0.8.9
+    Uninstall node 0.8.18
     """
 
     sudo("npm uninstall npm")
-    require_file(url='http://nodejs.org/dist/v0.8.9/node-v0.8.9.tar.gz')
-    sudo("tar -xzf node-v0.8.9.tar.gz")
-    with cd('node-v0.8.9'):
+    require_file(url='http://nodejs.org/dist/v0.8.9/node-v0.8.18.tar.gz')
+    sudo("tar -xzf node-v0.8.18.tar.gz")
+    with cd('node-v0.8.18'):
         sudo('./configure')
         sudo("make uninstall")
         sudo("make distclean")
-    su_delete("node-v0.8.9*")
-    print(green("Node 0.8.9 successfully uninstalled"))
+    su_delete("node-v0.8.18*")
+    print(green("Node 0.8.18 successfully uninstalled"))
 
 
 @task

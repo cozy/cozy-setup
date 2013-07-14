@@ -37,12 +37,14 @@ def start_box():
     halt_and_destroy()
 
     # Modify Vagrantfile
-    #local('rm -f Vagrantfile')
+    local('rm -f Vagrantfile')
     #local('cp ./helpers/Vagrantfile .')
 
     # Spin up the box
     # (retry as it sometimes fails for no good reason)
     local('vagrant init test_box')
+    local("sed -i 's/^  # config.vm.network :hostonly/  config.vm.network" + \
+            ":hostonly/' Vagrantfile")
     cmd = 'vagrant up'
     local('%s || %s' % (cmd, cmd))
 

@@ -1,20 +1,8 @@
 from __future__ import with_statement
 
 import os
-import unittest
-import mock
 
-try:
-    import unittest2 as unittest
-except ImportError:
-    import unittest
-
-from fabric.api import env, hide, lcd, local, settings, shell_env, sudo
-from fabric.state import connections
-from fabtools.files import watch
-from fabric.contrib.files import comment, uncomment
-
-import fabtools
+from fabric.api import env, hide, lcd, local, settings, sudo
 from fabtools import require
 
 
@@ -27,7 +15,6 @@ def version():
         res = local('vagrant --version', capture=True)
     ver = res.split()[2]
     return tuple(map(int, ver.split('.')))
-
 
 
 def halt_and_destroy():
@@ -47,14 +34,10 @@ def start_box():
     """
     Spin up a new vagrant box
     """
-    # Create a fresh vagrant config file
-    #local('rm -f Vagrantfile')
-    #local('vagrant init unbuntu_12.04 http://files/.vagrantup.com/lucid64.box')
-
     halt_and_destroy()
 
     # Modify Vagrantfile
-    local('rm -f Vagrantfile')
+    #local('rm -f Vagrantfile')
     #local('cp ./helpers/Vagrantfile .')
 
     # Spin up the box
@@ -68,10 +51,10 @@ def install_cozy():
     """
     Install cozy on VM thanks to fabfile
     """
-    local('fab --fabfile="fabfile.py" -H vagrant@192.168.33.10 install')
+    local('fab --fabfile="../fabfile.py" -H vagrant@192.168.33.10 install')
 
 
-def test_status(app):
+def test_status(app=5):
     """
     Test if all modules are started
     All applications should be up
@@ -85,6 +68,7 @@ def test_status(app):
     # Check number of broken application
     print("Expect 0 broken applications and %s applications are broken" %brokenApps)
     assert brokenApps == 0
+
 
 def test():
     require.files.file(path='/etc/cozy/pids/controller.pid',
@@ -156,6 +140,3 @@ def test_install_cozy():
     test_status(5)
     test_register()
     test_bad_register()
-    #test_install_app()
-    #test_status(7)
-    #test_uninstall_app()

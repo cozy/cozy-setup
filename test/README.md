@@ -1,16 +1,16 @@
 ## Tests
 
-To run tests you need to install dependencies first:
+Setup Cozy in a Vagrant virtual machine (we assume you have a box named 
+"test\_box" available):
 
-    pip install -r requirements.txt
-
-Then run tests with :
-
-    cd test/
-    lettuce
+    vagrant init test_box
+    # uncomment network line in your vagrant file
+            
+    fab -f test_install.py start_box
+    fab -f test_install.py install_cozy
+    fab -f test_install.py test_status -H vagrant@192.168.33.10
+    fab -f test_install.py test_register -H vagrant@192.168.33.10
+    fab -f test_install.py test_install_app -H vagrant@192.168.33.10
 
 Because tests suscribe to cozy, you should not run them on your final
-installation. If you need to run test several time, run following
-command before each test.
-
-    fabric reset_account
+installation. 

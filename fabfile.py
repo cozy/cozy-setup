@@ -450,8 +450,9 @@ def install_indexer():
     require.files.directory(home, use_sudo=True)
 
     with cd(home):
-        delete_if_exists("cozy-data-indexer")
-        sudo('git clone git://github.com/mycozycloud/cozy-data-indexer.git')
+        if files.exists("cozy-data-indexer"):
+            su_delete("cozy-data-indexer")
+        sudo('git clone https://github.com/mycozycloud/cozy-data-indexer.git')
 
     require.python.virtualenv(indexer_env_dir, use_sudo=True)
     with python.virtualenv(indexer_env_dir):
@@ -579,17 +580,17 @@ def install_nginx():
     Install NGINX and make it use certs.
     """
     if system.distrib_id() == 'Debian':
-        require_file(url='http://nginx.org/packages/keys/nginx_signing.key')
-        deb.add_apt_key('nginx_signing.key')
-        su_delete('nginx_signing.key')
+        #require_file(url='http://nginx.org/packages/keys/nginx_signing.key')
+        #deb.add_apt_key('nginx_signing.key')
+        #su_delete('nginx_signing.key')
 
-        url = 'http://nginx.org/packages/debian/'
-        distrib = 'squeeze'
-        if system.distrib_release().startswith('7'):
-            distrib = 'wheezy'
-        require.deb.source('nginx', url, distrib, 'nginx')
+        #url = 'http://nginx.org/packages/debian/'
+        #distrib = 'squeeze'
+        #if system.distrib_release().startswith('7'):
+            #distrib = 'wheezy'
+        #require.deb.source('nginx', url, distrib, 'nginx')
 
-        require.deb.package('nginx')
+        #require.deb.package('nginx')
         contents = PROXIED_SITE_TEMPLATE % {
             'server_name': 'cozy',
             'port': 443,

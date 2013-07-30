@@ -580,17 +580,17 @@ def install_nginx():
     Install NGINX and make it use certs.
     """
     if system.distrib_id() == 'Debian':
-        #require_file(url='http://nginx.org/packages/keys/nginx_signing.key')
-        #deb.add_apt_key('nginx_signing.key')
-        #su_delete('nginx_signing.key')
+        require_file(url='http://nginx.org/packages/keys/nginx_signing.key')
+        deb.add_apt_key('nginx_signing.key')
+        su_delete('nginx_signing.key')
 
-        #url = 'http://nginx.org/packages/debian/'
-        #distrib = 'squeeze'
-        #if system.distrib_release().startswith('7'):
-            #distrib = 'wheezy'
-        #require.deb.source('nginx', url, distrib, 'nginx')
+        url = 'http://nginx.org/packages/debian/'
+        distrib = 'squeeze'
+        if system.distrib_release().startswith('7'):
+            distrib = 'wheezy'
+        require.deb.source('nginx', url, distrib, 'nginx')
 
-        #require.deb.package('nginx')
+        require.deb.package('nginx')
         contents = PROXIED_SITE_TEMPLATE % {
             'server_name': 'cozy',
             'port': 443,

@@ -598,7 +598,6 @@ def install_nginx():
         }
         require.files.file('/etc/nginx/conf.d/cozy.conf', contents=contents,
                 use_sudo=True)
-        service.restart('nginx')
 
     else:
         require.deb.ppa("ppa:nginx/stable")
@@ -609,6 +608,11 @@ def install_nginx():
             port=443,
             proxy_url='http://127.0.0.1:9104'
         )
+    if files.exists('/etc/nginx/conf.d/default.conf'):
+        su_delete('/etc/nginx/conf.d/default.conf')
+    if files.exists('/etc/nginx/conf.d/example_ssl.conf'):
+        su_delete('/etc/nginx/conf.d/example_ssl.conf')
+    service.restart('nginx')
     print(green("Nginx successfully installed."))
 
 

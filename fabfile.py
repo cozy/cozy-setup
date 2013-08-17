@@ -468,10 +468,10 @@ def install_indexer():
     )
     supervisor.restart_process(process_name)
     result = run('curl -X GET http://127.0.0.1:9102/')
-    installedController = result.find("Cozy Data Indexer")
+    is_installed = result.find("Cozy Data Indexer")
     if is_arm():
         time.sleep(5)
-    if installedController == -1:
+    if is_installed == -1:
         print_failed("cozy-data-indexer")
     print(green("Data Indexer successfully started"))
 

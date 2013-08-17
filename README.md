@@ -50,6 +50,20 @@ Shootings](https://github.com/mycozycloud/cozy-setup/wiki/Trouble-shootings) sec
 contact@cozycloud.cc or join our IRC channel and ask for assistance (#cozycloud
 on freenode.net).
 
+## Recommended Hardware
+
+The CPU is not a limitation, Cozy can even run on RaspberryPi.
+
+### Mininum
+
+RAM: 512Mo (it allows to have 4 apps running simultaneously)
+Disk space: 5Go
+
+### Recommended
+
+RAM: 1024 Mo (it allows to have 10 apps simultaneously).
+Disk space: a lot of space to store all your files.
+
 ## Test 
 
 Once the installation is done, you can access https://IP:443 to create your Cozy

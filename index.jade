@@ -1,13 +1,13 @@
 doctype 5
 html(lang="en")
     head
+        meta(charset="UTF-8")
         include knacss.css
         include style.css 
         link(rel="shortcut icon", href="favicon.png")
         title="Cozy, a personal cloud you can hack, host and delete"
         meta(name="description", content="Cozy brings you a personal cloud platform. Store your data in a place you control and leverage it with personal web applications. Photos, mails, notes, contacts, todos... there's already many applications. Extend the possibility by developing your own app, you can leverage existing features! Cozy is open-source and you can self-host it. Cozy is privacy-friendly.")
         meta(name="viewport", content="width=device-width,initial-scale=1")
-        meta(http-equiv="content-type", content="text/html; charset=utf-8")
         script(src='/jquery-2.0.0.min.js')
         script(type='text/javascript')
           $(document).ready(function() {
@@ -35,7 +35,7 @@ html(lang="en")
                }, 500);
 
                $(event.target).parent().parent().parent().find(".additional-infos").slideDown();
-             });
+             }c8);
              $(".next").click(function(event) {
                if($(event.target).get(0).tagName === "A") {
                  link = $(event.target).attr('href');
@@ -63,14 +63,14 @@ html(lang="en")
                         | and delete
                 p.external-links
                     a(href="https://github.com/mycozycloud/cozy-setup")
-                        button Github
+                        | Github
                     a(href="https://github.com/mycozycloud/cozy-setup/wiki")
-                        button Docs
+                        | Docs
                     a(href="https://cozycloud.cc/apps")
-                        button Apps
+                        | Apps
                     a(href="https://demo.cozycloud.cc/")
-                        button Demo
-                p.line.read-more
+                        | Demo
+                .line.read-more.mt2
                     .ml4.read-more
                         img(src="plus.png", alt="read more")
             .additional-infos

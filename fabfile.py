@@ -515,6 +515,7 @@ def install_home():
     '''
     Install Cozy Home
     '''
+    require.deb.packages(["imagemagick"])
     result = sudo('cozy-monitor install home')
     installedApp = result.find('successfully installed')
     if installedApp == -1:

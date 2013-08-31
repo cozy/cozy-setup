@@ -1284,9 +1284,16 @@ code {
          };
        });
      }, 500);
-     
-     $(event.target).parent().parent().parent().find(".additional-infos").slideDown();
-   }c8);
+     additionalInfos = 
+       $(event.target)
+         .parent().parent().parent().find(".additional-infos");
+     if(additionalInfos.length === 0) {
+       additionalInfos = 
+         $(event.target).parent()
+           .parent().parent().parent().find(".additional-infos");
+     }
+     additionalInfos.slideDown();
+   });
    $(".next").click(function(event) {
      if($(event.target).get(0).tagName === "A") {
        link = $(event.target).attr('href');
@@ -1360,7 +1367,7 @@ check the dedicated&nbsp;<a href="https://github.com/mycozycloud/cozy-setup/wiki
 join our community<br><i class="icon-down"></i></a></div></div></section><section id="community" class="line"><h2 class="icon-asteri">&nbsp; Community</h2><p> 
 A software is nothing without a community. That's why we want
 to make it easy for you to connect with us and other Cozy users:</p><p> <a href="http://webchat.freenode.net/?channels=cozycloud"> 
-IRC: <strong>#cozycloud</strong> on irc.freenode.net</a></p><p><a href="https://groups.google.com/forum/#!forum/my-cozy-cloud"> 
+IRC: <strong>#cozycloud</strong> on irc.freenode.net</a></p><p><a href="https://groups.google.com/forum/#!forum/cozy-cloud"> 
 Mailing List </a></p><p><a href="https://forum.cozycloud.cc/"> 
 Forum</a></p><p><a href="https://twitter.com/mycozycloud"> 
 Twitter</a></p></section><section id="about" class="line"><h2 class="icon-rate">&nbsp; About</h2><p class="right"><img src="/cozy-logo.png" alt="Cozy Logo"></p><p> 

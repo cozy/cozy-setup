@@ -33,9 +33,16 @@ html(lang="en")
                    };
                  });
                }, 500);
-
-               $(event.target).parent().parent().parent().find(".additional-infos").slideDown();
-             }c8);
+               additionalInfos = 
+                 $(event.target)
+                   .parent().parent().parent().find(".additional-infos");
+               if(additionalInfos.length === 0) {
+                 additionalInfos = 
+                   $(event.target).parent()
+                     .parent().parent().parent().find(".additional-infos");
+               }
+               additionalInfos.slideDown();
+             });
              $(".next").click(function(event) {
                if($(event.target).get(0).tagName === "A") {
                  link = $(event.target).attr('href');
@@ -283,7 +290,7 @@ html(lang="en")
                 a(href="http://webchat.freenode.net/?channels=cozycloud") 
                     | IRC: <strong>#cozycloud</strong> on irc.freenode.net
             p
-                a(href='https://groups.google.com/forum/#!forum/my-cozy-cloud') 
+                a(href='https://groups.google.com/forum/#!forum/cozy-cloud') 
                    | Mailing List 
             p
                 a(href='https://forum.cozycloud.cc/') 

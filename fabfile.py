@@ -140,6 +140,7 @@ def install_tools():
         'git',
         'sudo',
         'lsb-release',
+        'imagemagick'
     ])
     print(green('Tools successfully installed'))
 

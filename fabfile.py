@@ -542,7 +542,8 @@ def init_domain():
     Register domain name inside Cozy Home.
     '''
     domain = prompt('What is your domain name (ex: cozycloud.cc)?')
-    cozydo('cozy-monitor script home setdomain %s' % domain)
+    with cd('ls /usr/local/cozy/apps/home/home/cozy-home/'):
+        cozydo('coffee commands setdomain %s' % domain)
     print(green('Domain set to: %s' % domain))
 
 

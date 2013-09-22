@@ -672,6 +672,6 @@ def reset_account():
     '''
     Delete current user account
     '''
-    with cd('/home/cozy/cozy-setup'):
-        cozydo('cozy-monitor script home cleanuser')
+    with cd('ls /usr/local/cozy/apps/home/home/cozy-home/'):
+        sudo('coffee commands cleanuser')
     print(green('Current account deleted.'))

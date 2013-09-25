@@ -11,6 +11,7 @@ cd ~
 # we stop everything
 sudo supervisorctl stop cozy-controller
 sudo pkill -9 node
+sudo rm /usr/local/cozy/autostart/logreader*
 
 # we rewrite the cozy-controller configuration
 # this is actually a quick fix of the base box and should be fixed properly one day

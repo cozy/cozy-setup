@@ -86,6 +86,7 @@ def install():
     #init_domain()
     create_cert()
     install_nginx()
+    restart_cozy()
     print(green('Cozy installation finished. Now, enjoy !'))
 
 
@@ -385,7 +386,7 @@ def install_monitor():
         require.nodejs.package('coffee-script')
     require.nodejs.package('cozy-monitor')
     require.nodejs.package('compound')
-    require.nodejs.package('brunch')
+    require.nodejs.package('brunch', version='1.6.3')
     print(green('Monitor, compound, brunch and coffee script ' +
                 'successfully installed'))
 
@@ -641,6 +642,13 @@ def install_nginx():
         su_delete('/etc/nginx/conf.d/example_ssl.conf')
     service.restart('nginx')
     print(green('Nginx successfully installed.'))
+
+@task
+def restart_cozy():
+    sudo('cozy-monitor restart data-system')
+    sudo('cozy-monitor restart home')
+    sudo('cozy-monitor restart proxy')
+    print(green('Stack restarted successfully.'))
 
 
 ## No setup tasks

@@ -22,7 +22,7 @@ sudo rm /usr/local/cozy/autostart/logreader*
 # this is actually a quick fix of the base box and should be fixed properly one day
 echo '[program:cozy-controller]
 autorestart=true
-command=cozy-controller -c -u --per 755
+command=cozy-controller -u --per 755
 environment=NODE_ENV="development"
 redirect_stderr=true
 user=root' > /etc/supervisor/conf.d/cozy-controller.conf

@@ -8,6 +8,11 @@
 # we avoid the shared folder because of the symlink issue
 cd ~
 
+# Update the core apps
+sudo cozy-monitor light-update data-system
+sudo cozy-monitor light-update home
+sudo cozy-monitor light-update proxy
+
 # we stop everything
 sudo supervisorctl stop cozy-controller
 sudo pkill -9 node
@@ -30,8 +35,5 @@ sudo npm install -g cozy-monitor
 
 sudo supervisorctl start cozy-controller
 
-cozy-monitor install data-system
-cozy-monitor install home
-cozy-monitor install proxy
 
 

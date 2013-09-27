@@ -1,1390 +1,366 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><style type="text/css">/*
-* www.KNACSS.com V2.6e @author: Raphael Goetter, Alsacreations
-* Licence CC-BY http://creativecommons.org/licenses/by/3.0/fr/ 
-*/
-
-/* ----------------------------- */
-/* ==reset */
-/* ----------------------------- */
-
-/* base font-size corresponds to 10px and is adapted to rem unit */
-html {
-    font-size: 62.5%;
-}
-body {
-    background-color: #fff;
-    color: #000;
-    font-family: "Century Gothic", helvetica, arial, sans-serif;
-    font-size: 1.4em; /* equiv 14px */
-    line-height: 1.5; /* adapt to your design */
-}
-
-/* font-sizing for content */
-/* preserves vertical-rythm, thanks to http://soqr.fr/vertical-rhythm/ */
-p,
-ul,
-ol,
-dl,
-blockquote,
-pre,
-td,
-th,
-label,
-textarea,
-caption,
-details, 
-figure, 
-hgroup {
-    font-size: 1em; /* equiv 14px */
-    line-height: 1.5;
-    margin: .75em 0 0;
-}
-h1, .h1-like {
-    font-size: 1.8571em; /* equiv 26px */
-    font-weight: normal;
-    line-height: 1.6154em;
-    margin: .8077em 0 0 0;
-}
-h2, .h2-like {
-    font-size: 1.7143em; /* equiv 24px */
-    font-weight: normal;
-    line-height: 1.75em;
-    margin: .875em 0 0 0;
-}
-h3, .h3-like {
-    font-size: 1.5714em; /* equiv 22px */
-    font-weight: normal;
-    line-height: 1.909em;
-    margin: .9545em 0 0 0;
-}
-h4, .h4-like {
-    font-size: 1.4286em; /* equiv 20px */
-    font-weight: normal;
-    line-height: 1.05em;
-    margin:  1.05em 0 0 0;
-}
-h5, .h5-like {
-    font-size: 1.2857em; /* equiv 18px */
-    font-weight: normal;
-    line-height: 1.1667em;
-    margin:  1.1667em 0 0 0;
-}
-h6, .h6-like {
-    font-size: 1.1429em; /* equiv 16px */
-    font-weight: normal;
-    line-height: 1.3125em;
-    margin:  1.3125em 0 0 0;
-}
-
-/* alternate font-sizing */
-.smaller {
-    font-size: .7143em; /* equiv 10px */
-}
-.small {
-    font-size: .8571em; /* equiv 12px */
-}
-.big {
-    font-size: 1.1429em; /* equiv 16px */
-}
-.bigger {
-    font-size: 1.2857em; /* equiv 18px */
-}
-.biggest {
-    font-size: 1.4286em; /* equiv 20px */
-}
-
-/* soft reset */
-html,
-body,
-textarea,
-figure,
-label {
-    margin: 0;
-    padding: 0;
-}
-ul,
-ol {
-    padding-left: 2em;
-}
-ul.unstyled {
-    list-style: none;
-}
-code, 
-pre,
-samp,
-kbd {
-    white-space: pre-wrap;
-    font-family: consolas, 'DejaVu Sans Mono', courier, monospace;
-    line-height: 1em;
-}
-code, kbd, mark {
-    border-radius: 2px;
-}
-em {
-    font-style: italic;
-}
-strong {
-    font-weight: bold;
-}
-kbd {
-    padding: 0 2px;
-    border: 1px solid #999;
-}
-code {
-    padding: 2px 4px;
-    background: rgba(0,0,0,.04);
-    color: #b11; 
-}
-mark {
-    padding:2px 4px;
-    background: #ff0;
-}
-
-table { margin-bottom: 1.5em; }
-
-/* avoid top margins on first content element */
-p:first-child,
-ul:first-child,
-ol:first-child,
-dl:first-child,
-blockquote:first-child,
-pre:first-child,
-h1:first-child,
-h2:first-child,
-h3:first-child,
-h4:first-child,
-h5:first-child,
-h6:first-child {
-    margin-top: 0;
-}
-
-/* avoid margins on nested elements */
-li p,
-li ul,
-li ol {
-    margin-top: 0;
-    margin-bottom: 0;
-}
-
-/* max values */
-img, table, td, blockquote, code, pre, textarea, input, video {
-    max-width: 100%;
-}
-
-/* you shall not pass */
-div, textarea, table, td, th, code, pre, samp {
-    word-wrap: break-word;
-    -webkit-hyphens: auto;
-       -moz-hyphens: auto;
-        -ms-hyphens: auto;
-         -o-hyphens: auto;
-            hyphens: auto;
-}
-
-/* pictures */
-img {
-    height: auto;
-    vertical-align: middle;
-}
-/* Gmap3 max-width bug fix on images */
-#map_canvas img,
-.gmnoprint img {max-width: none;}
-
-a img { border: 0; }
-
-/* scripts */
-body > script {display: none !important;}
-
-/* skip-links */
-.skip-links {
-    position: absolute;
-}
-.skip-links a {
-    position: absolute;
-    left: -7000px;
-    padding: 0.5em;
-    background: #000;
-    color:#fff;
-    text-decoration: none;
-}
-.skip-links a:focus {
-    position: static;
-}
-
-/* ----------------------------- */
-/* ==layout and modules */
-/* ----------------------------- */
-
-/* switching box model for all elements */
-* {
-    -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-            box-sizing: border-box;
-}
-
-/* float layout */
-/* module, contains floats (.item is the same) */
-.mod, .item { 
-    overflow: hidden;
-}
-
-/* blocks that needs to be placed under floats */
-.clear,
-.line,
-.row {
-    clear: both;
-}
-
-/* blocks that must contain floats */
-.clearfix:after,
-.line:after,
-.mod:after {
-    content: "";
-    display: table;
-    clear: both;
-}
-
-/* table layout */
-.row {
-    display: table;
-    table-layout: fixed;
-    width: 100%;
-}
-.row > *,
-.col {
-    display: table-cell;
-    vertical-align: top;
-}
-
-/* inline-block */
-.inbl {
-    display: inline-block;
-    vertical-align: top;
-    margin-right: -.25em;
-}
-
-/* flexbox layout */
-.flex {
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-}
-.flex-h {
-    -webkit-box-orient: horizontal;
-       -moz-box-orient: horizontal;
-    -webkit-flex-direction: row;
-        -ms-flex-direction: row;
-            flex-direction: row;
-}
-.flex-v {
-    -webkit-box-orient: vertical;
-       -moz-box-orient: vertical;
-    -webkit-flex-direction: column;
-        -ms-flex-direction: column;
-            flex-direction: column;
-}
-.flex-fluid {
-    -moz-box-flex: 1;
-    -webkit-flex: 1;
-       -moz-flex: 1;
-        -ms-flex: 1;
-            flex: 1;
-}
-.flex-start {
-    -webkit-box-ordinal-group: -1;
-    -moz-box-ordinal-group: 0;
-    -ms-flex-order: -1;
-    -webkit-order: -1;
-       -moz-order: -1;
-            order: -1;
-}
-.flex-mid {
-    -webkit-box-ordinal-group: 1;
-    -moz-box-ordinal-group: 1;
-    -ms-flex-order: 1;
-    -webkit-order: 1;
-       -moz-order: 1;
-            order: 1;
-}
-.flex-end {
-    -webkit-box-ordinal-group: 42;
-    -moz-box-ordinal-group: 42;
-    -ms-flex-order: 42;
-    -webkit-order: 42;
-       -moz-order: 42;
-            order: 42;
-}
-
-/* alignments (blocks and inline) */
-/* ------------------------------ */
-
-/* left elements */
-.left {
-    float: left;
-}
-img.left {
-    margin-right: 1em;
-}
-
-/* right elements */
-.right {
-    float: right;
-}
-img.right {
-    margin-left: 1em;
-}
-
-img.left, img.right {
-    margin-bottom: 5px;
-}
-
-.center    { margin-left: auto; margin-right: auto; }
-.txtleft   { text-align: left; }
-.txtright  { text-align: right; }
-.txtcenter { text-align: center; }
-
-/* blocks widths (percentages and pixels) */
-.w10    { width: 10%; }
-.w20    { width: 20%; }
-.w25    { width: 25%; }
-.w30    { width: 30%; }
-.w33    { width: 33.333%; }
-.w40    { width: 40%; }
-.w50    { width: 50%; }
-.w60    { width: 60%; }
-.w66    { width: 66.666%; }
-.w70    { width: 70%; }
-.w75    { width: 75%; }
-.w80    { width: 80%; }
-.w90    { width: 90%; }
-.w100   { width: 100%; }
-
-.w50p   { width: 50px; }
-.w100p  { width: 100px; }
-.w150p  { width: 150px; }
-.w200p  { width: 200px; }
-.w300p  { width: 300px; }
-.w400p  { width: 400px; }
-.w500p  { width: 500px; }
-.w600p  { width: 600px; }
-.w700p  { width: 700px; }
-.w800p  { width: 800px; }
-.w960p  { width: 960px; }
-.mw960p { max-width: 960px; }
-
-/* spacing helpers
-p,m = padding,margin
-a,t,r,b,l = all,top,right,bottom,left
-s,m,l,n,0 = small(10px),medium(20px),large(30px), zero or none(0)
-source https://github.com/stubbornella/oocss/blob/master/core/spacing/space.css
-*/
-.m-reset, .ma0 { margin: 0 !important; }
-.p-reset, .pa0 { padding: 0 !important; }
-.ma1, .mas { margin: 10px !important; }
-.ma2, .mam { margin: 20px !important; }
-.ma3, .mal { margin: 30px !important; }
-.pa1, .pas { padding: 10px; }
-.pa2, .pam { padding: 20px; }
-.pa3, .pal { padding: 30px; }
-
-.mt0, .mtn { margin-top: 0 !important; }
-.mt1, .mts { margin-top: 10px !important; }
-.mt2, .mtm { margin-top: 20px !important; }
-.mt3, .mtl { margin-top: 30px !important; }
-.mr0, .mrn { margin-right: 0; }
-.mr1, .mrs { margin-right: 10px; }
-.mr2, .mrm { margin-right: 20px; }
-.mr3, .mrl { margin-right: 30px; }
-.mb0, .mbn { margin-bottom: 0 !important; }
-.mb1, .mbs { margin-bottom: 10px !important; }
-.mb2, .mbm { margin-bottom: 20px !important; }
-.mb3, .mbl { margin-bottom: 30px !important; }
-.ml0, .mln { margin-left: 0; }
-.ml1, .mls { margin-left: 10px; }
-.ml2, .mlm { margin-left: 20px; }
-.ml3, .mll { margin-left: 30px; }
-
-.pt0, .ptn { padding-top: 0; }
-.pt1, .pts { padding-top: 10px; }
-.pt2, .ptm { padding-top: 20px; }
-.pt3, .ptl { padding-top: 30px; }
-.pr0, .prn { padding-right: 0; }
-.pr1, .prs { padding-right: 10px; }
-.pr2, .prm { padding-right: 20px; }
-.pr3, .prl { padding-right: 30px; }
-.pb0, .pbn { padding-bottom: 0; }
-.pb1, .pbs { padding-bottom: 10px; }
-.pb2, .pbm { padding-bottom: 20px; }
-.pb3, .pbl { padding-bottom: 30px; }
-.pl0, .pln { padding-left: 0; }
-.pl1, .pls { padding-left: 10px; }
-.pl2, .plm { padding-left: 20px; }
-.pl3, .pll { padding-left: 30px; }
-
-/* hiding content */
-.visually-hidden {
-    position: absolute;
-    left: -7000px;
-    overflow: hidden;
-}
-[dir=rtl] .visually-hidden {
-    left: auto;
-    right: -7000px;
-}
-
-.desktop-hidden { display: none; } /* hidden on desktop */
-
-/* ----------------------------- */
-/* ==header */
-/* ----------------------------- */
-
-/* ----------------------------- */
-/* ==sidebar */
-/* ----------------------------- */
-
-/* ----------------------------- */
-/* ==footer */
-/* ----------------------------- */
-
-/* ----------------------------- */
-/* ==forms */
-/* ----------------------------- */
-form,
-fieldset {
-    border: none;
-}
-input,
-button,
-select,
-label,
-.btn {
-    vertical-align: middle; /* @bugfix alignment */
-    font-family: inherit;
-}
-textarea {
-    resize: vertical;
-    font-family: inherit;
-}
-
-/* ----------------------------- */
-/* ==main */
-/* ----------------------------- */
-
-/* ----------------------------- */
-/* ==iefix */
-/* ----------------------------- */
-
-/* hasLayout for IE6/IE7 */
-.ie67 .clearfix,
-.ie67 .line,
-.ie67 .mod,
-.ie67 .row,
-.ie67 .col {
-    zoom: 1;
-}
-
-/* inline-block and table-cell for IE6/IE7 */
-/* warning: .col needs a width on IE6/IE7 */
-.ie67 .btn,
-.ie67 .col,
-.ie67 .inbl {
-    display: inline;
-    zoom: 1;
-}
-.ie8 img {
-    width: auto; /* @bugfix for IE8 */
-}
-
-/* Active box-sizing for IE6/IE7 */
-/* @source https://github.com/Schepp/box-sizing-polyfill */
-/*
-.ie67 * {
-    behavior: url(/js/boxsizing.htc);
-}
-*/
-
-/* ----------------------------- */
-/* ==print */
-/* ----------------------------- */
-
-/* quick print reset */
-@media print {
-    p,
-    blockquote {
-        orphans: 2;
-        widows: 2;
-    }
-    blockquote,
-    ul,
-    ol {
-        page-break-inside: avoid;
-    }
-    h1,
-    h2,
-    h3,
-    caption {
-        page-break-after: avoid;
-    }
-}
-
-/* orientation iOS font-size fix */
-@media (orientation: landscape) and (max-device-width: 768px) {
-    html,
-    body {
-        -webkit-text-size-adjust: 100%;
-    }
-}
-/* ----------------------------- */
-/* ==grids                       */
-/* ----------------------------- */
-
-/* equal grids with 2% gutter */
-[class*=grid] > * {float: left; } /* direct childrens are floating */
-[class*=grid] > * + * { margin-left: 2%; } /* here's the gutter */
-.grid2 > * { width: 49%; }
-.grid3 > * { width: 32%; }
-.grid4 > * { width: 23.5%; }
-.grid5 > * { width: 18.4%; }
-.grid6 > * { width: 15%; }
-
-/* unequal grids (1-2, 2-1, 1-3 and 3-1) */
-.grid2-1 > *:first-child,
-.grid1-2 > * + * { width: 66%; }
-.grid1-2 > *:first-child,
-.grid2-1 > * + * { width: 32%; }
-.grid1-3 > *:first-child,
-.grid3-1 > * + * { width: 23.5%; }
-.grid3-1 > *:first-child,
-.grid1-3 > * + * { width: 74.5%; }
-
-
-/* ----------------------------- */
-/* ==icons and bullets           */
-/* ----------------------------- */
-
-.icon {display: inline-block;}
-
-.icon:before,
-.icon > li:before,
-.icon.after:after,
-.icon.after > li:after {
-  content: "";
-  display: inline-block;
-  vertical-align: middle;
-  position: relative; top: -.1em;
-  margin: 0 0.3em 0 0;
-  font: 1.4em/1 sans-serif;
-  color: #000;
-  text-shadow: 1px 1px 0 rgba(0,0,0,.1);
-  speak: none;
-}
-
-@media (min-device-width: 768px) {
-  .icon:before,
-  .icon > li:before,
-  .icon.after:after,
-  .icon.after > li:after {
-  font: 1em/0.6 sans-serif;
-  -webkit-transform: rotateZ(0.05deg);
-  }
-}
-
-.icon.after:after,
-.icon.after > li:after {
-  margin: 0 0 0 8px;
-}
-
-ul.icon {display: block;}
-ul.icon > li {list-style: none;}
-ul.icon:before,
-ul.icon.after:after {content:""}
-.icon.after:before,
-.icon.after > li:before {content: "" !important}
-
-.icon-rate:before, 
-.icon-rate > li:before,
-.icon-rate.after:after, 
-.icon-rate.after > li:after {
-  content: "\2605";
-}
-.icon-unrate:before, 
-.icon-unrate > li:before,
-.icon-unrate.after:after, 
-.icon-unrate.after > li:after {
-  content: "\2606";
-}
-.icon-check:before, 
-.icon-check > li:before,
-.icon-check.after:after, 
-.icon-check.after > li:after {
-  content: "\2713";
-}
-.icon-uncheck:before, 
-.icon-uncheck > li:before,
-.icon-uncheck.after:after, 
-.icon-uncheck.after > li:after {
-  content: "\2717";
-}
-.icon-cloud:before, 
-.icon-cloud > li:before,
-.icon-cloud.after:after, 
-.icon-cloud.after > li:after {
-  content: "\2601";
-}
-.icon-dl:before, 
-.icon-dl > li:before,
-.icon-dl.after:after, 
-.icon-dl.after > li:after {
-  content: "\21E3";
-  font-weight: bold;
-}
-.icon-cross:before, 
-.icon-cross > li:before,
-.icon-cross.after:after, 
-.icon-cross.after > li:after {
-  content: "\2716";
-  font-weight: bold;
-}
-.icon-arrow1:before, 
-.icon-arrow1 > li:before,
-.icon-arrow1.after:after, 
-.icon-arrow1.after > li:after {
-  content: "\2192";
-  position: relative; top: -0.15em;
-}
-.icon-arrow2:before, 
-.icon-arrow2 > li:before,
-.icon-arrow2.after:after, 
-.icon-arrow2.after > li:after {
-  content: "\279E";
-}
-.icon-arrow3:before, 
-.icon-arrow3 > li:before,
-.icon-arrow3.after:after, 
-.icon-arrow3.after > li:after {
-  content: "\279A";
-}
-.icon-bracket1:before, 
-.icon-bracket1 > li:before,
-.icon-bracket1.after:after, 
-.icon-bracket1.after > li:after {
-  content: "\2039";
-  font-weight: bold;
-  font-size: 1.6em;
-  position: relative; top: -0.15em;
-}
-.icon-bracket2:before, 
-.icon-bracket2 > li:before,
-.icon-bracket2.after:after, 
-.icon-bracket2.after > li:after {
-  content: "\203A";
-  font-weight: bold;
-  font-size: 1.6em;
-  position: relative; top: -0.15em;
-}
-.icon-up:before, 
-.icon-up > li:before,
-.icon-up.after:after, 
-.icon-up.after > li:after {
-  content: "\25B2";
-}
-.icon-down:before, 
-.icon-down > li:before,
-.icon-down.after:after, 
-.icon-down.after > li:after {
-  content: "\25BC";
-}
-.icon-bull:before, 
-.icon-bull > li:before,
-.icon-bull.after:after, 
-.icon-bull.after > li:after {
-  content: "\2022";
-  font-size: 1.2em;
-  top: -0.05em;
-}
-.icon-bull2:before, 
-.icon-bull2 > li:before,
-.icon-bull2.after:after, 
-.icon-bull2.after > li:after {
-  content: "\25E6";
-  top: -0.05em;
-}
-.icon-bull3:before, 
-.icon-bull3 > li:before,
-.icon-bull3.after:after, 
-.icon-bull3.after > li:after {
-  content: "\2023";
-  font-size: 1.6em;
-  top: -0.05em;
-}
-.icon-nav:before, 
-.icon-nav > li:before,
-.icon-nav.after:after, 
-.icon-nav.after > li:after {
-  content: "\2261";
-  font-weight: bold;
-  font-size: 1.6em;
-}
-.icon-losange:before, 
-.icon-losange > li:before,
-.icon-losange.after:after, 
-.icon-losange.after > li:after {
-  content: "\25C6";
-}
-.icon-asteri:before, 
-.icon-asteri > li:before,
-.icon-asteri.after:after, 
-.icon-asteri.after > li:after {
-  content: "\2731";
-  font-weight: bold;
-}
-.icon-mail:before, 
-.icon-mail > li:before,
-.icon-mail.after:after, 
-.icon-mail.after > li:after {
-  content: "\2709";
-  font-size: 1.6em;
-  top: -.05em;
-}
-
-ol.styled {counter-reset: styled;} 
-ol.styled > li {
-    list-style-type: none;
-    counter-increment: styled;
-    margin-bottom: .3em;
-}
-ol.styled > li:before {
-    content: counter(styled); 
-    display: inline-block;
-    width: 1em; height: 1em;
-    line-height: 1;
-    padding: 2px;
-    margin-right: .4em;
-    vertical-align: middle;
-    background: rgba(0,0,0,.5);
-    border-radius: 50%;
-    font-size: .9em;
-    text-align: center;
-    text-indent: -0.1em;
-    color: white;       
-}
-/* ----------------------------- */
-/* ==desktop and retina medias   */
-/* ----------------------------- */
-
-@media (min-width: 641px) {
-/* here go rules for big resources and big screens like: background-images, font-faces, etc. */
-}
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx) {
-/* Style adjustments for retina devices */
-}
-
-/* ---------------------------------- */
-/* ==Responsive large / medium / tiny */
-/* ---------------------------------- */
-
-@media (min-width: 1280px) {
-
-    /* layouts for large (l) screens */
-    .large-hidden,
-    .tablet-hidden { display: none !important; }
-    .large-visible { display: block !important; }
-    .large-no-float {float: none; }
-    .large-inbl {
-        display: inline-block;
-        float: none;
-        vertical-align: top;
-    }
-    .large-row {
-        display: table;
-        table-layout: fixed;
-        width: 100% !important;
-    }
-    .large-col {
-        display: table-cell;
-        vertical-align: top;
-    }
-
-    /* widths for large (l) screens */
-    .large-w25 { width: 25% !important; }
-    .large-w33 { width: 33.3333% !important; }
-    .large-w50 { width: 50% !important; }
-    .large-w66 { width: 66.6666% !important; }
-    .large-w75 { width: 75% !important; }
-    .large-w100 {
-        display: block !important;
-        float: none !important;
-        clear: none !important;
-        width: auto !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-        border: 0;      
-    }
-
-    /* margins for large (l) screens */
-    .large-ma0,
-    .large-man { margin: 0 !important; }
-}
-
-@media (max-width: 768px) {
-
-    /* quick tablet reset */
-    .w60,
-    .w66,
-    .w70,
-    .w75,
-    .w80,
-    .w90,
-    .w100,
-    .w600p,
-    .w700p,
-    .w800p,
-    .w960p,
-    .mw960p,
-    .medium-wauto { width: auto; } 
-
-    /* layouts for medium (m) screens */
-    .medium-hidden,
-    .tablet-hidden { display: none !important; }
-    .medium-visible { display: block !important; }
-    .medium-no-float {float: none; }
-    .medium-inbl {
-        display: inline-block;
-        float: none;
-        vertical-align: top;
-    }
-    .medium-row {
-        display: table !important;
-        table-layout: fixed !important;
-        width: 100% !important;
-    }
-    .medium-col {
-        display: table-cell !important;
-        vertical-align: top !important;
-    }
-
-    /* widths for medium (m) screens */
-    .medium-w25 { width: 25% !important; }
-    .medium-w33 { width: 33.3333% !important; }
-    .medium-w50 { width: 50% !important; }
-    .medium-w66 { width: 66.6666% !important; }
-    .medium-w75 { width: 75% !important; }
-    .medium-w100 {
-        display: block !important;
-        float: none !important;
-        clear: none !important;
-        width: auto !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-        border: 0;      
-    }
-    /* margins for medium (m) screens */
-    .medium-ma0,
-    .medium-man { margin: 0 !important; }
-
-    /* Responsive grids */
-    .grid4 > * {width: 49% !important; } 
-    .grid4 > :first-child + * + * {margin-left: 0 !important;}
-    .grid6 > * {width: 32% !important; }  
-    .grid6 > :first-child + * + * + * {margin-left: 0 !important;}
-}
-
-@media (max-width: 640px) {
-
-    /* quick smartphone reset */
-    .mod,
-    .item,
-    .col,
-    fieldset {
-        display: block !important;
-        float: none !important;
-        clear: none !important;
-        width: auto !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-        border: 0;
-    }
-    .w30,
-    .w33, 
-    .w40,
-    .w50,
-    .w300p,
-    .w400p,
-    .w500p {
-        width: auto;
-    }
-    .row { 
-        display: block !important;
-        width: 100% !important;
-    }
-
-    /* layouts for tiny (t) screens */
-    .tiny-hidden,
-    .phone-hidden { display: none !important; }
-    .tiny-visible { display: block !important; }
-    .tiny-no-float {float: none;}
-    .tiny-inbl {
-        display: inline-block;
-        float: none;
-        vertical-align: top;
-    }
-    .tiny-row {
-        display: table !important;
-        table-layout: fixed !important;
-        width: 100% !important;
-    }
-    .tiny-col {
-        display: table-cell !important;
-        vertical-align: top !important;
-    }
-    th,
-    td {
-        display: block !important;
-        width: auto !important;
-        text-align: left !important;
-    }
-    thead { display: none; }
-
-    /* widths for tiny (t) screens */
-    .tiny-w25 { width: 25% !important; }
-    .tiny-w33 { width: 33.3333% !important; }
-    .tiny-w50 { width: 50% !important; }
-    .tiny-w66 { width: 66.6666% !important; }
-    .tiny-w75 { width: 75% !important; }
-    .tiny-w100 { 
-        display: block !important;
-        float: none !important;
-        clear: none !important;
-        width: auto !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-        border: 0;
-    }
-    /* margins for tiny (t) screens */
-    .tiny-ma0,
-    .tiny-man { margin: 0 !important; }
-}
-</style><style type="text/css">@font-face {
-  font-family: main-light;
-  src: url("fonts/maven-pro-light-200.otf");
-}
-@font-face {
-  font-family: main;
-  src: url("fonts/maven-pro-light-300.otf");
-}
-@font-face {
-  font-family: cool;
-  src: url("fonts/signika-regular.ttf");
-}
-p {
-  font-weight: bold;
-}
-body {
-  font-family: main-light;
-}
-section {
-  padding: 60px 100px;
-  color: #fff;
-  font-family: main;
-}
-h1 {
-  font-size: 40px;
-  margin-bottom: 0px;
-  padding-bottom: 0px;
-}
-h2 {
-  font-family: cool;
-  font-weight: bold;
-  font-size: 30px;
-  margin-bottom: 30px;
-}
-h3 {
-  margin-bottom: 30px;
-}
-.external-links a {
-  border: 0;
-  background: #bbe5f9;
-  margin-right: 10px;
-  font-size: 25px;
-  padding: 13px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  cursor: pointer;
-  text-decoration: none;
-}
-.external-links a:hover {
-  color: #fff;
-  -webkit-transition: color 0.3s ease-in;
-  -moz-transition: color 0.3s ease-in;
-  -o-transition: color 0.3s ease-in;
-  transition: color 0.3s ease-in;
-  -webkit-transition: background-color 0.3s ease-in;
-  -moz-transition: background-color 0.3s ease-in;
-  -o-transition: background-color 0.3s ease-in;
-  transition: background-color 0.3s ease-in;
-  background: #1babf4;
-}
-p {
-  font-size: 20px;
-}
-a,
-a:hover,
-a:visited {
-  color: #fff;
-}
-code {
-  display: inline-block;
-  max-width: none;
-}
-header {
-  padding: 100px 60px;
-  font-size: 20px;
-}
-header p:first-child {
-  margin-top: 30px;
-  padding-top: 0px;
-}
-header .image {
-  width: 160px;
-  text-align: center;
-  margin-right: 20px;
-}
-header a,
-header a:hover,
-header a:visited {
-  color: #333;
-}
-header p {
-  font-weight: normal;
-}
-.txt-white {
-  color: #fff;
-}
-.txt-black {
-  color: #333;
-}
-.icon-plus:before,
-.icon-plus > li:before,
-.icon-plus.after:after,
-.icon-plus.after > li:after {
-  content: "\2B";
-  font-weight: bold;
-  font-size: 60px;
-  margin-left: 40px;
-  cursor: pointer;
-}
-.black-text {
-  color: #333;
-}
-.additional-infos {
-  display: none;
-}
-.title {
-  font-size: 60px;
-}
-.image {
-  margin-top: 20px;
-  margin-left: 50px;
-}
-.main-text {
-  padding-left: 40px;
-}
-.read-more {
-  cursor: pointer;
-  text-decoration: underline;
-}
-.read-more img {
-  -webkit-transition: -webkit-transform 0.5s ease;
-  -moz-transition: -moz-transform 0.5s ease;
-  -o-transition: -o-transform 0.5s ease;
-  transition: transform 0.5s ease;
-}
-.menu {
-  padding: 0;
-  margin: 0;
-  position: fixed;
-  height: 60px;
-  background: #fff;
-  width: 100%;
-}
-.menu p,
-.menu h1 {
-  margin: 0;
-}
-.menu button,
-.menu .read-more,
-.menu .happy-pic {
-  display: none;
-}
-.next {
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 18px;
-  margin-top: 40px;
-}
-a:focus {
-  outline: 0;
-}
-.code,
-code {
-  color: #fff;
-  font-size: 20px;
-  line-height: 60px;
-  padding: 20px;
-  -webkit-border-radius: 15px;
-  -moz-border-radius: 15px;
-  border-radius: 15px;
-}
-#host {
-  background: #fe8800;
-}
-#host code {
-  background: #cc5f00;
-}
-#host p {
-  font-weight: bold;
-}
-#hack {
-  background: #1babf4;
-}
-#hack h3 {
-  font-weight: bold;
-}
-#hack code {
-  background: #097bb5;
-  line-height: 40px;
-}
-#delete {
-  background: #bbe5f9;
-  color: #333;
-}
-#delete code {
-  background: #43b7ee;
-}
-#architecture {
-  background: #fff;
-  color: #333;
-}
-#architecture .diagbox {
-  background: #bbe5f9;
-  -webkit-border-radius: 15px;
-  -moz-border-radius: 15px;
-  border-radius: 15px;
-  text-align: center;
-  margin-top: 10px;
-  padding: 10px;
-  font-size: 14px;
-  font-weight: bold;
-}
-#architecture .diagbox p {
-  display: none;
-}
-#architecture a,
-#architecture a:hover,
-#architecture a:visited {
-  color: #333;
-}
-#community {
-  background: #fe8800;
-}
-#hack {
-  background: #1babf4;
-}
-#hack code {
-  background: #097bb5;
-}
-#delete {
-  background: #bbe5f9;
-  color: #333;
-}
-#delete code {
-  background: #43b7ee;
-}
-#delete a.txt-black {
-  color: #333;
-}
-#architecture {
-  background: #fff;
-  color: #333;
-}
-#architecture .diagbox {
-  background: #bbe5f9;
-  -webkit-border-radius: 15px;
-  -moz-border-radius: 15px;
-  border-radius: 15px;
-  text-align: center;
-  margin-top: 10px;
-  padding: 10px;
-  font-weight: bold;
-}
-#architecture .diagbox p {
-  display: none;
-  font-size: 14px;
-}
-#about {
-  background: #1babf4;
-}
-#about .right {
-  margin-left: 20px;
-  margin-top: 0px;
-}
-@media (max-width: 1000px) {
-  header,
-  section {
-    padding-left: 40px;
-    padding-right: 40px;
-  }
-  header .main-text {
-    padding-left: 0;
-  }
-}
-@media (max-width: 860px) {
-  header h1 {
-    font-size: 30px;
-  }
-  code {
-    font-size: 15px;
-  }
-}
-@media (max-width: 400px) {
-  button {
-    font-size: 16px;
-  }
-  code {
-    font-size: 13px;
-  }
-  .diagbox p,
-  .diagbox:hover p {
-    display: none;
-  }
-}
-</style><link rel="shortcut icon" href="favicon.png"><title>Cozy, a personal cloud you can hack, host and delete</title><meta name="description" content="Cozy brings you a personal cloud platform. Store your data in a place you control and leverage it with personal web applications. Photos, mails, notes, contacts, todos... there's already many applications. Extend the possibility by developing your own app, you can leverage existing features! Cozy is open-source and you can self-host it. Cozy is privacy-friendly."><meta name="viewport" content="width=device-width,initial-scale=1"><script src="/jquery-2.0.0.min.js"></script><script type="text/javascript">$(document).ready(function() {
-   $(".diagbox").hover(function(event) {
-     $(event.target).find("p").slideDown();
-   });
-   $(".read-more img").click(function(event) {
-     target = $(event.target);
-     target.css({ '-webkit-transform': "rotate(90deg)" });
-     target.css({ '-moz-transform': "rotate(90deg)" });
-     target.css({ 'transform': "rotate(90deg)" });
-     setTimeout(function() {
-       target.fadeOut(function() {
-         target.css('visibility', 'hidden');
-         target.show();
-         targetBox = target.parent().parent().parent()
-         bottom = targetBox.position().top + targetBox.height() + 50
-         bottomTop = $('body,html').scrollTop() + $(window).height();
-         if(bottom > bottomTop) {
-             $('body,html').animate({
-               scrollTop: target.parent().position().top
-             }, 800);
-         };
-       });
-     }, 500);
-     additionalInfos = 
-       $(event.target)
-         .parent().parent().parent().find(".additional-infos");
-     if(additionalInfos.length === 0) {
-       additionalInfos = 
-         $(event.target).parent()
-           .parent().parent().parent().find(".additional-infos");
-     }
-     additionalInfos.slideDown();
-   });
-   $(".next").click(function(event) {
-     if($(event.target).get(0).tagName === "A") {
-       link = $(event.target).attr('href');
-     } else  {
-       link = $(event.target).parent().attr('href');
-     }
-     
-     $('body,html').animate({
-       scrollTop: $(link).position().top
-     }, 800);
-     event.preventDefault();
-     return false;
-   });
-});</script></head><body><header id="header" class="line"><div class="mod main-text"><div class="line"> <p class="right happy-pic"><img src="/happycloud.png" alt="Happy Cloud"></p><h1 class="left"><span class="title">Cozy&nbsp;</span>a personal cloud you can host,
-hack, 
-and delete</h1></div><p class="external-links"><a href="https://github.com/mycozycloud/cozy-setup">Github</a><a href="https://github.com/mycozycloud/cozy-setup/wiki">Docs</a><a href="https://cozycloud.cc/apps">Apps</a><a href="https://demo.cozycloud.cc/">Demo</a></p><div class="line read-more mt2"><div class="ml4 read-more"><img src="plus.png" alt="read more"></div></div></div><div class="additional-infos"><div class="line"><div class="mod image left"><img src="picto_02.png" alt="Illustration picture"></div><div class="mod"><p>Cozy brings you a personal cloud platform. Store
-your data in a place you control and leverage it
-with personal web applications.</p></div></div><div class="line"><div class="mod image left"><img src="picto_01.png" alt="Illustration picture"></div><div class="mod"><p>Photos, mails, notes, contacts, todos...
-there's already many applications. Extend
-the possibility by developing your own app,
-you can leverage existing features!</p></div></div><div class="line"><div class="mod image left"><img src="picto_03.png" alt="Illustration picture"></div><div class="mod"><p>Cozy is open-source and you can self-host it.
-Cozy is privacy-friendly. Alternatively, if you
-don't want to self-host, check out our <a href="https://cozycloud.cc">hosting solutions.</a></p></div></div><div class="line txtcenter mt2"><a href="#host" class="next">host it<br><i class="icon-down"></i></a></div></div></header><section id="host" class="line target"><h2 class="icon-cloud">&nbsp; Host it</h2><h3><strong>Target your server with this script (sudoer required).</strong></h3><code>curl http://cozy.io/install_cozy.sh | HOST=root@<strong>ip</strong> sh</code><div class="line">&nbsp;</div><div class="line read-more"><div class="txt-white"><img src="plus-white.png" alt="read more"></div></div><div class="additional-infos mt2"><p>This script installs several tools on your
-local computer: python, pip, fabric and fabtools.
-They are required to run the installation on 
-your remote server.
-To know what will be setup on your 
-server, check the <a href="https://github.com/mycozycloud/cozy-setup#what-will-this-script-install-on-your-server">list</a>&nbsp;in the readme.</p><p>The script works only with Debian/Ubuntu distros.
-A fully packaged VM is on its way so that you can deploy
-a Cozy on any OS (Linux, Mac, Win).</p><div class="line txtcenter mt2"><a href="#hack" class="next"> 
-hack it<br><i class="icon-down"></i></a></div></div></section><section id="hack" class="line target"><h2 class="icon-up">&nbsp; Hack it</h2><h3> 
-install the development environment (node.js, vagrant and
-virtualbox are required)</h3><code>npm install cozy -g
-cozy dev:init
-cozy dev:start</code><h3>initialize your application</h3><div class="line"><code>cozy new my-app  --github myaccount
-cd my-app</code></div><h3>hack... then deploy!</h3><div class="line"><code>cozy deploy</code></div><div class="line read-more mt1"><div class="txt-white read-more"><img src="plus-white.png" alt="read more"></div></div><div class="additional-infos mt2"><p>We are not talking about fancy plugins, here you write 
-your
-additions like you would write any web app! The only
-constraints are to use our storage system and to write
-your code for Node.js.
-(Python and Ruby are on the roadmap). </p><p>For more details check our&nbsp;<a href="https://github.com/mycozycloud/cozy-setup/wiki#build-your-cozy-cloud-application">getting started guide</a></p><div class="line txtcenter mt2"><a href="#delete" class="next"> 
-delete it<br><i class="icon-down"></i></a></div></div></section><section id="delete" class="line target"><h2 class="icon-cross">&nbsp; Delete it</h2><p> 
-We believe you will keep using your Cozy because 
-you can get rid of it:</p><code class="mt2">curl http://cozy.io/uninstall_cozy.sh | HOST=root@<strong>ip:port</strong> sh</code><div class="line read-more mt1"><div class="black-text read-more"><img src="plus.png" alt="read more"></div></div><div class="additional-infos mt2"><p> 
-What is annoying nowadays with online services is
-that you are locked with it. We don't want that for
-Cozy Cloud. That's why we give you the possibility to 
-leave the platform. 
-NB: Be aware that the above action will erase your
-data permanently.</p><div class="line txtcenter mt2"><a href="#architecture" class="next txt-black"> 
-see our architecture<br><i class="icon-down"></i></a></div></div></section><section id="architecture" class="line target"><h2 class="icon-nav">&nbsp; Architecture</h2><div class="line"><div class="line"><div class="mod w100 diagbox"> <div>proxy</div><p class="w100">The proxy handles all user requests. It manages
-the authentication and routes requests to the 
-right application.</p></div></div><div class="line grid5"><div class="diagbox"><div>home / controller</div><p class="w100">The home app is a UI for the 
-controller. It allows to install or remove
-applications and to set user parameters.</p></div><div class="diagbox"><div>app1</div><p class="w100">This is an application provided by Cozy Cloud
-or the community. It is spawned by the home
-that finds the sources on a github repo.</p></div><div class="diagbox"> <div>app2</div><p class="w100">Your choice: notes, mails, budget, sport coach...</p></div><div style="background: transparent" class="diagbox">...</div><div class="diagbox"><div>your app</div><p class="w100">This is an application you developed. You can spawn it like
-any other applications.</p></div></div><div class="line"><div class="mod w100 diagbox"> <div>data system</div><p class="w100">The data system is a layer between apps and data.
-It (will) manages application permissions and
-provides a unified API to access to all kind of
-data: files, documents or indexes.
-It publishes changes, so that applications
-can share data with each other.</p></div></div><div class="line grid3"><div class="diagbox"><div>database</div><p class="w100">This NoSQL storage stores documents as JSON
-objects.</p></div><div class="diagbox"><div>file system</div><p class="w100">Files are stored directly in the database as
-attachments of documents. A fuse implementation
-is on the roadmap to make things smoother.</p></div><div class="diagbox"> <div>indexer</div><p class="w100">A dedicated module
-handles content indexation through a REST API.
-It's your personal search engine.</p></div></div></div><div class="line mt1"></div><div class="line read-more mt1"><div class="txt-black read-more"><img src="plus.png" alt="read more"></div></div><div class="additional-infos mt2"><p>If you want to know more about our architecture
-and technical choices
-check the dedicated&nbsp;<a href="https://github.com/mycozycloud/cozy-setup/wiki/Cozy-architecture">wiki page</a>!</p><div class="line txtcenter mt2"><a href="#community" class="next"> 
-join our community<br><i class="icon-down"></i></a></div></div></section><section id="community" class="line"><h2 class="icon-asteri">&nbsp; Community</h2><p> 
-A software is nothing without a community. That's why we want
-to make it easy for you to connect with us and other Cozy users:</p><p> <a href="http://webchat.freenode.net/?channels=cozycloud"> 
-IRC: <strong>#cozycloud</strong> on irc.freenode.net</a></p><p><a href="https://groups.google.com/forum/#!forum/cozy-cloud"> 
-Mailing List </a></p><p><a href="https://forum.cozycloud.cc/"> 
-Forum</a></p><p><a href="https://twitter.com/mycozycloud"> 
-Twitter</a></p></section><section id="about" class="line"><h2 class="icon-rate">&nbsp; About</h2><p class="right"><img src="/cozy-logo.png" alt="Cozy Logo"></p><p> 
-Cozy is a software built by the 
-<a href="https://cozycloud.cc/">Cozy Cloud company</a>. We love
-the web and cloud computing, but the current situation doesn't
-satisfy us. By providing a platform for interconnected and
-privacy-friendly web apps we want to make the web a better place.</p><p>If you want the benefits of Cozy without the constraints of self-hosting, visit
-<a href="https://cozycloud.cc">cozycloud.cc</a>
-and try our hosting solutions!</p></section><script type="text/javascript">var _paq = _paq || [];
-_paq.push(["trackPageView"]);
-_paq.push(["enableLinkTracking"]);
-
-(function() {
-  var u=(("https:" == document.location.protocol) ? "https" : "http") + "://piwik.cozycloud.cc/";
-  _paq.push(["setTrackerUrl", u+"piwik.php"]);
-  _paq.push(["setSiteId", "3"]);
-  var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
-  g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
-})();</script><noscript><img src="https://piwik.cozycloud.cc/piwik.php?idsite=1&amp;amp;rec=1" style="border:0" alt=""></noscript></body></html>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="favicon.png">
+    <title>Cozy, a personal cloud you can hack, host and delete</title>
+    <meta name="description" content="Cozy brings you a personal cloud platform. Store your data in a place you control and leverage it with personal web applications. Photos, mails, notes, contacts, todos... there's already many applications. Extend the possibility by developing your own app, you can leverage existing features! Cozy is open-source and you can self-host it. Cozy is privacy-friendly.">
+    <meta name="viewport" content="width=device-width,initial-scale=1"><link  rel="stylesheet" href="/vendors/css/knacss.css" /><link  rel="stylesheet" href="/assets/css/home.css" />
+    <script src="/vendors/javascripts/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+         $(".diagbox").hover(function(event) {
+           if($(window).width() > 800) {
+             $(event.target).find("p").slideDown();
+           };
+         });
+      });
+    </script>
+  </head>
+  <body>
+    <div class="navbar fixed"><a href="/"><img src="/assets/images/happycloud.png" alt="Happy Cloud"></a><a href="/hack" class="right">hack</a><a href="/host" class="right">host</a>
+    </div>
+    <header id="header" class="line clearfix">
+      <div class="left mr2 biglogo"><img src="/assets/images/bighappycloud.png"></div>
+      <div class="mod main-text">
+        <div class="line left"> 
+          <h1><span class="title">Cozy&nbsp;</span>a personal Cloud<br>you can host, hack
+            and delete
+          </h1>
+          <h4>Your web apps and your data on your hardware</h4>
+          <p class="image-links">images:&nbsp; <a href="https://files.cozycloud.cc/cozycloud-virtualimage.zip">Virtualbox</a>,&nbsp;
+          </p>
+          <div class="image-links">hosting services:&nbsp; <a href="https://cozycloud.cc/">Cozy Cloud</a></div>
+          <div class="image-links">newsletter:
+            <form action="http://mycozycloud.us4.list-manage1.com/subscribe/post?u=e25ec3b4f8c222291f7d77997&amp;id=1f9ebbfb31" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate">
+              <input type="email" placeholder="email address" id="mce-EMAIL" name="EMAIL" value="" class="search-query email">
+              <button id="mc-embedded-subscribe" name="subscribe" value="Subscribe" type="submit" class="btn btn-warning">subscribe</button>
+            </form>
+          </div>
+          <p class="external-links mt3"><a href="https://github.com/mycozycloud/cozy-setup">Github</a><a href="https://cozycloud.cc/apps">Apps</a><a href="https://demo.cozycloud.cc/">Demo</a></p>
+        </div>
+      </div>
+    </header>
+    <section id="social" class="line social center">
+      <div class="mod w33 left"><img src="/assets/images/twitter_04.png"></div>
+      <div class="mod w33 left"><img src="/assets/images/twitter_02.png"></div>
+      <div class="mod w33 left"><img src="/assets/images/twitter_03.png"></div>
+    </section>
+    <section id="why" class="why center highlight">
+      <div class="line">
+        <h4>
+           
+          Why should I host Cozy? 
+        </h4>
+        <ul>
+          <li>
+             
+            To keep your privacy safe and contribute to the
+            Internet freedom
+          </li>
+          <li>
+             
+            To take the full potiental out of your data
+          </li>
+          <li>To increase your productivity</li>
+        </ul>
+      </div>
+    </section>
+    <section id="host" class="line target">
+      <h2 class="icon-cloud">&nbsp; Host it</h2>
+      <h3><strong>Target your server with this script (sudoer required).</strong></h3>
+      <p class="code">curl http://cozy.io/install_cozy.sh | HOST=root@<strong>ip</strong> sh</p>
+      <div class="line">&nbsp;</div>
+      <div class="line mt2">
+        <p>
+          This script installs several tools on your
+          local computer: python, pip, fabric and fabtools.
+          They are required to run the installation on 
+          your remote server.
+          The script works only with Debian/Ubuntu distros.
+        </p>
+      </div>
+      <div class="line mt2">
+        <p>Check our &nbsp;<a href="/host">full documentation</a></p>
+      </div>
+    </section>
+    <section id="developers" class="highlight">
+      <div class="line">
+        <h4>
+           
+          Painless web development
+        </h4>
+        <ul>
+          <li>
+             
+            Use our
+            ready to-go templates and easy deployment for your web app
+          </li>
+          <li>
+             
+            Write web apps that leverage user personal
+            data
+          </li>
+          <li>Distribute them quickly to the community</li>
+        </ul>&nbsp; 
+      </div>
+    </section>
+    <section id="hack" class="line target">
+      <h2 class="icon-up">&nbsp; Hack it</h2>
+      <h3>
+         
+        install the development environment (node.js, vagrant and
+        virtualbox are required)
+      </h3>
+      <p class="code">npm install cozy -g <br>cozy dev:init<br>cozy dev:start</p>
+      <h3>initialize your application</h3>
+      <p class="code">cozy new my-app  --github myaccount<br>cd my-app</p>
+      <h3>hack... then deploy!</h3>
+      <div class="line"><code class="code">cozy deploy</code></div>
+      <h3>
+         
+        When you're done send us&nbsp;<a href="conact@cozycloud.cc">an email</a>&nbsp;and we'll help you to
+        promote your app!
+      </h3>
+      <div class="line mt2">
+        <p>For more details check our&nbsp;<a href="/hack">tutorial</a></p>
+      </div>
+    </section>
+    <section id="leave" class="highlight">
+      <div class="line">
+        <h4>
+           
+          You will stay because you can leave.
+        </h4>
+        <ul>
+          <li>
+             
+            You can delete your Cozy and all your data when
+            you want
+          </li>
+        </ul>
+      </div>
+    </section>
+    <section id="delete" class="line target">
+      <h2 class="icon-cross">&nbsp; Delete it</h2><code class="code mt2">curl http://cozy.io/uninstall_cozy.sh | HOST=root@<strong>ip:port</strong> sh</code>
+      <div class="line mt2">
+        <p>
+           
+          What is annoying nowadays with online services is
+          that you are locked with it. We don't want that for
+          Cozy Cloud. That's why we give you the possibility to 
+          leave the platform. <br>NB: Be aware that the above action will erase your
+          data permanently.
+        </p>
+      </div>
+    </section>
+    <section id="paas" class="highlight">
+      <div class="line">
+        <h4>
+           
+          Cozy is a personal PaaS
+        </h4>
+        <ul>
+          <li>
+             
+            It manages web apps and offer a JSON data store,
+            an indexer and a file system
+          </li>
+          <li>
+            All of them are abstracted by a module called 
+            the Data System
+          </li>
+        </ul>
+      </div>
+    </section>
+    <section id="architecture" class="line target">
+      <h2 class="icon-nav">&nbsp; Architecture</h2>
+      <div class="line">
+        <div class="line">
+          <div class="mod w100 diagbox"> 
+            <div>proxy</div>
+            <p class="w100">
+              The proxy handles all user requests. It manages
+              the authentication and routes requests to the 
+              right application.
+            </p>
+          </div>
+        </div>
+        <div class="line grid5">
+          <div class="diagbox">
+            <div>home / controller</div>
+            <p class="w100">
+              The home app is an UI for the 
+              controller. It allows to install or remove
+              applications and to set user parameters.
+            </p>
+          </div>
+          <div class="diagbox">
+            <div>app1</div>
+            <p class="w100">
+              This is an application provided by Cozy Cloud
+              or the community. It is spawned by the home
+              that finds the sources on a github repo.
+            </p>
+          </div>
+          <div class="diagbox"> 
+            <div>app2</div>
+            <p class="w100">Your choice: notes, mails, budget, sport coach...</p>
+          </div>
+          <div style="background: transparent" class="diagbox">...</div>
+          <div class="diagbox">
+            <div>your app</div>
+            <p class="w100">
+              This is an application you developed. You can spawn it like
+              any other applications.
+            </p>
+          </div>
+        </div>
+        <div class="line">
+          <div class="mod w100 diagbox"> 
+            <div>data system</div>
+            <p class="w100">
+              The data system is a layer between apps and data.
+              It (will) manages application permissions and
+              provides a unified API to access to all kind of
+              data: files, documents or indexes.
+              It publishes changes, so that applications
+              can share data with each other.
+            </p>
+          </div>
+        </div>
+        <div class="line grid3">
+          <div class="diagbox">
+            <div>database</div>
+            <p class="w100">
+              This NoSQL storage stores documents as JSON
+              objects.
+            </p>
+          </div>
+          <div class="diagbox">
+            <div>file system</div>
+            <p class="w100">
+              Files are stored directly in the database as
+              attachments of documents. A fuse implementation
+              is on the roadmap to make things smoother.
+            </p>
+          </div>
+          <div class="diagbox"> 
+            <div>indexer</div>
+            <p class="w100">
+              A dedicated module
+              handles content indexation through a REST API.
+              It's your personal search engine.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="line mt2">
+        <p>
+          If you want to know more about our architecture
+          check the&nbsp;<a href="/hack">full documentation</a>
+        </p>
+      </div>
+    </section>
+    <section id="community-cozy" class="highlight">
+      <div class="line">
+        <h4>
+           
+          Join our community
+        </h4>
+        <ul>
+          <li>
+            A software is nothing without a community. That's why
+            we want
+          </li>
+          <li>
+            to make it easy for you to connect with us and other
+            Cozy users
+          </li>
+        </ul>
+      </div>
+    </section>
+    <section id="community" class="line">
+      <h2 class="icon-asteri">&nbsp; Community</h2>
+      <p>
+         
+        Here is a list of several communication tools that we use 
+        to stay connected with the community:
+      </p>
+      <p>
+         
+        IRC Chat Room:<a href="http://webchat.freenode.net/?channels=cozycloud">
+           
+           <strong>#cozycloud</strong> on irc.freenode.net</a>
+      </p>
+      <p><a href="https://groups.google.com/forum/#!forum/cozy-cloud">
+           
+          Google Group (Mailing List)</a></p>
+      <p><a href="https://forum.cozycloud.cc/">
+           
+          Forum</a></p>
+      <p><a href="https://blog.cozycloud.cc">
+           
+          Cozy Blog</a></p>
+      <p><a href="https://twitter.com/mycozycloud">
+           
+          Twitter Feed</a></p>
+    </section>
+    <section id="partners" class="highlight">
+      <div class="line">
+        <h4>
+           
+          Cozy is a software built by  
+          <a href="https://cozycloud.cc/">Cozy Cloud</a>
+        </h4>
+        <ul>
+          <li>
+            We want to build partnerships with hosting
+            companies, hardware manufacturers and ISPs. 
+          </li>
+          <li>
+             
+            If you are
+             interested in what we do,&nbsp;
+          </li>
+          <li><a href="mailto:contact@cozycloud.cc" class="biggest"> contact us </a></li>
+        </ul>
+      </div>
+    </section>
+    <section id="about" class="line">
+      <h2 class="icon-rate">&nbsp; About</h2>
+      <p class="right"><img src="/assets/images/cozy-logo.png" alt="Cozy Logo"></p>
+      <p>
+         
+        Cozy Cloud is a young startup located in France. We are
+        a&nbsp;<a href="https://www.cozycloud.cc/team/">team of eight</a>&nbsp;and we are supported by <a href="http://webfwd.org">WebFWD</a>, the Mozilla startup accelerator.
+      </p>
+      <p>
+        We provide convenient ways to start with Cozy. If you want
+        the benefits of Cozy without the constraints of self-hosting,
+        visit 
+        <a href="https://cozycloud.cc">cozycloud.cc</a> 
+        and try our hosting solutions!
+      </p>
+      <p>
+        Photo Credits: Official Raspberry Photo, Bob Lash,
+        PhotoG Jon (Flickr), Flowerwolf (Flickr), TechGenStaffer
+        (Flickr)
+      </p>
+    </section>
+    <script type="text/javascript">
+      var _paq = _paq || [];
+      _paq.push(["trackPageView"]);
+      _paq.push(["enableLinkTracking"]);
+      
+      (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http") + "://piwik.cozycloud.cc/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "3"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+      })();
+    </script>
+    <noscript><img src="/https://piwik.cozycloud.cc/piwik.php?idsite=1&amp;amp;rec=1" style="border:0" alt=""></noscript>
+  </body>
+</html>

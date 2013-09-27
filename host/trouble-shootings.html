@@ -1,0 +1,78 @@
+<!DOCTYPE html><!--[if lte IE 7]> <html class="no-js ie67 ie678" lang="en"> <![endif]-->
+<!--[if IE 8]> <html class="no-js ie8 ie678" lang="en"> <![endif]-->
+<!--[if IE 9]> <html class="no-js ie9" lang="en"> <![endif]-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8"><!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <title>Trouble Shootings
+    </title><link  rel="stylesheet" href="/vendors/css/knacss.css" /><link  rel="stylesheet" href="/vendors/css/sunburst.css" /><link  rel="stylesheet" href="/assets/css/main.css" /><link  rel="stylesheet" href="/assets/css/home.css" />
+  </head>
+  <body>
+    <div class="navbar fixed"><a href="/" class="nav-logo left"><img src="/assets/images/happycloud.png" alt="Happy Cloud"></a><a href="/" class="left">Cozy</a><a href="/hack" class="right">hack</a><a href="/host" class="right">host</a></div>
+    <div class="wrapper">
+      <aside class="mod left w25 aside">
+        <nav id="navigation" role="navigation">
+          <ul class="first-level">
+            <li class="big"><a href="/host/install.html" class="label">Install Cozy on your server</a>
+            </li>
+            <li class="big"><a href="/host/update.html" class="label">Update your cozy</a>
+            </li>
+            <li class="big"><a href="/host/uninstall.html" class="label">Uninstall</a>
+            </li>
+            <li class="big selected"><a href="/host/trouble-shootings.html" class="label">Trouble Shootings</a>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+      <div id="main" role="main" class="mod pam w75"><h1>Trouble shootings</h1>
+<h3>I can only install one application</h3>
+<p>When you try to install an application it is marked as broken and it has the same behaviour for every additional applications. </p>
+<p>Check the amount of RAM available on your system by clicking on the manage button on your home page. If you RAM machine is full, that means your Cozy can&#39;t install new applications.</p>
+<h3>Install never ends until I refresh the page (F5)</h3>
+<p>That&#39;s because the data-system module is not properly synchronized with the database. Just restart the data system and everything should be back to normal.</p>
+<pre class="highlighted"><code class="bash"><span class="comment"># On the cozy host</span>
+sudo cozy-monitor restart data-system</code></pre>
+<h3>Server error occured on login</h3>
+<p>Check that your home is installed. In your browser go to <em><a href="https://yourcozyurl/status">https://yourcozyurl/status</a></em>
+Check that everything is set to true. If Home is marked as false, that means it is not running. To solve this problem type the following commands in a terminal of your remote server:</p>
+<pre class="highlighted"><code class="bash">cozy-monitor uninstall home
+cozy-monitor install home</code></pre>
+<h3>Npm errors</h3>
+<p>Cozy is based on Node.js applications. Node.js apps download their dependencies from the NPM registry. Sometimes this registry is not stable. So if you encounter NPM related errors, try to run the installation again.</p>
+<h3>ARM processors</h3>
+<h4>Node.js</h4>
+<p>Node.js require a specific configuration to be built on an ARM processor. Actually the version that is setup only supports Raspberry Pi like processors (ARMv6).</p>
+<h4>Nginx</h4>
+<p>We didn&#39;t find yet a good solution to setup Nginx on a Raspberry. We are still
+working on it. If you want to help us about this issue, feel free to
+contribute!</p>
+<p>Here is a good tutorial to install Nginx on your Raspberry Pi: <a href="http://virtualitblog.blogspot.fr/2013/05/install-nginx-141-raspberry-pi.html">http://virtualitblog.blogspot.fr/2013/05/install-nginx-141-raspberry-pi.html</a></p>
+<p>Package can be downloaded there: <a href="http://nginx.org/packages/debian/pool/nginx/n/nginx/">http://nginx.org/packages/debian/pool/nginx/n/nginx/</a></p>
+<h3>Cozy Controller not started</h3>
+<p>If you get ECONNRESET when installing apps using the cozy-monitor, check if the cozy-controller is correctly started</p>
+<pre class="highlighted"><code class="bash">sudo supervisorctl</code></pre>
+<p>and check if the cozy-monitor is using port 9002</p>
+<pre class="highlighted"><code class="bash">sudo netstat -plunt | grep 9002
+tcp     0     0 0.0.0.0:9002      0.0.0.0:*        LISTEN      997/node</code></pre>
+<h3>CouchDB password</h3>
+<p>If you run several time the installation, the db password and the password used
+by the data-system could become different. To reset the password, comment the
+last line of <code>/usr/local/etc/couch/local.ini</code> in the admin section. Delete the
+file <code>/etc/cozy/couchdb.login</code> Then run installation again or run this command:</p>
+<pre class="highlighted"><code class="bash">fab config_couchdb</code></pre>
+<h3>Process duplication</h3>
+<p>Sometimes a Node.js process duplication occurs. In that case, the simplest way
+to go back to normal is to run the following commands:</p>
+<pre class="highlighted"><code class="bash">sudo supervisorctl stop cozy-controller
+sudo pkill -9 node
+sudo supervisorctl start cozy-controller</code></pre>
+
+      </div>
+      <footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">mailing-list</a><a href="https://cozycloud.cc">cozy cloud</a></footer>
+    </div><script defer="defer"  src="/vendors/javascripts/jquery-2.0.3.min.js"></script><script defer="defer"  src="/assets/javascripts/main.js"></script>
+  </body>
+</html>

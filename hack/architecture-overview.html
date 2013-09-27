@@ -1,0 +1,73 @@
+<!DOCTYPE html><!--[if lte IE 7]> <html class="no-js ie67 ie678" lang="en"> <![endif]-->
+<!--[if IE 8]> <html class="no-js ie8 ie678" lang="en"> <![endif]-->
+<!--[if IE 9]> <html class="no-js ie9" lang="en"> <![endif]-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8"><!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <title>Architecture Overview
+    </title><link  rel="stylesheet" href="/vendors/css/knacss.css" /><link  rel="stylesheet" href="/vendors/css/sunburst.css" /><link  rel="stylesheet" href="/assets/css/main.css" /><link  rel="stylesheet" href="/assets/css/home.css" />
+  </head>
+  <body>
+    <div class="navbar fixed"><a href="/" class="nav-logo left"><img src="/assets/images/happycloud.png" alt="Happy Cloud"></a><a href="/" class="left">Cozy</a><a href="/hack" class="right">hack</a><a href="/host" class="right">host</a></div>
+    <div class="wrapper">
+      <aside class="mod left w25 aside">
+        <nav id="navigation" role="navigation">
+          <ul class="first-level">
+            <li class="big"><a href="/hack/getting-started.html" class="label">Getting started</a>
+            </li>
+            <li class="big"><a href="/hack/setup-environment.html" class="label">Setup the environment</a>
+            </li>
+            <li class="big"><a href="/hack/first-app.html" class="label">Your first app in 30 minutes</a>
+            </li>
+            <li class="big selected"><a href="/hack/architecture-overview.html" class="label">Architecture Overview</a>
+            </li>
+            <li class="big"><a href="/hack/discover-data-system.html" class="label">Discover the Data System</a>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+      <div id="main" role="main" class="mod pam w75"><h1>Architecture Overview</h1>
+<p>It is important to understand how Cozy is built to understand how it works. Let&#39;s quickly see how it looks like.</p>
+<p><img src="/assets/images/cozy-architecture.png" alt="Architecture Overview"></p>
+<p>Too long, don&#39;t want to read ? Check out what you should remember! (<em>link to bottom of page</em>)</p>
+<p>Cozy is made of three different layers:</p>
+<ul>
+<li>the Proxy</li>
+<li>the pPaaS</li>
+<li>the persistence layer</li>
+</ul>
+<h2>The Proxy (<a href="https://github.com/mycozycloud/cozy-proxy/">Github repository</a>)</h2>
+<p>The proxy main job is handling the authentification and authorization to the Cozy. This is the application that manage registration, login, logout and password reset.</p>
+<p>It also handles all the routing of Cozy (to send a request to the right application).</p>
+<h2>The pPaaS (<a href="https://github.com/mycozycloud/cozy-controller/">Github repository</a>)</h2>
+<p>pPaaS stands for &quot;personal Platform as a Service&quot;.
+You may already now what a PaaS is: an execution environment for applications.
+A personal PaaS is a personal execution environment for personal applications collaboring around personal data. You got it, a pPaaS is all about the user!</p>
+<p>Technically, the &quot;controller&quot; and the &quot;home application&quot; play with each other to install, run, update and remove applications within Cozy. We&#39;ve forked <a href="https://github.com/nodejitsu/haibu">Haibu</a> to add custom options: more security (applications are run by separate users, restrict the access to the controller itself, ...), handling apps authentification to the Data System, logging, ...</p>
+<p>The <a href="https://github.com/mycozycloud/cozy-controller/">cozy-controller</a> can also be used through a dedicated tool, the <a href="https://github.com/mycozycloud/cozy-monitor/">cozy-monitor</a>. You shouldn&#39;t worried too much about it since it is unlikely you will use it one day (except if you host your own Cozy or are willing to contribute to the core).</p>
+<h2>The persistence layer: the Data System (<a href="https://github.com/mycozycloud/cozy-data-system/">Github Repository</a>)</h2>
+<p>You&#39;ve just built your first app using SQLite and you are wondering why we speak about another persistence mecanism? Well, let us introduce you the Data System.</p>
+<p>It&#39;s a unified API that allows applications to access:</p>
+<ul>
+<li>the database (CouchDB)</li>
+<li>the file system</li>
+<li>the indexer (Woosh)</li>
+</ul>
+<p>The Data System is where Cozy&#39;s power is. It allows the user to chose which application accesses which type of data so he can <strong>control</strong> and <strong>decide</strong> wether he trusts or not an application.
+It also opens the opportunity to use multiple data-source. Do you want to have contacts in your agenda application? Do it!</p>
+<p>A dedicated section will describe the Data System, its API and how to use it in details.</p>
+<h2>What you should remember</h2>
+<p>As a developer, you are going to create an application that will be run by Cozy&#39;s pPaaS. That application will access the data through the Data System.
+Also, you won&#39;t have to bother about user authentification and authorization because it is all handled by the Proxy.</p>
+<p>Keep in mind you develop for a <strong>personal</strong> environment which is not something we are used to at first but it only changes the relation to data we had until now!</p>
+<p>Ready to go one step further with Cozy? Get your hands dirty with the Data System.</p>
+
+      </div>
+      <footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">mailing-list</a><a href="https://cozycloud.cc">cozy cloud</a></footer>
+    </div><script defer="defer"  src="/vendors/javascripts/jquery-2.0.3.min.js"></script><script defer="defer"  src="/assets/javascripts/main.js"></script>
+  </body>
+</html>

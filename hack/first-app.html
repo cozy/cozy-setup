@@ -63,6 +63,10 @@ npm install</code></pre>
 <p>We first need to create a HTTP server that will serve the content on requests:</p>
 <pre class="highlighted"><code class="javascript"><span class="comment">// server.js</span>
 
+<span class="comment">// Generate a new instance of express server.</span>
+<span class="keyword">var</span> express = require(<span class="string">'express'</span>);
+<span class="keyword">var</span> app = express();
+
 <span class="comment">// At the root of your website, we show the index.html page</span>
 app.get(<span class="string">'/'</span>, <span class="keyword">function</span>(req, res) {
     res.sendfile(<span class="string">'./public/index.html'</span>)

@@ -469,7 +469,8 @@ header form {
 }
 @media (max-width: 600px) {
   header {
-    padding: 40px 20px 10px 20px;
+    padding: 80px 20px 10px 20px;
+    margin-top: 40px;
   }
   header h1 {
     font-size: 24px;

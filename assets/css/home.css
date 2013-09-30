@@ -67,7 +67,7 @@ button {
   text-shadow: none;
   border-radius: 3px;
   font-family: main;
-  font-weight: bold;
+  font-weight: normal;
   cursor: pointer;
   outline: none;
   padding: 1px;
@@ -121,6 +121,12 @@ button:active {
   -o-transition: background-color 0.3s ease-in;
   transition: background-color 0.3s ease-in;
   background: #1babf4;
+}
+.external-links a:focus,
+.external-links a:active {
+  background: #0b9ee9;
+  shadow: 1px 3px 2px rgba(0,0,0,0.2) inset, 0 1px 2px rgba(0,0,0,0);
+  color: #fff;
 }
 .code {
   display: inline-block;
@@ -462,20 +468,46 @@ header form {
   }
 }
 @media (max-width: 600px) {
+  header {
+    padding: 40px 20px 10px 20px;
+  }
   header h1 {
     font-size: 24px;
   }
   header h4 {
     font-size: 20px;
   }
+  header .title {
+    width: 100%;
+    display: inline-block;
+  }
   #social {
     padding: 0;
+    padding-bottom: 20px;
   }
   .image-links {
     font-size: 16px;
   }
   .image-links:nth-child(2) {
     margin-top: 0;
+  }
+  .highlight {
+    padding: 10px;
+  }
+  .target {
+    padding: 20px;
+  }
+  .external-links {
+    height: auto;
+  }
+  .external-links a {
+    width: 100%;
+    margin-top: 10px;
+    display: inline-block;
+  }
+  #mc-embedded-subscribe-form input,
+  #mc-embedded-subscribe-form button {
+    width: 100%;
   }
 }
 @media (max-width: 400px) {

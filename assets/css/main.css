@@ -233,6 +233,7 @@ aside {
   -webkit-border-radius: 10px;
   border-radius: 10px;
   line-height: 20px;
+  margin-top: 10px;
 }
 #footer {
   margin-top: 30px;

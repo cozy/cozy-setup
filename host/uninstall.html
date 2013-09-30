@@ -19,6 +19,10 @@
           <ul class="first-level">
             <li class="big"><a href="/host/install.html" class="label">Install Cozy on your server</a>
             </li>
+            <li class="big"><a href="/host/raspberry.html" class="label">Raspberry Pi</a>
+            </li>
+            <li class="big"><a href="/host/openvz.html" class="label"> OpenVZ</a>
+            </li>
             <li class="big"><a href="/host/update.html" class="label">Update your cozy</a>
             </li>
             <li class="big selected"><a href="/host/uninstall.html" class="label">Uninstall</a>
@@ -31,8 +35,13 @@
       <div id="main" role="main" class="mod pam w75"><h1>Uninstall your Cozy</h1>
 <p>Warning: this will delete all your data.</p>
 <h2>Easy way</h2>
+<p>The easiest way to uninstall Cozy is to use the Fabric installation file used
+for the installation. But this you should not call the installation task but
+the uninstall task:</p>
 <pre class="highlighted"><code class="bash">fab -H user@ip uninstall_all</code></pre>
 <h2>Manual uninstall</h2>
+<p>If you want to uninstall your Cozy without Fabric you can run the following
+commands directly on your server.</p>
 <pre class="highlighted"><code class="bash">supervisorctl stop cozy-controller
 supervisorctl stop cozy-indexer
 supervisorctl stop couchdb

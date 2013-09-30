@@ -19,6 +19,10 @@
           <ul class="first-level">
             <li class="big"><a href="/host/install.html" class="label">Install Cozy on your server</a>
             </li>
+            <li class="big"><a href="/host/raspberry.html" class="label">Raspberry Pi</a>
+            </li>
+            <li class="big"><a href="/host/openvz.html" class="label"> OpenVZ</a>
+            </li>
             <li class="big selected"><a href="/host/update.html" class="label">Update your cozy</a>
             </li>
             <li class="big"><a href="/host/uninstall.html" class="label">Uninstall</a>
@@ -30,17 +34,24 @@
       </aside>
       <div id="main" role="main" class="mod pam w75"><h1>Update your Cozy</h1>
 <h2>Easy way</h2>
+<p>The easiest way to update Cozy is to use the Fabric installation file used for
+the installation. But this you should not call the installation task but the
+udpate tasks:</p>
 <pre class="highlighted"><code class="bash">fab -H user@ip update_stack 
 fab -H user@ip update_all_apps</code></pre>
 <h2>Manual update</h2>
+<p>If you want update your Cozy without Fabric you can run the following commands
+directly on your server.</p>
 <pre class="highlighted"><code class="bash">sudo cozy-monitor light-update data-system
 sudo cozy-monitor light-update home
 sudo cozy-monitor light-update proxy
 sudo supervisorctl stop cozy-controller
-sudo pkill -9 node
+sudo pkill -9 node <span class="comment"># make sure no process is remaining.</span>
 sudo npm -g update cozy-controller 
 sudo supervisorctl start cozy-controller</code></pre>
 <h2>Application update</h2>
+<p>To update a single application, you can run the following command on your targe
+server.</p>
 <pre class="highlighted"><code class="bash">sudo cozy-monitor light-update &lt;app&gt;</code></pre>
 
       </div>

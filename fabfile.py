@@ -141,7 +141,8 @@ def install_tools():
         'git',
         'sudo',
         'lsb-release',
-        'imagemagick'
+        'imagemagick',
+        'sqlite3'
     ])
     print(green('Tools successfully installed'))
 
@@ -385,7 +386,6 @@ def install_monitor():
     else:
         require.nodejs.package('coffee-script')
     require.nodejs.package('cozy-monitor')
-    require.nodejs.package('compound')
     require.nodejs.package('brunch', version='1.6.3')
     print(green('Monitor, compound, brunch and coffee script ' +
                 'successfully installed'))
@@ -425,7 +425,7 @@ def install_controller():
     if is_arm():
         time.sleep(15)
     else:
-        time.sleep(5)
+        time.sleep(7)
     with hide('running', 'stdout'):
         result = run('curl -X GET http://127.0.0.1:9002/ ' +
                      '-H "x-auth-token: %s"' % token)

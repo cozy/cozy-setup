@@ -1,0 +1,178 @@
+<!DOCTYPE html><!--[if lte IE 7]> <html class="no-js ie67 ie678" lang="en"> <![endif]-->
+<!--[if IE 8]> <html class="no-js ie8 ie678" lang="en"> <![endif]-->
+<!--[if IE 9]> <html class="no-js ie9" lang="en"> <![endif]-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8"><!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <title>Play with the Data System
+    </title><link  rel="stylesheet" href="/vendors/css/knacss.css" /><link  rel="stylesheet" href="/vendors/css/sunburst.css" /><link  rel="stylesheet" href="/assets/css/main.css" /><link  rel="stylesheet" href="/assets/css/home.css" />
+  </head>
+  <body>
+    <div class="navbar fixed"><a href="/" class="nav-logo left"><img src="/assets/images/happycloud.png" alt="Happy Cloud"></a><span class="subtitle">Play with the Data System</span><a href="/hack" class="right">hack</a><a href="/host" class="right">host</a></div>
+    <div class="wrapper">
+      <aside class="mod left w25 aside">
+        <nav id="navigation" role="navigation">
+          <ul class="first-level">
+            <li class="big selected"><a href="/hack/getting-started/" class="label">Getting started</a>
+              <ul class="second-level">
+                <li class="small"><a href="/hack/getting-started/setup-environment.html" class="label">Setup the environment</a>
+                </li>
+                <li class="small"><a href="/hack/getting-started/first-app.html" class="label">Your first app in 30 minutes</a>
+                </li>
+                <li class="small"><a href="/hack/getting-started/architecture-overview.html" class="label">Architecture Overview</a>
+                </li>
+                <li class="small"><a href="/hack/getting-started/play-with-data-system.html" class="label selected">Play with the Data System</a>
+                </li>
+                <li class="small"><a href="/hack/getting-started/discover-americano.html" class="label">Discover Americano</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+      <div id="main" role="main" class="mod pam w75"><h1>Tutorial 2: Play with the Data System</h1>
+<p>We&#39;ve just introduced you how Cozy is built and you may want to know more about
+the Data System and to play with it. Don&#39;t forget that if you are stuck or have
+any question, you can visit us on IRC (irc.freenode.org, #cozycloud).</p>
+<p>Just a quick reminder, the Data System (DS) allows you to access the database,
+the indexer and the file system. Technically speaking, it is a RESTful web
+application meaning you can request it with a HTTP client.  It handles
+authorization and authentification for applications, meaning that user has to
+give his explicit agreement (during installation) to the app so it can access
+the data.</p>
+<h3>What you will achieve</h3>
+<p>From the first app we&#39;ve built together, you will add, remove and list data
+from the Cozy Data System. This is important because now, other applications
+will be able to use the data you store this way.</p>
+<h3>Source code</h3>
+<p>The source code of this tutorial can be found
+<a href="https://github.com/mycozycloud/cozy-tutorial/tree/data-system-odm">here</a>.</p>
+<h3>Getting started</h3>
+<p>Make sure you have &quot;Setup your development environment&quot; and that it runs
+because it is where the Data System is living.</p>
+<h2>Playing with the data</h2>
+<p>Accessing the data within the Data System can be achieved in two ways: by using
+an ODM we&#39;ve developed a driver for or by requesting directly the Data System
+API.</p>
+<p>That being said, using the ODM has a big advantage: you can still use your app
+in another execution environment without relying on the DataSystem / CouchDB by
+switching the ODM&#39;s driver. At Cozycloud, we use the ODM in all our apps!</p>
+<h3>Starting with the ODM</h3>
+<p>ODM stands for Object Document Mapper, it&#39;s like an ORM (Object Relational
+Mapper) but for NoSQL. An O(D|R)M abstracts the storage engine, as a result you
+can switch the storage engine (e.g. from CouchDB to PostgreSQL) without
+changing your code.</p>
+<p>Enough talking, let&#39;s see how we can use it in our application.</p>
+<pre class="highlighted"><code class="bash">npm install jugglingdb --save
+npm install jugglingdb-cozy-adapter --save</code></pre>
+<p>Then remove all the SQLite-related stuff from your server.js code and add the following:</p>
+<pre class="highlighted"><code class="javascript"><span class="keyword">var</span> http = require(<span class="string">'http'</span>),
+    express = require(<span class="string">'express'</span>),
+    app = express(),
+    Schema = require(<span class="string">'jugglingdb'</span>).Schema,
+    db = <span class="keyword">new</span> Schema(<span class="string">'cozy-adapter'</span>, { url: <span class="string">'http://localhost:9101/'</span> });
+
+<span class="comment">// ...</span>
+
+<span class="comment">// We define our data schema</span>
+Bookmark = db.define(<span class="string">'bookmarks'</span>, {
+  <span class="string">"id"</span>: String,
+  <span class="string">"title"</span>: String,
+  <span class="string">"url"</span>: { <span class="string">"type"</span>: String, <span class="string">"default"</span>: <span class="string">""</span>}
+});</code></pre>
+<p>This defines a doctype in the data system. The doctype is a type of document
+(yup!) and is how data are structured inside Cozy. You can see them as SQL
+table. There are already plenty of doctypes you can reuse. They are
+self-documented in the applications code.  Now let&#39;s play with the data.</p>
+<h3>Adding and removing a bookmark</h3>
+<pre class="highlighted"><code class="javascript"><span class="comment">// We define a new route that will handle bookmark creation</span>
+app.post(<span class="string">'/add'</span>, <span class="keyword">function</span>(req, res) {
+  Bookmark.create(req.body, <span class="keyword">function</span>(err, bookmark) {
+    <span class="keyword">if</span>(err != <span class="literal">null</span>) {
+      res.send(<span class="number">500</span>, <span class="string">"An error has occurred -- "</span> + err);
+    }
+    <span class="keyword">else</span> {
+      res.redirect(<span class="string">'back'</span>);
+    }
+  });
+});
+
+<span class="comment">// We define another route that will handle bookmark deletion</span>
+app.get(<span class="string">'/delete/:id'</span>, <span class="keyword">function</span>(req, res) {
+  Bookmark.find(req.params.id, <span class="keyword">function</span>(err, bookmark) {
+    <span class="keyword">if</span>(err != <span class="literal">null</span>) {
+      res.send(<span class="number">500</span>, <span class="string">"Bookmark couldn't be retrieved -- "</span> + err);
+    }
+    <span class="keyword">else</span> <span class="keyword">if</span>(bookmark == <span class="literal">null</span>) {
+      res.send(<span class="number">404</span>, <span class="string">"Bookmark not found"</span>);
+    }
+    <span class="keyword">else</span> {
+      bookmark.destroy(<span class="keyword">function</span>(err) {
+        <span class="keyword">if</span>(err != <span class="literal">null</span>) {
+          res.send(<span class="number">500</span>, <span class="string">"An error has occurred -- "</span> + err);
+        }
+        <span class="keyword">else</span> {
+          res.redirect(<span class="string">'back'</span>);
+        }
+      });
+    }
+  });
+});</code></pre>
+<p>The code is pretty straightforward. However you must be aware that we don&#39;t do
+security checks and data validation in the tutorial because it is not the
+point. If you want to know how to do it, please ask us on IRC or by email
+(contact[at]cozycloud.cc).</p>
+<h3>Listing the bookmarks</h3>
+<p>Now we can add and remove bookmarks, we should also see how we retrieve them.
+It&#39;s a bit trickier if you don&#39;t know map/reduce but you will figure out that
+the basics are easy.</p>
+<p>To retrieve data, you need to declare &quot;requests&quot; that will allow CouchDB to
+create views. If you have no idea of what I am talking about, it&#39;s not a big
+deal you don&#39;t need to understand all the details for now.</p>
+<pre class="highlighted"><code class="javascript"><span class="comment">// Define the request. You need to do this only once.</span>
+<span class="keyword">var</span> request = <span class="keyword">function</span>(doc) {
+  <span class="keyword">return</span> emit(doc._id, doc);
+};
+Bookmark.defineRequest(<span class="string">"all"</span>, request, <span class="keyword">function</span>(err) {
+  <span class="keyword">if</span>(err !== <span class="literal">null</span>) {
+    console.log(<span class="string">"An error occurred while declaring the request -- "</span> + err);
+  }
+});</code></pre>
+<p>Then you can call the request to get the data:</p>
+<pre class="highlighted"><code class="javascript"><span class="comment">// We render the templates with the data</span>
+app.get(<span class="string">'/'</span>, <span class="keyword">function</span>(req, res) {
+  Bookmark.request(<span class="string">"all"</span>, {}, <span class="keyword">function</span>(err, bookmarks) {
+    <span class="keyword">if</span>(err !== <span class="literal">null</span>) {
+      console.log(<span class="string">"An error has occurred -- "</span> + err);
+    }
+    <span class="keyword">else</span> {
+      data = {<span class="string">"bookmarks"</span>: bookmarks}
+      res.render(<span class="string">'index.jade'</span>, data, <span class="keyword">function</span>(err, html) {
+        res.send(<span class="number">200</span>, html);
+      });
+    }
+  });
+});</code></pre>
+<h2>Examples</h2>
+<p>Links to numerous examples that can be found in the tests or the code itself.</p>
+<h2>What&#39;s next ?</h2>
+<p>You&#39;ve just met the Data System and got an insight of what it does and how you
+can play with it to leverage people&#39;s personal data. Congratulations, we know
+it wasn&#39;t easy!</p>
+<p>Now look a bit behind you: your application has grown a lot and the code itself
+is getting fat which could complicate the addition of new features and more
+generally your ability to maintain the application (or to get contributions
+from the community!)</p>
+<p>Let&#39;s see how we can organize the code better with a stronger Express(o). 
+<a href="/hack/getting-started/discover-americano.html">Experience Americano, the NodeJS framework that makes Express more 
+opinionated</a>.</p>
+
+      </div>
+      <footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">mailing-list</a><a href="https://cozycloud.cc">cozy cloud</a></footer>
+    </div><script defer="defer"  src="/vendors/javascripts/jquery-2.0.3.min.js"></script><script defer="defer"  src="/assets/javascripts/main.js"></script>
+  </body>
+</html>

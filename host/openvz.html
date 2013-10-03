@@ -12,7 +12,7 @@
     </title><link  rel="stylesheet" href="/vendors/css/knacss.css" /><link  rel="stylesheet" href="/vendors/css/sunburst.css" /><link  rel="stylesheet" href="/assets/css/main.css" /><link  rel="stylesheet" href="/assets/css/home.css" />
   </head>
   <body>
-    <div class="navbar fixed"><a href="/" class="nav-logo left"><img src="/assets/images/happycloud.png" alt="Happy Cloud"></a><a href="/" class="left">Cozy</a><a href="/hack" class="right">hack</a><a href="/host" class="right">host</a></div>
+    <div class="navbar fixed"><a href="/" class="nav-logo left"><img src="/assets/images/happycloud.png" alt="Happy Cloud"></a><span class="subtitle"> OpenVZ</span><a href="/hack" class="right">hack</a><a href="/host" class="right">host</a></div>
     <div class="wrapper">
       <aside class="mod left w25 aside">
         <nav id="navigation" role="navigation">
@@ -33,7 +33,28 @@
         </nav>
       </aside>
       <div id="main" role="main" class="mod pam w75"><h1>Setup an OpenVZ image on your server.</h1>
-<p>Coming soon...</p>
+<p>Here we assume that the OpenVZ utilities are availalbe to spawn a new instance.</p>
+<h3>Download</h3>
+<pre class="highlighted"><code class="bash"><span class="comment"># Download the OpenVz archive (~ 1.3GB)</span>
+wget http://files.cozycloud.cc/vzdump-openvz-cozycloud-debian.tar
+
+<span class="comment"># Mount and start the container</span>
+vzrestore vzdump-openvz-cozycloud-debian.tar ctid
+vzctl start ctid</code></pre>
+<p>Here replace ctid by an available ctid (101, 102, etc.)</p>
+<h3>With a configured network</h3>
+<pre class="highlighted"><code class="bash"><span class="comment"># Download the OpenVz archive (~ 1.3GB)</span>
+wget http://files.cozycloud.cc/vzdump-openvz-cozycloud-debian.tar
+
+<span class="comment"># Mount, give an IP address to the container and start the container</span>
+vzrestore vzdump-openvz-cozycloud-debian.tar ctid
+vzctl <span class="keyword">set</span> ctid --ipadd 10.0.0.10  --save 
+vzctl start ctid
+
+<span class="comment"># Setup a reverse proxy that routes your 8888 port to https://10.0.0.10:443 </span>
+<span class="comment"># Then authorize the routing:</span>
+/sbin/iptables -t nat -A PREROUTING -i vmbr0 -p tcp --dport 8888 -j DNAT --to 10.0.0.10:443</code></pre>
+<p>Change the dport value to allow access to any other port than 8888.</p>
 
       </div>
       <footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">mailing-list</a><a href="https://cozycloud.cc">cozy cloud</a></footer>

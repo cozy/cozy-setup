@@ -466,9 +466,6 @@ header form {
   #social .w33 {
     width: 100%;
   }
-  .subtitle {
-    display: none;
-  }
 }
 @media (max-width: 600px) {
   header {

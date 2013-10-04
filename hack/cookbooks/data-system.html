@@ -1,0 +1,112 @@
+<!DOCTYPE html><!--[if lte IE 7]> <html class="no-js ie67 ie678" lang="en"> <![endif]-->
+<!--[if IE 8]> <html class="no-js ie8 ie678" lang="en"> <![endif]-->
+<!--[if IE 9]> <html class="no-js ie9" lang="en"> <![endif]-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8"><!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <title>The Data System API
+    </title><link  rel="stylesheet" href="/vendors/css/knacss.css" /><link  rel="stylesheet" href="/vendors/css/sunburst.css" /><link  rel="stylesheet" href="/assets/css/main.css" /><link  rel="stylesheet" href="/assets/css/home.css" />
+  </head>
+  <body>
+    <div class="navbar fixed"><a href="/" class="nav-logo left"><img src="/assets/images/happycloud.png" alt="Happy Cloud"></a><span class="subtitle">The Data System API</span><a href="/hack" class="right">hack</a><a href="/host" class="right">host</a></div>
+    <div class="wrapper">
+      <aside class="mod left w25 aside">
+        <nav id="navigation" role="navigation">
+          <ul class="first-level">
+            <li class="big"><a href="/hack/getting-started/" class="label">Getting started</a>
+            </li>
+            <li class="big selected"><a href="/hack/cookbooks/" class="label">Cookbooks</a>
+              <ul class="second-level">
+                <li class="small"><a href="/hack/cookbooks/data-system.html" class="label selected">The Data System API</a>
+                </li>
+              </ul>
+            </li>
+            <li class="big"><a href="/hack/application-skeletons/" class="label">Application Skeletons</a>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+      <div id="main" role="main" class="mod pam w75"><h1>The Data System API</h1>
+<h2>Data API</h2>
+<p>This api is used to manage data directly with 4 common operations : create, read, update and delete and utiliy functions like exist, find or merge.</p>
+<p>All data are written with JSON (request and response). 200 code is default success response. 404 is returned when corresponding document is not found and 500 is returned when server error occured.</p>
+<pre class="highlighted"><code class="undefined">GET /data/exist/:id/    Answer: {exist: true/false}.
+GET /data/:id/          Get document equal to ID.
+POST /data/             Create a document and generate a new ID for it.
+                        Doc is sent as reponse  {_id:&lt;generated id&gt;,...} with 201 as response code.
+POST /data/:id/         Create document and assign it given ID.
+PUT  /data/:id/         Update document :id. Old version is fully overwrittend by the new one.
+PUT  /data/upsert/:id/  Update or create document equal to ID.
+                        201 response code is send in case of creation.
+DELETE /data/:id/       Delete document: id. 204 is returned when success occurs.
+PUT /data/merge/:id/    Update document: id only for given fields</code></pre>
+<h2>Request API</h2>
+<p>Request API is used to retrieve documents depending on their properties through CouchDB views.</p>
+<pre class="highlighted"><code class="undefined">POST /request/:type/:req_name/      Return requests result.
+                                    Return a table key/value given by corresponding CouchDB view.
+                                    Params:
+                                       key: returns only documents for this key
+                                       limit: number of documents returned
+                                       skip: number of documents to skip
+                                       startkey: returns only documents since this key
+                                       endkey: returns only documents until this key
+
+PUT /request/:type/:req_name/         Create or update view corresponding to request name.
+                                      Params:
+                                         map: map function
+                                         reduce: reduce function (optional)
+PUT /request/:type/:req_name/destroy/  Delete all docs that should be returned by this request.
+                                      Accept same params as POST /request/:req_name
+DELETE /request/:type/:req_name/     Delete view :req_name. Return 204 if it succeeds</code></pre>
+<h2>Attachments API</h2>
+<pre class="highlighted"><code class="undefined">  POST /data/:id/attachments/           Expect a file send through a multipart form.
+                                        Save this file as attachment of document :id
+                                        Form params:
+                                            name: Force the file name.
+  GET /data/:id/attachments/:name       Download file :name attached to document :id
+  DELETE /data/:id/attachments/:name    Remove file :name attached to document :id</code></pre>
+<h2>Indexer API</h2>
+<pre class="highlighted"><code class="undefined">POST /data/index/:id           Index given field for document :id
+                               Params:
+                                    fields: An array of text fields that must be indexed.
+POST /data/search/:type        Send the 10 documents that match the best given query
+                               Params:
+                                    query: string search query
+DELETE /data/index/:id         Remove indexation for document :id
+DELETE /data/index/clear-all/  Clear all indexes</code></pre>
+<h3>API account</h3>
+<p>This API is used to manage accounts. An account must have a field &#39;pwd&#39; that will be encrypt in the database.</p>
+<p>200 code is default success response. 404 is returned when corresponding document is not found and 500 is returned when server error occured.</p>
+<pre class="highlighted"><code class="undefined">POST /account/                 Create a new account and assign it a new ID
+                               The ID is sent as reponse with 201 as response code.
+POST /account/:id/             Create a new account and assign it given ID
+                               The ID is sent as reponse with 201 as response code.
+GET /account/:id/              Find account with given ID in the database
+                               The account is sent as response.
+GET /account/exist/:id/        Check existence of account with given ID
+                               The answer {exist: true/false} is sent.
+PUT /account/:id/              Update account with given ID
+                               Old version is overase by the new one.
+PUT /account/merge/:id/        Update given fields of account with given ID
+PUT /account/upsert/:id/       Update account with given ID if it exists
+                               Create a new account if it doesn't exist, generate id automatically
+                               201 as response code is sent in case of a creation
+DELETE /account/:id/           Delete account with given ID
+                               204 as response code is sent.</code></pre>
+<h2>Accounts API</h2>
+<p>This API is used to manage keys that encrypt data of accounts.</p>
+<pre class="highlighted"><code class="undefined">POST /accounts/password/        Initialize keys with the cozy password
+                                The cozy password must be in the field 'pwd'
+PUT /accounts/password/         Update keys with a change of the cozy password
+                                The cozy password must be in the field 'pwd'
+DELETE /accounts/               Delete keys</code></pre>
+
+      </div>
+      <footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">mailing-list</a><a href="https://cozycloud.cc">cozy cloud</a></footer>
+    </div><script defer="defer"  src="/vendors/javascripts/jquery-2.0.3.min.js"></script><script defer="defer"  src="/assets/javascripts/main.js"></script>
+  </body>
+</html>

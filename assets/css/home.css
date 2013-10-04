@@ -287,7 +287,7 @@ header form {
   display: inline-block;
 }
 .social {
-  padding-top: 0;
+  padding-top: 40px;
   padding-bottom: 100px;
 }
 .social img {

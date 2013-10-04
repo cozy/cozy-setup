@@ -29,7 +29,13 @@
                 </li>
                 <li class="small"><a href="/hack/getting-started/discover-americano.html" class="label">Discover Americano</a>
                 </li>
+                <li class="small"><a href="/hack/getting-started/learn-single-page-app-way.html" class="label">Learn the Single Page App Way</a>
+                </li>
               </ul>
+            </li>
+            <li class="big"><a href="/hack/cookbooks/" class="label">Cookbooks</a>
+            </li>
+            <li class="big"><a href="/hack/application-skeletons/" class="label">Application Skeletons</a>
             </li>
           </ul>
         </nav>
@@ -88,11 +94,7 @@ npm install</code></pre>
 <span class="comment">// At the root of your website, we show the index.html page</span>
 app.get(<span class="string">'/'</span>, <span class="keyword">function</span>(req, res) {
   res.sendfile(<span class="string">'./public/index.html'</span>)
-});
-
-
-Schema = require(<span class="string">'jugglingdb'</span>).Schema,
-db = <span class="keyword">new</span> Schema(<span class="string">'cozy-adapter'</span>, { url: <span class="string">'http://localhost:9101/'</span> });</code></pre>
+});</code></pre>
 <p>Now start the server by running:</p>
 <pre class="highlighted"><code class="bash">node server.js</code></pre>
 <p>And open your browser on <a href="http://localhost:9250/">http://localhost:9250/</a> and check the result.</p>

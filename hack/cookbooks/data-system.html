@@ -23,6 +23,8 @@
               <ul class="second-level">
                 <li class="small"><a href="/hack/cookbooks/data-system.html" class="label selected">The Data System API</a>
                 </li>
+                <li class="small"><a href="/hack/cookbooks/data-system-odm.html" class="label">The ODM for Data System API</a>
+                </li>
               </ul>
             </li>
             <li class="big"><a href="/hack/application-skeletons/" class="label">Application Skeletons</a>
@@ -31,79 +33,295 @@
         </nav>
       </aside>
       <div id="main" role="main" class="mod pam w75"><h1>The Data System API</h1>
+<p>The Data System API allows the access of the following:</p>
+<ul>
+<li>the data themselves</li>
+<li>the CouchDB views (through &quot;requests&quot;)</li>
+<li>the attachements (files)</li>
+<li>the indexer</li>
+<li>the accounts</li>
+</ul>
+<h2>Generic notes</h2>
+<p>All the responses body are encoded in JSON and all the data you send along request should be encoded in JSON.</p>
+<p>You will find HTTP status code for response, here is what they mean:</p>
+<ul>
+<li>200: success</li>
+<li>201: success (and something has been created)</li>
+<li>204: success (and something has been deleted)</li>
+<li>401: Unauthorized</li>
+<li>403: Not authentificated</li>
+<li>404: document not found</li>
+<li>500: internal server error</li>
+</ul>
+<p>All the requests that mentions &quot;Requires authentification and authorization&quot; are likely to send 401 and 403 if the conditions are not met.
+See <a href="#troubleshootings">troubleshootings</a> to understand what those error mean.</p>
+<h3>Todo for this cookbook</h3>
+<ul>
+<li>Checking all the request&#39;s parameters and responses status code and body.</li>
+<li>Adding the &quot;account&quot; section</li>
+<li>Adding documentation about authentificaiton and authorization process</li>
+</ul>
 <h2>Data API</h2>
-<p>This api is used to manage data directly with 4 common operations : create, read, update and delete and utiliy functions like exist, find or merge.</p>
-<p>All data are written with JSON (request and response). 200 code is default success response. 404 is returned when corresponding document is not found and 500 is returned when server error occured.</p>
-<pre class="highlighted"><code class="undefined">GET /data/exist/:id/    Answer: {exist: true/false}.
-GET /data/:id/          Get document equal to ID.
-POST /data/             Create a document and generate a new ID for it.
-                        Doc is sent as reponse  {_id:&lt;generated id&gt;,...} with 201 as response code.
-POST /data/:id/         Create document and assign it given ID.
-PUT  /data/:id/         Update document :id. Old version is fully overwrittend by the new one.
-PUT  /data/upsert/:id/  Update or create document equal to ID.
-                        201 response code is send in case of creation.
-DELETE /data/:id/       Delete document: id. 204 is returned when success occurs.
-PUT /data/merge/:id/    Update document: id only for given fields</code></pre>
+<p>This API let you manage data with four common operations: create, read, update and delete but utiliy functions like exist, find or merge can also help you.</p>
+<h3>Check the existence of a document</h3>
+<pre class="highlighted"><code class="undefined">GET /data/exist/:id/
+Param:
+  id: the document ID
+Response:
+  Status code: 200|500
+  Body
+    200: {exist: true|false}
+    500: {error: "the error message"}</code></pre>
+<p>Requires authentification and authorization.</p>
+<h3>Retrieving a document for a specific ID</h3>
+<pre class="highlighted"><code class="undefined">GET /data/:id/
+Param:
+  id: the document ID
+Response:
+  Status code: 200|404|500
+  Body
+    200: {the document}
+    500: {error: "the error message"}</code></pre>
+<p>Requires authentification and authorization.</p>
+<h3>Creating a document (automatically generates a new ID)</h3>
+<pre class="highlighted"><code class="undefined">POST /data/
+Param:
+  Body {the document to add}
+Response:
+  Status code: 201|500
+  Body
+    201: {_id:&lt;generated ID&gt;, ...}
+    500: {error: "the error message"}</code></pre>
+<p>Requires authentification and authorization.</p>
+<h3>Creating a document (with specified ID)</h3>
+<pre class="highlighted"><code class="undefined">POST /data/:id/
+Param:
+  id: the document ID
+  Body {the document to add}
+Response:
+  Status code: 201|500
+  Body
+    201: {the created document}
+    500: {error: "the error message"}</code></pre>
+<p>Requires authentification and authorization.</p>
+<h3>Update a document (old version is fully overwritten)</h3>
+<pre class="highlighted"><code class="undefined">PUT /data/:id/
+Param:
+  id: the document ID
+  Body {the document to update}
+Response
+  Status code: 200|500
+  Body
+    200: ?
+    500: {error: "the error message"}</code></pre>
+<p>Requires authentification and authorization.</p>
+<h3>Update or create a document (with specified ID)</h3>
+<pre class="highlighted"><code class="undefined">PUT  /data/upsert/:id/
+Param:
+  id: the document ID
+  Body {the document to add or update}
+Response
+  Status code: 201|200|500
+  Body
+    200: ?
+    201: ?
+    500: {error: "the error message"}</code></pre>
+<p>Requires authentification and authorization.</p>
+<h3>Deleting a document</h3>
+<pre class="highlighted"><code class="undefined">DELETE /data/:id/
+Param:
+  id: the document ID
+Response
+  Status code: 204|500
+  Body
+    204: ?
+    500: {error: "the message"}</code></pre>
+<p>Requires authentification and authorization.</p>
+<h3>Updating a document (only the given fields)</h3>
+<pre class="highlighted"><code class="undefined">PUT /data/merge/:id
+Param:
+  Body {the fields of the document to update}
+Response
+  Status code: 200|500
+  Body
+    200: ?
+    500: {error: "the message"}</code></pre>
+<p>Requires authentification and authorization.</p>
 <h2>Request API</h2>
-<p>Request API is used to retrieve documents depending on their properties through CouchDB views.</p>
-<pre class="highlighted"><code class="undefined">POST /request/:type/:req_name/      Return requests result.
-                                    Return a table key/value given by corresponding CouchDB view.
-                                    Params:
-                                       key: returns only documents for this key
-                                       limit: number of documents returned
-                                       skip: number of documents to skip
-                                       startkey: returns only documents since this key
-                                       endkey: returns only documents until this key
-
-PUT /request/:type/:req_name/         Create or update view corresponding to request name.
-                                      Params:
-                                         map: map function
-                                         reduce: reduce function (optional)
-PUT /request/:type/:req_name/destroy/  Delete all docs that should be returned by this request.
-                                      Accept same params as POST /request/:req_name
-DELETE /request/:type/:req_name/     Delete view :req_name. Return 204 if it succeeds</code></pre>
+<p>The Request API is used to create, update, delete and retrieve documents based on CouchDB views.</p>
+<h3>Getting documents from a view</h3>
+<pre class="highlighted"><code class="undefined">POST /request/:type/:req_name/
+Param:
+  type: the doctype name
+  req_name: the name of the request
+  Body {
+    key: only returns document for this key
+    keys: [only returns document for this array of keys]
+    limit: number of documents to return
+    skip: number of documents to skip
+    startKey: only returns document after this key
+    endKey: only returns document before this key
+  }
+  The body is fully optional.
+Response
+  Status code: 200|500
+  Body
+    200: [an array of documents]
+    500: {error: "the error message"}</code></pre>
+<p>Requires authentification and authorization.</p>
+<h3>Create or update a view</h3>
+<pre class="highlighted"><code class="undefined">PUT /request/:type/:req_name/
+Param:
+  type: the doctype name
+  req_name: the name of the request
+  Body {
+    map: the map function
+    recuce: the reduce function (optional)
+  }
+Response
+  Status code: 200|201|500
+  Body
+    200: ?
+    201: ?
+    500: {error: "the error message"}</code></pre>
+<p>Requires authentification and authorization.</p>
+<h3>Delete all the docs returned by the specified view</h3>
+<pre class="highlighted"><code class="undefined">PUT /request/:type/:req_name/destroy/
+Param:
+  type: the doctype name
+  req_name: the name of the request
+  Body {
+    key: only returns document for this key
+    keys: [only returns document for this array of keys]
+    limit: number of documents to return
+    skip: number of documents to skip
+    startKey: only returns document after this key
+    endKey: only returns document before this key
+  }
+  The body is fully optional.
+Response
+  Status code: ?|500
+  Body
+    ?: ?
+    500: {error: "the error message"}</code></pre>
+<p>Requires authentification and authorization.</p>
+<h3>Delete the view</h3>
+<pre class="highlighted"><code class="undefined">DELETE /request/:type/:req_name/
+Param:
+  type: the doctype name
+  req_name: the name of the request
+Response
+  Status code: 204|500
+  Body
+    204: ?
+    500: {error: "the error message"}</code></pre>
+<p>Requires authentification and authorization.</p>
 <h2>Attachments API</h2>
-<pre class="highlighted"><code class="undefined">  POST /data/:id/attachments/           Expect a file send through a multipart form.
-                                        Save this file as attachment of document :id
-                                        Form params:
-                                            name: Force the file name.
-  GET /data/:id/attachments/:name       Download file :name attached to document :id
-  DELETE /data/:id/attachments/:name    Remove file :name attached to document :id</code></pre>
+<p>Attachements are basically files attached to documents. It allows you file upload and download (e.g. music library application)</p>
+<h3>Save a file as attachement of a document</h3>
+<pre class="highlighted"><code class="undefined">POST /data/:id/attachments/
+Param:
+  id: ID of the document the file will be attached to
+  Body {
+    a file send through multipart form
+    name: force the file name
+  }
+Response
+  Status code: ?
+  Body
+    ?: ?</code></pre>
+<p>Requires authentification and authorization.</p>
+<h3>Download an attached file</h3>
+<pre class="highlighted"><code class="undefined">GET /data/:id/attachments/:name
+Param:
+  id: ID of the document the file is attached to
+  name: the file name
+Response
+  Status code: ?
+  Body
+    ?: ?</code></pre>
+<p>Requires authentification and authorization.</p>
+<h3>Delete an attached file</h3>
+<pre class="highlighted"><code class="undefined">DELETE /data/:id/attachments/:name
+Param:
+  id: ID of the document the file is attached to
+  name: the file name
+Response
+  Status code: ?
+  Body
+    ?: ?</code></pre>
+<p>Requires authentification and authorization.</p>
 <h2>Indexer API</h2>
-<pre class="highlighted"><code class="undefined">POST /data/index/:id           Index given field for document :id
-                               Params:
-                                    fields: An array of text fields that must be indexed.
-POST /data/search/:type        Send the 10 documents that match the best given query
-                               Params:
-                                    query: string search query
-DELETE /data/index/:id         Remove indexation for document :id
-DELETE /data/index/clear-all/  Clear all indexes</code></pre>
-<h3>API account</h3>
-<p>This API is used to manage accounts. An account must have a field &#39;pwd&#39; that will be encrypt in the database.</p>
-<p>200 code is default success response. 404 is returned when corresponding document is not found and 500 is returned when server error occured.</p>
-<pre class="highlighted"><code class="undefined">POST /account/                 Create a new account and assign it a new ID
-                               The ID is sent as reponse with 201 as response code.
-POST /account/:id/             Create a new account and assign it given ID
-                               The ID is sent as reponse with 201 as response code.
-GET /account/:id/              Find account with given ID in the database
-                               The account is sent as response.
-GET /account/exist/:id/        Check existence of account with given ID
-                               The answer {exist: true/false} is sent.
-PUT /account/:id/              Update account with given ID
-                               Old version is overase by the new one.
-PUT /account/merge/:id/        Update given fields of account with given ID
-PUT /account/upsert/:id/       Update account with given ID if it exists
-                               Create a new account if it doesn't exist, generate id automatically
-                               201 as response code is sent in case of a creation
-DELETE /account/:id/           Delete account with given ID
-                               204 as response code is sent.</code></pre>
-<h2>Accounts API</h2>
-<p>This API is used to manage keys that encrypt data of accounts.</p>
-<pre class="highlighted"><code class="undefined">POST /accounts/password/        Initialize keys with the cozy password
-                                The cozy password must be in the field 'pwd'
-PUT /accounts/password/         Update keys with a change of the cozy password
-                                The cozy password must be in the field 'pwd'
-DELETE /accounts/               Delete keys</code></pre>
+<p>Use Whoosh through the dedicate API.</p>
+<h3>Indexing</h3>
+<pre class="highlighted"><code class="undefined">POST /data/index/:id
+Param:
+  id: ID of the document to index
+  Body {
+    fields: [an array of text fields name that will be indexed]
+  }
+Response
+  Status code: ?
+  Body
+    ?: ?</code></pre>
+<h3>Searching 10 documents that match the best the query</h3>
+<pre class="highlighted"><code class="undefined">POST /data/search/:type
+Param:
+  type: the doctype the searched documents belongs
+  Body {
+    query: "search query"
+  }
+Response
+  Status code: ?
+  Body
+    ?: ?</code></pre>
+<h3>Removing indexation for a given document</h3>
+<pre class="highlighted"><code class="undefined">DELETE /data/index/:id
+Param:
+  id: the ID of the document that will be unindex
+Response
+  Status code: ?
+  Body
+    ?: ?</code></pre>
+<h3>Clearing the indexer</h3>
+<pre class="highlighted"><code class="undefined">DELETE /data/index/clear-all/
+Response
+  Status code: ?
+  Body
+    ?: ?</code></pre>
+<h1>Example of use</h1>
+<p>How to request the Data System from a NodeJS application ? You can use any HTTP client but we recommend (, use and maintain) request-json:</p>
+<pre class="highlighted"><code class="bash">npm install request-json --save</code></pre>
+<pre class="highlighted"><code class="javascript">Client = require(<span class="string">'request-json'</span>).JsonClient;
+
+<span class="comment">// The data system listens to localhost:9101</span>
+dataSystem = <span class="keyword">new</span> Client(<span class="string">'http://localhost:9101'</span>);
+
+<span class="comment">// In production we must authentificate the application</span>
+<span class="keyword">if</span>(process.env.NODE_ENV === <span class="string">'production'</span>) {
+  user = process.env.USER;
+  password = process.env.PASSWORD;
+  dataSystem.setBasicAuth(user, password);
+}
+
+<span class="comment">// The request must be created first, let's say it is</span>
+dataSystem.post(<span class="string">'/request/alarm/all/'</span>, <span class="keyword">function</span>(err, res, body) {
+  <span class="keyword">if</span>(err !== <span class="literal">null</span> || (res !== <span class="literal">null</span> &amp;&amp; res.statusCode != <span class="number">200</span>)) {
+    <span class="keyword">if</span>(res !== <span class="literal">null</span>) {code = res.statusCode;} <span class="keyword">else</span> { code = <span class="string">"no status code"</span>; }
+    console.log(<span class="string">"An error occurred -- ["</span> + code + <span class="string">"] "</span> + err);
+  }
+  <span class="keyword">else</span> {
+    console.log(<span class="string">"List of all the alarms"</span>);
+    console.log(body);
+  }
+}
+});</code></pre>
+<p>More example and the complete documentation of request-json, please see the <a href="http://github.com/mycozycloud/request-json/">github repository</a> of the module.</p>
+<p><a name="troubleshootings"></a></p>
+<h1>Troubleshootings</h1>
+<p>Coming soon...</p>
+<h2>Authentification and authorization</h2>
+<p>Coming soon...</p>
 
       </div>
       <footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">mailing-list</a><a href="https://cozycloud.cc">cozy cloud</a></footer>

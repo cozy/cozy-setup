@@ -9,9 +9,9 @@
 cd ~
 
 # Update the core apps
-sudo cozy-monitor light-update data-system
-sudo cozy-monitor light-update home
-sudo cozy-monitor light-update proxy
+sudo cozy-monitor install data-system
+sudo cozy-monitor install home
+sudo cozy-monitor install proxy
 
 # we stop everything
 sudo supervisorctl stop cozy-controller

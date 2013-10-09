@@ -8,6 +8,7 @@
     <![endif]-->
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="/assets/images/favicon.png">
     <title>The Data System API
     </title><link  rel="stylesheet" href="/vendors/css/knacss.css" /><link  rel="stylesheet" href="/vendors/css/sunburst.css" /><link  rel="stylesheet" href="/assets/css/main.css" /><link  rel="stylesheet" href="/assets/css/home.css" />
   </head>
@@ -25,9 +26,13 @@
                 </li>
                 <li class="small"><a href="/hack/cookbooks/data-system-odm.html" class="label">The ODM for Data System API</a>
                 </li>
+                <li class="small"><a href="/hack/cookbooks/localization.html" class="label">Localize your applications</a>
+                </li>
               </ul>
             </li>
             <li class="big"><a href="/hack/application-skeletons/" class="label">Application Skeletons</a>
+            </li>
+            <li class="big"><a href="/hack/contributing.html" class="label">Contributing</a>
             </li>
           </ul>
         </nav>
@@ -48,17 +53,17 @@
 <li>200: success</li>
 <li>201: success (and something has been created)</li>
 <li>204: success (and something has been deleted)</li>
-<li>401: Unauthorized</li>
-<li>403: Not authentificated</li>
+<li>400: bad request</li>
+<li>401: unauthorized</li>
+<li>403: not authentificated</li>
 <li>404: document not found</li>
+<li>409: document already exists</li>
 <li>500: internal server error</li>
 </ul>
 <p>All the requests that mentions &quot;Requires authentification and authorization&quot; are likely to send 401 and 403 if the conditions are not met.
 See <a href="#troubleshootings">troubleshootings</a> to understand what those error mean.</p>
 <h3>Todo for this cookbook</h3>
 <ul>
-<li>Checking all the request&#39;s parameters and responses status code and body.</li>
-<li>Adding the &quot;account&quot; section</li>
 <li>Adding documentation about authentificaiton and authorization process</li>
 </ul>
 <h2>Data API</h2>
@@ -81,6 +86,7 @@ Response:
   Status code: 200|404|500
   Body
     200: {the document}
+    404: {error: "not found"}
     500: {error: "the error message"}</code></pre>
 <p>Requires authentification and authorization.</p>
 <h3>Creating a document (automatically generates a new ID)</h3>
@@ -90,7 +96,7 @@ Param:
 Response:
   Status code: 201|500
   Body
-    201: {_id:&lt;generated ID&gt;, ...}
+    201: {"_id": the document ID}
     500: {error: "the error message"}</code></pre>
 <p>Requires authentification and authorization.</p>
 <h3>Creating a document (with specified ID)</h3>
@@ -99,9 +105,10 @@ Param:
   id: the document ID
   Body {the document to add}
 Response:
-  Status code: 201|500
+  Status code: 201|409|500
   Body
-    201: {the created document}
+    201: {"_id": the document ID}
+    409: {error: "The document exists"}
     500: {error: "the error message"}</code></pre>
 <p>Requires authentification and authorization.</p>
 <h3>Update a document (old version is fully overwritten)</h3>
@@ -110,9 +117,10 @@ Param:
   id: the document ID
   Body {the document to update}
 Response
-  Status code: 200|500
+  Status code: 200|404|500
   Body
-    200: ?
+    200: {success: true}
+    404: {error: "not found"}
     500: {error: "the error message"}</code></pre>
 <p>Requires authentification and authorization.</p>
 <h3>Update or create a document (with specified ID)</h3>
@@ -121,10 +129,10 @@ Param:
   id: the document ID
   Body {the document to add or update}
 Response
-  Status code: 201|200|500
+  Status code: 200|201|500
   Body
-    200: ?
-    201: ?
+    200: {success: true}
+    201: {"_id": the document ID}
     500: {error: "the error message"}</code></pre>
 <p>Requires authentification and authorization.</p>
 <h3>Deleting a document</h3>
@@ -132,9 +140,10 @@ Response
 Param:
   id: the document ID
 Response
-  Status code: 204|500
+  Status code: 204|404|500
   Body
-    204: ?
+    204: {success: true}
+    404: {error: "not found"}
     500: {error: "the message"}</code></pre>
 <p>Requires authentification and authorization.</p>
 <h3>Updating a document (only the given fields)</h3>
@@ -144,7 +153,7 @@ Param:
 Response
   Status code: 200|500
   Body
-    200: ?
+    200: {success: true}
     500: {error: "the message"}</code></pre>
 <p>Requires authentification and authorization.</p>
 <h2>Request API</h2>
@@ -164,9 +173,10 @@ Param:
   }
   The body is fully optional.
 Response
-  Status code: 200|500
+  Status code: 200|404|500
   Body
     200: [an array of documents]
+    404: {error: "not found"}
     500: {error: "the error message"}</code></pre>
 <p>Requires authentification and authorization.</p>
 <h3>Create or update a view</h3>
@@ -179,10 +189,9 @@ Param:
     recuce: the reduce function (optional)
   }
 Response
-  Status code: 200|201|500
+  Status code: 200|500
   Body
-    200: ?
-    201: ?
+    200: {success: true}
     500: {error: "the error message"}</code></pre>
 <p>Requires authentification and authorization.</p>
 <h3>Delete all the docs returned by the specified view</h3>
@@ -200,9 +209,10 @@ Param:
   }
   The body is fully optional.
 Response
-  Status code: ?|500
+  Status code: 204|404|500
   Body
-    ?: ?
+    204: {success: true}
+    404: {error: "not found"}
     500: {error: "the error message"}</code></pre>
 <p>Requires authentification and authorization.</p>
 <h3>Delete the view</h3>
@@ -213,7 +223,7 @@ Param:
 Response
   Status code: 204|500
   Body
-    204: ?
+    204: {syccess: true}
     500: {error: "the error message"}</code></pre>
 <p>Requires authentification and authorization.</p>
 <h2>Attachments API</h2>
@@ -227,9 +237,12 @@ Param:
     name: force the file name
   }
 Response
-  Status code: ?
+  Status code: 201|400|404|500
   Body
-    ?: ?</code></pre>
+    201: {success: true}
+    400: {error: "No file sent"}
+    404: {error: "not found"}
+    500: {error: "the error message"}</code></pre>
 <p>Requires authentification and authorization.</p>
 <h3>Download an attached file</h3>
 <pre class="highlighted"><code class="undefined">GET /data/:id/attachments/:name
@@ -237,9 +250,11 @@ Param:
   id: ID of the document the file is attached to
   name: the file name
 Response
-  Status code: ?
+  Status code: 404|500
   Body
-    ?: ?</code></pre>
+    200: {success: true}
+    404: {error: "not found"}
+    500: {error: "the error message"}</code></pre>
 <p>Requires authentification and authorization.</p>
 <h3>Delete an attached file</h3>
 <pre class="highlighted"><code class="undefined">DELETE /data/:id/attachments/:name
@@ -247,12 +262,14 @@ Param:
   id: ID of the document the file is attached to
   name: the file name
 Response
-  Status code: ?
+  Status code: 204|404|500
   Body
-    ?: ?</code></pre>
+    204: {success: true}
+    404: {error: "not found"}
+    500: {error: "the error message"}</code></pre>
 <p>Requires authentification and authorization.</p>
 <h2>Indexer API</h2>
-<p>Use Whoosh through the dedicate API.</p>
+<p>We use <a href="https://pypi.python.org/pypi/Whoosh/">Whoosh</a> as an indexer but you can only access it through its API in the Data System.</p>
 <h3>Indexing</h3>
 <pre class="highlighted"><code class="undefined">POST /data/index/:id
 Param:
@@ -261,9 +278,11 @@ Param:
     fields: [an array of text fields name that will be indexed]
   }
 Response
-  Status code: ?
+  Status code: 200|404|500
   Body
-    ?: ?</code></pre>
+    200: {success: true}
+    404: {error: "not found"}
+    500: {error: "the error message"}</code></pre>
 <h3>Searching 10 documents that match the best the query</h3>
 <pre class="highlighted"><code class="undefined">POST /data/search/:type
 Param:
@@ -272,23 +291,34 @@ Param:
     query: "search query"
   }
 Response
-  Status code: ?
+  Status code: 200|500
   Body
-    ?: ?</code></pre>
+    200: {rows: [the documents]}
+    500: {error: "the error message"}</code></pre>
 <h3>Removing indexation for a given document</h3>
 <pre class="highlighted"><code class="undefined">DELETE /data/index/:id
 Param:
   id: the ID of the document that will be unindex
 Response
-  Status code: ?
+  Status code: 200|404|500
   Body
-    ?: ?</code></pre>
+    200: {success: true}
+    404: {error: "not found"}
+    500: {error: "the error message"}</code></pre>
 <h3>Clearing the indexer</h3>
 <pre class="highlighted"><code class="undefined">DELETE /data/index/clear-all/
 Response
-  Status code: ?
+  Status code: 200|500
   Body
-    ?: ?</code></pre>
+    200: {success: true}
+    500: {error: "the error message"}</code></pre>
+<h2>Miscellaneous</h2>
+<h3>Getting the doctype list</h3>
+<pre class="highlighted"><code class="undefined">GET /doctypes
+Response
+  Status code: 200|500
+  Body
+    200: ['list', 'of', 'doctype', 'names']</code></pre>
 <h1>Example of use</h1>
 <p>How to request the Data System from a NodeJS application ? You can use any HTTP client but we recommend (, use and maintain) request-json:</p>
 <pre class="highlighted"><code class="bash">npm install request-json --save</code></pre>
@@ -324,7 +354,7 @@ dataSystem.post(<span class="string">'/request/alarm/all/'</span>, <span class="
 <p>Coming soon...</p>
 
       </div>
-      <footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">mailing-list</a><a href="https://cozycloud.cc">cozy cloud</a></footer>
+      <footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">Github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">Contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">mailing-list</a><a href="https://cozycloud.cc">Cozy Cloud</a></footer>
     </div><script defer="defer"  src="/vendors/javascripts/jquery-2.0.3.min.js"></script><script defer="defer"  src="/assets/javascripts/main.js"></script>
   </body>
 </html>

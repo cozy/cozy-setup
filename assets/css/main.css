@@ -40,6 +40,11 @@ body {
   height: 60px;
   line-height: 45px;
 }
+@media (max-width: 400px) {
+  .navbar .subtitle {
+    display: none;
+  }
+}
 aside {
   border-right: 1px solid #cbe4fb;
   margin-top: 20px;
@@ -119,7 +124,10 @@ aside {
   color: #444;
 }
 #main p code {
-  padding: 8px;
+  padding: 5px;
+}
+#main ul {
+  margin: 0.75em 0;
 }
 #main ul li {
   font-size: 15px;
@@ -153,7 +161,7 @@ aside {
   margin-top: 0;
   margin-bottom: 15px;
 }
-#main code {
+#main pre.highlighted code {
   padding: 20px;
   -webkit-border-radius: 10px;
   border-radius: 10px;

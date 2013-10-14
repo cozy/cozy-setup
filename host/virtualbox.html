@@ -1,0 +1,57 @@
+<!DOCTYPE html><!--[if lte IE 7]> <html class="no-js ie67 ie678" lang="en"> <![endif]-->
+<!--[if IE 8]> <html class="no-js ie8 ie678" lang="en"> <![endif]-->
+<!--[if IE 9]> <html class="no-js ie9" lang="en"> <![endif]-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8"><!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="/assets/images/favicon.png">
+    <title>Virtualbox VM
+    </title><link  rel="stylesheet" href="/vendors/css/knacss.css" /><link  rel="stylesheet" href="/vendors/css/sunburst.css" /><link  rel="stylesheet" href="/assets/css/main.css" /><link  rel="stylesheet" href="/assets/css/home.css" />
+  </head>
+  <body>
+    <div class="navbar fixed"><a href="/" class="nav-logo left"><img src="/assets/images/happycloud.png" alt="Happy Cloud"></a><span class="subtitle">Virtualbox VM</span><a href="/hack/getting-started/" class="right">hack</a><a href="/host/install.html" class="right">host</a></div>
+    <div class="wrapper">
+      <aside class="mod left w25 aside">
+        <nav id="navigation" role="navigation">
+          <ul class="first-level">
+            <li class="big"><a href="/host/install.html" class="label">Install Cozy on your server</a>
+            </li>
+            <li class="big"><a href="/host/raspberry.html" class="label">Raspberry Pi</a>
+            </li>
+            <li class="big selected"><a href="/host/virtualbox.html" class="label">Virtualbox VM</a>
+            </li>
+            <li class="big"><a href="/host/openvz.html" class="label"> OpenVZ</a>
+            </li>
+            <li class="big"><a href="/host/update.html" class="label">Update your cozy</a>
+            </li>
+            <li class="big"><a href="/host/uninstall.html" class="label">Uninstall</a>
+            </li>
+            <li class="big"><a href="/host/trouble-shootings.html" class="label">Trouble Shootings</a>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+      <div id="main" role="main" class="mod pam w75"><h1>Run Cozy with Virtualbox</h1>
+<h3>Step 1</h3>
+<p><a href="https://www.virtualbox.org/wiki/Downloads">Download</a> and install VirtualBox.</p>
+<h3>Step 2</h3>
+<p><a href="http://files.cozycloud.cc/cozycloud-virtualimage.zip">Download</a> the Cozy 
+Virtual Machine for VirtualBox and import it into Virtual box.</p>
+<h3>Step 3</h3>
+<p>Access to your Cozy through your browser by connecting to this URL:</p>
+<pre class="highlighted"><code class="bash">https://localhost:2223/</code></pre>
+<h3>Additional informations</h3>
+<p>To access to the box shell use root/password as login and password.</p>
+<p>You can find the box ip with the <code>ifconfig</code> command.</p>
+<p>You can connect through ssh with:</p>
+<pre class="highlighted"><code class="bash">ssh -p 2222 root@localhost</code></pre>
+
+      </div>
+      <footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">Github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">Contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">mailing-list</a><a href="https://cozycloud.cc">Cozy Cloud</a></footer>
+    </div><script defer="defer"  src="/vendors/javascripts/jquery-2.0.3.min.js"></script><script defer="defer"  src="/assets/javascripts/main.js"></script>
+  </body>
+</html>

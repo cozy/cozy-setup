@@ -36,6 +36,8 @@
         </nav>
       </aside>
       <div id="main" role="main" class="mod pam w75"><h1>Setup an OpenVZ image on your server.</h1>
+<p><em>Warning: For a production usage you have to change the superuser credentials,
+renew the SSL certificate, the database credentials and the controller token.</em> </p>
 <p>Here we assume that you already install OpenVZ utilities.</p>
 <h3>Download and start your OpenVZ container</h3>
 <pre class="highlighted"><code class="bash"><span class="comment"># Download the OpenVz template (~ 1.3GB)</span>
@@ -44,6 +46,7 @@ wget http://files.cozycloud.cc/vzdump-openvz-cozycloud-debian.tar
 <span class="comment"># Mount and start the container</span>
 vzrestore vzdump-openvz-cozycloud-debian.tar ctid
 vzctl start ctid</code></pre>
+<p><em>Credentials are root/password</em></p>
 <p>NB: Replace ctid by an available ctid (101, 102, etc.)</p>
 <h3>With a configured network</h3>
 <p>You will probably need to give access to your container from outside of your

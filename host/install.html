@@ -46,7 +46,7 @@ server):</p>
 <p>Once your system is prepared, use the Fabric script from your local
 machine to launch the Cozy installation (run it in the same directory as the fabfile
 you downloaded before):</p>
-<pre class="highlighted"><code class="bash">fab -H user@ip install</code></pre>
+<pre class="highlighted"><code class="bash">fab -H sudoer@ip install</code></pre>
 <p>Enter your settings (such as domain name) when prompted by the installer.</p>
 <p>Be patient; some commands or app deployments can take some time. It 
 depends on your network and hardware capabilities.</p>
@@ -55,6 +55,8 @@ depends on your network and hardware capabilities.</p>
 and then to run the fabfile script with your virtual machine as target.
 This allows you to experiment with Cozy without installing numerous packages
 into your environment.</p>
+<p>The way to install it locally without VM or container is to run this command:</p>
+<pre class="highlighted"><code class="bash">fab -H sudoer@localhost install</code></pre>
 <h4><em>Try Cozy with Vagrant</em></h4>
 <p>If you want to use Vagrant to run Cozy Cloud Setup in a virtual machine
 we recommend you use the Ubuntu 12.04 box. Be careful as the update will require that
@@ -63,8 +65,8 @@ you configure your boot sequence. Choose the first filesystem that is offered, t
 <h2>Recommended Hardware</h2>
 <p>The CPU is not a limitation, Cozy can even run on RaspberryPi.</p>
 <h3>Mininum</h3>
-<p>RAM: 512Mo (it allows to have 4 apps running simultaneously)</p>
-<p>Disk space: 5Go</p>
+<p>RAM: 512MB (it allows to have 4 apps running simultaneously)</p>
+<p>Disk space: 2GB</p>
 <h3>Recommended</h3>
 <p>RAM: 1024 Mo (it allows to have 10 apps simultaneously).</p>
 <p>Disk space: a lot of space to store all your files.</p>

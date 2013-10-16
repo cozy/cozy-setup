@@ -141,6 +141,10 @@ button:active {
 .txt-black {
   color: #333;
 }
+.txt-black a,
+.txt-black a:hover {
+  color: #333;
+}
 .black-text {
   color: #333;
 }
@@ -290,8 +294,26 @@ header form {
   padding-top: 40px;
   padding-bottom: 100px;
 }
+.social h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
 .social img {
   margin: 0;
+}
+#goals {
+  padding-bottom: 10px;
+}
+#goals h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+#goals p {
+  padding: 0 40px 0 30px;
+  font-weight: normal;
+}
+#goals .smaller {
+  font-size: 16px;
 }
 #why {
   background: url("/assets/images/rasp-black.jpg") no-repeat center center fixed;
@@ -466,6 +488,16 @@ header form {
   #social .w33 {
     width: 100%;
   }
+  #social h1 {
+    padding-left: 40px;
+  }
+  #goals {
+    padding-left: 40px;
+    padding-right: 20px;
+  }
+  #goals p {
+    padding-left: 0;
+  }
 }
 @media (max-width: 600px) {
   header {
@@ -482,9 +514,13 @@ header form {
     width: 100%;
     display: inline-block;
   }
-  #social {
-    padding: 0;
-    padding-bottom: 20px;
+  #social h1 {
+    margin-top: 20px;
+    padding-left: 20px;
+  }
+  #goals {
+    padding-left: 20px;
+    padding-right: 20px;
   }
   .image-links {
     font-size: 16px;

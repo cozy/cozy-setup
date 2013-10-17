@@ -1,0 +1,121 @@
+<!DOCTYPE html><!--[if lte IE 7]> <html class="no-js ie67 ie678" lang="en"> <![endif]-->
+<!--[if IE 8]> <html class="no-js ie8 ie678" lang="en"> <![endif]-->
+<!--[if IE 9]> <html class="no-js ie9" lang="en"> <![endif]-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8"><!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="/assets/images/favicon.png">
+    <title>Contributing
+    </title><link  rel="stylesheet" href="/vendors/css/knacss.css" /><link  rel="stylesheet" href="/vendors/css/sunburst.css" /><link  rel="stylesheet" href="/assets/css/main.css" /><link  rel="stylesheet" href="/assets/css/home.css" />
+  </head>
+  <body>
+    <div class="navbar fixed"><a href="/" class="nav-logo left"><img src="/assets/images/happycloud.png" alt="Happy Cloud"></a><span class="subtitle">Contributing</span><a href="/hack/getting-started/" class="right">hack</a><a href="/host/install.html" class="right">host</a></div>
+    <div class="wrapper">
+      <aside class="mod left w25 aside">
+        <nav id="navigation" role="navigation">
+          <ul class="first-level">
+            <li class="big"><a href="/hack/getting-started/" class="label">Getting started</a>
+            </li>
+            <li class="big"><a href="/hack/cookbooks/" class="label">Cookbooks</a>
+            </li>
+            <li class="big"><a href="/hack/application-skeletons/" class="label">Application Skeletons</a>
+            </li>
+            <li class="big selected"><a href="/hack/contributing/" class="label">Contributing</a>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+      <div id="main" role="main" class="mod pam w75"><h1>Contributing to Cozycloud</h1>
+<p>You can contribute to Cozy in many ways, wether you are a NodeJS Ninja or a
+Net-Citizen willing to protect her/his privacy, all contributions are welcome!
+Report a bug, submit a feature request or improve the documentation to ease
+self-hosting, translations, develop new applications...
+<strong>There&#39;s something for everyone!</strong></p>
+<p>Everything is libre and open-source and hosted on
+<a href="https://github.com/mycozycloud/">Github</a>, this page will explain you how can
+help.</p>
+<h2>Reporting a bug or submitting a feature request</h2>
+<p>We use Github&#39;s issues to report the bugs or submit a feature request. Every
+application or module has its own Github page.
+Try to be as descriptive as possible and add screenshots if you can,
+espescially for bug reports.</p>
+<h2>The documentation</h2>
+<p>You can improve the documentation you are currently reading by modifying and
+submitting us a pull request on the
+<a href="https://github.com/mycozycloud/cozy-docs/">dedicated Github repository</a>.</p>
+<h2>Building and sharing an application</h2>
+<p>If you have an idea and don&#39;t know where to start, check out <a href="/hack/getting-started/">our tutorials</a>. All you need to know is a bit of JavaScript!</p>
+<h2>Translating Cozy and applications</h2>
+<p>You can be very helpful by translating Cozy and applications. See the <a href="/hack/cookbooks/localization.html#summary">translator guide</a> and make sure you follow the <a href="/hack/cookbooks/localization.html#guidelines">localization guidelines</a>.</p>
+<h2>Documentation&#39;s roadmap</h2>
+<p>What&#39;s coming next? Here is what we plan to add (order is relevant). Feel free to ask for something you are interested in.</p>
+<ul>
+<li>cookbook: how to deploy a cozy app (permissions, ...)</li>
+<li>data system&#39;s <a href="https://github.com/mycozycloud/cozy-data-system/wiki/">current documentation</a></li>
+<li>data system&#39;s API cookbook: adding the authentification and authorization section</li>
+<li>cookbook: how to make your app notified by data system&#39;s changes in realtime</li>
+<li>cookbook: how to add Cozy notifications from your app</li>
+<li>cookbook: how to send emails from your app</li>
+<li>cookbook: how to add public routes to your application</li>
+<li>cookbook: how to make your app translatable</li>
+<li>cookbook: cozy-manager documentation</li>
+<li>cookbook: resetting cozy</li>
+<li>cookbook: everything about security in Cozy</li>
+<li>cookbook: unit and funcitonal testing</li>
+<li>cookbook: how to easily manage the fixtures with cozy-fixtures</li>
+<li>improve the menus: drop-down top menu + internal menus</li>
+</ul>
+<h2>Contributing to the core code</h2>
+<p>These are explainations on how to test modifications done on the core modules:
+Data System, Home, Controller or Proxy.</p>
+<ol>
+<li><p>Setup Vagrant</p>
+</li>
+<li><p>Get the development virtual machine</p>
+<p> vagrant box add cozycloud-dev-latest <a href="http://files.cozycloud.cc/cozycloud-dev-latest.box">http://files.cozycloud.cc/cozycloud-dev-latest.box</a></p>
+</li>
+<li><p>Run the development virtual machine</p>
+<p> vagrant init cozycloud-dev-latest
+ vagrant up</p>
+</li>
+<li><p>Update it if needed</p>
+<p> vagrant ssh</p>
+<p> sudo supervisorctl stop cozy-controller
+ sudo pkill -9 node # make sure no process is remaining.
+ sudo npm -g install cozy-controller 
+ sudo supervisorctl start cozy-controller</p>
+<p> sudo cozy-monitor install data-system
+ sudo cozy-monitor install home
+ sudo cozy-monitor install proxy</p>
+<p> cozy-monitor stop home</p>
+</li>
+<li><p>Changed directories to the shared cozy-home repo folder (/vagrant/cozy-home
+for me) and followed Romain&#39;s instructions to install all the needed node bits
+using</p>
+<p> sudo npm install --no-bin-links</p>
+</li>
+<li><p>Remove existing user if needed:</p>
+<p> cozy-monitor start home
+ cd /usr/local/cozy/apps/home/home/cozy-home/
+ sudo coffee commands cleanuser
+ cozy-monitor stop home
+ cd /vagrant/cozy-home
+ node server</p>
+</li>
+<li><p>Browse the dev Cozy on the host system to <a href="http://127.0.0.1:9104">http://127.0.0.1:9104</a>, register a
+user, and then check <a href="http://127.0.0.1:9104/#home">http://127.0.0.1:9104/#home</a></p>
+</li>
+<li><p>Modify the module you work on and restart it. For modifications, work only on the coffeescript code then run the following command to convert coffeescript to javascript and see the result.</p>
+<p>  cake convert</p>
+</li>
+</ol>
+
+      </div>
+      <footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">Github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">Contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">mailing-list</a><a href="https://cozycloud.cc">Cozy Cloud</a></footer>
+    </div><script defer="defer"  src="/vendors/javascripts/jquery-2.0.3.min.js"></script><script defer="defer"  src="/assets/javascripts/main.js"></script>
+  </body>
+</html>

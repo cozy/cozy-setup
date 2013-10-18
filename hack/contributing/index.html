@@ -76,43 +76,54 @@ Data System, Home, Controller or Proxy.</p>
 <li><p>Setup Vagrant</p>
 </li>
 <li><p>Get the development virtual machine</p>
+<pre class="highlighted"><code class="avrasm"> vagrant box <span class="keyword">add</span> cozycloud-dev-latest http://files<span class="preprocessor">.cozycloud</span><span class="preprocessor">.cc</span>/cozycloud-dev-latest<span class="preprocessor">.box</span></code></pre>
 </li>
-</ol>
-<pre class="highlighted"><code class="bash">vagrant box add cozycloud-dev-latest http://files.cozycloud.cc/cozycloud-dev-latest.box</code></pre>
-<ol>
 <li><p>Run the development virtual machine</p>
-<p> vagrant init cozycloud-dev-latest
- vagrant up</p>
+<pre class="highlighted"><code class="sql"> va<span class="operator"><span class="keyword">grant</span> init cozycloud-dev-latest
+ vagrant up</code></pre>
 </li>
 <li><p>Update it if needed</p>
-<p> vagrant ssh</p>
-<p> sudo supervisorctl stop cozy-controller
- sudo pkill -9 node # make sure no process is remaining.
+<pre class="highlighted"><code class="sql"> va<span class="operator"><span class="keyword">grant</span> ssh
+
+ sudo supervisorctl stop cozy-controller
+ sudo pkill -<span class="number">9</span> node # make sure <span class="keyword">no</span> process <span class="keyword">is</span> remaining.
  sudo npm -g install cozy-controller 
- sudo supervisorctl start cozy-controller</p>
-<p> sudo cozy-monitor install data-system
+ sudo supervisorctl <span class="keyword">start</span> cozy-controller
+
+ sudo cozy-monitor install data-system
  sudo cozy-monitor install home
- sudo cozy-monitor install proxy</p>
-<p> cozy-monitor stop home</p>
+ sudo cozy-monitor install proxy
+
+ cozy-monitor stop home</code></pre>
 </li>
-<li><p>Changed directories to the shared cozy-home repo folder (/vagrant/cozy-home
-for me) and followed Romain&#39;s instructions to install all the needed node bits
-using</p>
-<p> sudo npm install --no-bin-links</p>
+<li><p>Clone the repository you want to work with (home in this example), install and run it. 
+The --no-bin-links is needed because you can&#39;t symlink in the shared folder.</p>
+<pre class="highlighted"><code class="coffeescript"> cd <span class="regexp">/vagrant/</span>
+ git clone https:<span class="regexp">//gi</span>thub.com<span class="regexp">/mycozycloud/</span>cozy-home
+ cd <span class="regexp">/vagrant/</span>cozy-home
+ sudo npm install --<span class="literal">no</span>-bin-links
+ node server.js</code></pre>
 </li>
-<li><p>Remove existing user if needed:</p>
-<p> cozy-monitor start home
- cd /usr/local/cozy/apps/home/home/cozy-home/
+<li><p>On the host, browse to <a href="http://127.0.0.1:9104">http://127.0.0.1:9104</a>, register a user, and then check <a href="http://127.0.0.1:9104/#home">http://127.0.0.1:9104/#home</a>. 
+You should see logs popping up in your console. IF you are asked to login instead of register, use this fix :</p>
+<pre class="highlighted"><code class="sql"> Ctrl + C
+ su<span class="operator"><span class="keyword">do</span> cozy-monitor <span class="keyword">start</span> home
+ cd /usr/<span class="keyword">local</span>/cozy/apps/home/home/cozy-home/
  sudo coffee commands cleanuser
- cozy-monitor stop home
+ sudo cozy-monitor stop home
  cd /vagrant/cozy-home
- node server</p>
+ node server</code></pre>
 </li>
-<li><p>Browse the dev Cozy on the host system to <a href="http://127.0.0.1:9104">http://127.0.0.1:9104</a>, register a
-user, and then check <a href="http://127.0.0.1:9104/#home">http://127.0.0.1:9104/#home</a></p>
-</li>
-<li><p>Modify the module you work on and restart it. For modifications, work only on the coffeescript code then run the following command to convert coffeescript to javascript and see the result.</p>
-<p>  cake convert</p>
+<li><p>Hack ! You should see the repository on your host system in the same directory where you did vagrant up. 
+Use your favorite editor to edit the .coffee files. You will need to compile before seeing your changes.</p>
+<p> For server changes :</p>
+<pre class="highlighted"><code class="nginx">  <span class="title">Ctrl</span> + C
+  cake convert
+  node server</code></pre>
+<p> For client changes, open a new vagrant ssh and :</p>
+<pre class="highlighted"><code class="sql">  cd /va<span class="operator"><span class="keyword">grant</span>/cozy-home/client/
+  npm install --<span class="keyword">no</span>-bin-links
+  brunch w</code></pre>
 </li>
 </ol>
 

@@ -117,13 +117,13 @@ You should see logs popping up in your console. IF you are asked to login instea
 <li><p>Hack ! You should see the repository on your host system in the same directory where you did vagrant up. 
 Use your favorite editor to edit the .coffee files. You will need to compile before seeing your changes.</p>
 <p> For server changes :</p>
-<pre class="highlighted"><code class="nginx">  <span class="title">Ctrl</span> + C
-  cake convert
-  node server</code></pre>
+<pre class="highlighted"><code class="bash"> Ctrl + C
+ cake convert
+ node server</code></pre>
 <p> For client changes, open a new vagrant ssh and :</p>
-<pre class="highlighted"><code class="sql">  cd /va<span class="operator"><span class="keyword">grant</span>/cozy-home/client/
-  npm install --<span class="keyword">no</span>-bin-links
-  brunch w</code></pre>
+<pre class="highlighted"><code class="bash"> cd /vagrant/cozy-home/client/
+ npm install --no-bin-links
+ brunch w</code></pre>
 </li>
 </ol>
 

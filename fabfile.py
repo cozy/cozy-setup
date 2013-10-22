@@ -668,7 +668,6 @@ def update_stack():
     nodejs.update_package('cozy-monitor')
     sudo('cozy-monitor install data-system')
     sudo('cozy-monitor install home')
-    sudo('cozy-monitor token')
     sudo('cozy-monitor install proxy')
     print(green('Stack updated successfully.'))
 

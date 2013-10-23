@@ -183,13 +183,21 @@ def uninstall_node08():
     '''
 
     sudo('npm uninstall npm')
-    require_file(url='http://nodejs.org/dist/v0.8.9/node-v0.8.18.tar.gz')
-    sudo('tar -xzf node-v0.8.18.tar.gz')
-    with cd('node-v0.8.18'):
+    if not is_arm():
+        version = '0.8.18'
+        folder = 'node-v%s' % version
+        filename = folder + '.tar.gz'
+    else:
+        version = '0.8.21'
+        folder = 'node-v%s-linux-arm-pi' % version
+        filename = folder + '.tar.gz'
+    require_file(url='http://nodejs.org/dist/v%s/%s' % (version, filename))
+    sudo('tar -xzf %s' % filename)
+    with cd('%s' %folder):
         sudo('./configure')
         sudo('make uninstall')
         sudo('make distclean')
-    su_delete('node-v0.8.18*')
+    su_delete('%s*' %folder)
     print(green('Node 0.8.18 successfully uninstalled'))
 
 

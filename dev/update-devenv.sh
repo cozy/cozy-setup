@@ -9,9 +9,9 @@
 cd ~
 
 # Update the core apps
-sudo cozy-monitor install data-system
-sudo cozy-monitor install home
-sudo cozy-monitor install proxy
+sudo cozy-monitor light-update data-system
+sudo cozy-monitor light-update home
+sudo cozy-monitor light-update proxy
 
 # we stop everything
 sudo supervisorctl stop cozy-controller
@@ -34,6 +34,16 @@ sudo npm install -g cozy-controller
 sudo npm install -g cozy-monitor
 
 sudo supervisorctl start cozy-controller
+
+# Update the indexer
+sudo supervisorctl stop cozy-indexer
+cd /usr/local/var/cozy-indexer/cozy-data-indexer
+git pull origin master
+virtualenv virtualenv
+. virtualenv/bin/activate
+sudo pip install -r requirements/common.txt
+sudo pip install -r requirements/production.txt
+sudo supervisorctl start cozy-indexer
 
 
 

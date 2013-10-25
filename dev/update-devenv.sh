@@ -27,7 +27,7 @@ environment=NODE_ENV="development"
 redirect_stderr=true
 user=root' > /etc/supervisor/conf.d/cozy-controller.conf
 
-sudo supervisorctl reload
+sudo supervisorctl reread
 
 # we start the updates
 sudo npm install -g cozy-controller
@@ -39,7 +39,7 @@ sudo supervisorctl start cozy-controller
 sudo supervisorctl stop cozy-indexer
 cd /usr/local/var/cozy-indexer/cozy-data-indexer
 sudo git pull origin master
-virtualenv virtualenv
+sudo virtualenv virtualenv
 . virtualenv/bin/activate
 sudo pip install -r requirements/common.txt
 sudo pip install -r requirements/production.txt

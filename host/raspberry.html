@@ -52,7 +52,8 @@ tar -xvzf cozy-raspberrypi.im.tar.gz</code></pre>
 then make a low level copy of the image to your card.</p>
 <p>Warning: this operation will erase all previously data stored into the card.</p>
 <p>Sudoer Credentials: pi/raspberry</p>
-<pre class="highlighted"><code class="bash">sudo dd bs=4M <span class="keyword">if</span>=/home/frankrousseau/mycloud/images/cozy-raspberry.im of=/dev/sdc</code></pre>
+<pre class="highlighted"><code class="bash">sudo dd bs=4M <span
+class="keyword">if</span>=/home/frankrousseau/mycloud/images/cozy-raspberrypi.im of=/dev/sdc</code></pre>
 <p>Now insert the SD Card in your Raspberry Pi SD Card reader. Reboot your
 raspberry then you will be able to access to your Cozy through the port 443
 (https protocol).</p>

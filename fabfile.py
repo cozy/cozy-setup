@@ -595,6 +595,7 @@ server {
     ssl on;
 
     gzip_vary on;
+    client_max_body_size 1024M;
 
     location / {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;

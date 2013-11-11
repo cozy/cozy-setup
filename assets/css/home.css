@@ -1,561 +1,587 @@
-@font-face {
-  font-family: main-light;
-  src: url("/assets/fonts/maven-pro-light-200.otf");
-}
-@font-face {
-  font-family: main;
-  src: url("/assets/fonts/maven-pro-light-300.otf");
-}
-@font-face {
-  font-family: cool;
-  src: url("/assets/fonts/signika-regular.ttf");
-}
-p {
-  font-weight: bold;
-}
-body {
-  font-family: main-light;
-}
-section {
-  padding: 60px 100px;
-  color: #fff;
-  font-family: main;
-}
-h1 {
-  font-size: 40px;
-  margin-bottom: 0px;
-  padding-bottom: 0px;
-  font-weight: normal;
-}
-h2 {
-  font-family: cool;
-  font-weight: normal;
-  font-size: 30px;
-  margin-bottom: 30px;
-}
-h3 {
-  margin-bottom: 30px;
-}
-h4 {
-  font-weight: normal;
-}
-p {
-  font-size: 20px;
-}
-a,
-a:hover,
-a:visited {
-  color: #fff;
-}
-a:focus {
-  outline: 0;
-}
-input {
-  border: 1px solid #bbe5f9;
-  font-family: main;
-}
-input:hover,
-input:active {
-  border: 1px solid #1babf4;
-  box-shadow: none;
-}
-button {
-  border: 1px solid #bbe5f9;
-  background: #bbe5f9;
-  color: #808080;
-  box-shadow: none;
-  text-shadow: none;
-  border-radius: 3px;
-  font-family: main;
-  font-weight: normal;
-  cursor: pointer;
-  outline: none;
-  padding: 1px;
-}
-button:hover {
-  background: #1babf4;
-  color: #fff;
-  outline: none;
-}
-button:active {
-  background: #0b9ee9;
-  shadow: 1px 3px 2px rgba(0,0,0,0.2) inset, 0 1px 2px rgba(0,0,0,0);
-  color: #fff;
-  outline: none;
-}
-[class*="grid"] > * {
-  float: left;
-}
-[class*="grid"] > * + * {
-  margin-left: 2%;
-}
-.grid5 > * {
-  width: 18.4%;
-}
-.grid3 > * {
-  width: 32%;
-}
-.external-links {
-  height: 60px;
-}
-.external-links a {
-  border: 0;
-  background: #bbe5f9;
-  margin-right: 10px;
-  font-size: 25px;
-  padding: 13px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  cursor: pointer;
-  text-decoration: none;
-}
-.external-links a:hover {
-  color: #fff;
-  -webkit-transition: color 0.3s ease-in;
-  -moz-transition: color 0.3s ease-in;
-  -o-transition: color 0.3s ease-in;
-  transition: color 0.3s ease-in;
-  -webkit-transition: background-color 0.3s ease-in;
-  -moz-transition: background-color 0.3s ease-in;
-  -o-transition: background-color 0.3s ease-in;
-  transition: background-color 0.3s ease-in;
-  background: #1babf4;
-}
-.external-links a:focus,
-.external-links a:active {
-  background: #0b9ee9;
-  shadow: 1px 3px 2px rgba(0,0,0,0.2) inset, 0 1px 2px rgba(0,0,0,0);
-  color: #fff;
-}
-.code {
-  display: inline-block;
-  max-width: none;
-}
-.wrapper {
-  margin-top: 60px;
-}
-.txt-white {
-  color: #fff;
-}
-.txt-black {
-  color: #333;
-}
-.txt-black a,
-.txt-black a:hover {
-  color: #333;
-}
-.black-text {
-  color: #333;
-}
-.additional-infos {
-  display: none;
-}
-.title {
-  font-size: 60px;
-}
-.image {
-  margin-top: 20px;
-  margin-left: 50px;
-}
-.main-text {
-  padding-left: 40px;
-}
-.next {
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 18px;
-  margin-top: 40px;
-}
-.highlight .line {
-  text: center;
-  padding: 20px;
-  opacity: 0.85;
-}
-.highlight p {
-  text-align: center;
-  font-size: 18px;
-  margin-top: 40px;
-  margin-bottom: 0px;
-}
-.highlight h4 {
-  margin-top: 40px;
-  text-align: center;
-  font-size: 40px;
-}
-.highlight ul {
-  padding: 20px;
-  padding-top: 10px;
-  margin-left: 0;
-  padding-left: 0;
-}
-.highlight li {
-  margin-left: 0;
-  margin-top: 0px;
-  list-style-type: none;
-  text-align: center;
-  font-size: 30px;
-}
-.code {
-  color: #fff;
-  font-size: 20px;
-  line-height: 60px;
-  padding: 20px;
-  -webkit-border-radius: 15px;
-  -moz-border-radius: 15px;
-  border-radius: 15px;
-}
-.navbar {
-  z-index: 40;
-  position: fixed;
-  height: 60px;
-  top: 0;
-  width: 100%;
-  background: #fff;
-}
-.navbar img {
-  width: 50px;
-  margin: 10px;
-}
-.navbar a {
-  color: #333;
-  margin-right: 20px;
-  margin-top: 10px;
-  text-decoration: none;
-  font-size: 30px;
-  margin-top: 10px;
-}
-.navbar a:hover {
-  color: #333;
-  text-decoration: underline;
-}
-.icon-plus:before,
-.icon-plus > li:before,
-.icon-plus.after:after,
-.icon-plus.after > li:after {
-  content: "\2B";
-  font-weight: bold;
-  font-size: 60px;
-  margin-left: 40px;
-  cursor: pointer;
-}
-.read-more {
-  cursor: pointer;
-  text-decoration: underline;
-}
-.read-more img {
-  -webkit-transition: -webkit-transform 0.5s ease;
-  -moz-transition: -moz-transform 0.5s ease;
-  -o-transition: -o-transform 0.5s ease;
-  transition: transform 0.5s ease;
-}
-.menu {
-  padding: 0;
-  margin: 0;
-  position: fixed;
-  height: 60px;
-  background: #fff;
-  width: 100%;
-}
-.menu p,
-.menu h1 {
-  margin: 0;
-}
-.menu button,
-.menu .read-more,
-.menu .happy-pic {
-  display: none;
-}
-header {
-  padding: 140px 60px 40px 120px;
-  font-size: 20px;
-}
-header p:first-child {
-  margin-top: 30px;
-  padding-top: 0px;
-}
-header .image {
-  width: 160px;
-  text-align: center;
-  margin-right: 20px;
-}
-header a,
-header a:hover,
-header a:visited {
-  color: #333;
-}
-header p {
-  font-weight: normal;
-}
-header form {
-  display: inline-block;
-}
-.social {
-  padding-top: 40px;
-  padding-bottom: 100px;
-}
-.social h1 {
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-.social img {
-  margin: 0;
-}
-#goals {
-  padding-bottom: 10px;
-}
-#goals h1 {
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-#goals p {
-  padding: 0 40px 0 30px;
-  font-weight: normal;
-}
-#goals .smaller {
-  font-size: 16px;
-}
-#why {
-  background: url("/assets/images/rasp-black.jpg") no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
-#why .line {
-  background: #643;
-}
-#developers {
-  background: url("/assets/images/hardware.png") no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
-#developers .line {
-  background: #334;
-}
-#leave {
-  opacity: 0.9;
-  background: url("/assets/images/freedom.jpg") no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
-#leave .line {
-  background: #0e71a0;
-}
-#paas {
-  opacity: 0.9;
-  background: url("/assets/images/home.png") no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
-#paas .line {
-  background: #334;
-}
-#community-cozy {
-  background: url("/assets/images/community.jpg") no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
-#community-cozy .line {
-  background: #643;
-}
-#partners {
-  background: url("/assets/images/handshake.jpg") no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  opacity: 0.9;
-}
-#partners .line {
-  background: #222;
-}
-#host {
-  background: #fe8800;
-}
-#host .code {
-  background: #cc5f00;
-}
-#hack {
-  background: #1babf4;
-}
-#hack h3 {
-  font-weight: bold;
-}
-#hack .code {
-  background: #097bb5;
-}
-#architecture {
-  background: #1babf4;
-  color: #fff;
-}
-#architecture .diagbox {
-  color: #333;
-  background: #bbe5f9;
-  -webkit-border-radius: 15px;
-  -moz-border-radius: 15px;
-  border-radius: 15px;
-  text-align: center;
-  margin-top: 10px;
-  padding: 10px;
-  font-size: 14px;
-  font-weight: bold;
-}
-#architecture .diagbox p {
-  display: none;
-}
-#community {
-  background: #fe8800;
-}
-#delete {
-  background: #bbe5f9;
-  color: #333;
-}
-#delete .code {
-  background: #43b7ee;
-}
-#delete a.txt-black {
-  color: #333;
-}
-#about {
-  background: #fff;
-  color: #333;
-}
-#about a,
-#about a:hover {
-  color: #333;
-}
-#about .right {
-  margin-left: 20px;
-  margin-top: 0px;
-}
-@media (max-width: 1200px) {
-  header,
-  .social {
-    padding-right: 60px;
-    padding-left: 60px;
-  }
-}
-@media (max-width: 1000px) {
-  header .biglogo {
-    width: 100%;
-    margin-bottom: 30px;
-  }
-  header,
-  section,
-  .social {
-    padding-left: 40px;
-    padding-right: 40px;
-  }
-  header .main-text {
-    padding-left: 0;
-  }
-}
-@media (max-width: 860px) {
-  header h1 {
-    font-size: 30px;
-  }
-  header h4 {
-    font-size: 24px;
-  }
-  .highlight h4 {
-    text-align: left;
-    font-size: 30px;
-  }
-  .highlight li {
-    margin-top: 20px;
-    font-size: 24px;
-    text-align: left;
-  }
-  h3 {
-    font-size: 20px;
-  }
-  .code {
-    font-size: 15px;
-  }
-  #social {
-    padding: 0;
-    padding-bottom: 20px;
-  }
-  #social .w33 {
-    width: 100%;
-  }
-  #social h1 {
-    padding-left: 40px;
-  }
-  #goals {
-    padding-left: 40px;
-    padding-right: 20px;
-  }
-  #goals p {
-    padding-left: 0;
-  }
-}
-@media (max-width: 600px) {
-  header {
-    padding: 80px 20px 10px 20px;
-    margin-top: 40px;
-  }
-  header h1 {
-    font-size: 24px;
-  }
-  header h4 {
-    font-size: 20px;
-  }
-  header .title {
-    width: 100%;
-    display: inline-block;
-  }
-  #social h1 {
-    margin-top: 20px;
-    padding-left: 20px;
-  }
-  #goals {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-  .image-links {
-    font-size: 16px;
-  }
-  .image-links:nth-child(2) {
-    margin-top: 0;
-  }
-  .highlight {
-    padding: 10px;
-  }
-  .target {
-    padding: 20px;
-  }
-  .external-links {
-    height: auto;
-  }
-  .external-links a {
-    width: 100%;
-    margin-top: 10px;
-    display: inline-block;
-  }
-  #mc-embedded-subscribe-form input,
-  #mc-embedded-subscribe-form button {
-    width: 100%;
-  }
-}
-@media (max-width: 400px) {
-  button {
-    font-size: 16px;
-  }
-  .code {
-    font-size: 13px;
-  }
-  .diagbox p,
-  .diagbox:hover p {
-    display: none;
-  }
-}
+rounded-border()
+    -webkit-border-radius: arguments
+    -moz-border-radius: arguments
+    border-radius: arguments
+
+@font-face
+    font-family: main-light
+    src: url('/assets/fonts/maven-pro-light-200.otf')
+
+@font-face
+    font-family: main
+    src: url('/assets/fonts/maven-pro-light-300.otf')
+
+@font-face
+    font-family: cool
+    src: url('/assets/fonts/signika-regular.ttf')
+
+blue = #1babf4
+deepbluE = #34A6FF
+black = #333
+orange = #FE8800
+lightblue = #BBE5F9
+
+
+p
+    font-weight: bold
+
+body
+    font-family: main-light
+
+section
+    padding 60px 100px
+    color: white
+    font-family: main
+
+h1
+    font-size: 40px
+    margin-bottom: 0px
+    padding-bottom: 0px
+    font-weight: normal
+
+h2
+    font-family: cool
+    font-weight: normal
+    font-size: 30px
+    margin-bottom: 30px
+
+h3
+    margin-bottom: 30px
+
+h4
+    font-weight: normal
+p
+    font-size: 20px
+
+a
+a:hover
+a:visited
+    color: white
+
+a:focus
+    outline: 0
+
+input
+    border: 1px solid lightblue
+    font-family: main
+
+input:hover
+input:active
+    border: 1px solid blue
+    box-shadow: none
+
+button
+    border: 1px solid lightblue
+    background: lightblue
+    color: grey
+    box-shadow: none
+    text-shadow: none
+    border-radius: 3px
+    font-family: main
+    font-weight: normal
+    cursor: pointer
+    outline: none
+    padding: 1px
+
+button:hover
+    background: blue
+    color: white
+    outline: none
+
+button:active
+    background: blue - 10%
+    shadow: 1px 3px 2px rgba(0, 0, 0, 0.2) inset, 0 1px 2px rgba(0, 0, 0, 0.0)
+    color: white
+    outline: none
+
+[class*="grid"] > *
+    float: left
+
+[class*="grid"] > * + *
+    margin-left: 2%
+
+.grid5 > *
+    width: 18.4%
+
+.grid3 > *
+    width: 32%
+
+.external-links
+    height: 60px
+
+.external-links a
+    border: 0
+    background: lightblue
+    margin-right: 10px
+    font-size: 25px
+    padding: 13px
+    rounded-border: 5px
+    cursor: pointer
+    text-decoration: none
+
+.external-links a:hover
+    color: white
+    -webkit-transition:color 0.3s ease-in
+    -moz-transition:color 0.3s ease-in
+    -o-transition:color 0.3s ease-in
+    transition:color 0.3s ease-in
+    -webkit-transition:background-color 0.3s ease-in
+    -moz-transition:background-color 0.3s ease-in
+    -o-transition:background-color 0.3s ease-in
+    transition:background-color 0.3s ease-in
+    background: blue
+
+.external-links a:focus
+.external-links a:active
+    background: blue - 10%
+    shadow: 1px 3px 2px rgba(0, 0, 0, 0.2) inset, 0 1px 2px rgba(0, 0, 0, 0.0)
+    color: white
+
+.code
+    display: inline-block
+    max-width: none
+
+.wrapper
+    margin-top 60px
+
+.txt-white
+    color: white
+
+.txt-black
+    color: black
+
+    a
+    a:hover
+        color: black
+
+.black-text
+    color: black
+
+.additional-infos
+    display: none
+
+.title
+    font-size: 60px
+
+.image
+    margin-top: 20px
+    margin-left: 50px
+
+.main-text
+    padding-left: 40px
+
+.next
+    text-decoration: none
+    font-weight: bold
+    font-size: 18px
+    margin-top: 40px
+
+.highlight
+    .line
+        text: center
+        padding: 20px
+        opacity: 0.85
+
+    p
+        text-align: center
+        font-size: 18px
+        margin-top: 40px
+        margin-bottom: 0px
+
+    h4
+        margin-top: 40px
+        text-align: center
+        font-size: 40px
+
+    ul
+        padding: 20px
+        padding-top: 10px
+        margin-left: 0
+        padding-left: 0
+
+    li
+        margin-left: 0
+        margin-top: 0px
+        list-style-type: none
+        text-align: center
+        font-size: 30px
+
+.code
+    color: white
+    font-size: 20px
+    line-height: 60px
+    padding: 20px
+    rounded-border: 15px
+
+
+.navbar
+    z-index: 40
+    position: fixed
+    height: 60px
+    top: 0
+    width: 100%
+    background: white
+
+    img
+        width: 50px
+        margin: 10px
+
+    a
+        color: black
+        margin-right:  20px
+        margin-top: 10px
+        text-decoration: none
+        font-size: 30px
+        margin-top: 10px
+
+    a:hover
+        color: black
+        text-decoration: underline
+        
+.icon-plus:before
+.icon-plus > li:before
+.icon-plus.after:after
+.icon-plus.after > li:after
+    content: "\2B"
+    font-weight: bold
+    font-size: 60px
+    margin-left: 40px
+    cursor: pointer
+
+.read-more
+    cursor: pointer
+    text-decoration: underline
+
+    img
+        -webkit-transition:-webkit-transform 0.5s ease
+        -moz-transition:-moz-transform 0.5s ease
+        -o-transition:-o-transform 0.5s ease
+        transition:transform 0.5s ease
+
+.menu
+    padding 0
+    margin 0
+    position:fixed
+    height: 60px
+    background: white
+    width: 100%
+
+    p
+    h1
+        margin 0
+
+    button
+    .read-more
+    .happy-pic
+        display: none
+
+header
+    padding: 140px 60px 40px 120px
+
+    font-size: 20px
+
+    p:first-child
+        margin-top: 30px
+        padding-top: 0px
+
+    .image
+        width: 160px
+        text-align: center
+        margin-right: 20px
+
+    a
+    a:hover
+    a:visited
+        color: black
+
+    p
+        font-weight: normal
+
+
+    form
+        display: inline-block
+
+.social
+    padding-top: 40px
+    padding-bottom: 100px
+
+    h1
+        font-size: 24px
+        margin-bottom: 20px
+    img
+        margin: 0
+
+#goals
+    padding-bottom: 10px
+
+    h1
+        font-size: 24px
+        margin-bottom: 20px
+
+    p
+        padding: 0 40px 0 30px
+        font-weight: normal
+
+    .smaller
+        font-size: 16px
+
+#why
+    background: url(/assets/images/rasp-black.jpg) no-repeat center center fixed
+    -webkit-background-size: cover
+    -moz-background-size: cover
+    -o-background-size: cover
+    background-size: cover
+
+    .line
+        background: #643
+
+
+#developers
+    background: url(/assets/images/hardware.png) no-repeat center center fixed
+    -webkit-background-size: cover
+    -moz-background-size: cover
+    -o-background-size: cover
+    background-size: cover
+
+    .line
+        background: #334
+
+
+#leave
+    opacity: 0.9
+    background: url(/assets/images/freedom.jpg) no-repeat center center fixed
+    -webkit-background-size: cover
+    -moz-background-size: cover
+    -o-background-size: cover
+    background-size: cover
+
+    .line
+        background: lightblue - 60%
+
+
+#paas
+    opacity: 0.9
+    background: url(/assets/images/home.png) no-repeat center center fixed
+    -webkit-background-size: cover
+    -moz-background-size: cover
+    -o-background-size: cover
+    background-size: cover
+
+    .line
+        background: #334
+
+
+#community-cozy
+    background: url(/assets/images/community.jpg) no-repeat center center fixed
+    -webkit-background-size: cover
+    -moz-background-size: cover
+    -o-background-size: cover
+    background-size: cover
+
+    .line
+        background: #643
+
+#partners
+    background: url(/assets/images/handshake.jpg) no-repeat center center fixed
+    -webkit-background-size: cover
+    -moz-background-size: cover
+    -o-background-size: cover
+    background-size: cover
+    opacity: 0.9
+
+    .line
+        background: #222
+
+#host
+    background: orange
+
+    .code
+        background: #CC5F00
+
+#hack
+    h3
+        font-weight: bold
+
+    background: blue
+
+    .code
+        background: blue - 30%
+
+#architecture
+    background: blue
+    color: white
+
+    .diagbox
+        color: black
+        background: lightblue
+        rounded-border: 15px
+        text-align: center
+        margin-top: 10px
+        padding: 10px
+        font-size: 14px
+        font-weight: bold
+
+        p
+            display: none
+
+
+
+#community
+    background: orange
+
+
+#delete
+    background: lightblue
+    color: black
+
+    .code
+        background: lightblue - 30%
+
+    a.txt-black
+        color: black
+
+#about
+    background: white
+    color: black
+
+    a
+    a:hover
+        color: black
+
+    .right
+        margin-left: 20px
+        margin-top: 0px
+
+// Documentation
+@media (max-width: 1200px)
+
+    header
+    .social
+        padding-right: 60px
+        padding-left: 60px
+
+
+@media (max-width: 1000px)
+
+    header
+        .biglogo
+            width: 100%
+            margin-bottom: 30px
+
+    header
+    section
+    .social
+        padding-left: 40px
+        padding-right: 40px
+
+    header
+        .main-text
+            padding-left: 0
+
+
+@media (max-width: 860px)
+
+    header
+        h1
+            font-size: 30px
+
+        h4
+            font-size: 24px
+
+    .highlight
+
+        h4
+            text-align: left
+            font-size: 30px
+        li
+            margin-top: 20px
+            font-size: 24px
+            text-align: left
+
+    h3
+            font-size: 20px
+
+    .code
+        font-size: 15px
+
+    #social
+        padding: 0
+        padding-bottom: 20px
+
+        .w33
+            width: 100%
+
+        h1
+            padding-left: 40px
+
+    #goals
+        padding-left: 40px
+        padding-right: 20px
+
+        p
+            padding-left: 0
+
+
+@media (max-width: 600px)
+
+    header
+        padding: 80px 20px 10px 20px
+        margin-top: 40px
+
+        h1
+            font-size: 24px
+
+        h4
+            font-size: 20px
+
+        .title
+            width: 100%
+            display: inline-block
+
+    #social
+        h1
+            margin-top: 20px
+            padding-left: 20px
+
+    #goals
+        padding-left: 20px
+        padding-right: 20px
+
+
+    .image-links
+        font-size: 16px
+
+    .image-links:nth-child(2)
+        margin-top: 0
+
+    .highlight
+        padding: 10px
+
+    .target
+        padding: 20px
+
+    .external-links
+        height: auto
+
+        a
+            width: 100%
+            margin-top: 10px
+            display: inline-block
+
+    #mc-embedded-subscribe-form
+        input
+        button
+            width: 100%
+
+
+@media (max-width: 400px)
+
+    button
+        font-size: 16px
+    .code
+        font-size: 13px
+
+    .diagbox
+    .diagbox:hover
+        p
+            display:none

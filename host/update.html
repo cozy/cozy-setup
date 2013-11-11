@@ -1,64 +1,72 @@
-<!DOCTYPE html><!--[if lte IE 7]> <html class="no-js ie67 ie678" lang="en"> <![endif]-->
+!!! 5
+<!--[if lte IE 7]> <html class="no-js ie67 ie678" lang="en"> <![endif]-->
 <!--[if IE 8]> <html class="no-js ie8 ie678" lang="en"> <![endif]-->
 <!--[if IE 9]> <html class="no-js ie9" lang="en"> <![endif]-->
-<html lang="en">
-  <head>
-    <meta charset="utf-8"><!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width">
-    <link rel="shortcut icon" href="/assets/images/favicon.png">
-    <title>Update your cozy
-    </title><link  rel="stylesheet" href="/vendors/css/knacss.css" /><link  rel="stylesheet" href="/vendors/css/sunburst.css" /><link  rel="stylesheet" href="/assets/css/main.css" /><link  rel="stylesheet" href="/assets/css/home.css" />
-  </head>
-  <body>
-    <div class="navbar fixed"><a href="/" class="nav-logo left"><img src="/assets/images/happycloud.png" alt="Happy Cloud"></a><span class="subtitle">Update your cozy</span><a href="/hack/getting-started/" class="right">hack</a><a href="/host/install.html" class="right">host</a></div>
-    <div class="wrapper">
-      <aside class="mod left w25 aside">
-        <nav id="navigation" role="navigation">
-          <ul class="first-level">
-            <li class="big"><a href="/host/install.html" class="label">Install Cozy on your server</a>
-            </li>
-            <li class="big"><a href="/host/raspberry.html" class="label">Raspberry Pi</a>
-            </li>
-            <li class="big"><a href="/host/virtualbox.html" class="label">Virtualbox VM</a>
-            </li>
-            <li class="big"><a href="/host/openvz.html" class="label"> OpenVZ</a>
-            </li>
-            <li class="big selected"><a href="/host/update.html" class="label">Update your cozy</a>
-            </li>
-            <li class="big"><a href="/host/uninstall.html" class="label">Uninstall</a>
-            </li>
-            <li class="big"><a href="/host/trouble-shootings.html" class="label">Trouble Shootings</a>
-            </li>
-          </ul>
-        </nav>
-      </aside>
-      <div id="main" role="main" class="mod pam w75"><h1>Update your Cozy</h1>
-<h2>Easy way</h2>
-<p>The easiest way to update Cozy is to use the Fabric installation file used for
-the installation. But this you should not call the installation task but the
-udpate tasks:</p>
-<pre class="highlighted"><code class="bash">fab -H user@ip update_stack 
-fab -H user@ip update_all_apps</code></pre>
-<h2>Manual update</h2>
-<p>If you want update your Cozy without Fabric you can run the following commands
-directly on your server.</p>
-<pre class="highlighted"><code class="bash">sudo cozy-monitor light-update data-system
-sudo cozy-monitor light-update home
-sudo cozy-monitor light-update proxy
-sudo supervisorctl stop cozy-controller
-sudo pkill -9 node <span class="comment"># make sure no process is remaining.</span>
-sudo npm -g update cozy-controller 
-sudo supervisorctl start cozy-controller</code></pre>
-<h2>Application update</h2>
-<p>To update a single application, you can run the following command on your targe
-server.</p>
-<pre class="highlighted"><code class="bash">sudo cozy-monitor light-update &lt;app&gt;</code></pre>
+html(lang='en')
+  head
+    block head
+      meta(charset='utf-8')
+      <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+      <![endif]-->
+      meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
+      meta(name='viewport', content='width=device-width')
+      link(rel="shortcut icon", href="/assets/images/favicon.png")
+      title
+        block title
+          = document.title
+      != getBlock('styles').add(['/vendors/css/knacss.css', '/vendors/css/sunburst.css', '/assets/css/main.css', '/assets/css/home.css']).toHTML()
 
-      </div>
-      <footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">Github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">Contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">mailing-list</a><a href="https://cozycloud.cc">Cozy Cloud</a></footer>
-    </div><script defer="defer"  src="/vendors/javascripts/jquery-2.0.3.min.js"></script><script defer="defer"  src="/assets/javascripts/main.js"></script>
-  </body>
-</html>
+  body
+    .navbar.fixed
+        a.nav-logo.left(href="/")
+            img(src='/assets/images/happycloud.png', alt='Happy Cloud')
+        span.subtitle= document.title
+        a.right(href="/hack/getting-started/") hack
+        a.right(href="/host/install.html") host
+
+    .wrapper
+      aside.mod.left.w25.aside
+        nav#navigation(role="navigation")
+          - var collectionName = "documents"
+          - if (document.category != null)
+            - collectionName = document.category + "Pages"
+          - endif
+          - items = generateMenu(document.url, collectionName)
+            ul.first-level
+              - var firstLevelClass = null
+              - for item in items
+                - if (item.state == "current" || item.state == "parent")
+                  - firstLevelClass = "big selected"
+                - else
+                  - firstLevelClass = "big"
+                - endif
+                  li(class="#{firstLevelClass}")
+                    a.label(href="#{item.url}")= item.title
+
+                    - if (item.children != null)
+                      - if (item.state == "parent" || item.state == "current")
+                        ul.second-level
+                          - for child in item.children
+                            li.small
+                              - if (child.state == "current")
+                                a.label.selected(href="#{child.url}")= child.title
+                              - else
+                                a.label(href="#{child.url}")= child.title
+                              - endif
+                          - endfor
+                      - endif
+              - endfor
+
+      #main.mod.pam(role="main").w75
+        != content
+
+      footer#footer.line.pam.row(role="contentinfo")
+        a(href="https://github.com/mycozycloud") Github
+        a(href="irc://irc.freenode.net/cozycloud") IRC
+        a(href="mailto:contact@cozycloud.cc") Contact
+        a(href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud")
+            | mailing-list
+        a(href="https://cozycloud.cc") Cozy Cloud
+
+    != getBlock('scripts').add(['/vendors/javascripts/jquery-2.0.3.min.js', '/assets/javascripts/main.js']).toHTML()

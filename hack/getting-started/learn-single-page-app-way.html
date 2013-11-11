@@ -1,327 +1,72 @@
-<!DOCTYPE html><!--[if lte IE 7]> <html class="no-js ie67 ie678" lang="en"> <![endif]-->
+!!! 5
+<!--[if lte IE 7]> <html class="no-js ie67 ie678" lang="en"> <![endif]-->
 <!--[if IE 8]> <html class="no-js ie8 ie678" lang="en"> <![endif]-->
 <!--[if IE 9]> <html class="no-js ie9" lang="en"> <![endif]-->
-<html lang="en">
-  <head>
-    <meta charset="utf-8"><!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width">
-    <link rel="shortcut icon" href="/assets/images/favicon.png">
-    <title>Learn the Single Page App Way
-    </title><link  rel="stylesheet" href="/vendors/css/knacss.css" /><link  rel="stylesheet" href="/vendors/css/sunburst.css" /><link  rel="stylesheet" href="/assets/css/main.css" /><link  rel="stylesheet" href="/assets/css/home.css" />
-  </head>
-  <body>
-    <div class="navbar fixed"><a href="/" class="nav-logo left"><img src="/assets/images/happycloud.png" alt="Happy Cloud"></a><span class="subtitle">Learn the Single Page App Way</span><a href="/hack/getting-started/" class="right">hack</a><a href="/host/install.html" class="right">host</a></div>
-    <div class="wrapper">
-      <aside class="mod left w25 aside">
-        <nav id="navigation" role="navigation">
-          <ul class="first-level">
-            <li class="big selected"><a href="/hack/getting-started/" class="label">Getting started</a>
-              <ul class="second-level">
-                <li class="small"><a href="/hack/getting-started/setup-environment.html" class="label">Setup the environment</a>
-                </li>
-                <li class="small"><a href="/hack/getting-started/first-app.html" class="label">Your first app in 30 minutes</a>
-                </li>
-                <li class="small"><a href="/hack/getting-started/architecture-overview.html" class="label">Architecture Overview</a>
-                </li>
-                <li class="small"><a href="/hack/getting-started/play-with-data-system.html" class="label">Play with the Data System</a>
-                </li>
-                <li class="small"><a href="/hack/getting-started/discover-americano.html" class="label">Discover Americano</a>
-                </li>
-                <li class="small"><a href="/hack/getting-started/learn-single-page-app-way.html" class="label selected">Learn the Single Page App Way</a>
-                </li>
-              </ul>
-            </li>
-            <li class="big"><a href="/hack/cookbooks/" class="label">Cookbooks</a>
-            </li>
-            <li class="big"><a href="/hack/application-skeletons/" class="label">Application Skeletons</a>
-            </li>
-            <li class="big"><a href="/hack/contributing/" class="label">Contributing</a>
-            </li>
-          </ul>
-        </nav>
-      </aside>
-      <div id="main" role="main" class="mod pam w75"><h1>Learn the single page app way</h1>
-<p>Until now we have built classic web applications: a server delivers HTML pages to the browser. This is a &quot;multiple page application&quot; approach, meaning that you have one HTML file for each page of your website.</p>
-<p>Single page applications are made of one page and tons of JavaScript. While this is not a good news for some users (who likes to disable JavaScript), it offers the rest of your users the following advantages:</p>
-<ul>
-<li>better user experience: it feels more like a native application</li>
-<li>less network consumption: it only loads the needed data thanks to Ajax</li>
-<li>better application architecture: you can build nice maintanable application by applying separation of concerns (MVC like stuff)</li>
-<li>the server is only a REST API, easy to request from the single page app or any other client (mobile!)</li>
-</ul>
-<p>If you want to know everything about single page app, we advise you to <a href="http://singlepageappbook.com/">check out this resource</a> to learn more about Singe Page Apps.</p>
-<p>From now, we&#39;ll use the SPA acronym to talk about Single Page Apps or everyone is going to shoot himself.</p>
-<p>Let&#39;s make your bookmark application with the single page app way!</p>
-<h3>What you will achieve</h3>
-<ul>
-<li>Learning the basics of <a href="http://backbonejs.org/">Backbone.js</a>, a MVC JavaScript framework</li>
-<li>Using an application Assembler, <a href="http://brunch.io/">Brunch</a> to make your life even easier</li>
-<li>Building a Single Page App!</li>
-</ul>
-<h3>Source code</h3>
-<p>The source code of this tutorial can be found <a href="https://github.com/mycozycloud/cozy-tutorial/tree/spa-final">here</a>.</p>
-<h3>Get ready</h3>
-<p>First, install Brunch:</p>
-<pre class="highlighted"><code class="javascript">npm install -g brunch</code></pre>
-<p>Then, get the source we prepared for you to bootstrap the tutorial.</p>
-<pre class="highlighted"><code class="bash">git clone https://github.com/mycozycloud/cozy-tutorial.git@spa spa-bookmarks
-cd spa-bookmarks/
-npm install
-cd client/
-npm install</code></pre>
-<p>Note you perform have <code>npm install</code> twice. The client&#39;s one is for Brunch specific modules. We&#39;ll come back to what does Brunch soon.</p>
-<h2>File structure of the bootstrap Backbone application</h2>
-<p>You already know about the server part of the file structure so let&#39;s focus on the client/</p>
-<ul>
-<li>client/<ul>
-<li>app/ - where you put your files while developping<ul>
-<li>assets/ - all your static assets: images, fonts, ...<ul>
-<li>index.html the entrance point of your application</li>
-</ul>
-</li>
-<li>collections/</li>
-<li>models/</li>
-<li>templates/ - where your templates (Jade in our case) will be</li>
-<li>views/</li>
-<li>application.js - bootstrap  the Backbone app</li>
-<li>initialize.js - start the whole application when ready</li>
-<li>router.js - the Backbone router</li>
-</ul>
-</li>
-<li>public/ - where the &quot;built&quot; files are</li>
-<li>vendor/<ul>
-<li>scripts/ - the JS librairies we need</li>
-</ul>
-</li>
-<li>config.js - Brunch configuration</li>
-<li>package.json - Brunch modules to install</li>
-</ul>
-</li>
-</ul>
-<p>There is two part in the file structure: the &quot;app&quot; where you will write your code and &quot;public&quot; where Brunch will output everything you write correctly into one nice JavaScript file.</p>
-<p>Another important thing is that the folder structure is not <strong>constrained at all</strong>. It is a design choice from us and you can change the way you like, but don&#39;t forget to adjust the Brunch configuration then.</p>
-<p>Now let&#39;s see what does do Brunch exactly.</p>
-<h2>Automatically build your application with Brunch</h2>
-<p>Brunch gathers everything you will write in the app folder and wrap it with RequireJS (which allows you to use the &quot;require&quot; keyword) and put it all together in one JavaScript file.</p>
-<p>It can also process your file to minify it (for example). If you want to write Coffee Script instead of JavaScript, Brunch will compile it for you. If you want to use Jade, it will compile it for you.
-You can use pretty much everything you want to for templates (Jade, Handlebars, Underscore, ...) or styles (Stylus, LESS, SASS, ...), just install the relevant node modules and adjust the configuration file.</p>
-<p>If you want to know everything about Brunch, please check out their <a href="http://brunch.io/">website</a> (it is not mandatory for this tutorial though).</p>
-<p>Brunch is also awesome because it detects when a file change and recompile the code automatically so everything is smooth for you.</p>
-<p>To start brunch, open a terminal:</p>
-<pre class="highlighted"><code class="bash">cd tutorial-spa/client/
-brunch w</code></pre>
-<p>From now you shouldn&#39;t be modifying a file outside the app/ directory.</p>
-<h2>Step 1: discovering Backbone</h2>
-<p>We set up a template with a working Backbone app through Brunch so you can start quickly. But before writing code, let&#39;s look at what Backbone is.</p>
-<p>Backbone is a MVC framework for JavaScript that gives you evertyhing you might want to build a flexible and powerful single page application.</p>
-<p>As a result, your application will made of:</p>
-<ul>
-<li>a router that will allow you to handle multiple page in your single page app</li>
-<li>collections and models to store and manipulate your data</li>
-<li>views to handle the logic of rendering the data</li>
-<li>templates will represent the to-be-output HTML</li>
-</ul>
-<p>The glue is Backbone&#39;s observer/observable pattern that allows a lower coupling between each part.
-<br /><br /></p>
-<p>How is our template working? In the app/assets/index.html we load the JavaScript we need and call the &quot;initialize&quot; script. This last make sure the DOM has been loaded and start the Backbone application by creating and initializing the router.
-Then the router creates the main view and gives it the collection of bookmarks.
-Then the view is rendered. The render process is: load the template, put data in the template, add it to the DOM at the right place.</p>
-<p>Now we&#39;ve seen what is Backbone and how this tutorial has been bootstrapped, let&#39;s write some code!</p>
-<h2>Step 2: adding a new bookmark</h2>
-<p>The provided code displays a collection of bookmark. Let&#39;s bind our &quot;new bookmark&quot; form to Backbone.</p>
-<p>Along the &quot;el&quot; and the &quot;template&quot; attribute, add the event binding:</p>
-<pre class="highlighted"><code class="javascript"><span class="comment">// apps/views/app_view.js</span>
-el: <span class="string">'body'</span>,
-template: require(<span class="string">'../templates/home'</span>),
-events: {
-    <span class="string">"click #add-bookmark"</span>: <span class="string">"createBookmark"</span>
-},</code></pre>
-<p>This means that when the user clicks on the #add-bookmark button, the &quot;createBookmark&quot; callback will be called. So let&#39;s define the &quot;createBookmark&quot; function in the code:</p>
-<pre class="highlighted"><code class="javascript">createBookmark: <span class="keyword">function</span>(event) {
-    <span class="comment">// submit button reload the page, we don't want that</span>
-    event.preventDefault();
+html(lang='en')
+  head
+    block head
+      meta(charset='utf-8')
+      <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+      <![endif]-->
+      meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
+      meta(name='viewport', content='width=device-width')
+      link(rel="shortcut icon", href="/assets/images/favicon.png")
+      title
+        block title
+          = document.title
+      != getBlock('styles').add(['/vendors/css/knacss.css', '/vendors/css/sunburst.css', '/assets/css/main.css', '/assets/css/home.css']).toHTML()
 
-    <span class="comment">// create a new model</span>
-    <span class="keyword">var</span> bookmark = <span class="keyword">new</span> Bookmark({
-        title: <span class="keyword">this</span>.$el.find(<span class="string">'input[name="title"]'</span>).val(),
-        url: <span class="keyword">this</span>.$el.find(<span class="string">'input[name="url"]'</span>).val()
-    });
+  body
+    .navbar.fixed
+        a.nav-logo.left(href="/")
+            img(src='/assets/images/happycloud.png', alt='Happy Cloud')
+        span.subtitle= document.title
+        a.right(href="/hack/getting-started/") hack
+        a.right(href="/host/install.html") host
 
-    <span class="comment">// add it to the collection</span>
-    <span class="keyword">this</span>.collection.add(bookmark);
-}</code></pre>
-<p>You will need the &quot;Bookmark&quot; class so put this at the top of the file:</p>
-<pre class="highlighted"><code class="javascript"><span class="keyword">var</span> Bookmark = require(<span class="string">'../models/bookmark'</span>);</code></pre>
-<p>If you try it, nothing will happen and it&#39;s normal. Let&#39;s bind the view to the collection so it can change when a new bookmark is created:</p>
-<pre class="highlighted"><code class="javascript"><span class="comment">// initialize is automatically called once after the view is constructed</span>
-initialize: <span class="keyword">function</span>() {
-    <span class="keyword">this</span>.listenTo(<span class="keyword">this</span>.collection, <span class="string">"add"</span>, <span class="keyword">this</span>.onBookmarkAdded);
-},
-onBookmarkAdded: <span class="keyword">function</span>(model) {
-    <span class="comment">// re-render the view</span>
-    <span class="keyword">this</span>.render();
-}</code></pre>
-<p>The new bookmark should now be displayed!</p>
-<h2>Step 3: using a separate view for the bookmark</h2>
-<p>If you want to fully take advantage of what Backbone offers you, you must think modular.
-We have a list of bookmarks and rendering them each time we add a new one could be a bottleneck one day. Also it could be better if we could manipulate each bookmark independently so we deletion would be dead easy to implement. Let&#39;s do this!</p>
-<p>Create a new view <code>app/views/bookmark.js</code>:</p>
-<pre class="highlighted"><code class="javascript"><span class="comment">// app/views/bookmarks.js</span>
-module.exports = AppView = Backbone.View.extend({
+    .wrapper
+      aside.mod.left.w25.aside
+        nav#navigation(role="navigation")
+          - var collectionName = "documents"
+          - if (document.category != null)
+            - collectionName = document.category + "Pages"
+          - endif
+          - items = generateMenu(document.url, collectionName)
+            ul.first-level
+              - var firstLevelClass = null
+              - for item in items
+                - if (item.state == "current" || item.state == "parent")
+                  - firstLevelClass = "big selected"
+                - else
+                  - firstLevelClass = "big"
+                - endif
+                  li(class="#{firstLevelClass}")
+                    a.label(href="#{item.url}")= item.title
 
-    tagName: <span class="string">'li'</span>,
-    template: require(<span class="string">'../templates/bookmark'</span>),
+                    - if (item.children != null)
+                      - if (item.state == "parent" || item.state == "current")
+                        ul.second-level
+                          - for child in item.children
+                            li.small
+                              - if (child.state == "current")
+                                a.label.selected(href="#{child.url}")= child.title
+                              - else
+                                a.label(href="#{child.url}")= child.title
+                              - endif
+                          - endfor
+                      - endif
+              - endfor
 
-    render: <span class="keyword">function</span>() {
-        <span class="keyword">this</span>.$el.html(<span class="keyword">this</span>.template({
-            bookmark: <span class="keyword">this</span>.model.toJSON()
-        }));
-    }
-});</code></pre>
-<p>The tagname will be used when we create a view to automatically create a &quot;li&quot; DOM node.</p>
-<p>Now create the bookmark template <code>app/templates/bookmark.jade</code>:</p>
-<pre class="highlighted"><code class="bash">a(href=bookmark.url)= bookmark.title
-| &amp;nbsp;- (
-a.delete delete
-| )</code></pre>
-<p>We must also change the way the app_view renders. First clean the home template (<code>apps/templates/home.jade</code>) by removing everything under the &quot;ul&quot; tag.</p>
-<p>Next rewrite the render function that way:</p>
-<pre class="highlighted"><code class="javascript">render: <span class="keyword">function</span>() {
+      #main.mod.pam(role="main").w75
+        != content
 
-    <span class="comment">// we render the template</span>
-    <span class="keyword">this</span>.$el.html(<span class="keyword">this</span>.template());
+      footer#footer.line.pam.row(role="contentinfo")
+        a(href="https://github.com/mycozycloud") Github
+        a(href="irc://irc.freenode.net/cozycloud") IRC
+        a(href="mailto:contact@cozycloud.cc") Contact
+        a(href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud")
+            | mailing-list
+        a(href="https://cozycloud.cc") Cozy Cloud
 
-    _<span class="keyword">this</span> = <span class="keyword">this</span>;
-    <span class="keyword">this</span>.collection.forEach(<span class="keyword">function</span>(bookmark) {
-        _<span class="keyword">this</span>.onBookmarkAdded(bookmark);
-    });
-
-    <span class="keyword">return</span> <span class="keyword">this</span>;
-},
-onBookmarkAdded: <span class="keyword">function</span>(bookmark) {
-    <span class="comment">// render the specific element</span>
-    bookmarkView = <span class="keyword">new</span> BookmarkView({
-        model: bookmark
-    });
-    bookmarkView.render();
-    <span class="keyword">this</span>.$el.find(<span class="string">'ul'</span>).append(bookmarkView.$el);
-}</code></pre>
-<p>Everything should be working as before but each bookmark is rendered separately which also means they can be managed separately. Let&#39;s see how we can easily add the &quot;delete&quot; feature now.</p>
-<h3>Step 4: removing a bookmark</h3>
-<p>In the bookmark view, add the &quot;delete&quot; feature like we did earlier for the &quot;create&quot; one.</p>
-<pre class="highlighted"><code class="javascript"><span class="comment">// app/views/bookmark.js</span>
-events: {
-    <span class="string">'click a.delete'</span>: <span class="string">'deleteBookmark'</span>
-},
-
-deleteBookmark: <span class="keyword">function</span>() {
-    <span class="keyword">this</span>.model.destroy();
-    <span class="keyword">this</span>.remove();
-}</code></pre>
-<p>Note that the events declaration is reduced to the children of the view in the DOM so &quot;a.delete&quot; actually means (jQuery style): $(document).find(&#39;theview&#39;).find(&#39;a.delete&#39;).</p>
-<p>Your application is still useless (we came back in the first tutorial state :()) because the changes are not saved in the server. Let&#39;s fix this!</p>
-<h2>Step 5: binding your single page app with your server</h2>
-<p>To achieve that we must tell Backbone collection where the server is and then create the right route on the server side.</p>
-<pre class="highlighted"><code class="javascript"><span class="comment">// app/collections/bookmarks.js</span>
-Bookmark = require(<span class="string">'../models/bookmark'</span>);
-module.exports = Bookmarks = Backbone.Collection.extend({
-    model: Bookmark,
-    url: <span class="string">'bookmarks'</span>
-});</code></pre>
-<p>We also need to tell Backbone to properly persist the model on the server:</p>
-<pre class="highlighted"><code class="javascript"><span class="comment">// app/views/app_view.js</span>
-createBookmark: <span class="keyword">function</span>(event) {
-    <span class="comment">// submit button reload the page, we don't want that</span>
-    event.preventDefault();
-
-    <span class="comment">// add it to the collection</span>
-    <span class="keyword">this</span>.collection.create({
-        title: <span class="keyword">this</span>.$el.find(<span class="string">'input[name="title"]'</span>).val(),
-        url: <span class="keyword">this</span>.$el.find(<span class="string">'input[name="url"]'</span>).val()
-    });
-}</code></pre>
-<p>Make sure you also change the render function from the app_view to retrieve the bookmarks from the database:</p>
-<pre class="highlighted"><code class="javascript"><span class="comment">// app/views/app_view.js</span>
-render: <span class="keyword">function</span>() {
-
-    <span class="comment">// we render the template</span>
-    <span class="keyword">this</span>.$el.html(<span class="keyword">this</span>.template());
-
-    <span class="comment">// fetch the bookmarks from the database</span>
-    <span class="keyword">this</span>.collection.fetch();
-}</code></pre>
-<p>Backbone considers the server is RESTful and that it sends and receives JSON so we change the server routes to match the standard:</p>
-<pre class="highlighted"><code class="javascript"><span class="comment">// server/controllers/routes.js</span>
-module.exports = {
-    <span class="string">'bookmarks'</span>: {
-        get: bookmarks.list,
-        post: bookmarks.add,
-    },
-    <span class="string">'bookmarks/:id'</span>: {
-        del: bookmarks.<span class="keyword">delete</span>
-    }
-};</code></pre>
-<p>And adjust the controller in the right way:</p>
-<pre class="highlighted"><code class="javascript"><span class="comment">// server/controllers/bookmarks.js</span>
-Bookmark = require(<span class="string">'../models/bookmark'</span>);
-
-module.exports.list = <span class="keyword">function</span>(req, res) {
-    Bookmark.all(<span class="keyword">function</span>(err, bookmarks) {
-        <span class="keyword">if</span>(err != <span class="literal">null</span>) {
-            res.send(<span class="number">500</span>, {error: <span class="string">"Couldn't retrieved the bookmarks."</span>});
-        }
-        <span class="keyword">else</span> {
-            res.send(<span class="number">200</span>, bookmarks);
-        }
-    });
-};
-
-module.exports.add = <span class="keyword">function</span>(req, res) {
-    Bookmark.create(req.body, <span class="keyword">function</span>(err, bookmark) {
-        <span class="keyword">if</span>(err != <span class="literal">null</span>) {
-            res.send(<span class="number">500</span>, <span class="string">"An error has occurred -- "</span> + err);
-        }
-        <span class="keyword">else</span> {
-            res.send(<span class="number">201</span>);
-        }
-    });
-};
-
-module.exports.<span class="keyword">delete</span> = <span class="keyword">function</span>(req, res) {
-    Bookmark.find(req.params.id, <span class="keyword">function</span>(err, bookmark) {
-        <span class="keyword">if</span>(err != <span class="literal">null</span>) {
-            res.send(<span class="number">500</span>, {error: <span class="string">"Bookmark couldn't be retrieved -- "</span> + err});
-        }
-        <span class="keyword">else</span> <span class="keyword">if</span>(bookmark == <span class="literal">null</span>) {
-            res.send(<span class="number">404</span>, {error: <span class="string">"Bookmark not found"</span>});
-        }
-        <span class="keyword">else</span> {
-            bookmark.destroy(<span class="keyword">function</span>(err) {
-                <span class="keyword">if</span>(err != <span class="literal">null</span>) {
-                    res.send(<span class="number">500</span>, {error: <span class="string">"An error has occurred -- "</span> + err});
-                }
-                <span class="keyword">else</span> {
-                    res.send(<span class="number">200</span>);
-                }
-            });
-        }
-    });
-};</code></pre>
-<p>You server is now a RESTful API that allow your single page app to request it easily thanks to Backbone.</p>
-<h2>What&#39;s next?</h2>
-<p>This tutorial doesn&#39;t cover every aspects and good practices of Backbone but it should give you a good insight of how you can build awesome single page apps.</p>
-<p>We haven&#39;t talked about Cozy for a while but everything you&#39;ve done until know should help you creating an (awesome) application for Cozy. There are more cool stuff you can do with Cozy and you can ask us on IRC or by email what are the next steps or just to get help from us.</p>
-<p><br /><br />
-We are eager to see what application you will bring to the Cozy community, don&#39;t hesitate to show us your work!
-<br /><br /></p>
-<p>To go further in your study of Cozycloud, you can check out the <a href="/hack/cookbooks/">cookbooks</a>!
-We also provide <a href="/hack/application-skeletons/">application skeletons</a> to get you started quickly, chose the one you like or add yours.</p>
-
-      </div>
-      <footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">Github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">Contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">mailing-list</a><a href="https://cozycloud.cc">Cozy Cloud</a></footer>
-    </div><script defer="defer"  src="/vendors/javascripts/jquery-2.0.3.min.js"></script><script defer="defer"  src="/assets/javascripts/main.js"></script>
-  </body>
-</html>
+    != getBlock('scripts').add(['/vendors/javascripts/jquery-2.0.3.min.js', '/assets/javascripts/main.js']).toHTML()

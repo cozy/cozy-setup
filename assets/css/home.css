@@ -96,8 +96,14 @@ button:active {
   background: #1babf4;
   padding: 10px;
   border-radius: 5px;
+  color: #fff;
 }
-.special a {
+.special h4 {
+  color: #fff;
+}
+.special a,
+.special a:visited,
+.special a:focus {
   color: #fff;
 }
 .grid3 > * {

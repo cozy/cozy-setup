@@ -1,72 +1,62 @@
-!!! 5
-<!--[if lte IE 7]> <html class="no-js ie67 ie678" lang="en"> <![endif]-->
+<!DOCTYPE html><!--[if lte IE 7]> <html class="no-js ie67 ie678" lang="en"> <![endif]-->
 <!--[if IE 8]> <html class="no-js ie8 ie678" lang="en"> <![endif]-->
-<!--[if IE 9]> <html class="no-js ie9" lang="en"> <![endif]-->
-html(lang='en')
-  head
-    block head
-      meta(charset='utf-8')
-      <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-      <![endif]-->
-      meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
-      meta(name='viewport', content='width=device-width')
-      link(rel="shortcut icon", href="/assets/images/favicon.png")
-      title
-        block title
-          = document.title
-      != getBlock('styles').add(['/vendors/css/knacss.css', '/vendors/css/sunburst.css', '/assets/css/main.css', '/assets/css/home.css']).toHTML()
-
-  body
-    .navbar.fixed
-        a.nav-logo.left(href="/")
-            img(src='/assets/images/happycloud.png', alt='Happy Cloud')
-        span.subtitle= document.title
-        a.right(href="/hack/getting-started/") hack
-        a.right(href="/host/install.html") host
-
-    .wrapper
-      aside.mod.left.w25.aside
-        nav#navigation(role="navigation")
-          - var collectionName = "documents"
-          - if (document.category != null)
-            - collectionName = document.category + "Pages"
-          - endif
-          - items = generateMenu(document.url, collectionName)
-            ul.first-level
-              - var firstLevelClass = null
-              - for item in items
-                - if (item.state == "current" || item.state == "parent")
-                  - firstLevelClass = "big selected"
-                - else
-                  - firstLevelClass = "big"
-                - endif
-                  li(class="#{firstLevelClass}")
-                    a.label(href="#{item.url}")= item.title
-
-                    - if (item.children != null)
-                      - if (item.state == "parent" || item.state == "current")
-                        ul.second-level
-                          - for child in item.children
-                            li.small
-                              - if (child.state == "current")
-                                a.label.selected(href="#{child.url}")= child.title
-                              - else
-                                a.label(href="#{child.url}")= child.title
-                              - endif
-                          - endfor
-                      - endif
-              - endfor
-
-      #main.mod.pam(role="main").w75
-        != content
-
-      footer#footer.line.pam.row(role="contentinfo")
-        a(href="https://github.com/mycozycloud") Github
-        a(href="irc://irc.freenode.net/cozycloud") IRC
-        a(href="mailto:contact@cozycloud.cc") Contact
-        a(href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud")
-            | mailing-list
-        a(href="https://cozycloud.cc") Cozy Cloud
-
-    != getBlock('scripts').add(['/vendors/javascripts/jquery-2.0.3.min.js', '/assets/javascripts/main.js']).toHTML()
+<!--[if IE 9]> <html class="no-js ie9" lang="en"> <![endif]--><html lang="en"><head><meta charset="utf-8"><!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]--><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width"><link rel="shortcut icon" href="/assets/images/favicon.png"><title>Install Cozy on your server</title><link  rel="stylesheet" href="/vendors/css/knacss.css" /><link  rel="stylesheet" href="/vendors/css/sunburst.css" /><link  rel="stylesheet" href="/assets/css/main.css" /><link  rel="stylesheet" href="/assets/css/home.css" /></head><body><div class="navbar fixed"><a href="/" class="nav-logo left"><img src="/assets/images/happycloud.png" alt="Happy Cloud"></a><span class="subtitle">Install Cozy on your server</span><a href="/hack/getting-started/" class="right">hack</a><a href="/host/install.html" class="right">host</a></div><div class="wrapper"><aside class="mod left w25 aside"><nav id="navigation" role="navigation"><ul class="first-level"><li class="big selected"><a href="/host/install.html" class="label">Install Cozy on your server</a></li><li class="big"><a href="/host/raspberry.html" class="label">Raspberry Pi</a></li><li class="big"><a href="/host/virtualbox.html" class="label">Virtualbox VM</a></li><li class="big"><a href="/host/openvz.html" class="label"> OpenVZ</a></li><li class="big"><a href="/host/update.html" class="label">Update your cozy</a></li><li class="big"><a href="/host/uninstall.html" class="label">Uninstall</a></li><li class="big"><a href="/host/trouble-shootings.html" class="label">Trouble Shootings</a></li></ul></nav></aside><div id="main" role="main" class="mod pam w75"><h1 id="install-cozy-on-your-server">Install Cozy on your server</h1>
+<h3 id="use-our-script">Use our script</h3>
+<p>On your local machine install Fabric and fabtools:</p>
+<pre class="highlighted"><code class="bash">apt-get install python python-pip python-dev software-properties-common
+sudo pip install fabric fabtools</code></pre>
+<p>Download our Fabric file (a script that will run commands on your remote
+server):</p>
+<pre class="highlighted"><code class="bash">wget https://raw.github.com/mycozycloud/cozy-setup/master/fabfile.py</code></pre>
+<p>Once your system is prepared, use the Fabric script from your local
+machine to launch the Cozy installation (run it in the same directory as the fabfile
+you downloaded before):</p>
+<pre class="highlighted"><code class="bash">fab -H sudoer@ip install</code></pre>
+<p>Enter your settings (such as domain name) when prompted by the installer.</p>
+<p>Be patient; some commands or app deployments can take some time. It 
+depends on your network and hardware capabilities.</p>
+<h4 id="-about-local-installation-"><em>About local installation</em></h4>
+<p>To install Cozy locally, we recommend you to create a virtual machine, 
+and then to run the fabfile script with your virtual machine as target.
+This allows you to experiment with Cozy without installing numerous packages
+into your environment.</p>
+<p>The way to install it locally without VM or container is to run this command:</p>
+<pre class="highlighted"><code class="bash">fab -H sudoer@localhost install</code></pre>
+<h4 id="-try-cozy-with-vagrant-"><em>Try Cozy with Vagrant</em></h4>
+<p>If you want to use Vagrant to run Cozy Cloud Setup in a virtual machine
+we recommend you use the Ubuntu 12.04 box. Be careful as the update will require that
+you configure your boot sequence. Choose the first filesystem that is offered, then click ok.</p>
+<p><a href="http://files.vagrantup.com/precise64.box">http://files.vagrantup.com/precise64.box</a></p>
+<h2 id="recommended-hardware">Recommended Hardware</h2>
+<p>The CPU is not a limitation, Cozy can even run on RaspberryPi.</p>
+<h3 id="mininum">Mininum</h3>
+<p>RAM: 512MB (it allows to have 4 apps running simultaneously)</p>
+<p>Disk space: 2GB</p>
+<h3 id="recommended">Recommended</h3>
+<p>RAM: 1024 Mo (it allows to have 10 apps simultaneously).</p>
+<p>Disk space: a lot of space to store all your files.</p>
+<h2 id="test">Test</h2>
+<p>Once the installation is done, you can access <a href="https://IP:443">https://IP:443</a> to create your Cozy
+main account. Be sure that you used the HTTPS protocol if you just see the nginx
+welcome page.</p>
+<h2 id="what-will-this-script-install-on-your-server-">What will this script install on your server?</h2>
+<p>The Cozy install script installs the following tools:</p>
+<ul>
+<li>Python runtime</li>
+<li>Node.js runtime</li>
+<li>CouchDB document database</li>
+<li>Node tools: cozy-controller, cozy-monitor, coffee-script, compound, brunch</li>
+<li>Cozy Controller Daemon</li>
+<li>Cozy data indexer</li>
+<li>Cozy data layer </li>
+<li>Cozy proxy</li>
+<li>Cozy Home (web app)</li>
+</ul>
+<p>If you want to know more about how Cozy works you can check our <a href="https://github.com/mycozycloud/cozy-setup/wiki/Cozy-architecture">architecture
+page</a>.</p>
+<h2 id="about-virtual-machines-and-containers">About virtual machines and containers</h2>
+<p>Because of the numerous technologies involved, we recommend you to run the Cozy
+stack in an isolated virtual machine or in a container (OpenVz or LXC).</p>
+</div><footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">Github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">Contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">mailing-list</a><a href="https://cozycloud.cc">Cozy Cloud</a></footer></div><script defer="defer"  src="/vendors/javascripts/jquery-2.0.3.min.js"></script><script defer="defer"  src="/assets/javascripts/main.js"></script></body></html>

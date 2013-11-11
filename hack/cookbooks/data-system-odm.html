@@ -1,72 +1,101 @@
-!!! 5
-<!--[if lte IE 7]> <html class="no-js ie67 ie678" lang="en"> <![endif]-->
+<!DOCTYPE html><!--[if lte IE 7]> <html class="no-js ie67 ie678" lang="en"> <![endif]-->
 <!--[if IE 8]> <html class="no-js ie8 ie678" lang="en"> <![endif]-->
-<!--[if IE 9]> <html class="no-js ie9" lang="en"> <![endif]-->
-html(lang='en')
-  head
-    block head
-      meta(charset='utf-8')
-      <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-      <![endif]-->
-      meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
-      meta(name='viewport', content='width=device-width')
-      link(rel="shortcut icon", href="/assets/images/favicon.png")
-      title
-        block title
-          = document.title
-      != getBlock('styles').add(['/vendors/css/knacss.css', '/vendors/css/sunburst.css', '/assets/css/main.css', '/assets/css/home.css']).toHTML()
+<!--[if IE 9]> <html class="no-js ie9" lang="en"> <![endif]--><html lang="en"><head><meta charset="utf-8"><!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]--><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width"><link rel="shortcut icon" href="/assets/images/favicon.png"><title>The ODM for Data System API</title><link  rel="stylesheet" href="/vendors/css/knacss.css" /><link  rel="stylesheet" href="/vendors/css/sunburst.css" /><link  rel="stylesheet" href="/assets/css/main.css" /><link  rel="stylesheet" href="/assets/css/home.css" /></head><body><div class="navbar fixed"><a href="/" class="nav-logo left"><img src="/assets/images/happycloud.png" alt="Happy Cloud"></a><span class="subtitle">The ODM for Data System API</span><a href="/hack/getting-started/" class="right">hack</a><a href="/host/install.html" class="right">host</a></div><div class="wrapper"><aside class="mod left w25 aside"><nav id="navigation" role="navigation"><ul class="first-level"><li class="big"><a href="/hack/getting-started/" class="label">Getting started</a></li><li class="big selected"><a href="/hack/cookbooks/" class="label">Cookbooks</a><ul class="second-level"><li class="small"><a href="/hack/cookbooks/data-system.html" class="label">The Data System API</a></li><li class="small"><a href="/hack/cookbooks/data-system-odm.html" class="label selected">The ODM for Data System API</a></li><li class="small"><a href="/hack/cookbooks/localization.html" class="label">Localize your applications</a></li></ul></li><li class="big"><a href="/hack/application-skeletons/" class="label">Application Skeletons</a></li><li class="big"><a href="/hack/contributing/" class="label">Contributing</a></li></ul></nav></aside><div id="main" role="main" class="mod pam w75"><h1 id="the-odm-for-data-system-api">The ODM for Data System API</h1>
+<p>We&#39;ve created a driver for JugglingDB, an ODM (Object Document Mapper) to work with Cozy Data System easily. This document will gives you the detailed API to use it but you can already check <a href="http://localhost:9778/hack/getting-started/play-with-data-system.html">the tutorial</a> where we introduce it to see a working example.</p>
+<h2 id="generic-note">Generic note</h2>
+<p>Depending on what do you use, you might want to install JugglingDB and the Cozy adapter in order to make it works. If you use a framework where it is integrated (like Americano with the Cozy plugin), refers to the framework&#39;s documentation too see how to boostrap it. Otherwise you can follow the steps of this section.</p>
+<pre class="highlighted"><code class="bash">npm install jugglindb jugglingdb-cozy-adapter --save</code></pre>
+<p>In the following example, &quot;Note&quot; refers to a model and &quot;note&quot; to a document of the model &quot;Note&quot;. &quot;Note&quot; was declared like this:</p>
+<pre class="highlighted"><code class="javascript"><span class="keyword">var</span> Schema = require(<span class="string">'jugglingdb'</span>).Schema,
+<span class="keyword">var</span> db = <span class="keyword">new</span> Schema(<span class="string">'cozy-adapter'</span>, { url: <span class="string">'http://localhost:9101/'</span> });
 
-  body
-    .navbar.fixed
-        a.nav-logo.left(href="/")
-            img(src='/assets/images/happycloud.png', alt='Happy Cloud')
-        span.subtitle= document.title
-        a.right(href="/hack/getting-started/") hack
-        a.right(href="/host/install.html") host
+Note = db.define(<span class="string">'Note'</span>, {
+  <span class="string">"id"</span>: String,
+  <span class="string">"title"</span>: String,
+  <span class="string">"content"</span>: { <span class="string">"type"</span>: String, <span class="string">"default"</span>: <span class="string">""</span>}
+});</code></pre>
+<p>Also, you don&#39;t have to worry about authentfication and authorization while using the ODM because they are automatically handled for you.</p>
+<h2 id="documents">Documents</h2>
+<pre class="highlighted"><code class="javascript"><span class="comment">// Checking document existence</span>
+Note.exists(<span class="number">123</span>, <span class="keyword">function</span>(err, isExist) {
+    console.log(isExist);
+});
 
-    .wrapper
-      aside.mod.left.w25.aside
-        nav#navigation(role="navigation")
-          - var collectionName = "documents"
-          - if (document.category != null)
-            - collectionName = document.category + "Pages"
-          - endif
-          - items = generateMenu(document.url, collectionName)
-            ul.first-level
-              - var firstLevelClass = null
-              - for item in items
-                - if (item.state == "current" || item.state == "parent")
-                  - firstLevelClass = "big selected"
-                - else
-                  - firstLevelClass = "big"
-                - endif
-                  li(class="#{firstLevelClass}")
-                    a.label(href="#{item.url}")= item.title
+<span class="comment">// Retrieving a document with its ID</span>
+Note.find(<span class="number">321</span>, <span class="keyword">function</span>(err, note) {
+    console.log(note);
+});
 
-                    - if (item.children != null)
-                      - if (item.state == "parent" || item.state == "current")
-                        ul.second-level
-                          - for child in item.children
-                            li.small
-                              - if (child.state == "current")
-                                a.label.selected(href="#{child.url}")= child.title
-                              - else
-                                a.label(href="#{child.url}")= child.title
-                              - endif
-                          - endfor
-                      - endif
-              - endfor
+<span class="comment">// Creating a document</span>
+Note.create({ id: <span class="string">"321"</span>, <span class="string">"content"</span>:<span class="string">"created value"</span>}, <span class="keyword">function</span>(err, note) {
+    console.log(note.id);
+});
 
-      #main.mod.pam(role="main").w75
-        != content
+<span class="comment">// Upserting (update or create if doesn't exist) a document</span>
+Note.createOrUpdate(<span class="number">123</span>, <span class="keyword">function</span>(err, note) {
+    console.log(err);
+});
 
-      footer#footer.line.pam.row(role="contentinfo")
-        a(href="https://github.com/mycozycloud") Github
-        a(href="irc://irc.freenode.net/cozycloud") IRC
-        a(href="mailto:contact@cozycloud.cc") Contact
-        a(href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud")
-            | mailing-list
-        a(href="https://cozycloud.cc") Cozy Cloud
+<span class="comment">// Updating a document (will replace the existing one)</span>
+note.save(<span class="keyword">function</span>(err) {
+    console.log(err);
+});
 
-    != getBlock('scripts').add(['/vendors/javascripts/jquery-2.0.3.min.js', '/assets/javascripts/main.js']).toHTML()
+<span class="comment">// Updating attributes (only replace the specified attributes)</span>
+note.updateAttributes({title: <span class="string">"my new title"</span>}, <span class="keyword">function</span>(err) {
+    console.log(err);
+});
+
+<span class="comment">// Deleting a document</span>
+note.destroy(<span class="keyword">function</span>(err) {
+    console.log(err);
+});</code></pre>
+<h2 id="indexation">Indexation</h2>
+<pre class="highlighted"><code class="javascript"><span class="comment">// Indexing document fields</span>
+note.index([<span class="string">"title"</span>, <span class="string">"content"</span>], <span class="keyword">function</span>(err) {
+    console.log(err);
+});
+
+<span class="comment">// Searching the 10 most relevant indexed documents</span>
+Note.search(<span class="string">"dragons"</span>, <span class="keyword">function</span>(err, notes) {
+   console.log(notes);
+});</code></pre>
+<h2 id="files-attachements">Files/Attachements</h2>
+<pre class="highlighted"><code class="javascript"># Uploading/attaching a file to a document
+note.attachFile(<span class="string">"./test.png"</span>, <span class="keyword">function</span>(err) {
+    console.log(err);
+});
+
+# Get file
+stream = note.getFile(<span class="string">"test.png"</span>, functino(err) {
+    console.log(err);
+});
+stream.pipe(fs.createWriteStream(<span class="string">'./test.png'</span>));</code></pre>
+<h2 id="requests">Requests</h2>
+<pre class="highlighted"><code class="javascript"># Defining request
+map = <span class="keyword">function</span>(doc) {
+    emit(doc._id, doc);
+    <span class="keyword">return</span>;
+}
+
+Note.defineRequest(<span class="string">"all"</span>, map, <span class="keyword">function</span>(err) {
+    console.log(err);
+});
+
+# Getting request results
+Note.request(<span class="string">"all"</span>, <span class="function"><span class="keyword">function</span> <span class="params">(err, notes)</span> {</span>
+    console.log(notes);
+});
+
+# Destroying all documents of a request result
+Note.requestDestroy(<span class="string">"all"</span>, {key: ids[<span class="number">3</span>]}, <span class="keyword">function</span>(err) {
+    console.log(err);
+});
+
+# Removing a request
+Note.removeRequest(<span class="string">"all"</span>, <span class="keyword">function</span>(err) {
+    console.log(err);
+});</code></pre>
+</div><footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">Github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">Contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">mailing-list</a><a href="https://cozycloud.cc">Cozy Cloud</a></footer></div><script defer="defer"  src="/vendors/javascripts/jquery-2.0.3.min.js"></script><script defer="defer"  src="/assets/javascripts/main.js"></script></body></html>

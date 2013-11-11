@@ -1,206 +1,193 @@
-@import 'nib'
-
-blue = #34a6ff
-lightblue = #cbe4fb
-greyblue = #34a6bb
-green = #5c5
-orange = #fe8800
-lightorange = #ffc47f
-darkgrey = #333
-lightgrey = #ccc
-grey = #aaa
-red = #dd3333
-
-
-@font-face
-    font-family main-light
-    src url("../fonts/maven-pro-light-200.otf")
-
-@font-face
-    font-family main
-    src url("../fonts/maven-pro-light-300.otf")
-
-@font-face
-    font-family cool
-    src url("../fonts/signika-regular.ttf")
-
-body
-    font-family cool
-    background-color darkgrey
-
-.wrapper
-    margin auto auto
-    width 100%
-    max-width 960px
-    background-color white
-    border-bottom-left-radius 10px
-    border-bottom-right-radius 10px
-    padding-top 20px
-
-// Header styles
-.navbar
-    box-shadow 2px 2px 2px rgba(10, 10, 10, 0.4)
-
-    .nav-logo
-        margin-top 0
-        margin-right 10px
-
-    .subtitle
-        display inline-block
-        margin-right  20px
-        margin-top 10px
-        text-decoration none
-        font-size 25px
-        height 60px
-        line-height 45px
-
-        @media (max-width: 400px)
-            display: none
-
-
-// Menu styles
-
-aside
-    border-right 1px solid lightblue
-    margin-top 20px
-
-#navigation
-    margin 0 0 0 20px
-
-    ul
-        list-style-type none
-        padding 0
-        font-family main-light
-
-        li
-            border-bottom 1px solid lightblue
-            line-height 30px
-            cursor pointer
-
-            a, a:active
-                color blue
-            &.selected a
-                color #fff
-
-            .label
-                width 100%
-                padding 10px 0
-                display inline-block
-                user-select none
-                text-decoration none
-
-                &:hover
-                    background orange
-                    color #fff
-
-            &:active
-                box-shadow inset 0 0 15px lightorange
-
-            &:last-of-type
-                border-bottom 0
-
-            &.selected
-                background blue
-                padding-bottom 0
-
-        &.first-level
-            li
-                .label
-                    font-family cool
-                    padding-left 10px
-
-                &.selected > ul
-                    border-top 1px solid lightblue
-
-        &.second-level
-            li
-                color #fff
-                border-bottom 0
-                text-align center
-                line-height 20px
-
-                .label
-                    padding 7px 0
-
-                &:hover
-                    background orange
-
-            &.selected
-                color lightblue
-
-
-// Content styles
-#main
-    p
-        font-weight normal
-        font-size 15px
-        font-family main
-        margin-top 2px
-        color #444
-
-        code
-            padding 5px
-
-    ul
-        margin .75em 0
-        li
-            font-size 15px
-            font-family main
-            color #444
-
-    h3
-        margin-bottom 15px
-        margin-top 35px
-        font-family cool
-        font-weight normal
-
-    h2
-        margin-bottom 20px
-        margin-top 50px
-        font-family cool
-        font-weight normal
-        font-size 30px
-
-    h1
-        font-family cool
-
-    a
-    a:visited
-        color black
-
-    a:hover
-        color orange - 40%
-
-    pre.highlighted
-        margin-top 0
-        margin-bottom 15px
-
-        code
-            padding 20px
-            border-radius 10px
-            line-height 20px
-            margin-top 10px
-
-// Footer styles
-#footer
-    color white
-    text-align center
-    margin-bottom 10px
-    margin-top 30px
-    background lightgrey + 10%
-    border-bottom-left-radius 10px
-    border-bottom-right-radius 10px
-
-    ul
-        list-style-type none
-        padding 0
-        display inline-block
-
-    a
-        font-size 18px
-        text-decoration none
-        font-family main
-        color black
-
-    a:hover
-        color orange - 40%
+@font-face {
+  font-family: main-light;
+  src: url("../fonts/maven-pro-light-200.otf");
+}
+@font-face {
+  font-family: main;
+  src: url("../fonts/maven-pro-light-300.otf");
+}
+@font-face {
+  font-family: cool;
+  src: url("../fonts/signika-regular.ttf");
+}
+body {
+  font-family: cool;
+  background-color: #333;
+}
+.wrapper {
+  margin: auto auto;
+  width: 100%;
+  max-width: 960px;
+  background-color: #fff;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding-top: 20px;
+}
+.navbar {
+  -webkit-box-shadow: 2px 2px 2px rgba(10,10,10,0.4);
+  box-shadow: 2px 2px 2px rgba(10,10,10,0.4);
+}
+.navbar .nav-logo {
+  margin-top: 0;
+  margin-right: 10px;
+}
+.navbar .subtitle {
+  display: inline-block;
+  margin-right: 20px;
+  margin-top: 10px;
+  text-decoration: none;
+  font-size: 25px;
+  height: 60px;
+  line-height: 45px;
+}
+@media (max-width: 400px) {
+  .navbar .subtitle {
+    display: none;
+  }
+}
+aside {
+  border-right: 1px solid #cbe4fb;
+  margin-top: 20px;
+}
+#navigation {
+  margin: 0 0 0 20px;
+}
+#navigation ul {
+  list-style-type: none;
+  padding: 0;
+  font-family: main-light;
+}
+#navigation ul li {
+  border-bottom: 1px solid #cbe4fb;
+  line-height: 30px;
+  cursor: pointer;
+}
+#navigation ul li a,
+#navigation ul li a:active {
+  color: #34a6ff;
+}
+#navigation ul li.selected a {
+  color: #fff;
+}
+#navigation ul li .label {
+  width: 100%;
+  padding: 10px 0;
+  display: inline-block;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  text-decoration: none;
+}
+#navigation ul li .label:hover {
+  background: #fe8800;
+  color: #fff;
+}
+#navigation ul li:active {
+  -webkit-box-shadow: inset 0 0 15px #ffc47f;
+  box-shadow: inset 0 0 15px #ffc47f;
+}
+#navigation ul li:last-of-type {
+  border-bottom: 0;
+}
+#navigation ul li.selected {
+  background: #34a6ff;
+  padding-bottom: 0;
+}
+#navigation ul.first-level li .label {
+  font-family: cool;
+  padding-left: 10px;
+}
+#navigation ul.first-level li.selected > ul {
+  border-top: 1px solid #cbe4fb;
+}
+#navigation ul.second-level li {
+  color: #fff;
+  border-bottom: 0;
+  text-align: center;
+  line-height: 20px;
+}
+#navigation ul.second-level li .label {
+  padding: 7px 0;
+}
+#navigation ul.second-level li:hover {
+  background: #fe8800;
+}
+#navigation ul.second-level.selected {
+  color: #cbe4fb;
+}
+#main p {
+  font-weight: normal;
+  font-size: 15px;
+  font-family: main;
+  margin-top: 2px;
+  color: #444;
+}
+#main p code {
+  padding: 5px;
+}
+#main ul {
+  margin: 0.75em 0;
+}
+#main ul li {
+  font-size: 15px;
+  font-family: main;
+  color: #444;
+}
+#main h3 {
+  margin-bottom: 15px;
+  margin-top: 35px;
+  font-family: cool;
+  font-weight: normal;
+}
+#main h2 {
+  margin-bottom: 20px;
+  margin-top: 50px;
+  font-family: cool;
+  font-weight: normal;
+  font-size: 30px;
+}
+#main h1 {
+  font-family: cool;
+}
+#main a,
+#main a:visited {
+  color: #000;
+}
+#main a:hover {
+  color: #985200;
+}
+#main pre.highlighted {
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+#main pre.highlighted code {
+  padding: 20px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  line-height: 20px;
+  margin-top: 10px;
+}
+#footer {
+  color: #fff;
+  text-align: center;
+  margin-bottom: 10px;
+  margin-top: 30px;
+  background: #d1d1d1;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+#footer ul {
+  list-style-type: none;
+  padding: 0;
+  display: inline-block;
+}
+#footer a {
+  font-size: 18px;
+  text-decoration: none;
+  font-family: main;
+  color: #000;
+}
+#footer a:hover {
+  color: #985200;
+}

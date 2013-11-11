@@ -1,72 +1,59 @@
-!!! 5
-<!--[if lte IE 7]> <html class="no-js ie67 ie678" lang="en"> <![endif]-->
+<!DOCTYPE html><!--[if lte IE 7]> <html class="no-js ie67 ie678" lang="en"> <![endif]-->
 <!--[if IE 8]> <html class="no-js ie8 ie678" lang="en"> <![endif]-->
-<!--[if IE 9]> <html class="no-js ie9" lang="en"> <![endif]-->
-html(lang='en')
-  head
-    block head
-      meta(charset='utf-8')
-      <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-      <![endif]-->
-      meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
-      meta(name='viewport', content='width=device-width')
-      link(rel="shortcut icon", href="/assets/images/favicon.png")
-      title
-        block title
-          = document.title
-      != getBlock('styles').add(['/vendors/css/knacss.css', '/vendors/css/sunburst.css', '/assets/css/main.css', '/assets/css/home.css']).toHTML()
-
-  body
-    .navbar.fixed
-        a.nav-logo.left(href="/")
-            img(src='/assets/images/happycloud.png', alt='Happy Cloud')
-        span.subtitle= document.title
-        a.right(href="/hack/getting-started/") hack
-        a.right(href="/host/install.html") host
-
-    .wrapper
-      aside.mod.left.w25.aside
-        nav#navigation(role="navigation")
-          - var collectionName = "documents"
-          - if (document.category != null)
-            - collectionName = document.category + "Pages"
-          - endif
-          - items = generateMenu(document.url, collectionName)
-            ul.first-level
-              - var firstLevelClass = null
-              - for item in items
-                - if (item.state == "current" || item.state == "parent")
-                  - firstLevelClass = "big selected"
-                - else
-                  - firstLevelClass = "big"
-                - endif
-                  li(class="#{firstLevelClass}")
-                    a.label(href="#{item.url}")= item.title
-
-                    - if (item.children != null)
-                      - if (item.state == "parent" || item.state == "current")
-                        ul.second-level
-                          - for child in item.children
-                            li.small
-                              - if (child.state == "current")
-                                a.label.selected(href="#{child.url}")= child.title
-                              - else
-                                a.label(href="#{child.url}")= child.title
-                              - endif
-                          - endfor
-                      - endif
-              - endfor
-
-      #main.mod.pam(role="main").w75
-        != content
-
-      footer#footer.line.pam.row(role="contentinfo")
-        a(href="https://github.com/mycozycloud") Github
-        a(href="irc://irc.freenode.net/cozycloud") IRC
-        a(href="mailto:contact@cozycloud.cc") Contact
-        a(href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud")
-            | mailing-list
-        a(href="https://cozycloud.cc") Cozy Cloud
-
-    != getBlock('scripts').add(['/vendors/javascripts/jquery-2.0.3.min.js', '/assets/javascripts/main.js']).toHTML()
+<!--[if IE 9]> <html class="no-js ie9" lang="en"> <![endif]--><html lang="en"><head><meta charset="utf-8"><!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]--><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width"><link rel="shortcut icon" href="/assets/images/favicon.png"><title>Trouble Shootings</title><link  rel="stylesheet" href="/vendors/css/knacss.css" /><link  rel="stylesheet" href="/vendors/css/sunburst.css" /><link  rel="stylesheet" href="/assets/css/main.css" /><link  rel="stylesheet" href="/assets/css/home.css" /></head><body><div class="navbar fixed"><a href="/" class="nav-logo left"><img src="/assets/images/happycloud.png" alt="Happy Cloud"></a><span class="subtitle">Trouble Shootings</span><a href="/hack/getting-started/" class="right">hack</a><a href="/host/install.html" class="right">host</a></div><div class="wrapper"><aside class="mod left w25 aside"><nav id="navigation" role="navigation"><ul class="first-level"><li class="big"><a href="/host/install.html" class="label">Install Cozy on your server</a></li><li class="big"><a href="/host/raspberry.html" class="label">Raspberry Pi</a></li><li class="big"><a href="/host/virtualbox.html" class="label">Virtualbox VM</a></li><li class="big"><a href="/host/openvz.html" class="label"> OpenVZ</a></li><li class="big"><a href="/host/update.html" class="label">Update your cozy</a></li><li class="big"><a href="/host/uninstall.html" class="label">Uninstall</a></li><li class="big selected"><a href="/host/trouble-shootings.html" class="label">Trouble Shootings</a></li></ul></nav></aside><div id="main" role="main" class="mod pam w75"><h1 id="trouble-shootings">Trouble shootings</h1>
+<p>In this section, you will find common errors that occurs during the
+installation process.
+Mention us the problems you encoutered that are not listed here, we will add
+them to the list as soon as possible.</p>
+<h3 id="i-can-only-install-one-application">I can only install one application</h3>
+<p>When you try to install an application it is marked as broken and it has the same behaviour for every additional applications. </p>
+<p>Check the amount of RAM available on your system by clicking on the manage button on your home page. If you RAM machine is full, that means your Cozy can&#39;t install new applications.</p>
+<h3 id="install-never-ends-until-i-refresh-the-page-f5-">Install never ends until I refresh the page (F5)</h3>
+<p>That&#39;s because the data-system module is not properly synchronized with the database. Just restart the data system and everything should be back to normal.</p>
+<pre class="highlighted"><code class="bash"><span class="comment"># On the cozy host</span>
+sudo cozy-monitor restart data-system</code></pre>
+<h3 id="server-error-occured-on-login">Server error occured on login</h3>
+<h4 id="problem-with-home">Problem with home</h4>
+<p>Check that your home is installed. In your browser go to <em><a href="https://yourcozyurl/status">https://yourcozyurl/status</a></em>
+Check that everything is set to true. If Home is marked as false, that means it is not running. To solve this problem type the following commands in a terminal of your remote server:</p>
+<pre class="highlighted"><code class="bash">cozy-monitor uninstall home
+cozy-monitor install home</code></pre>
+<h4 id="problem-with-data-system">Problem with data-system</h4>
+<p>Check the log of your data-system in <code>/usr/local/cozy/apps/data-system/data-system/cozy-data-system/log/production.log</code>.
+If logs contain &quot;Database cozy on localhost:5984 doesn&#39;t exist.&quot; and &quot;The database could not be created, the file already exists.&quot;, that means data-system cannot connect to cozy database. To solve this problem type the following commands in a terminal of your remote server :</p>
+<pre class="highlighted"><code class="bash">cozy-monitor uninstall data-system
+cozy-monitor install data-system
+cozy-monitor restart home
+cozy-monitor restart proxy</code></pre>
+<h3 id="npm-errors">Npm errors</h3>
+<p>Cozy is based on Node.js applications. Node.js apps download their dependencies from the NPM registry. Sometimes this registry is not stable. So if you encounter NPM related errors, try to run the installation again.</p>
+<h3 id="arm-processors">ARM processors</h3>
+<h4 id="node-js">Node.js</h4>
+<p>Node.js require a specific configuration to be built on an ARM processor. Actually the version that is setup only supports Raspberry Pi like processors (ARMv6).</p>
+<h4 id="nginx">Nginx</h4>
+<p>We didn&#39;t find yet a good solution to setup Nginx on a Raspberry. We are still
+working on it. If you want to help us about this issue, feel free to
+contribute!</p>
+<p>Here is a good tutorial to install Nginx on your Raspberry Pi: <a href="http://virtualitblog.blogspot.fr/2013/05/install-nginx-141-raspberry-pi.html">http://virtualitblog.blogspot.fr/2013/05/install-nginx-141-raspberry-pi.html</a></p>
+<p>Package can be downloaded there: <a href="http://nginx.org/packages/debian/pool/nginx/n/nginx/">http://nginx.org/packages/debian/pool/nginx/n/nginx/</a></p>
+<h3 id="cozy-controller-not-started">Cozy Controller not started</h3>
+<p>If you get ECONNRESET when installing apps using the cozy-monitor, check if the cozy-controller is correctly started</p>
+<pre class="highlighted"><code class="bash">sudo supervisorctl</code></pre>
+<p>and check if the cozy-monitor is using port 9002</p>
+<pre class="highlighted"><code class="bash">sudo netstat -plunt | grep 9002
+tcp     0     0 0.0.0.0:9002      0.0.0.0:*        LISTEN      997/node</code></pre>
+<h3 id="couchdb-password">CouchDB password</h3>
+<p>If you run several time the installation, the db password and the password used
+by the data-system could become different. To reset the password, comment the
+last line of <code>/usr/local/etc/couch/local.ini</code> in the admin section. Delete the
+file <code>/etc/cozy/couchdb.login</code> Then run installation again or run this command:</p>
+<pre class="highlighted"><code class="bash">fab config_couchdb</code></pre>
+<h3 id="process-duplication">Process duplication</h3>
+<p>Sometimes a Node.js process duplication occurs. In that case, the simplest way
+to go back to normal is to run the following commands:</p>
+<pre class="highlighted"><code class="bash">sudo supervisorctl stop cozy-controller
+sudo pkill -9 node
+sudo supervisorctl start cozy-controller</code></pre>
+</div><footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">Github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">Contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">mailing-list</a><a href="https://cozycloud.cc">Cozy Cloud</a></footer></div><script defer="defer"  src="/vendors/javascripts/jquery-2.0.3.min.js"></script><script defer="defer"  src="/assets/javascripts/main.js"></script></body></html>

@@ -131,6 +131,7 @@ def install_tools():
     deb.upgrade()
     require.deb.packages([
         'python',
+        'python-dev',
         'python-setuptools',
         'python-pip',
         'openssl',

@@ -98,7 +98,6 @@ def uninstall_all():
     uninstall_cozy()
     uninstall_node08()
     uninstall_couchdb()
-    uninstall_redis()
     uninstall_postfix()
 
 
@@ -321,22 +320,6 @@ def uninstall_couchdb():
     su_delete('/etc/cozy/couchdb.login')
     supervisor.update_config()
     print(green('CouchDB 1.3.0 successfully uninstalled'))
-
-
-@task
-def uninstall_redis():
-    '''
-    Uninstall Redis 2.4.14
-    '''
-    su_delete('/var/lib/redis')
-    su_delete('/var/db/redis')
-    su_delete('/var/log/redis')
-    su_delete('/var/run/redis')
-    su_delete('/opt/redis-2.4.14')
-    su_delete('/etc/redis')
-    su_delete('/etc/supervisor/conf.d/redis_cozy.conf')
-    supervisor.update_config()
-    print(green('Redis 2.4.14 successfully uninstalled'))
 
 
 @task

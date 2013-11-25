@@ -91,6 +91,10 @@ def install():
 
 
 def ask_for_confirmation(module):
+    '''
+    Simple function to ask for confirmation before uninstalling a module
+    installed by the the
+    '''
     confirm = prompt('Are you sure you want to definitely remove %s from your'
             ' computer? ' % module, default="no")
     return confirm == "yes"
@@ -100,6 +104,7 @@ def uninstall_all():
     '''
     Uninstall the whole stack (work in progress)
     '''
+    # TODO remove created users
     if ask_for_confirmation("Cozy"):
         uninstall_cozy()
     if ask_for_confirmation("Node.js"):
@@ -362,6 +367,8 @@ def uninstall_cozy():
     su_delete('/usr/local/cozy-indexer')
     su_delete('/usr/local/cozy')
     su_delete('/home/cozy*')
+    su_delete('/etc/cozy')
+    su_delete('/etc/nginx/conf.d/cozy.conf')
     su_delete('/etc/supervisor/conf.d/cozy-controller.conf')
     su_delete('/etc/supervisor/conf.d/cozy-indexer.conf')
     supervisor.update_config()

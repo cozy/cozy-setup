@@ -1,0 +1,47 @@
+nullCTYPE html><!--[if lte IE 7]> <html class="no-js ie67 ie678" lang="en"> <![endif]-->
+<!--[if IE 8]> <html class="no-js ie8 ie678" lang="en"> <![endif]-->
+<!--[if IE 9]> <html class="no-js ie9" lang="en"> <![endif]--><html lang="en"><head><meta charset="utf-8"><!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]--><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width"><link rel="shortcut icon" href="/assets/images/favicon.png"><title> LXC</title><link  rel="stylesheet" href="/vendors/css/knacss.css" /><link  rel="stylesheet" href="/vendors/css/sunburst.css" /><link  rel="stylesheet" href="/assets/css/main.css" /><link  rel="stylesheet" href="/assets/css/home.css" /></head><body><div class="navbar fixed"><a href="/" class="nav-logo left"><img src="/assets/images/happycloud.png" alt="Happy Cloud"></a><span class="subtitle"> LXC</span><a href="/hack/getting-started/" class="right">hack</a><a href="/host/install.html" class="right">host</a></div><div class="wrapper"><aside class="mod left w25 aside"><nav id="navigation" role="navigation"><ul class="first-level"><li class="big"><a href="/host/install.html" class="label">Install Cozy on your server</a></li><li class="big"><a href="/host/raspberry.html" class="label">Raspberry Pi</a></li><li class="big"><a href="/host/virtualbox.html" class="label">Virtualbox VM</a></li><li class="big"><a href="/host/openvz.html" class="label"> OpenVZ</a></li><li class="big"><a href="/host/update.html" class="label">Update your cozy</a></li><li class="big"><a href="/host/uninstall.html" class="label">Uninstall</a></li><li class="big"><a href="/host/trouble-shootings.html" class="label">Trouble Shootings</a></li><li class="big selected"><a href="/host/lxc.html" class="label"> LXC</a></li></ul></nav></aside><div id="main" role="main" class="mod pam w75"><h1 id="setup-a-lxc-image-on-your-server-">Setup a LXC image on your server.</h1>
+<p>Use the LXC webpanel to add and configure containers, it&#39;s very easy to use.
+For Ubuntu this can be installed like so:</p>
+<pre class="highlighted"><code class="bash">sudo apt-get install -y lxc debootstrap bridge-utils
+sudo su
+wget http://lxc-webpanel.github.com/tools/install.sh -O - | bash
+<span class="keyword">exit</span></code></pre>
+<p>Now access the webpanel at <a href="http://myhost.com:5000">http://myhost.com:5000</a>, default login is admin/admin
+(change this). Create a container, remember what you named it. Make it run at
+startup. Then go to command line to access the container.</p>
+<pre class="highlighted"><code class="bash">lxc console &lt;container name&gt;</code></pre>
+<p>Follow the Cozy installation instructions (install fab, curl fabfile). Once
+finished, Cozy is up and running and your Cozy container will be listening on
+port 9104. You also need to know the IP address that LXC assigned to your
+container:</p>
+<pre class="highlighted"><code class="bash">/sbin/ifconfig <span class="variable">$1</span> | grep <span class="string">"inet addr"</span> | awk -F: <span class="string">'{print $2}'</span> | awk <span class="string">'{print $1}'</span></code></pre>
+<p>Exit your container. Now that it&#39;s set up, you should disable the LXC webpanel
+since it&#39;s a security risk.</p>
+<pre class="highlighted"><code class="bash">sudo service lwp stop
+sudo update-rc.d -f lwp remove</code></pre>
+<p>Finally, set up your main server as a reverse proxy for the cozy container. For
+nginx I used this template:</p>
+<pre class="highlighted"><code class="bash">server {
+    listen 80;
+
+    server_name cloud.myhost.com;
+
+    access_log  /var/log/nginx/cozy_access.log;
+    error_log  /var/log/nginx/cozy_error.log;
+    root   /usr/share/nginx/html;
+    index  index.html index.htm;
+
+        location / {
+                proxy_set_header X-Real-IP <span class="variable">$remote_addr</span>;
+                proxy_set_header X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;
+                proxy_set_header Host <span class="variable">$http_host</span>;
+                proxy_set_header X-NginX-Proxy <span class="literal">true</span>;
+                proxy_pass http://&lt;container IP&gt;:9104;
+                proxy_redirect http://&lt;container IP&gt;:9104 https://<span class="variable">$server_name</span>/;
+        }
+}</code></pre>
+<p>Restart nginx, and your Cozy should be accessible at <a href="http://cloud.myhost.com">http://cloud.myhost.com</a></p>
+</div><footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">Github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">Contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">mailing-list</a><a href="https://cozycloud.cc">Cozy Cloud</a></footer></div><script defer="defer"  src="/vendors/javascripts/jquery-2.0.3.min.js"></script><script defer="defer"  src="/assets/javascripts/main.js"></script></body></html>

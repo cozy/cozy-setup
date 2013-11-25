@@ -90,15 +90,24 @@ def install():
     print(green('Cozy installation finished. Now, enjoy !'))
 
 
+def ask_for_confirmation(module):
+    confirm = prompt('Are you sure you want to definitely remove %s from your'
+            ' computer? ' % module, default="no")
+    return confirm == "yes"
+
 @task
 def uninstall_all():
     '''
     Uninstall the whole stack (work in progress)
     '''
-    uninstall_cozy()
-    uninstall_node08()
-    uninstall_couchdb()
-    uninstall_postfix()
+    if ask_for_confirmation("Cozy"):
+        uninstall_cozy()
+    if ask_for_confirmation("Node.js"):
+        uninstall_node08()
+    if ask_for_confirmation("CouchDB"):
+        uninstall_couchdb()
+    if ask_for_confirmation("Postfix"):
+        uninstall_postfix()
 
 
 @task
@@ -350,6 +359,9 @@ def uninstall_cozy():
     supervisor.stop_process('cozy-controller')
     supervisor.stop_process('cozy-indexer')
     su_delete('/usr/local/var/cozy-indexer')
+    su_delete('/usr/local/cozy-indexer')
+    su_delete('/usr/local/cozy')
+    su_delete('/home/cozy*')
     su_delete('/etc/supervisor/conf.d/cozy-controller.conf')
     su_delete('/etc/supervisor/conf.d/cozy-indexer.conf')
     supervisor.update_config()

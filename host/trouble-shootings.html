@@ -5,7 +5,7 @@
 <![endif]--><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width"><link rel="shortcut icon" href="/assets/images/favicon.png"><title>Trouble Shootings</title><link  rel="stylesheet" href="/vendors/css/knacss.css" /><link  rel="stylesheet" href="/vendors/css/sunburst.css" /><link  rel="stylesheet" href="/assets/css/main.css" /><link  rel="stylesheet" href="/assets/css/home.css" /></head><body><div class="navbar fixed"><a href="/" class="nav-logo left"><img src="/assets/images/happycloud.png" alt="Happy Cloud"></a><span class="subtitle">Trouble Shootings</span><a href="/hack/getting-started/" class="right">hack</a><a href="/host/install.html" class="right">host</a></div><div class="wrapper"><aside class="mod left w25 aside"><nav id="navigation" role="navigation"><ul class="first-level"><li class="big"><a href="/host/install.html" class="label">Install Cozy on your server</a></li><li class="big"><a href="/host/raspberry.html" class="label">Raspberry Pi</a></li><li class="big"><a href="/host/virtualbox.html" class="label">Virtualbox VM</a></li><li class="big"><a href="/host/openvz.html" class="label"> OpenVZ</a></li><li class="big"><a href="/host/lxc.html" class="label"> LXC</a></li><li class="big"><a href="/host/update.html" class="label">Update your cozy</a></li><li class="big"><a href="/host/uninstall.html" class="label">Uninstall</a></li><li class="big selected"><a href="/host/trouble-shootings.html" class="label">Trouble Shootings</a></li></ul></nav></aside><div id="main" role="main" class="mod pam w75"><h1 id="trouble-shootings">Trouble shootings</h1>
 <p>In this section, you will find common errors that occurs during the
 installation process.
-Mention us the problems you encoutered that are not listed here, we will add
+Mention us the problems you encountered that are not listed here, we will add
 them to the list as soon as possible.</p>
 <h3 id="i-can-only-install-one-application">I can only install one application</h3>
 <p>When you try to install an application it is marked as broken and it has the same behaviour for every additional applications. </p>
@@ -45,7 +45,7 @@ contribute!</p>
 <pre class="highlighted"><code class="bash">sudo netstat -plunt | grep 9002
 tcp     0     0 0.0.0.0:9002      0.0.0.0:*        LISTEN      997/node</code></pre>
 <h3 id="couchdb-password">CouchDB password</h3>
-<p>If you run several time the installation, the db password and the password used
+<p>If you run several times the installation, the db password and the password used
 by the data-system could become different. To reset the password, comment the
 last line of <code>/usr/local/etc/couch/local.ini</code> in the admin section. Delete the
 file <code>/etc/cozy/couchdb.login</code> Then run installation again or run this command:</p>

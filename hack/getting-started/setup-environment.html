@@ -7,9 +7,9 @@
 process.</p>
 <p>Since Cozy is built on many software bricks, we wrapped it into an easy to use
 virtual machine so you don&#39;t pollute your local system. That also means you can
-use the operation system you like!</p>
+use the operating system you like!</p>
 <h2 id="installing-dependencies">Installing dependencies</h2>
-<p>Before doing anything, install the fowlling:</p>
+<p>Before doing anything, install the following:</p>
 <h3 id="for-simple-applications">For simple applications</h3>
 <h4 id="node-js-v0-8-20-download-http-blog-nodejs-org-2013-02-15-node-v0-8-20-stable-">Node.js (v0.8.20) (<a href="http://blog.nodejs.org/2013/02/15/node-v0-8-20-stable/">download</a>)</h4>
 <p>Node.js powers awesome tools that we use to develop apps. We also wrote a tool
@@ -22,7 +22,7 @@ repository and much more!</p>
 here and jump to our <a href="hack/getting-started/first-app.html">first tutorial</a>.</p>
 <h3 id="for-applications-that-take-advantage-of-the-data-system">For applications that take advantage of the Data System</h3>
 <h4 id="virtualbox-v4-3-0-a-href-https-www-virtualbox-org-wiki-downloads-target-_blank-download-a-">VirtualBox (&gt;= v4.3.0) (<a href="https://www.virtualbox.org/wiki/Downloads" target="_blank">download</a>)</h4>
-<p>Virtual Box allows you to run virtual machine on your computer. We use it
+<p>Virtual Box allows you to run virtual machines on your computer. We use it
 indirectly with Vagrant to power our virtual machine.
 (Latest tested version: 4.3.0)</p>
 <h4 id="vagrant-v1-3-5-a-href-http-downloads-vagrantup-com-target-_blank-download-a-">Vagrant (&gt;= v1.3.5) (<a href="http://downloads.vagrantup.com/" target="_blank">download</a>)</h4>
@@ -33,20 +33,20 @@ a custom CLI tool so you will not manipulate it directly.
 <h4 id="-cozy-for-developers-https-github-com-mycozycloud-cozy-manager-"><a href="https://github.com/mycozycloud/cozy-manager">Cozy for developers</a></h4>
 <p>You will also need our tool:</p>
 <pre class="highlighted"><code class="bash">npm install -g cozy</code></pre>
-<p>The <code>cozy</code> tool will allow you to create and manage a virtual machine with a Cozy development environment, without dealing yourself with VirtualBox and Vagrant. Also it can generate an application skeletons from templates.</p>
+<p>The <code>cozy</code> tool will allow you to create and manage a virtual machine with a Cozy development environment, without dealing with VirtualBox and Vagrant. It can also generate an application skeleton from templates.</p>
 <h3 id="initializing-and-starting-the-virtual-machine">Initializing and starting the virtual machine</h3>
-<p>The next step is to get your virtual machine. Basically, we you are going to
+<p>The next step is to get your virtual machine. Basically, you are going to
 have a linux running on your computer with all a Cozy needs to work on already
 installed and configured.</p>
-<p>To help you managing the VM, the Cozy Manager comes to the rescue.
-Create a folder that will contains all your source code:</p>
+<p>To help you managing the VM, the Cozy Manager comes to rescue.
+Create a folder that will contain all your source code:</p>
 <pre class="highlighted"><code class="bash">mkdir cozy-dev &amp;&amp; cd cozy-dev</code></pre>
 <p>Now you can use the Cozy Manager to initialize the VM by running:</p>
 <pre class="highlighted"><code class="bash">cozy dev:init</code></pre>
 <p>This will download the base box file (~500MB) and a custom configuration (<a href="https://github.com/mycozycloud/cozy-setup/blob/master/dev/Vagrantfile">see
 it on
 Github</a>).
-Then the VM will be created. The whole process will take you about 15 minutes
+Then the VM will be created. The whole process will take about 15 minutes
 (depending on your internet connection and your computer).</p>
 <p>Then you can start the VM and check that everything is running correctly.</p>
 <pre class="highlighted"><code class="bash">cozy dev:start
@@ -55,10 +55,10 @@ cozy dev:vm-status</code></pre>
 because we don&#39;t update the base box each time we improve or fix a bug in the
 &quot;core&quot; of Cozy: <code>bash
 cozy dev:light-update</code></p>
-<p>You can go to <code>http://localhost:9104/</code> see your Cozy running. You can also use
+<p>You can go to <code>http://localhost:9104/</code> to see your Cozy running. You can also use
 it but beware! The Cozy running in your virtual machine is in development mode,
 meaning that most of the security measures are disabled. Only use it for
 testing purpose!</p>
-<p>We explain in details how the Cozy Manager works in dedicate cookbook.</p>
+<p>We explain in details how the Cozy Manager works in the dedicated cookbook.</p>
 <p>You are now ready to <a href="/hack/getting-started/first-app.html">write your first application</a>, We hope it wasn&#39;t too long!</p>
 </div><footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">Github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">Contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">mailing-list</a><a href="https://cozycloud.cc">Cozy Cloud</a></footer></div><script defer="defer"  src="/vendors/javascripts/jquery-2.0.3.min.js"></script><script defer="defer"  src="/assets/javascripts/main.js"></script></body></html>

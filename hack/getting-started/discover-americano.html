@@ -3,12 +3,12 @@
 <!--[if IE 9]> <html class="no-js ie9" lang="en"> <![endif]--><html lang="en"><head><meta charset="utf-8"><!--[if lt IE 9]>
 <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]--><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width"><link rel="shortcut icon" href="/assets/images/favicon.png"><title>Discover Americano</title><link  rel="stylesheet" href="/vendors/css/knacss.css" /><link  rel="stylesheet" href="/vendors/css/sunburst.css" /><link  rel="stylesheet" href="/assets/css/main.css" /><link  rel="stylesheet" href="/assets/css/home.css" /></head><body><div class="navbar fixed"><a href="/" class="nav-logo left"><img src="/assets/images/happycloud.png" alt="Happy Cloud"></a><span class="subtitle">Discover Americano</span><a href="/hack/getting-started/" class="right">hack</a><a href="/host/install.html" class="right">host</a></div><div class="wrapper"><aside class="mod left w25 aside"><nav id="navigation" role="navigation"><ul class="first-level"><li class="big selected"><a href="/hack/getting-started/" class="label">Getting started</a><ul class="second-level"><li class="small"><a href="/hack/getting-started/setup-environment.html" class="label">Setup the environment</a></li><li class="small"><a href="/hack/getting-started/first-app.html" class="label">Your first app in 30 minutes</a></li><li class="small"><a href="/hack/getting-started/architecture-overview.html" class="label">Understand the Cozy Architecture</a></li><li class="small"><a href="/hack/getting-started/play-with-data-system.html" class="label">Play with the Data System</a></li><li class="small"><a href="/hack/getting-started/discover-americano.html" class="label selected">Discover Americano</a></li><li class="small"><a href="/hack/getting-started/learn-single-page-app-way.html" class="label">Learn the Single Page App Way</a></li></ul></li><li class="big"><a href="/hack/cookbooks/" class="label">Cookbooks</a></li><li class="big"><a href="/hack/application-skeletons/" class="label">Application Skeletons</a></li><li class="big"><a href="/hack/contributing/" class="label">Contributing</a></li></ul></nav></aside><div id="main" role="main" class="mod pam w75"><h1 id="discover-americano">Discover Americano</h1>
-<p>The more your application grows the harder it is to maintain. <a href="http://expressjs.com/">Express.js</a> is incredibely powerful but lacks at helping developer structuring their code.  To ease development without sacrifying maintainability, let&#39;s try <a href="https://github.com/frankrousseau/americano">Americano</a> the framework that makes Express.js more opinionated about configuration and code organization without making it a magician hat (&quot;magic&quot; in code is never a good idea).</p>
+<p>The more your application grows the harder it is to maintain. <a href="http://expressjs.com/">Express.js</a> is incredibely powerful but lacks at helping developer structuring their code.  To ease development without sacrificing maintainability, let&#39;s try <a href="https://github.com/frankrousseau/americano">Americano</a> the framework that makes Express.js more opinionated about configuration and code organization without making it a magician trick (&quot;magic&quot; in code is never a good idea).</p>
 <p>Americano extends Express: everything that works with Express will work out of the box with Americano. It&#39;s really just a matter of convention!</p>
 <p>Also, Americano is modular so you can extend it with plugins. That&#39;s what we did with the JugglingDB ODM that comes with the americano-cozy plugin that we are going to use here.</p>
 <h3 id="what-you-will-achieve">What you will achieve</h3>
 <ul>
-<li>Learning a new framework without losing the work you&#39;ve made so far by making the bookmark app you&#39;ve built an Americano app with no effort.</li>
+<li>Learning a new framework without losing the work you&#39;ve made so far, by making the bookmark app you&#39;ve built an Americano app with no effort.</li>
 <li>Learning how to painlessly structure your code and improve your capacity to maintain your code.</li>
 </ul>
 <h3 id="source-code">Source code</h3>
@@ -46,10 +46,10 @@ americano.start({name: <span class="string">'yourapp'</span>, port: port});</cod
 <li>server.js : the application starter</li>
 </ul>
 <p>Note that Americano makes mandatory the &quot;server&quot; structure but let you do whatever you want with the client/public folders.</p>
-<p>You might recognize familiar concepts: Model, Controller and somehow the View. It is important you understand that even if Americano doesn&#39;t actually put shiny MVC into Express, it brings spearation of concerns to application which is what really matters.</p>
+<p>You might recognize familiar concepts: Model, Controller and somehow the View. It is important you understand that even if Americano doesn&#39;t actually put shiny MVC into Express, it brings separation of concerns to application which is what really matters.</p>
 <p>Start by creating the architecture then we&#39;ll move on the models creation.</p>
 <h2 id="define-the-models">Define the models</h2>
-<p>The models folder allow you put the doctype definition in separate files. Let&#39;s take the code we previously had in server.js and move it to <code>server/models/bookmark.js</code>:</p>
+<p>The models folder allows you to put the doctype definition in separate files. Let&#39;s take the code we previously had in server.js and move it to <code>server/models/bookmark.js</code>:</p>
 <pre class="highlighted"><code class="javascript">americano = require(<span class="string">'americano'</span>);
 
 <span class="comment">// The americano plugin wraps the "db.define" JugglingDB function in a simpler "getModel" call</span>
@@ -138,7 +138,7 @@ module.exports.<span class="keyword">delete</span> = <span class="keyword">funct
 &quot;which URL will trigger that action&quot; part to focus on the code itself.</p>
 <p>You probably noticed the &quot;require&quot; instruction. It loads the bookmark model we
 defined earlier. More precisely, it loads what has been module.exports&#39;ed (this
-is NodeJS stuff, abuse that to create small modules of code).</p>
+is NodeJS stuff, abuse of that to create small modules of code).</p>
 <p>Don&#39;t hesitate to split your code in multiple coherent controllers (one for
 bookmarks, one for tags, ...)!</p>
 <h2 id="routing">Routing</h2>
@@ -175,7 +175,7 @@ module.exports = {
 };</code></pre>
 <h2 id="configuration">Configuration</h2>
 <p>Now our application should already be working but there is one thing we left aside: configuration.</p>
-<p>Again, Americano will provides you a handy syntax and loads everything <strong>automatically</strong> at start:</p>
+<p>Again, Americano will provide you a handy syntax and loads everything <strong>automatically</strong> at start:</p>
 <pre class="highlighted"><code class="javascript"><span class="comment">// ./server/config.js</span>
 
 <span class="keyword">var</span> americano = require(<span class="string">'americano'</span>);
@@ -204,14 +204,14 @@ module.exports = {
 <p>The configuration works exactly like in Express (remember, Americano extends
 Express!) so be sure to change it the way you like.</p>
 <h2 id="what-s-next-">What&#39;s next ?</h2>
-<p>We split our application into logical pieces and it can now grow without us
+<p>We splitted our application into logical pieces and it can now grow without us
 worrying about coming back later to make modification and being completely
 lost.</p>
 <p>You discovered Americano, our favorite framework but you can use the one you
 like, stick with ExpressJS or check out <a href="http://flatironjs.org/">Flatiron</a>,
 <a href="http://sailsjs.org/">Sails.js</a> or <a href="http://compoundjs.com/">Compound.js</a>.  As
 we repeat again and again, a Cozy app is nothing more than a web app.</p>
-<p>We are almost done with Cozy&#39;s basics, there is still one concept 
-we&#39;d like to introduce you. Are you ready to <a href="/hack/getting-started/learn-single-page-app-way.html">learn the single page app 
+<p>We are almost done with Cozy&#39;s basics, there is still one concept
+we&#39;d like to introduce you to. Are you ready to <a href="/hack/getting-started/learn-single-page-app-way.html">learn the single page app
 way</a>?</p>
 </div><footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">Github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">Contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">mailing-list</a><a href="https://cozycloud.cc">Cozy Cloud</a></footer></div><script defer="defer"  src="/vendors/javascripts/jquery-2.0.3.min.js"></script><script defer="defer"  src="/assets/javascripts/main.js"></script></body></html>

@@ -45,7 +45,7 @@ npm install</code></pre>
 <li>models/</li>
 <li>templates/ - where your templates (Jade in our case) will be</li>
 <li>views/</li>
-<li>application.js - bootstrap  the Backbone app</li>
+<li>application.js - bootstrap the Backbone app</li>
 <li>initialize.js - start the whole application when ready</li>
 <li>router.js - the Backbone router</li>
 </ul>
@@ -60,7 +60,7 @@ npm install</code></pre>
 </ul>
 </li>
 </ul>
-<p>There is two part in the file structure: the &quot;app&quot; where you will write your code and &quot;public&quot; where Brunch will output everything you write correctly into one nice JavaScript file.</p>
+<p>There are two parts in the file structure: the &quot;app&quot; where you will write your code and &quot;public&quot; where Brunch will output everything you write correctly into one nice JavaScript file.</p>
 <p>Another important thing is that the folder structure is not <strong>constrained at all</strong>. It is a design choice from us and you can change the way you like, but don&#39;t forget to adjust the Brunch configuration then.</p>
 <p>Now let&#39;s see what does do Brunch exactly.</p>
 <h2 id="automatically-build-your-application-with-brunch">Automatically build your application with Brunch</h2>
@@ -76,7 +76,7 @@ brunch w</code></pre>
 <h2 id="step-1-discovering-backbone">Step 1: discovering Backbone</h2>
 <p>We set up a template with a working Backbone app through Brunch so you can start quickly. But before writing code, let&#39;s look at what Backbone is.</p>
 <p>Backbone is a MVC framework for JavaScript that gives you evertyhing you might want to build a flexible and powerful single page application.</p>
-<p>As a result, your application will made of:</p>
+<p>As a result, your application will be made of:</p>
 <ul>
 <li>a router that will allow you to handle multiple page in your single page app</li>
 <li>collections and models to store and manipulate your data</li>
@@ -85,7 +85,7 @@ brunch w</code></pre>
 </ul>
 <p>The glue is Backbone&#39;s observer/observable pattern that allows a lower coupling between each part.
 <br /><br /></p>
-<p>How does our template work? In the app/assets/index.html we load the JavaScript we need and call the &quot;initialize&quot; script. This last call makes sure that the DOM has been loaded and starts the Backbone application by creating and initializing the router.
+<p>How is our template working? In the app/assets/index.html we load the JavaScript we need and call the &quot;initialize&quot; script. This last call makes sure that the DOM has been loaded and starts the Backbone application by creating and initializing the router.
 Then the router creates the main view and gives it the collection of bookmarks.
 Then the view is rendered. The render process is: load the template, put data in the template, add it to the DOM at the right place.</p>
 <p>Now we&#39;ve seen what Backbone is and how this tutorial has been bootstrapped, let&#39;s write some code!</p>
@@ -126,7 +126,7 @@ onBookmarkAdded: <span class="keyword">function</span>(model) {
 <p>The new bookmark should now be displayed!</p>
 <h2 id="step-3-using-a-separate-view-for-the-bookmark">Step 3: using a separate view for the bookmark</h2>
 <p>If you want to fully take advantage of what Backbone offers you, you must think modular.
-We have a list of bookmarks and rendering them each time we add a new one could be a bottleneck one day. Also it could be better if we could manipulate each bookmark independently so we deletion would be dead easy to implement. Let&#39;s do this!</p>
+We have a list of bookmarks and rendering them each time we add a new one could be a bottleneck one day. Also it could be better if we could manipulate each bookmark independently so a deletion would be dead easy to implement. Let&#39;s do this!</p>
 <p>Create a new view <code>app/views/bookmark.js</code>:</p>
 <pre class="highlighted"><code class="javascript"><span class="comment">// app/views/bookmarks.js</span>
 module.exports = AppView = Backbone.View.extend({
@@ -269,7 +269,7 @@ module.exports.<span class="keyword">delete</span> = <span class="keyword">funct
         }
     });
 };</code></pre>
-<p>You server is now a RESTful API that allow your single page app to request it easily thanks to Backbone.</p>
+<p>You server is now a RESTful API that allows your single page app to request it easily thanks to Backbone.</p>
 <h2 id="what-s-next-">What&#39;s next?</h2>
 <p>This tutorial doesn&#39;t cover every aspects and good practice of Backbone but it should give you a good insight into how you can build awesome single page apps.</p>
 <p>We haven&#39;t talked about Cozy for a while but everything you&#39;ve done until know should help you creating an (awesome) application for Cozy. There is more cool stuff you can do with Cozy and you can ask us on IRC or by email what the next steps are or just to get help from us.</p>
@@ -277,5 +277,5 @@ module.exports.<span class="keyword">delete</span> = <span class="keyword">funct
 We are eager to see what application you will bring to the Cozy community, don&#39;t hesitate to show us your work!
 <br /><br /></p>
 <p>To go further in your study of Cozycloud, you can check out the <a href="/hack/cookbooks/">cookbooks</a>!
-We also provide <a href="/hack/application-skeletons/">application skeletons</a> to get you started quickly, choose the one you like or add your own.</p>
+We also provide <a href="/hack/application-skeletons/">application skeletons</a> to get you started quickly, chose the one you like or add your own.</p>
 </div><footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">Github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">Contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">mailing-list</a><a href="https://cozycloud.cc">Cozy Cloud</a></footer></div><script defer="defer"  src="/vendors/javascripts/jquery-2.0.3.min.js"></script><script defer="defer"  src="/assets/javascripts/main.js"></script></body></html>

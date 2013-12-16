@@ -14,7 +14,7 @@ the standard framework for NodeJS</li>
 that will be displayed by the browser</li>
 <li>sharing your app with other Cozy users and deploying it into Cozy</li>
 </ul>
-<h3 id="what-you-should-know-or-to-be-familiar-with-">What you should know (or to be familiar with)</h3>
+<h3 id="what-you-should-know-or-be-familiar-with-">What you should know (or be familiar with)</h3>
 <ul>
 <li>JavaScript / NodeJS</li>
 <li>HTML</li>
@@ -59,7 +59,7 @@ app.get(<span class="string">'/'</span>, <span class="keyword">function</span>(r
 });</code></pre>
 <p>Now start the server by running:</p>
 <pre class="highlighted"><code class="bash">node server.js</code></pre>
-<p>And open your browser on <a href="http://localhost:9250/">http://localhost:9250/</a> and check the result.</p>
+<p>Then open your browser on <a href="http://localhost:9250/">http://localhost:9250/</a> and check the result.</p>
 <p>Whoohoo, you&#39;ve just made your first NodeJS app compatible with Cozy!</p>
 <p>You might think &quot;well, it sucks, I actually can&#39;t do anything with that&quot;. You are absolutely right, let&#39;s move on to step 2.</p>
 <h2 id="step-2-listing-the-bookmarks-from-the-server">Step 2: listing the bookmarks from the server</h2>
@@ -168,7 +168,6 @@ time you start and stop the server you lose everything. Let&#39;s use a database
     sqlite3 = require(<span class="string">'sqlite3'</span>).verbose(),
     db = <span class="keyword">new</span> sqlite3.Database(<span class="string">'cozy.db'</span>);
 
-<span class="comment">// Database initialization</span>
 
 <span class="comment">// Database initialization</span>
 db.get(<span class="string">"SELECT name FROM sqlite_master WHERE type='table' AND name='bookmarks'"</span>,
@@ -247,7 +246,7 @@ app.get(<span class="string">'/delete/:id'</span>, <span class="keyword">functio
 <h2 id="step-5-deploying-your-app-into-cozy">Step 5 : deploying your app into Cozy</h2>
 <p>If you want to deploy the app on a Cozy, your first need to put on a public git repository. We use <a href="https://github.com">Github</a> because it&#39;s awesome but you can use any git provider.</p>
 <p>When you have published your code, go to your cozy if you have one or to <a href="http://localhost:9104/#applications">http://localhost:9104/#applications</a> and install your app through the dedicated interface.
-The application logs are available inside the virtual machine. To watch  them, do the following:</p>
+The application logs are available inside the virtual machine. To watch them, do the following:</p>
 <pre class="highlighted"><code class="bash">vagrant ssh
 tail -f /usr/local/cozy/apps/{yourapplication}/{yourapplication}/{yourapplication}/logs/production.log</code></pre>
 <p>You can also run your application directly inside the virtual machine:</p>
@@ -258,6 +257,6 @@ PORT={port} node server.js</code></pre>
 <p>Then go to <a href="http://localhost:9104/#apps/{appSlug}/">http://localhost:9104/#apps/{appSlug}/</a> and watch your app inside Cozy!</p>
 <h2 id="what-s-next-">What&#39;s next ?</h2>
 <p>You&#39;ve developed your first Cozy app and you must understand now that it&#39;s nothing more than a normal web application.</p>
-<p>You must understand that if applications are built that way they will struggle collaborate around the user&#39;s data and you will not be able to use Cozy at its best.</p>
+<p>You must understand that if applications are built that way they will struggle collaborating around the user&#39;s data and you will not be able to use Cozy at its best.</p>
 <p>Now we&#39;ll introduce you <a href="/hack/getting-started/architecture-overview.html">the Cozy architecture</a> before coming back to this tutorial and get into more Cozy webapp development.</p>
 </div><footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">Github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">Contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">mailing-list</a><a href="https://cozycloud.cc">Cozy Cloud</a></footer></div><script defer="defer"  src="/vendors/javascripts/jquery-2.0.3.min.js"></script><script defer="defer"  src="/assets/javascripts/main.js"></script></body></html>

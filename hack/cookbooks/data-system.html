@@ -12,7 +12,7 @@
 <li>the accounts</li>
 </ul>
 <h2 id="generic-notes">Generic notes</h2>
-<p>All the responses body are encoded in JSON and all the data you send along request should be encoded in JSON.</p>
+<p>All the responses body are encoded in JSON and all the data you send along requests should be encoded in JSON.</p>
 <p>You will find HTTP status code for response, here is what they mean:</p>
 <ul>
 <li>200: success</li>
@@ -25,14 +25,14 @@
 <li>409: document already exists</li>
 <li>500: internal server error</li>
 </ul>
-<p>All the requests that mentions &quot;Requires authentification and authorization&quot; are likely to send 401 and 403 if the conditions are not met.
+<p>All the requests that mention &quot;Requires authentification and authorization&quot; are likely to send 401 and 403 if the conditions are not met.
 See <a href="#troubleshootings">troubleshootings</a> to understand what those error mean.</p>
 <h3 id="todo-for-this-cookbook">Todo for this cookbook</h3>
 <ul>
 <li>Adding documentation about authentification and authorization process</li>
 </ul>
 <h2 id="data-api">Data API</h2>
-<p>This API let you manage data with four common operations: create, read, update and delete but utiliy functions like exist, find or merge can also help you.</p>
+<p>This API lets you manage data with four common operations: create, read, update and delete but utiliy functions like exist, find or merge can also help you.</p>
 <h3 id="check-the-existence-of-a-document">Check the existence of a document</h3>
 <pre class="highlighted"><code class="undefined">GET /data/exist/:id/
 Param:
@@ -193,7 +193,7 @@ Response
     500: {error: "the error message"}</code></pre>
 <p>Requires authentification and authorization.</p>
 <h2 id="attachments-api">Attachments API</h2>
-<p>Attachements are basically files attached to documents. It allows you file upload and download (e.g. music library application)</p>
+<p>Attachements are basically files attached to documents. It allows you to upload and download files (e.g. music library application)</p>
 <h3 id="save-a-file-as-attachement-of-a-document">Save a file as attachement of a document</h3>
 <pre class="highlighted"><code class="undefined">POST /data/:id/attachments/
 Param:
@@ -312,7 +312,7 @@ dataSystem.post(<span class="string">'/request/alarm/all/'</span>, <span class="
   }
 }
 });</code></pre>
-<p>More example and the complete documentation of request-json, please see the <a href="http://github.com/mycozycloud/request-json/">github repository</a> of the module.</p>
+<p>For more examples and the complete documentation of request-json, please see the <a href="http://github.com/mycozycloud/request-json/">github repository</a> of the module.</p>
 <p><a name="troubleshootings"></a></p>
 <h1 id="troubleshootings">Troubleshootings</h1>
 <p>Coming soon...</p>

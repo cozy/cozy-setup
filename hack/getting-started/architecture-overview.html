@@ -13,16 +13,16 @@
 <li>the persistence layer</li>
 </ul>
 <h2 id="the-proxy-github-repository-https-github-com-mycozycloud-cozy-proxy-">The Proxy (<a href="https://github.com/mycozycloud/cozy-proxy/">Github repository</a>)</h2>
-<p>The proxy main job is handling the authentification and authorization to the Cozy. It is the application that manage registration, login, logout and password reset.</p>
+<p>The proxy main job handles the authentification and authorization to the Cozy. It is the application that manages registration, login, logout and password reset.</p>
 <p>It also handles all the routing of Cozy (to send the right request to the right application).</p>
 <h2 id="the-ppaas-github-repository-https-github-com-mycozycloud-cozy-controller-">The pPaaS (<a href="https://github.com/mycozycloud/cozy-controller/">Github repository</a>)</h2>
 <p>pPaaS stands for &quot;personal Platform as a Service&quot;.
-You may already now what a PaaS is: an execution environment for applications.
+You may already know what a PaaS is: an execution environment for applications.
 A personal PaaS is a personal execution environment for personal applications collaboring around personal data. You got it, a pPaaS is all about the user!</p>
 <p>Technically, the &quot;controller&quot; and the &quot;home application&quot; play with each other to install, run, update and remove applications within Cozy. We&#39;ve forked <a href="https://github.com/nodejitsu/haibu">Haibu</a> to add custom options: more security (applications are run by separate users, restrict the access to the controller itself, ...), handling apps authentification to the Data System, logging, ...</p>
-<p>The <a href="https://github.com/mycozycloud/cozy-controller/">cozy-controller</a> can also be used through a dedicated tool, the <a href="https://github.com/mycozycloud/cozy-monitor/">cozy-monitor</a>. You shouldn&#39;t worried too much about it since it is unlikely you will use it one day (except if you host your own Cozy or are willing to contribute to the core).</p>
+<p>The <a href="https://github.com/mycozycloud/cozy-controller/">cozy-controller</a> can also be used through a dedicated tool, the <a href="https://github.com/mycozycloud/cozy-monitor/">cozy-monitor</a>. You shouldn&#39;t worry too much about it since it is unlikely you will use it one day (except if you host your own Cozy or are willing to contribute to the core).</p>
 <h2 id="the-persistence-layer-the-data-system-github-repository-https-github-com-mycozycloud-cozy-data-system-">The persistence layer: the Data System (<a href="https://github.com/mycozycloud/cozy-data-system/">Github Repository</a>)</h2>
-<p>You&#39;ve just built your first app using SQLite and you are wondering why we speak about another persistence mecanism? Well, let us introduce you the Data System.</p>
+<p>You&#39;ve just built your first app using SQLite and you are wondering why we speak about another persistence mecanism? Well, let us present you the Data System.</p>
 <p>It&#39;s a unified API that allows applications to access:</p>
 <ul>
 <li>the database (CouchDB)</li>
@@ -30,9 +30,9 @@ A personal PaaS is a personal execution environment for personal applications co
 <li>the indexer (Whoosh)</li>
 </ul>
 <p>The Data System is Cozy&#39;s true power. It keeps the user data safe by restricting their access by applications.
-During an application installation, the user is prompted to allow or not the application to access various types of data (&quot;doctypes&quot;) so he can <strong>control</strong> wether he trusts the application or not.
-It also opens the opportunity to use multiple data-source. Do you want to have contacts in your agenda application? Do it!</p>
-<p>You can find the complete API and details about the Data System on the dedicate <a href="/cookbooks/data-system.html">cookbook</a>.</p>
+During an application installation, the user is prompted to allow or not the application to access various types of data (&quot;doctypes&quot;) so he can <strong>control</strong> whether he trusts the application or not.
+It also gives the opportunity to use multiple data-source. Do you want to have contacts in your agenda application? Do it!</p>
+<p>You can find the complete API and details about the Data System on the dedicated <a href="/cookbooks/data-system.html">cookbook</a>.</p>
 <p><a name="what-you-should-remember"></a></p>
 <h2 id="what-you-should-remember">What you should remember</h2>
 <p>As a developer, you are going to create an application that will be run by Cozy&#39;s pPaaS. That application will access the data through the Data System.

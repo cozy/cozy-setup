@@ -3,9 +3,9 @@
 <!--[if IE 9]> <html class="no-js ie9" lang="en"> <![endif]--><html lang="en"><head><meta charset="utf-8"><!--[if lt IE 9]>
 <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]--><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width"><link rel="shortcut icon" href="/assets/images/favicon.png"><title>Localize your applications</title><link  rel="stylesheet" href="/vendors/css/knacss.css" /><link  rel="stylesheet" href="/vendors/css/sunburst.css" /><link  rel="stylesheet" href="/assets/css/main.css" /><link  rel="stylesheet" href="/assets/css/home.css" /></head><body><div class="navbar fixed"><a href="/" class="nav-logo left"><img src="/assets/images/happycloud.png" alt="Happy Cloud"></a><span class="subtitle">Localize your applications</span><a href="/hack/getting-started/" class="right">hack</a><a href="/host/install.html" class="right">host</a></div><div class="wrapper"><aside class="mod left w25 aside"><nav id="navigation" role="navigation"><ul class="first-level"><li class="big"><a href="/hack/getting-started/" class="label">Getting started</a></li><li class="big selected"><a href="/hack/cookbooks/" class="label">Cookbooks</a><ul class="second-level"><li class="small"><a href="/hack/cookbooks/data-system.html" class="label">The Data System API</a></li><li class="small"><a href="/hack/cookbooks/data-system-odm.html" class="label">The ODM for Data System API</a></li><li class="small"><a href="/hack/cookbooks/localization.html" class="label selected">Localize your applications</a></li></ul></li><li class="big"><a href="/hack/application-skeletons/" class="label">Application Skeletons</a></li><li class="big"><a href="/hack/contributing/" class="label">Contributing</a></li></ul></nav></aside><div id="main" role="main" class="mod pam w75"><h1 id="localize-your-applications">Localize your applications</h1>
-<p>To improve your application user experience you might want to translate it (by yourself or by getting external contribution). This cookbook will provide you the information you need and give you the guidelines we use in Cozy apps. You are free to use your own but if everyone follows the same rules contributions will be eased.</p>
+<p>To improve your application user experience you might want to translate it (by yourself or by getting external contributions). This cookbook will provide you with information you need and give you the guidelines we use in Cozy apps. You are free to use your own but if everyone follows the same rules contributions will be eased.</p>
 <h2 id="making-your-app-translatable">Making your app translatable</h2>
-<p>We didn&#39;t invented anything new here, we just made helper to ease the developer&#39;s life.
+<p>We didn&#39;t invent anything new here, we just made helper to ease the developer&#39;s life.
 We&#39;ll use the final code of our tutorial to illustrate this cookbook. You can find it <a href="https://github.com/mycozycloud/cozy-tutorial/tree/spa-final">here</a>.</p>
 <p>NB: you can find the code of this tutorial <a href="https://github.com/mycozycloud/cozy-tutorial/tree/localization">here</a></p>
 <p>First you need to add Polyglot to your client&#39;s vendor. <a href="http://airbnb.github.io/polyglot.js/">Polyglot</a> is a &quot;tiny l18n helper library written in JavaScript&quot;. It supports interpolation and pluralization.</p>
@@ -77,7 +77,7 @@ $(document).ready(<span class="keyword">function</span>() {
 <p>Then add the following to the &#39;common&#39; section of your configuration (if you are using americano or express):</p>
 <pre class="highlighted"><code class="javascript"><span class="comment">// server/config.js</span>
 require(<span class="string">'cozy-i18n-helper'</span>).middleware</code></pre>
-<p>It automatically retrieves the locale data of the cozy&#39;s user and create the route that will allow the client the get it. Don&#39;t forget to add the &quot;CozyInstance&quot; doctype to your application&#39;s permission or you will get errors.</p>
+<p>It automatically retrieves the locale data of the cozy&#39;s user and create the route that will allow the client to get it. Don&#39;t forget to add the &quot;CozyInstance&quot; doctype to your application&#39;s permissions or you will get errors.</p>
 <p>Now you can change all the templates and view using the &quot;t&quot; function. Let&#39;s change <code>client/app/templates/home.hade</code> as an example:</p>
 <pre class="highlighted"><code class="xml">h1= t('main title')
 p= t('main description')
@@ -94,7 +94,7 @@ ul</code></pre>
 <p><a name="summary"></a>
 If you want to test everything is working, go to <a href="http://localhost:9104/#account">http://localhost:9104/#account</a> and change the language.</p>
 <h2 id="summary-for-translator-contributors">Summary for translator contributors</h2>
-<p>If you are not a developer but still want to help the community by adding tanslation, here what should know/do. Let&#39;s say you want to add the german language to an application.</p>
+<p>If you are not a developer but still want to help the community by adding translations, here is what should know/do. Let&#39;s say you want to add the german language to an application.</p>
 <ul>
 <li>the only technical requirement is git. If you don&#39;t know it and still want to help, we&#39;ll find another way (contact[at]cozycloud.cc).</li>
 <li>get the application you want to translate on <a href="https://github.com/mycozycloud/">Github</a></li>

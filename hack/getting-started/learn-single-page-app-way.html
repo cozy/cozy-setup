@@ -12,7 +12,7 @@
 <li>the server is only a REST API, easy to request from the single page app or any other client (mobile!)</li>
 </ul>
 <p>If you want to know everything about single page app, we advise you to <a href="http://singlepageappbook.com/">check out this resource</a> to learn more about Singe Page Apps.</p>
-<p>From now, we&#39;ll use the SPA acronym to talk about Single Page Apps or everyone is going to shoot himself.</p>
+<p>From now on we&#39;ll use the SPA acronym to talk about Single Page Apps or everyone is going to shoot themselves.</p>
 <p>Let&#39;s make your bookmark application with the single page app way!</p>
 <h3 id="what-you-will-achieve">What you will achieve</h3>
 <ul>
@@ -68,7 +68,7 @@ npm install</code></pre>
 <p>It can also process your file to minify it (for example). If you want to write Coffee Script instead of JavaScript, Brunch will compile it for you. If you want to use Jade, it will compile it for you.
 You can use pretty much everything you want to for templates (Jade, Handlebars, Underscore, ...) or styles (Stylus, LESS, SASS, ...), just install the relevant node modules and adjust the configuration file.</p>
 <p>If you want to know everything about Brunch, please check out their <a href="http://brunch.io/">website</a> (it is not mandatory for this tutorial though).</p>
-<p>Brunch is also awesome because it detects when a file change and recompile the code automatically so everything is smooth for you.</p>
+<p>Brunch is also awesome because it detects when a file changes and recompiles the code automatically so everything is smooth for you.</p>
 <p>To start brunch, open a terminal:</p>
 <pre class="highlighted"><code class="bash">cd tutorial-spa/client/
 brunch w</code></pre>
@@ -85,12 +85,12 @@ brunch w</code></pre>
 </ul>
 <p>The glue is Backbone&#39;s observer/observable pattern that allows a lower coupling between each part.
 <br /><br /></p>
-<p>How is our template working? In the app/assets/index.html we load the JavaScript we need and call the &quot;initialize&quot; script. This last make sure the DOM has been loaded and start the Backbone application by creating and initializing the router.
+<p>How does our template work? In the app/assets/index.html we load the JavaScript we need and call the &quot;initialize&quot; script. This last call makes sure that the DOM has been loaded and starts the Backbone application by creating and initializing the router.
 Then the router creates the main view and gives it the collection of bookmarks.
 Then the view is rendered. The render process is: load the template, put data in the template, add it to the DOM at the right place.</p>
-<p>Now we&#39;ve seen what is Backbone and how this tutorial has been bootstrapped, let&#39;s write some code!</p>
+<p>Now we&#39;ve seen what Backbone is and how this tutorial has been bootstrapped, let&#39;s write some code!</p>
 <h2 id="step-2-adding-a-new-bookmark">Step 2: adding a new bookmark</h2>
-<p>The provided code displays a collection of bookmark. Let&#39;s bind our &quot;new bookmark&quot; form to Backbone.</p>
+<p>The provided code displays a collection of bookmarks. Let&#39;s bind our &quot;new bookmark&quot; form to Backbone.</p>
 <p>Along the &quot;el&quot; and the &quot;template&quot; attribute, add the event binding:</p>
 <pre class="highlighted"><code class="javascript"><span class="comment">// apps/views/app_view.js</span>
 el: <span class="string">'body'</span>,
@@ -271,11 +271,11 @@ module.exports.<span class="keyword">delete</span> = <span class="keyword">funct
 };</code></pre>
 <p>You server is now a RESTful API that allow your single page app to request it easily thanks to Backbone.</p>
 <h2 id="what-s-next-">What&#39;s next?</h2>
-<p>This tutorial doesn&#39;t cover every aspects and good practices of Backbone but it should give you a good insight of how you can build awesome single page apps.</p>
-<p>We haven&#39;t talked about Cozy for a while but everything you&#39;ve done until know should help you creating an (awesome) application for Cozy. There are more cool stuff you can do with Cozy and you can ask us on IRC or by email what are the next steps or just to get help from us.</p>
+<p>This tutorial doesn&#39;t cover every aspects and good practice of Backbone but it should give you a good insight into how you can build awesome single page apps.</p>
+<p>We haven&#39;t talked about Cozy for a while but everything you&#39;ve done until know should help you creating an (awesome) application for Cozy. There is more cool stuff you can do with Cozy and you can ask us on IRC or by email what the next steps are or just to get help from us.</p>
 <p><br /><br />
 We are eager to see what application you will bring to the Cozy community, don&#39;t hesitate to show us your work!
 <br /><br /></p>
 <p>To go further in your study of Cozycloud, you can check out the <a href="/hack/cookbooks/">cookbooks</a>!
-We also provide <a href="/hack/application-skeletons/">application skeletons</a> to get you started quickly, chose the one you like or add yours.</p>
+We also provide <a href="/hack/application-skeletons/">application skeletons</a> to get you started quickly, choose the one you like or add your own.</p>
 </div><footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">Github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">Contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">mailing-list</a><a href="https://cozycloud.cc">Cozy Cloud</a></footer></div><script defer="defer"  src="/vendors/javascripts/jquery-2.0.3.min.js"></script><script defer="defer"  src="/assets/javascripts/main.js"></script></body></html>

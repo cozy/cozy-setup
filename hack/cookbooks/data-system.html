@@ -295,8 +295,8 @@ dataSystem = <span class="keyword">new</span> Client(<span class="string">'http:
 
 <span class="comment">// In production we must authentificate the application</span>
 <span class="keyword">if</span>(process.env.NODE_ENV === <span class="string">'production'</span>) {
-  user = process.env.USER;
-  password = process.env.PASSWORD;
+  user = process.env.NAME;
+  password = process.env.TOKEN;
   dataSystem.setBasicAuth(user, password);
 }
 

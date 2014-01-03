@@ -702,6 +702,25 @@ def update_all_apps():
 
 
 @task
+def update_indexer():
+    '''
+    Update Cozy indexer module.
+    '''
+    home = '/usr/local/cozy-indexer'
+    indexer_dir = '%s/cozy-data-indexer' % home
+    indexer_env_dir = '%s/virtualenv' % indexer_dir
+    require.files.directory(home, use_sudo=True)
+
+    with cd(home):
+        sudo('git pull origin master')
+
+    with python.virtualenv(indexer_env_dir):
+        sudo(
+            'pip install --use-mirrors -r %s/requirements/common.txt' %
+            indexer_dir)
+
+
+@task
 def reset_account():
     '''
     Delete current user account
@@ -709,6 +728,7 @@ def reset_account():
     with cd('ls /usr/local/cozy/apps/home/home/cozy-home/'):
         sudo('coffee commands cleanuser')
     print(green('Current account deleted.'))
+
 
 @task
 def reset_controller_token():

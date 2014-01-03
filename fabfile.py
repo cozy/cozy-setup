@@ -18,11 +18,6 @@ $ fab -H user@Ip.Ip.Ip.Ip:Port install
 to install the full Cozy stack.
 '''
 
-USERNAME = id_generator()
-PASSWORD = id_generator()
-TOKEN = simple_id_generator()
-
-
 # Helpers
 def id_generator(
         size=32,
@@ -32,6 +27,11 @@ def id_generator(
 
 def simple_id_generator(size=40, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for x in range(size))
+
+
+USERNAME = id_generator()
+PASSWORD = id_generator()
+TOKEN = simple_id_generator()
 
 
 @task

@@ -18,6 +18,10 @@ $ fab -H user@Ip.Ip.Ip.Ip:Port install
 to install the full Cozy stack.
 '''
 
+USERNAME = id_generator()
+PASSWORD = id_generator()
+TOKEN = simple_id_generator()
+
 
 # Helpers
 def id_generator(
@@ -34,10 +38,6 @@ def simple_id_generator(size=40, chars=string.ascii_uppercase + string.digits):
 def is_arm():
     result = run('lscpu', quiet=True)
     return 'arm' in result
-
-username = id_generator()
-password = id_generator()
-token = simple_id_generator()
 
 
 def print_failed(module):
@@ -280,13 +280,13 @@ def config_couchdb():
                     logsCouchDB[0],
                     logsCouchDB[1],
                     couch_admin_path,
-                    username,
-                    password,
+                    USERNAME,
+                    PASSWORD,
                 ))
             # Delete old admin
             run('curl -X DELETE ' +
                 'http://%s:%s@127.0.0.1:5984/_config/admins/%s' %
-                (username, password, logsCouchDB[0]))
+                (USERNAME, PASSWORD, logsCouchDB[0]))
             sudo('rm -rf /etc/cozy/couchdb.login')
     else:
         # CouchDB has not an admin
@@ -294,12 +294,13 @@ def config_couchdb():
         with hide('running', 'stdout'):
             couch_admin_path = '127.0.0.1:5984/_config/admins/'
             run('curl -X PUT http://%s%s -d \'\"%s\"\'' %
-                (couch_admin_path, username, password))
+                (couch_admin_path, USERNAME, PASSWORD))
         sudo('mkdir -p /etc/cozy')
+
     # Create file to keep admin's password
     require.files.file(
         path='/etc/cozy/couchdb.login',
-        contents=username + '\n' + password,
+        contents=USERNAME + '\n' + PASSWORD,
         use_sudo=True,
         owner='cozy-data-system',
         mode='700'
@@ -413,7 +414,7 @@ def install_controller():
     require.files.file(
         path='/etc/cozy/controller.token',
         mode='700',
-        contents=token,
+        contents=TOKEN,
         use_sudo=True,
         owner='cozy-home'
     )
@@ -439,7 +440,7 @@ def install_controller():
         time.sleep(7)
     with hide('running', 'stdout'):
         result = run('curl -X GET http://127.0.0.1:9002/ ' +
-                     '-H "x-auth-token: %s"' % token)
+                     '-H "x-auth-token: %s"' % TOKEN)
     if result != '{"message":"No drones specified"}':
         print_failed('cozy-controller')
     print(green('Cozy Controller successfully started'))
@@ -583,6 +584,17 @@ def create_cert():
     print(green('Certificates successfully created.'))
 
 
+def reset_cert():
+    '''
+    Reset SSL certificates
+    '''
+
+    delete_if_exists('/etc/cozy/server.crt')
+    delete_if_exists('/etc/cozy/server.key')
+    print(green('Previous certificates successfully deleted.'))
+    create_cert()
+
+
 PROXIED_SITE_TEMPLATE = '''
 server {
     listen %(port)s;
@@ -613,7 +625,6 @@ server {
     access_log /var/log/nginx/%(server_name)s.log;
 }
 '''
-
 
 @task
 def install_nginx():
@@ -698,3 +709,35 @@ def reset_account():
     with cd('ls /usr/local/cozy/apps/home/home/cozy-home/'):
         sudo('coffee commands cleanuser')
     print(green('Current account deleted.'))
+
+@task
+def reset_controller_token():
+    '''
+    Reset controller token
+    '''
+
+    file_path = '/etc/cozy/controller.token'
+    delete_if_exists(file_path)
+    print(green('Controller token successfully deleted.'))
+
+    require.files.file(
+        path=file_path,
+        mode='700',
+        contents=TOKEN,
+        use_sudo=True,
+        owner='cozy-home'
+    )
+    print(green('Controller token successfully generated.'))
+
+
+@task
+def reset_security_tokens():
+    '''
+    Reset all the security tokens for the Cozy (SSL certificates,
+    Controller token, CouchDB superuser)
+    '''
+
+    reset_cert()
+    reset_controller_token()
+    config_couchdb()
+    print(green('All the tokens have been reset.'))

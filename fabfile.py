@@ -710,7 +710,7 @@ def update_indexer():
     indexer_dir = '%s/cozy-data-indexer' % home
     indexer_env_dir = '%s/virtualenv' % indexer_dir
 
-    with cd(home):
+    with cd(indexer_dir):
         sudo('git pull origin master')
 
     with python.virtualenv(indexer_env_dir):

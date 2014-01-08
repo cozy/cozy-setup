@@ -715,7 +715,7 @@ def update_indexer():
 
     with python.virtualenv(indexer_env_dir):
         sudo(
-            'pip install --use-mirrors -r %s/requirements/common.txt' %
+            'pip install --use-mirrors --upgrade -r %s/requirements/common.txt' %
             indexer_dir)
     supervisor.restart_process('cozy-indexer')
 

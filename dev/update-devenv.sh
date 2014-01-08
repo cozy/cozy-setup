@@ -41,9 +41,7 @@ cd /usr/local/var/cozy-indexer/cozy-data-indexer
 sudo git pull origin master
 sudo virtualenv virtualenv
 . virtualenv/bin/activate
-sudo pip install -r requirements/common.txt
-sudo pip install -r requirements/production.txt
+sudo pip install -r requirements/common.txt --upgrade
+sudo pip install -r requirements/production.txt --upgrade
 sudo supervisorctl start cozy-indexer
-
-
 

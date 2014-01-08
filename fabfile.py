@@ -692,6 +692,7 @@ def update_stack():
     sudo('cozy-monitor install data-system')
     sudo('cozy-monitor install home')
     sudo('cozy-monitor install proxy')
+    update_indexer()
     print(green('Stack updated successfully.'))
 
 
@@ -715,7 +716,7 @@ def update_indexer():
 
     with python.virtualenv(indexer_env_dir):
         sudo(
-            'pip install --use-mirrors -r %s/requirements/common.txt' %
+            'pip install --use-mirrors --upgrade -r %s/requirements/common.txt' %
             indexer_dir)
     supervisor.restart_process('cozy-indexer')
 

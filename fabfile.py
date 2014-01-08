@@ -692,6 +692,7 @@ def update_stack():
     sudo('cozy-monitor install data-system')
     sudo('cozy-monitor install home')
     sudo('cozy-monitor install proxy')
+    update_indexer()
     print(green('Stack updated successfully.'))
 
 

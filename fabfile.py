@@ -18,7 +18,6 @@ $ fab -H user@Ip.Ip.Ip.Ip:Port install
 to install the full Cozy stack.
 '''
 
-
 # Helpers
 def id_generator(
         size=32,
@@ -30,14 +29,15 @@ def simple_id_generator(size=40, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for x in range(size))
 
 
+USERNAME = id_generator()
+PASSWORD = id_generator()
+TOKEN = simple_id_generator()
+
+
 @task
 def is_arm():
     result = run('lscpu', quiet=True)
     return 'arm' in result
-
-username = id_generator()
-password = id_generator()
-token = simple_id_generator()
 
 
 def print_failed(module):
@@ -90,16 +90,29 @@ def install():
     print(green('Cozy installation finished. Now, enjoy !'))
 
 
+def ask_for_confirmation(module):
+    '''
+    Simple function to ask for confirmation before uninstalling a module
+    installed by the the
+    '''
+    confirm = prompt('Are you sure you want to definitely remove %s from your'
+            ' computer? ' % module, default="no")
+    return confirm == "yes"
+
 @task
 def uninstall_all():
     '''
     Uninstall the whole stack (work in progress)
     '''
-    uninstall_cozy()
-    uninstall_node08()
-    uninstall_couchdb()
-    uninstall_redis()
-    uninstall_postfix()
+    # TODO remove created users
+    if ask_for_confirmation("Cozy"):
+        uninstall_cozy()
+    if ask_for_confirmation("Node.js"):
+        uninstall_node08()
+    if ask_for_confirmation("CouchDB"):
+        uninstall_couchdb()
+    if ask_for_confirmation("Postfix"):
+        uninstall_postfix()
 
 
 @task
@@ -131,6 +144,7 @@ def install_tools():
     deb.upgrade()
     require.deb.packages([
         'python',
+        'python-dev',
         'python-setuptools',
         'python-pip',
         'openssl',
@@ -266,13 +280,13 @@ def config_couchdb():
                     logsCouchDB[0],
                     logsCouchDB[1],
                     couch_admin_path,
-                    username,
-                    password,
+                    USERNAME,
+                    PASSWORD,
                 ))
             # Delete old admin
             run('curl -X DELETE ' +
                 'http://%s:%s@127.0.0.1:5984/_config/admins/%s' %
-                (username, password, logsCouchDB[0]))
+                (USERNAME, PASSWORD, logsCouchDB[0]))
             sudo('rm -rf /etc/cozy/couchdb.login')
     else:
         # CouchDB has not an admin
@@ -280,12 +294,13 @@ def config_couchdb():
         with hide('running', 'stdout'):
             couch_admin_path = '127.0.0.1:5984/_config/admins/'
             run('curl -X PUT http://%s%s -d \'\"%s\"\'' %
-                (couch_admin_path, username, password))
+                (couch_admin_path, USERNAME, PASSWORD))
         sudo('mkdir -p /etc/cozy')
+
     # Create file to keep admin's password
     require.files.file(
         path='/etc/cozy/couchdb.login',
-        contents=username + '\n' + password,
+        contents=USERNAME + '\n' + PASSWORD,
         use_sudo=True,
         owner='cozy-data-system',
         mode='700'
@@ -323,22 +338,6 @@ def uninstall_couchdb():
 
 
 @task
-def uninstall_redis():
-    '''
-    Uninstall Redis 2.4.14
-    '''
-    su_delete('/var/lib/redis')
-    su_delete('/var/db/redis')
-    su_delete('/var/log/redis')
-    su_delete('/var/run/redis')
-    su_delete('/opt/redis-2.4.14')
-    su_delete('/etc/redis')
-    su_delete('/etc/supervisor/conf.d/redis_cozy.conf')
-    supervisor.update_config()
-    print(green('Redis 2.4.14 successfully uninstalled'))
-
-
-@task
 def install_postfix():
     '''
     Install a postfix instance (required for mail sending).
@@ -366,6 +365,11 @@ def uninstall_cozy():
     supervisor.stop_process('cozy-controller')
     supervisor.stop_process('cozy-indexer')
     su_delete('/usr/local/var/cozy-indexer')
+    su_delete('/usr/local/cozy-indexer')
+    su_delete('/usr/local/cozy')
+    su_delete('/home/cozy*')
+    su_delete('/etc/cozy')
+    su_delete('/etc/nginx/conf.d/cozy.conf')
     su_delete('/etc/supervisor/conf.d/cozy-controller.conf')
     su_delete('/etc/supervisor/conf.d/cozy-indexer.conf')
     supervisor.update_config()
@@ -410,7 +414,7 @@ def install_controller():
     require.files.file(
         path='/etc/cozy/controller.token',
         mode='700',
-        contents=token,
+        contents=TOKEN,
         use_sudo=True,
         owner='cozy-home'
     )
@@ -436,7 +440,7 @@ def install_controller():
         time.sleep(7)
     with hide('running', 'stdout'):
         result = run('curl -X GET http://127.0.0.1:9002/ ' +
-                     '-H "x-auth-token: %s"' % token)
+                     '-H "x-auth-token: %s"' % TOKEN)
     if result != '{"message":"No drones specified"}':
         print_failed('cozy-controller')
     print(green('Cozy Controller successfully started'))
@@ -580,6 +584,17 @@ def create_cert():
     print(green('Certificates successfully created.'))
 
 
+def reset_cert():
+    '''
+    Reset SSL certificates
+    '''
+
+    delete_if_exists('/etc/cozy/server.crt')
+    delete_if_exists('/etc/cozy/server.key')
+    print(green('Previous certificates successfully deleted.'))
+    create_cert()
+
+
 PROXIED_SITE_TEMPLATE = '''
 server {
     listen %(port)s;
@@ -595,6 +610,7 @@ server {
     ssl on;
 
     gzip_vary on;
+    client_max_body_size 1024M;
 
     location / {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -609,7 +625,6 @@ server {
     access_log /var/log/nginx/%(server_name)s.log;
 }
 '''
-
 
 @task
 def install_nginx():
@@ -677,6 +692,7 @@ def update_stack():
     sudo('cozy-monitor update data-system')
     sudo('cozy-monitor update home')
     sudo('cozy-monitor update proxy')
+    update_indexer()
     print(green('Stack updated successfully.'))
 
 
@@ -687,6 +703,25 @@ def update_all_apps():
 
 
 @task
+def update_indexer():
+    '''
+    Update Cozy indexer module.
+    '''
+    home = '/usr/local/cozy-indexer'
+    indexer_dir = '%s/cozy-data-indexer' % home
+    indexer_env_dir = '%s/virtualenv' % indexer_dir
+
+    with cd(indexer_dir):
+        sudo('git pull origin master')
+
+    with python.virtualenv(indexer_env_dir):
+        sudo(
+            'pip install --use-mirrors --upgrade -r %s/requirements/common.txt' %
+            indexer_dir)
+    supervisor.restart_process('cozy-indexer')
+
+
+@task
 def reset_account():
     '''
     Delete current user account
@@ -694,3 +729,36 @@ def reset_account():
     with cd('ls /usr/local/cozy/apps/home/home/cozy-home/'):
         sudo('coffee commands cleanuser')
     print(green('Current account deleted.'))
+
+
+@task
+def reset_controller_token():
+    '''
+    Reset controller token
+    '''
+
+    file_path = '/etc/cozy/controller.token'
+    delete_if_exists(file_path)
+    print(green('Controller token successfully deleted.'))
+
+    require.files.file(
+        path=file_path,
+        mode='700',
+        contents=TOKEN,
+        use_sudo=True,
+        owner='cozy-home'
+    )
+    print(green('Controller token successfully generated.'))
+
+
+@task
+def reset_security_tokens():
+    '''
+    Reset all the security tokens for the Cozy (SSL certificates,
+    Controller token, CouchDB superuser)
+    '''
+
+    reset_cert()
+    reset_controller_token()
+    config_couchdb()
+    print(green('All the tokens have been reset.'))

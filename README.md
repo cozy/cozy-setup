@@ -56,12 +56,12 @@ The CPU is not a limitation, Cozy can even run on RaspberryPi.
 
 ### Mininum
 
-RAM: 512Mo (it allows to have 4 apps running simultaneously)
-Disk space: 5Go
+RAM: 512MB (it allows to have 4 apps running simultaneously)
+Disk space: 5GB
 
 ### Recommended
 
-RAM: 1024 Mo (it allows to have 10 apps simultaneously).
+RAM: 1024 MB (it allows to have 10 apps simultaneously).
 Disk space: a lot of space to store all your files.
 
 ## Test 

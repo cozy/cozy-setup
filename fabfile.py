@@ -674,15 +674,15 @@ def update_stack():
     nodejs.update_package('cozy-controller')
     supervisor.start_process('cozy-controller')
     nodejs.update_package('cozy-monitor')
-    sudo('cozy-monitor install data-system')
-    sudo('cozy-monitor install home')
-    sudo('cozy-monitor install proxy')
+    sudo('cozy-monitor update data-system')
+    sudo('cozy-monitor update home')
+    sudo('cozy-monitor update proxy')
     print(green('Stack updated successfully.'))
 
 
 @task
 def update_all_apps():
-    sudo('cozy-monitor reinstall-all')
+    sudo('cozy-monitor update-all')
     print(green('All apps successfully updated.'))
 
 

@@ -9,6 +9,8 @@ from fabric.contrib import files
 from fabric.colors import green, red
 from fabric.context_managers import hide
 
+from . import help  # noqa
+
 '''
 Script to set up a cozy cloud environnement from a fresh system
 Validated on a Debian squeeze 64 bits up to date.

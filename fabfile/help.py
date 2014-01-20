@@ -41,7 +41,7 @@ def help(name=None):
             print()
             print(doc)
         else:
-            print("No help available for {0;s}".format(name))
+            print("No help available for {0:s}".format(name))
     else:
         print("No such task {0:s}".format(name))
         print("For a list of tasks type: fab -l")

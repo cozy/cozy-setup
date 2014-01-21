@@ -1,0 +1,139 @@
+<!DOCTYPE html><!--[if lte IE 7]> <html class="no-js ie67 ie678" lang="en"> <![endif]-->
+<!--[if IE 8]> <html class="no-js ie8 ie678" lang="en"> <![endif]-->
+<!--[if IE 9]> <html class="no-js ie9" lang="en"> <![endif]-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8"><!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="/assets/images/favicon.png">
+    <title>Manage
+    </title><link  rel="stylesheet" href="/vendors/css/knacss.css" /><link  rel="stylesheet" href="/vendors/css/sunburst.css" /><link  rel="stylesheet" href="/assets/css/main.css" /><link  rel="stylesheet" href="/assets/css/home.css" />
+  </head>
+  <body>
+    <div class="navbar fixed"><a href="/" class="nav-logo left"><img src="/assets/images/happycloud.png" alt="Happy Cloud"></a><span class="subtitle">
+        <div class="breadcrumb-item"><a href="/host/install.html">Install</a>
+        </div>
+        <div class="breadcrumb-item current"><a href="/host/manage.html">Manage</a>
+        </div>
+        <div class="breadcrumb-item"><a href="/host/uninstall.html">Uninstall</a>
+        </div>
+        <div class="breadcrumb-item"><a href="/host/trouble-shootings.html">Trouble Shootings</a>
+        </div></span>
+      <div class="submenu-container right"><a href="/hack/getting-started/">Hack</a></div>
+      <div class="submenu-container right selected"><a href="/host/install.html">Host</a></div>
+    </div>
+    <div class="wrapper">
+      <div class="wrap-menu w25 mod left">&nbsp;
+        <aside>
+          <p class="title toc">Manage</p>
+          <nav id="navigation" role="navigation">
+            <ul class="nav first-level">
+              <li class="big"><a href="#cozy-management" class="label">Cozy management</a>
+                <ul class="second-level">
+                  <li class="small"><a href="#update" class="label">Update</a></li>
+                  <li class="small"><a href="#restart" class="label">Restart</a></li>
+                  <li class="small"><a href="#information" class="label">Information</a></li>
+                </ul>
+              </li>
+              <li class="big"><a href="#applications-management" class="label">Applications management</a>
+                <ul class="second-level">
+                  <li class="small"><a href="#installation" class="label">Installation</a></li>
+                  <li class="small"><a href="#manage" class="label">Manage</a></li>
+                  <li class="small"><a href="#uninstallation" class="label">Uninstallation</a></li>
+                </ul>
+              </li>
+              <li class="big"><a href="#database-management" class="label">Database management</a>
+                <ul class="second-level">
+                </ul>
+              </li>
+              <li class="big"><a href="#others" class="label">Others</a>
+                <ul class="second-level">
+                </ul>
+              </li>
+            </ul>
+          </nav>
+        </aside>
+      </div>
+      <div id="main" role="main" class="mod pam w75"><h1 id="manage-your-cozy">Manage your Cozy</h1>
+<h2 id="cozy-management">Cozy management</h2>
+<h3 id="update">Update</h3>
+<h4 id="easy-way">Easy way</h4>
+<p>The easiest way to update Cozy is to use the Fabric installation file used for
+the installation. But in this case, you should not call the installation task but the
+udpate tasks:</p>
+<pre class="highlight"><code class="bash">fab -H user@ip update_stack
+fab -H user@ip update_all_apps</code></pre>
+<h4 id="manual-update">Manual update</h4>
+<p>If you want update your Cozy without Fabric, you can run the following commands
+directly on your server.</p>
+<pre class="highlight"><code class="bash"><span class="built_in">sudo</span> cozy-monitor update data-system
+<span class="built_in">sudo</span> cozy-monitor update home
+<span class="built_in">sudo</span> cozy-monitor update proxy
+<span class="built_in">sudo</span> supervisorctl stop cozy-controller
+<span class="built_in">sudo</span> pkill -<span class="number">9</span> node <span class="comment"># make sure no process is remaining.</span>
+<span class="built_in">sudo</span> npm -g update cozy-controller
+<span class="built_in">sudo</span> supervisorctl start cozy-controller</code></pre>
+<h4 id="application-update">Application update</h4>
+<p>To update a single application, you can run the following command on your targe
+server.</p>
+<pre class="highlight"><code class="bash"><span class="built_in">sudo</span> cozy-monitor update &lt;app&gt;</code></pre>
+<h3 id="restart">Restart</h3>
+<p>Restart cozy stack.
+Cozy stack means home, proxy and data-system. In others words, cozy stack corresponds to applications allow to run Cozy.</p>
+<pre class="highlight"><code class="bash">cozy-monitor restart-cozy-stack</code></pre>
+<h3 id="information">Information</h3>
+<p>Display installed application</p>
+<pre class="highlight"><code class="bash">cozy-monitor status</code></pre>
+<p>Display cozy stack applications</p>
+<pre class="highlight"><code class="bash">cozy-monitor versions</code></pre>
+<p>Display applications versions</p>
+<pre class="highlight"><code class="bash">cozy-monitor versions-apps</code></pre>
+<h2 id="applications-management">Applications management</h2>
+<h3 id="installation">Installation</h3>
+<p>Install application <app></app></p>
+<pre class="highlight"><code class="bash">cozy-monitor install &lt;app&gt;</code></pre>
+<h3 id="manage">Manage</h3>
+<p>Stop application <app></app></p>
+<pre class="highlight"><code class="bash">cozy-monitor stop &lt;app&gt;</code></pre>
+<p>Start application <app></app></p>
+<pre class="highlight"><code class="bash">cozy-monitor start &lt;app&gt;</code></pre>
+<p>Restart application <app></app></p>
+<pre class="highlight"><code class="bash">cozy-monitor restart &lt;app&gt;</code></pre>
+<p>Update application <app></app></p>
+<pre class="highlight"><code class="bash">cozy-monitor update &lt;app&gt;</code></pre>
+<p>Update all applications. This commands update cozy stack applications and others applications installed by cozy user</p>
+<pre class="highlight"><code class="bash">cozy-monitor update-all</code></pre>
+<p>Brunch application <app></app></p>
+<pre class="highlight"><code class="bash">cozy-monitor brunch &lt;app&gt;</code></pre>
+<h3 id="uninstallation">Uninstallation</h3>
+<p>Uninstall application <app></app></p>
+<pre class="highlight"><code class="bash">cozy-monitor uninstall &lt;app&gt;</code></pre>
+<p>Uninstall all applications</p>
+<pre class="highlight"><code class="bash">cozy-monitor uninstall-all</code></pre>
+<p>Warning: this commands uninstall also cozy stack applications.</p>
+<h2 id="database-management">Database management</h2>
+<p>By default, database option is "cozy".</p>
+<p>Compact database</p>
+<pre class="highlight"><code class="bash">cozy-monitor compact [database]</code></pre>
+<p>Compact a view</p>
+<pre class="highlight"><code class="bash">cozy-monitor compact-view &lt;view&gt; [database]</code></pre>
+<p>Compact all views</p>
+<pre class="highlight"><code class="bash">cozy-monitor compact-all-view [database]</code></pre>
+<p>Backup database</p>
+<pre class="highlight"><code class="bash">cozy-monitor backup [target]</code></pre>
+<p>Clean database</p>
+<pre class="highlight"><code class="bash">cozy-monitor cleanup [database]</code></pre>
+<h2 id="others">Others</h2>
+<p>Reset proxy routes</p>
+<pre class="highlight"><code class="bash">cozy-monitor reset-proxy</code></pre>
+<p>Launch script that comes with given application</p>
+<pre class="highlight"><code class="bash">cozy-monitor script &lt;app&gt; &lt;script&gt; [argument]</code></pre>
+
+      </div>
+      <footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">Github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">Contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">Mailing-list</a><a href="https://cozycloud.cc">Cozy Cloud</a></footer>
+    </div><script defer="defer"  src="/vendors/javascripts/jquery-2.0.3.min.js"></script><script defer="defer"  src="/vendors/javascripts/bootstrap.min.js"></script><script defer="defer"  src="/assets/javascripts/main.js"></script>
+  </body>
+</html>

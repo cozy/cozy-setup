@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width">
     <link rel="shortcut icon" href="/assets/images/favicon.png">
-    <title>Application Skeletons
+    <title>Official Cozy skeleton
     </title><link  rel="stylesheet" href="/vendors/css/knacss.css" /><link  rel="stylesheet" href="/vendors/css/sunburst.css" /><link  rel="stylesheet" href="/assets/css/main.css" /><link  rel="stylesheet" href="/assets/css/home.css" />
   </head>
   <body>
@@ -45,20 +45,89 @@
     <div class="wrapper">
       <div class="wrap-menu w25 mod left">&nbsp;
         <aside>
-          <p class="title">Application Skeletons</p>
+          <p class="title toc">Official Cozy skeleton</p>
           <nav id="navigation" role="navigation">
             <ul class="nav first-level">
+              <li class="big"><a href="#technologies" class="label">Technologies</a>
+                <ul class="second-level">
+                  <li class="small"><a href="#server" class="label">Server</a></li>
+                  <li class="small"><a href="#client" class="label">Client</a></li>
+                </ul>
+              </li>
+              <li class="big"><a href="#file-structure" class="label">File structure</a>
+                <ul class="second-level">
+                </ul>
+              </li>
+              <li class="big"><a href="#cakefile-tasks" class="label">Cakefile tasks</a>
+                <ul class="second-level">
+                  <li class="small"><a href="#tests" class="label">Tests</a></li>
+                  <li class="small"><a href="#linter" class="label">Linter</a></li>
+                </ul>
+              </li>
             </ul>
           </nav>
         </aside>
       </div>
-      <div id="main" role="main" class="mod pam w80"><h1 id="application-skeletons">Application Skeletons</h1>
-<p>Because Cozy is a <a href="/hack/getting-started/architecture-overview.html#The-pPaaS">pPaas</a>, you can use the frameworks you like to build your applications. The <a href="https://github.com/mycozycloud/cozy-manager/">Cozy manager</a> CLI tool provides a command to create skeletons. Currently there are the following skeletons:</p>
+      <div id="main" role="main" class="mod pam w75"><h1 id="official-cozy-skeleton">Official Cozy Skeleton</h1>
+<p>The official Cozy skeleton comes in both JavaScript and CoffeeScript.
+You can find the code in the following repositories:</p>
 <ul>
-<li><a href="/hack/application-skeletons/cozy-official.html">Cozy official (JavaScript)</a>: Americano/JugglingDB + Single page app with Backbone</li>
-<li><a href="/hack/application-skeletons/cozy-official.html">Cozy official (CoffeeScript)</a>: Americano/JugglingDB + Single page app with Backbone</li>
+<li><a href="https://github.com/mycozycloud/cozy-template">JavaScript version</a></li>
+<li><a href="https://github.com/mycozycloud/cozy-template-coffee">CoffeeScript version</a></li>
 </ul>
-<p>Feel free to propose your own template, send us an email to contact[at]cozycloud.cc and we&#39;ll add it. Don&#39;t forget to make a page of documentation we&#39;ll add here!</p>
+<h2 id="technologies">Technologies</h2>
+<h3 id="server">Server</h3>
+<ul>
+<li>Americano for the NodeJS framework</li>
+<li>JugglingDB Cozy Adapter to access the Data System (plugin americano-cozy)</li>
+<li>Mocha, Chai, Request-JSON, cozy-fixtures and coffeelint for dev mode (tests, fixture management, code style checking)</li>
+</ul>
+<h3 id="client">Client</h3>
+<ul>
+<li>Backbone for the Single Page App</li>
+<li>Brunch as the building tool</li>
+</ul>
+<h2 id="file-structure">File structure</h2>
+<p>Here are the main file structure elements:</p>
+<ul>
+<li>server/ -- Americano file structure<ul>
+<li>controllers/<ul>
+<li>routes.[js|coffee]</li>
+</ul>
+</li>
+<li>models/<ul>
+<li>requests.[js|coffee]</li>
+</ul>
+</li>
+<li>config.[js|coffee]</li>
+</ul>
+</li>
+<li>client/<ul>
+<li>app/<ul>
+<li>assets/ -- non-backbone stuff, images, fonts</li>
+<li>-- all the Backbone stuff</li>
+</ul>
+</li>
+<li>vendor/ -- files to append to vendor.js and app.css</li>
+<li>public/ -- the public output file, 100% generated</li>
+<li>config.[js|coffee] -- Brunch config file</li>
+</ul>
+</li>
+<li>server.[js|coffee]</li>
+<li>package.json</li>
+<li>Cakefile</li>
+</ul>
+<h2 id="cakefile-tasks">Cakefile tasks</h2>
+<h3 id="tests">Tests</h3>
+<pre class="highlight"><code class="bash">cake tests [--env <span class="variable">$NODE_ENV_VALUE</span>]</code></pre>
+<h3 id="linter">Linter</h3>
+<pre class="highlight"><code class="bash">cake lint</code></pre>
+<p>The code style rules we use are the following:</p>
+<ul>
+<li>indentation: 4 spaces</li>
+<li>maximum line width: 80 characters</li>
+<li>no empty parameter list (Coffee)</li>
+</ul>
 
       </div>
       <footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">Github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">Contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">Mailing-list</a><a href="https://cozycloud.cc">Cozy Cloud</a></footer>

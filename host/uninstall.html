@@ -1,27 +1,75 @@
 <!DOCTYPE html><!--[if lte IE 7]> <html class="no-js ie67 ie678" lang="en"> <![endif]-->
 <!--[if IE 8]> <html class="no-js ie8 ie678" lang="en"> <![endif]-->
-<!--[if IE 9]> <html class="no-js ie9" lang="en"> <![endif]--><html lang="en"><head><meta charset="utf-8"><!--[if lt IE 9]>
-<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-<![endif]--><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width"><link rel="shortcut icon" href="/assets/images/favicon.png"><title>Uninstall</title><link  rel="stylesheet" href="/vendors/css/knacss.css" /><link  rel="stylesheet" href="/vendors/css/sunburst.css" /><link  rel="stylesheet" href="/assets/css/main.css" /><link  rel="stylesheet" href="/assets/css/home.css" /></head><body><div class="navbar fixed"><a href="/" class="nav-logo left"><img src="/assets/images/happycloud.png" alt="Happy Cloud"></a><span class="subtitle">Uninstall</span><a href="/hack/getting-started/" class="right">hack</a><a href="/host/install.html" class="right">host</a></div><div class="wrapper"><aside class="mod left w25 aside"><nav id="navigation" role="navigation"><ul class="first-level"><li class="big"><a href="/host/install.html" class="label">Install Cozy on your server</a></li><li class="big"><a href="/host/raspberry.html" class="label">Raspberry Pi</a></li><li class="big"><a href="/host/virtualbox.html" class="label">Virtualbox VM</a></li><li class="big"><a href="/host/openvz.html" class="label"> OpenVZ</a></li><li class="big"><a href="/host/lxc.html" class="label"> LXC</a></li><li class="big"><a href="/host/update.html" class="label">Update your cozy</a></li><li class="big selected"><a href="/host/uninstall.html" class="label">Uninstall</a></li><li class="big"><a href="/host/trouble-shootings.html" class="label">Trouble Shootings</a></li></ul></nav></aside><div id="main" role="main" class="mod pam w75"><h1 id="uninstall-your-cozy">Uninstall your Cozy</h1>
+<!--[if IE 9]> <html class="no-js ie9" lang="en"> <![endif]-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8"><!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="/assets/images/favicon.png">
+    <title>Uninstall
+    </title><link  rel="stylesheet" href="/vendors/css/knacss.css" /><link  rel="stylesheet" href="/vendors/css/sunburst.css" /><link  rel="stylesheet" href="/assets/css/main.css" /><link  rel="stylesheet" href="/assets/css/home.css" />
+  </head>
+  <body>
+    <div class="navbar fixed"><a href="/" class="nav-logo left"><img src="/assets/images/happycloud.png" alt="Happy Cloud"></a><span class="subtitle">
+        <div class="breadcrumb-item"><a href="/host/install.html">Install</a>
+        </div>
+        <div class="breadcrumb-item"><a href="/host/manage.html">Manage</a>
+        </div>
+        <div class="breadcrumb-item current"><a href="/host/uninstall.html">Uninstall</a>
+        </div>
+        <div class="breadcrumb-item"><a href="/host/trouble-shootings.html">Trouble Shootings</a>
+        </div></span>
+      <div class="submenu-container right"><a href="/hack/getting-started/">Hack</a></div>
+      <div class="submenu-container right selected"><a href="/host/install.html">Host</a></div>
+    </div>
+    <div class="wrapper">
+      <div class="wrap-menu w25 mod left">&nbsp;
+        <aside>
+          <p class="title toc">Uninstall</p>
+          <nav id="navigation" role="navigation">
+            <ul class="nav first-level">
+              <li class="big"><a href="#virtual-machines-and-containers" class="label">Virtual machines and containers</a>
+                <ul class="second-level">
+                </ul>
+              </li>
+              <li class="big"><a href="#easy-way" class="label">Easy way</a>
+                <ul class="second-level">
+                </ul>
+              </li>
+              <li class="big"><a href="#manual-uninstall" class="label">Manual uninstall</a>
+                <ul class="second-level">
+                </ul>
+              </li>
+            </ul>
+          </nav>
+        </aside>
+      </div>
+      <div id="main" role="main" class="mod pam w75"><h1 id="uninstall-your-cozy">Uninstall your Cozy</h1>
 <p>Warning: this will delete all your data.</p>
 <h2 id="virtual-machines-and-containers">Virtual machines and containers</h2>
 <p>If you installed Cozy in a virtual machine or in a container, you just have
-to remove that virtual machine or container</p>
+to remove that virtual machine or container.</p>
 <h2 id="easy-way">Easy way</h2>
-<p>The easiest way to uninstall Cozy is to use the Fabric installation file used
-for the installation. But this time, you should not call the installation task but
-the uninstall task:</p>
-<pre class="highlighted"><code class="bash">fab -H user@ip uninstall_all</code></pre>
+<p>The easiest way to uninstall Cozy is to use the Fabric installation file used for the installation. But in this case, you should not call the installation task but the uninstall task:</p>
+<pre class="highlight"><code class="bash">fab -H user@ip uninstall_all</code></pre>
 <h2 id="manual-uninstall">Manual uninstall</h2>
-<p>If you want to uninstall your Cozy without Fabric you can run the following
+<p>If you want to uninstall your Cozy without Fabric, you can run the following
 commands directly on your server.</p>
-<pre class="highlighted"><code class="bash">supervisorctl stop cozy-controller
+<pre class="highlight"><code class="bash">supervisorctl stop cozy-controller
 supervisorctl stop cozy-indexer
 supervisorctl stop couchdb
 rm -rf /usr/local/var/cozy-indexer
-rm -f /etc/supervisor/conf.d/cozy-controller.conf
-rm -f /etc/supervisor/conf.d/cozy-indexer.conf
+rm <span class="operator">-f</span> /etc/supervisor/conf.d/cozy-controller.conf
+rm <span class="operator">-f</span> /etc/supervisor/conf.d/cozy-indexer.conf
 rm -rf /usr/local/cozy
 rm -rf /etc/cozy
 apt-get purge supervisord</code></pre>
-</div><footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">Github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">Contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">mailing-list</a><a href="https://cozycloud.cc">Cozy Cloud</a></footer></div><script defer="defer"  src="/vendors/javascripts/jquery-2.0.3.min.js"></script><script defer="defer"  src="/assets/javascripts/main.js"></script></body></html>
+
+      </div>
+      <footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">Github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">Contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">Mailing-list</a><a href="https://cozycloud.cc">Cozy Cloud</a></footer>
+    </div><script defer="defer"  src="/vendors/javascripts/jquery-2.0.3.min.js"></script><script defer="defer"  src="/vendors/javascripts/bootstrap.min.js"></script><script defer="defer"  src="/assets/javascripts/main.js"></script>
+  </body>
+</html>

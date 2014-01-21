@@ -1,14 +1,14 @@
 (function() {
   $(document).ready(function() {
-    /*
-    $('nav li').click ->
-        $('nav li.selected').find('ul').hide()
-        $('nav li.selected').removeClass 'selected'
-        $(this).addClass 'selected'
-    
-        $(this).find('ul').show()
-    */
-
+    $('body').scrollspy({
+      target: '#navigation'
+    });
+    $('body').on('activate.bs.scrollspy', function() {
+      return $(this).addClass('active');
+    });
+    return $(window).on('load', function() {
+      return $('body').scrollspy('refresh');
+    });
   });
 
 }).call(this);

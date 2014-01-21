@@ -1,46 +1,117 @@
 <!DOCTYPE html><!--[if lte IE 7]> <html class="no-js ie67 ie678" lang="en"> <![endif]-->
 <!--[if IE 8]> <html class="no-js ie8 ie678" lang="en"> <![endif]-->
-<!--[if IE 9]> <html class="no-js ie9" lang="en"> <![endif]--><html lang="en"><head><meta charset="utf-8"><!--[if lt IE 9]>
-<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-<![endif]--><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width"><link rel="shortcut icon" href="/assets/images/favicon.png"><title>Contributing</title><link  rel="stylesheet" href="/vendors/css/knacss.css" /><link  rel="stylesheet" href="/vendors/css/sunburst.css" /><link  rel="stylesheet" href="/assets/css/main.css" /><link  rel="stylesheet" href="/assets/css/home.css" /></head><body><div class="navbar fixed"><a href="/" class="nav-logo left"><img src="/assets/images/happycloud.png" alt="Happy Cloud"></a><span class="subtitle">Contributing</span><a href="/hack/getting-started/" class="right">hack</a><a href="/host/install.html" class="right">host</a></div><div class="wrapper"><aside class="mod left w25 aside"><nav id="navigation" role="navigation"><ul class="first-level"><li class="big"><a href="/hack/getting-started/" class="label">Getting started</a></li><li class="big"><a href="/hack/cookbooks/" class="label">Cookbooks</a></li><li class="big"><a href="/hack/application-skeletons/" class="label">Application Skeletons</a></li><li class="big selected"><a href="/hack/contributing/" class="label">Contributing</a></li></ul></nav></aside><div id="main" role="main" class="mod pam w75"><h1 id="contributing-to-cozycloud">Contributing to Cozycloud</h1>
+<!--[if IE 9]> <html class="no-js ie9" lang="en"> <![endif]-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8"><!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="/assets/images/favicon.png">
+    <title>Contributing
+    </title><link  rel="stylesheet" href="/vendors/css/knacss.css" /><link  rel="stylesheet" href="/vendors/css/sunburst.css" /><link  rel="stylesheet" href="/assets/css/main.css" /><link  rel="stylesheet" href="/assets/css/home.css" />
+  </head>
+  <body>
+    <div class="navbar fixed"><a href="/" class="nav-logo left"><img src="/assets/images/happycloud.png" alt="Happy Cloud"></a><span class="subtitle">
+        <div class="breadcrumb-item"><a href="/hack/getting-started/">Getting started</a>
+          <ul class="menu-item">
+            <li><a href="/hack/getting-started/setup-environment.html">Setting up the environment</a></li>
+            <li><a href="/hack/getting-started/first-app.html">Your first app in 30 minutes</a></li>
+            <li><a href="/hack/getting-started/architecture-overview.html">Understand the Cozy Architecture</a></li>
+            <li><a href="/hack/getting-started/play-with-data-system.html">Play with the Data System</a></li>
+            <li><a href="/hack/getting-started/discover-americano.html">Discover Americano</a></li>
+            <li><a href="/hack/getting-started/learn-single-page-app-way.html">Learn the Single Page App Way</a></li>
+          </ul>
+        </div>
+        <div class="breadcrumb-item"><a href="/hack/cookbooks/">Cookbooks</a>
+          <ul class="menu-item">
+            <li><a href="/hack/cookbooks/data-system.html">The Data System API</a></li>
+            <li><a href="/hack/cookbooks/data-system-odm.html">The ODM for Data System API</a></li>
+            <li><a href="/hack/cookbooks/localization.html">Localize your applications</a></li>
+            <li><a href="/hack/cookbooks/deploy.html">Deploy your applications</a></li>
+          </ul>
+        </div>
+        <div class="breadcrumb-item"><a href="/hack/application-skeletons/">Application Skeletons</a>
+          <ul class="menu-item">
+            <li><a href="/hack/application-skeletons/cozy-official.html">Official Cozy skeleton</a></li>
+          </ul>
+        </div>
+        <div class="breadcrumb-item current"><a href="/hack/contributing/">Contributing</a>
+        </div></span>
+      <div class="submenu-container right selected"><a href="/hack/getting-started/">Hack</a></div>
+      <div class="submenu-container right"><a href="/host/install.html">Host</a></div>
+    </div>
+    <div class="wrapper">
+      <div class="wrap-menu w25 mod left">&nbsp;
+        <aside>
+          <p class="title toc">Contributing</p>
+          <nav id="navigation" role="navigation">
+            <ul class="nav first-level">
+              <li class="big"><a href="#reporting-a-bug-or-submitting-a-feature-request" class="label">Reporting a bug or submitting a feature request</a>
+                <ul class="second-level">
+                </ul>
+              </li>
+              <li class="big"><a href="#the-documentation" class="label">The documentation</a>
+                <ul class="second-level">
+                </ul>
+              </li>
+              <li class="big"><a href="#building-and-sharing-an-application" class="label">Building and sharing an application</a>
+                <ul class="second-level">
+                </ul>
+              </li>
+              <li class="big"><a href="#translating-cozy-and-applications" class="label">Translating Cozy and applications</a>
+                <ul class="second-level">
+                </ul>
+              </li>
+              <li class="big"><a href="#documentation-s-roadmap" class="label">Documentation's roadmap</a>
+                <ul class="second-level">
+                </ul>
+              </li>
+              <li class="big"><a href="#contributing-to-the-core-code" class="label">Contributing to the core code</a>
+                <ul class="second-level">
+                </ul>
+              </li>
+            </ul>
+          </nav>
+        </aside>
+      </div>
+      <div id="main" role="main" class="mod pam w75"><h1 id="contributing-to-cozycloud">Contributing to Cozycloud</h1>
 <p>You can contribute to Cozy in many ways, whether you are a NodeJS Ninja or a
 Net-Citizen willing to protect her/his privacy, all contributions are welcome!
 Report a bug, submit a feature request or improve the documentation to ease
-self-hosting, translations, developing new applications...
-<strong>There&#39;s something for everyone!</strong></p>
-<p>Everything is libre and open-source and hosted on
+self-hosting, translations, developing new applications...</p>
+<p><strong>There's something for everyone!</strong></p>
+<p>Everything is free and open-source and hosted on
 <a href="https://github.com/mycozycloud/">Github</a>, this page will explain you how can
 help.</p>
 <h2 id="reporting-a-bug-or-submitting-a-feature-request">Reporting a bug or submitting a feature request</h2>
-<p>We use Github&#39;s issues to report the bugs or submit a feature request. Every
+<p>We use Github's issues to report the bugs or submit a feature request. Every
 application or module has its own Github page.
-Try to be as descriptive as possible and add screenshots if you can,
-espescially for bug reports.</p>
+Try to be accurate in your descriptions and add, if possible, screenshots, especially for bug reports.</p>
 <h2 id="the-documentation">The documentation</h2>
 <p>You can improve the documentation you are currently reading by modifying and
 submitting us a pull request on the
 <a href="https://github.com/mycozycloud/cozy-docs/">dedicated Github repository</a>.</p>
 <h2 id="building-and-sharing-an-application">Building and sharing an application</h2>
-<p>If you have an idea and don&#39;t know where to start, check out <a href="/hack/getting-started/">our tutorials</a>. All you need to know is a bit of JavaScript!</p>
+<p>If you have an idea and don't know where to start, check out <a href="/hack/getting-started/">our tutorials</a>. All you need to know is a bit of JavaScript!</p>
 <h2 id="translating-cozy-and-applications">Translating Cozy and applications</h2>
-<p>You can be very helpful by translating Cozy and applications. See the <a href="/hack/cookbooks/localization.html#summary">translator guide</a> and make sure you follow the <a href="/hack/cookbooks/localization.html#guidelines">localization guidelines</a>.</p>
-<h2 id="documentation-s-roadmap">Documentation&#39;s roadmap</h2>
-<p>What&#39;s coming next? Here is what we plan to add (order is relevant). Feel free to ask for something you are interested in.</p>
+<p>You can be very helpful by translating Cozy and applications. See the <a href="/hack/cookbooks/localization.html#Summary-for-translator-contributors">translator guide</a> and make sure you follow the <a href="/hack/cookbooks/localization.html#Localization-guidelines">localization guidelines</a>.</p>
+<h2 id="documentation-s-roadmap">Documentation's roadmap</h2>
+<p>What's coming next? Here is what we plan to add (order is relevant). Feel free to ask for something you are interested in.</p>
 <ul>
 <li>cookbook: how to deploy a cozy app (permissions, ...)</li>
-<li>data system&#39;s <a href="https://github.com/mycozycloud/cozy-data-system/wiki/">current documentation</a></li>
-<li>data system&#39;s API cookbook: adding the authentification and authorization section</li>
-<li>cookbook: how to make your app notified by data system&#39;s changes in realtime</li>
+<li>data system's <a href="https://github.com/mycozycloud/cozy-data-system/wiki/">current documentation</a></li>
+<li>data system's API cookbook: adding the authentification and authorization section</li>
+<li>cookbook: how to make your app notified by data system's changes in realtime</li>
 <li>cookbook: how to add Cozy notifications from your app</li>
 <li>cookbook: how to send emails from your app</li>
 <li>cookbook: how to add public routes to your application</li>
-<li>cookbook: how to make your app translatable</li>
 <li>cookbook: cozy-manager documentation</li>
 <li>cookbook: resetting cozy</li>
 <li>cookbook: everything about security in Cozy</li>
 <li>cookbook: unit and funcitonal testing</li>
 <li>cookbook: how to easily manage the fixtures with cozy-fixtures</li>
-<li>improve the menus: drop-down top menu + internal menus</li>
 </ul>
 <h2 id="contributing-to-the-core-code">Contributing to the core code</h2>
 <p>These are explanations on how to test modifications done on the core modules:
@@ -49,54 +120,59 @@ Data System, Home, Controller or Proxy.</p>
 <li><p>Setup Vagrant</p>
 </li>
 <li><p>Get the development virtual machine</p>
-<pre class="highlighted"><code class="avrasm"> vagrant box <span class="keyword">add</span> cozycloud-dev-latest http://files<span class="preprocessor">.cozycloud</span><span class="preprocessor">.cc</span>/cozycloud-dev-latest<span class="preprocessor">.box</span></code></pre>
+<pre class="highlight"><code class="brainfuck"> <span class="comment">vagrant</span> <span class="comment">box</span> <span class="comment">add</span> <span class="comment">cozycloud</span><span class="literal">-</span><span class="comment">dev</span><span class="literal">-</span><span class="comment">latest</span> <span class="comment">http://files</span><span class="string">.</span><span class="comment">cozycloud</span><span class="string">.</span><span class="comment">cc/cozycloud</span><span class="literal">-</span><span class="comment">dev</span><span class="literal">-</span><span class="comment">latest</span><span class="string">.</span><span class="comment">box</span></code></pre>
 </li>
 <li><p>Run the development virtual machine</p>
-<pre class="highlighted"><code class="sql"> va<span class="operator"><span class="keyword">grant</span> init cozycloud-dev-latest
- vagrant up</code></pre>
+<pre class="highlight"><code class="brainfuck"> <span class="comment">vagrant</span> <span class="comment">init</span> <span class="comment">cozycloud</span><span class="literal">-</span><span class="comment">dev</span><span class="literal">-</span><span class="comment">latest</span>
+ <span class="comment">vagrant</span> <span class="comment">up</span></code></pre>
 </li>
-<li><p>Update it if needed</p>
-<pre class="highlighted"><code class="sql"> va<span class="operator"><span class="keyword">grant</span> ssh
+<li><p>Update it, if needed</p>
+<pre class="highlight"><code class="brainfuck"> <span class="comment">vagrant</span> <span class="comment">ssh</span>
 
- sudo supervisorctl stop cozy-controller
- sudo pkill -<span class="number">9</span> node # make sure <span class="keyword">no</span> process <span class="keyword">is</span> remaining.
- sudo npm -g install cozy-controller 
- sudo supervisorctl <span class="keyword">start</span> cozy-controller
+ <span class="comment">sudo</span> <span class="comment">supervisorctl</span> <span class="comment">stop</span> <span class="comment">cozy</span><span class="literal">-</span><span class="comment">controller</span>
+ <span class="comment">sudo</span> <span class="comment">pkill</span> <span class="literal">-</span><span class="comment">9</span> <span class="comment">node</span> <span class="comment">#</span> <span class="comment">make</span> <span class="comment">sure</span> <span class="comment">no</span> <span class="comment">process</span> <span class="comment">is</span> <span class="comment">remaining</span><span class="string">.</span>
+ <span class="comment">sudo</span> <span class="comment">npm</span> <span class="literal">-</span><span class="comment">g</span> <span class="comment">install</span> <span class="comment">cozy</span><span class="literal">-</span><span class="comment">controller</span>
+ <span class="comment">sudo</span> <span class="comment">supervisorctl</span> <span class="comment">start</span> <span class="comment">cozy</span><span class="literal">-</span><span class="comment">controller</span>
 
- sudo cozy-monitor install data-system
- sudo cozy-monitor install home
- sudo cozy-monitor install proxy
+ <span class="comment">sudo</span> <span class="comment">cozy</span><span class="literal">-</span><span class="comment">monitor</span> <span class="comment">install</span> <span class="comment">data</span><span class="literal">-</span><span class="comment">system</span>
+ <span class="comment">sudo</span> <span class="comment">cozy</span><span class="literal">-</span><span class="comment">monitor</span> <span class="comment">install</span> <span class="comment">home</span>
+ <span class="comment">sudo</span> <span class="comment">cozy</span><span class="literal">-</span><span class="comment">monitor</span> <span class="comment">install</span> <span class="comment">proxy</span>
 
- cozy-monitor stop home</code></pre>
+ <span class="comment">cozy</span><span class="literal">-</span><span class="comment">monitor</span> <span class="comment">stop</span> <span class="comment">home</span></code></pre>
 </li>
-<li><p>Clone the repository you want to work with (home in this example), install and run it. 
-The --no-bin-links is needed because you can&#39;t symlink in the shared folder.</p>
-<pre class="highlighted"><code class="coffeescript"> cd <span class="regexp">/vagrant/</span>
- git clone https:<span class="regexp">//gi</span>thub.com<span class="regexp">/mycozycloud/</span>cozy-home
- cd <span class="regexp">/vagrant/</span>cozy-home
- sudo npm install --<span class="literal">no</span>-bin-links
- node server.js</code></pre>
+<li><p>Clone the repository you want to work with (home in this example), install and run it.
+The --no-bin-links is needed because you can't symlink in the shared folder.</p>
+<pre class="highlight"><code class="brainfuck"> <span class="comment">cd</span> <span class="comment">/vagrant/</span>
+ <span class="comment">git</span> <span class="comment">clone</span> <span class="comment">https://github</span><span class="string">.</span><span class="comment">com/mycozycloud/cozy</span><span class="literal">-</span><span class="comment">home</span>
+ <span class="comment">cd</span> <span class="comment">/vagrant/cozy</span><span class="literal">-</span><span class="comment">home</span>
+ <span class="comment">sudo</span> <span class="comment">npm</span> <span class="comment">install</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">no</span><span class="literal">-</span><span class="comment">bin</span><span class="literal">-</span><span class="comment">links</span>
+ <span class="comment">node</span> <span class="comment">server</span><span class="string">.</span><span class="comment">js</span></code></pre>
 </li>
-<li><p>On the host, browse to <a href="http://127.0.0.1:9104">http://127.0.0.1:9104</a>, register a user, and then check <a href="http://127.0.0.1:9104/#home">http://127.0.0.1:9104/#home</a>. 
-You should see logs popping up in your console. IF you are asked to login instead of registering, use this fix :</p>
-<pre class="highlighted"><code class="sql"> Ctrl + C
- su<span class="operator"><span class="keyword">do</span> cozy-monitor <span class="keyword">start</span> home
- cd /usr/<span class="keyword">local</span>/cozy/apps/home/home/cozy-home/
- sudo coffee commands cleanuser
- sudo cozy-monitor stop home
- cd /vagrant/cozy-home
+<li><p>On the host, browse to <a href="http://127.0.0.1:9104">http://127.0.0.1:9104</a>, register a user, and then check <a href="http://127.0.0.1:9104/#home">http://127.0.0.1:9104/#home</a>.
+You should see logs popping up in your console. IF you are asked to login instead of registering, use this fix:</p>
+<pre class="highlight"><code class="bash"> Ctrl + C
+ <span class="built_in">sudo</span> cozy-monitor start home
+ <span class="built_in">cd</span> /usr/local/cozy/apps/home/home/cozy-home/
+ <span class="built_in">sudo</span> coffee commands cleanuser
+ <span class="built_in">sudo</span> cozy-monitor stop home
+ <span class="built_in">cd</span> /vagrant/cozy-home
  node server</code></pre>
 </li>
-<li><p>Hack ! You should see the repository on your host system in the same directory as where you did vagrant up. 
+<li><p>Hack ! You should see the repository on your host system in the same directory as where you did vagrant up.
 Use your favorite editor to edit the .coffee files. You will need to compile before seeing your changes.</p>
 <p> For server changes :</p>
-<pre class="highlighted"><code class="nginx">  <span class="title">Ctrl</span> + C
-  cake convert
-  node server</code></pre>
+<pre class="highlight"><code class="brainfuck">  <span class="comment">Ctrl</span> <span class="literal">+</span> <span class="comment">C</span>
+  <span class="comment">cake</span> <span class="comment">convert</span>
+  <span class="comment">node</span> <span class="comment">server</span></code></pre>
 <p> For client changes, open a new vagrant ssh and :</p>
-<pre class="highlighted"><code class="sql">  cd /va<span class="operator"><span class="keyword">grant</span>/cozy-home/client/
-  npm install --<span class="keyword">no</span>-bin-links
-  brunch w</code></pre>
+<pre class="highlight"><code class="brainfuck">  <span class="comment">cd</span> <span class="comment">/vagrant/cozy</span><span class="literal">-</span><span class="comment">home/client/</span>
+  <span class="comment">npm</span> <span class="comment">install</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">no</span><span class="literal">-</span><span class="comment">bin</span><span class="literal">-</span><span class="comment">links</span>
+  <span class="comment">brunch</span> <span class="comment">w</span></code></pre>
 </li>
 </ol>
-</div><footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">Github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">Contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">mailing-list</a><a href="https://cozycloud.cc">Cozy Cloud</a></footer></div><script defer="defer"  src="/vendors/javascripts/jquery-2.0.3.min.js"></script><script defer="defer"  src="/assets/javascripts/main.js"></script></body></html>
+
+      </div>
+      <footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">Github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">Contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">Mailing-list</a><a href="https://cozycloud.cc">Cozy Cloud</a></footer>
+    </div><script defer="defer"  src="/vendors/javascripts/jquery-2.0.3.min.js"></script><script defer="defer"  src="/vendors/javascripts/bootstrap.min.js"></script><script defer="defer"  src="/assets/javascripts/main.js"></script>
+  </body>
+</html>

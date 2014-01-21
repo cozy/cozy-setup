@@ -1,20 +1,94 @@
 <!DOCTYPE html><!--[if lte IE 7]> <html class="no-js ie67 ie678" lang="en"> <![endif]-->
 <!--[if IE 8]> <html class="no-js ie8 ie678" lang="en"> <![endif]-->
-<!--[if IE 9]> <html class="no-js ie9" lang="en"> <![endif]--><html lang="en"><head><meta charset="utf-8"><!--[if lt IE 9]>
-<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-<![endif]--><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width"><link rel="shortcut icon" href="/assets/images/favicon.png"><title>Your first app in 30 minutes</title><link  rel="stylesheet" href="/vendors/css/knacss.css" /><link  rel="stylesheet" href="/vendors/css/sunburst.css" /><link  rel="stylesheet" href="/assets/css/main.css" /><link  rel="stylesheet" href="/assets/css/home.css" /></head><body><div class="navbar fixed"><a href="/" class="nav-logo left"><img src="/assets/images/happycloud.png" alt="Happy Cloud"></a><span class="subtitle">Your first app in 30 minutes</span><a href="/hack/getting-started/" class="right">hack</a><a href="/host/install.html" class="right">host</a></div><div class="wrapper"><aside class="mod left w25 aside"><nav id="navigation" role="navigation"><ul class="first-level"><li class="big selected"><a href="/hack/getting-started/" class="label">Getting started</a><ul class="second-level"><li class="small"><a href="/hack/getting-started/setup-environment.html" class="label">Setup the environment</a></li><li class="small"><a href="/hack/getting-started/first-app.html" class="label selected">Your first app in 30 minutes</a></li><li class="small"><a href="/hack/getting-started/architecture-overview.html" class="label">Understand the Cozy Architecture</a></li><li class="small"><a href="/hack/getting-started/play-with-data-system.html" class="label">Play with the Data System</a></li><li class="small"><a href="/hack/getting-started/discover-americano.html" class="label">Discover Americano</a></li><li class="small"><a href="/hack/getting-started/learn-single-page-app-way.html" class="label">Learn the Single Page App Way</a></li></ul></li><li class="big"><a href="/hack/cookbooks/" class="label">Cookbooks</a></li><li class="big"><a href="/hack/application-skeletons/" class="label">Application Skeletons</a></li><li class="big"><a href="/hack/contributing/" class="label">Contributing</a></li></ul></nav></aside><div id="main" role="main" class="mod pam w75"><h1 id="tutorial-1-your-first-app-in-30-minutes">Tutorial 1: your first app in 30 minutes</h1>
-<p>This first tutorial is an introduction to cozy webapp development but as you
-will see, you can consider it as an introduction to webapp development with
+<!--[if IE 9]> <html class="no-js ie9" lang="en"> <![endif]-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8"><!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="/assets/images/favicon.png">
+    <title>Your first app in 30 minutes
+    </title><link  rel="stylesheet" href="/vendors/css/knacss.css" /><link  rel="stylesheet" href="/vendors/css/sunburst.css" /><link  rel="stylesheet" href="/assets/css/main.css" /><link  rel="stylesheet" href="/assets/css/home.css" />
+  </head>
+  <body>
+    <div class="navbar fixed"><a href="/" class="nav-logo left"><img src="/assets/images/happycloud.png" alt="Happy Cloud"></a><span class="subtitle">
+        <div class="breadcrumb-item current"><a href="/hack/getting-started/">Getting started</a>
+          <ul class="menu-item">
+            <li><a href="/hack/getting-started/setup-environment.html">Setting up the environment</a></li>
+            <li><a href="/hack/getting-started/first-app.html">Your first app in 30 minutes</a></li>
+            <li><a href="/hack/getting-started/architecture-overview.html">Understand the Cozy Architecture</a></li>
+            <li><a href="/hack/getting-started/play-with-data-system.html">Play with the Data System</a></li>
+            <li><a href="/hack/getting-started/discover-americano.html">Discover Americano</a></li>
+            <li><a href="/hack/getting-started/learn-single-page-app-way.html">Learn the Single Page App Way</a></li>
+          </ul>
+        </div>
+        <div class="breadcrumb-item"><a href="/hack/cookbooks/">Cookbooks</a>
+          <ul class="menu-item">
+            <li><a href="/hack/cookbooks/data-system.html">The Data System API</a></li>
+            <li><a href="/hack/cookbooks/data-system-odm.html">The ODM for Data System API</a></li>
+            <li><a href="/hack/cookbooks/localization.html">Localize your applications</a></li>
+            <li><a href="/hack/cookbooks/deploy.html">Deploy your applications</a></li>
+          </ul>
+        </div>
+        <div class="breadcrumb-item"><a href="/hack/application-skeletons/">Application Skeletons</a>
+          <ul class="menu-item">
+            <li><a href="/hack/application-skeletons/cozy-official.html">Official Cozy skeleton</a></li>
+          </ul>
+        </div>
+        <div class="breadcrumb-item"><a href="/hack/contributing/">Contributing</a>
+        </div></span>
+      <div class="submenu-container right selected"><a href="/hack/getting-started/">Hack</a></div>
+      <div class="submenu-container right"><a href="/host/install.html">Host</a></div>
+    </div>
+    <div class="wrapper">
+      <div class="wrap-menu w25 mod left">&nbsp;
+        <aside>
+          <p class="title toc">Your first app in 30 minutes</p>
+          <nav id="navigation" role="navigation">
+            <ul class="nav first-level">
+              <li class="big"><a href="#step-1-displaying-html-pages" class="label">Step 1: displaying HTML pages</a>
+                <ul class="second-level">
+                </ul>
+              </li>
+              <li class="big"><a href="#step-2-listing-the-bookmarks-from-the-server" class="label">Step 2: listing the bookmarks from the server</a>
+                <ul class="second-level">
+                </ul>
+              </li>
+              <li class="big"><a href="#step-3-adding-and-removing-bookmarks" class="label">Step 3: adding and removing bookmarks</a>
+                <ul class="second-level">
+                </ul>
+              </li>
+              <li class="big"><a href="#step-4-using-a-real-database-sqlite" class="label">Step 4: using a real database, SQLite</a>
+                <ul class="second-level">
+                </ul>
+              </li>
+              <li class="big"><a href="#step-5-deploying-your-app-into-cozy" class="label">Step 5 : deploying your app into Cozy</a>
+                <ul class="second-level">
+                </ul>
+              </li>
+              <li class="big"><a href="#what-s-next-" class="label">What's next ?</a>
+                <ul class="second-level">
+                </ul>
+              </li>
+            </ul>
+          </nav>
+        </aside>
+      </div>
+      <div id="main" role="main" class="mod pam w75"><h1 id="tutorial-1-your-first-app-in-30-minutes">Tutorial 1: your first app in 30 minutes</h1>
+<p>This first tutorial is an introduction to cozy webapp development, but as you
+will see, you can also consider it as an introduction to webapp development with
 NodeJS.</p>
 <h3 id="what-you-will-achieve">What you will achieve</h3>
 <ul>
 <li>writing a small NodeJS webapp using <a href="http://expressjs.com/">ExpressJS</a>,
 the standard framework for NodeJS</li>
 <li>introducing <a href="http://jade-lang.com/">Jade</a> to write the templates
-that will be displayed by the browser</li>
+that the browser will display</li>
 <li>sharing your app with other Cozy users and deploying it into Cozy</li>
 </ul>
-<h3 id="what-you-should-know-or-be-familiar-with-">What you should know (or be familiar with)</h3>
+<h3 id="what-you-should-master-or-to-be-familiar-with-">What you should master (or to be familiar with)</h3>
 <ul>
 <li>JavaScript / NodeJS</li>
 <li>HTML</li>
@@ -22,8 +96,8 @@ that will be displayed by the browser</li>
 </ul>
 <h3 id="get-ready">Get ready</h3>
 <p>Get the template:</p>
-<pre class="highlighted"><code class="bash">cd cozy-dev/ <span class="comment"># where you start the VM</span>
-git clone https://github.com/mycozycloud/cozy-tutorial.git &amp;&amp; cd cozy-tutorial
+<pre class="highlight"><code class="bash"><span class="built_in">cd</span> cozy-dev/ <span class="comment"># where you start the VM</span>
+git clone https://github.com/mycozycloud/cozy-tutorial.git &amp;&amp; <span class="built_in">cd</span> cozy-tutorial
 npm install</code></pre>
 <p>Here is how the folders and files are organized:</p>
 <ul>
@@ -32,9 +106,9 @@ npm install</code></pre>
 <li>server.js : where you will write your code</li>
 </ul>
 <h2 id="step-1-displaying-html-pages">Step 1: displaying HTML pages</h2>
-<p>NB : the source code of this step can be found <a href="https://github.com/mycozycloud/cozy-tutorial/tree/step-1">here</a>.</p>
-<p>We first need to create an HTTP server that will serve the content on requests:</p>
-<pre class="highlighted"><code class="javascript"><span class="comment">// server.js</span>
+<p>NB: the source code for this step can be found <a href="https://github.com/mycozycloud/cozy-tutorial/tree/step-1">here</a>.</p>
+<p>We first need to create an HTTP server that will serve the content for requests:</p>
+<pre class="highlight"><code class="javascript"><span class="comment">// server.js</span>
 
 <span class="comment">// Generate a new instance of express server.</span>
 <span class="keyword">var</span> express = require(<span class="string">'express'</span>)
@@ -48,31 +122,31 @@ npm install</code></pre>
 <span class="keyword">var</span> host = process.env.HOST || <span class="string">"127.0.0.1"</span>;
 
 <span class="comment">// Starts the server itself</span>
-<span class="keyword">var</span> server = http.createServer(app).listen(port, host, <span class="keyword">function</span>() {
+<span class="keyword">var</span> server = http.createServer(app).listen(port, host, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
   console.log(<span class="string">"Server listening to %s:%d within %s environment"</span>,
               host, port, app.get(<span class="string">'env'</span>));
 });
 
 <span class="comment">// At the root of your website, we show the index.html page</span>
-app.get(<span class="string">'/'</span>, <span class="keyword">function</span>(req, res) {
+app.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res)</span> {</span>
   res.sendfile(<span class="string">'./public/index.html'</span>)
 });</code></pre>
 <p>Now start the server by running:</p>
-<pre class="highlighted"><code class="bash">node server.js</code></pre>
+<pre class="highlight"><code class="bash">node server.js</code></pre>
 <p>Then open your browser on <a href="http://localhost:9250/">http://localhost:9250/</a> and check the result.</p>
-<p>Whoohoo, you&#39;ve just made your first NodeJS app compatible with Cozy!</p>
-<p>You might think &quot;well, it sucks, I actually can&#39;t do anything with that&quot;. You are absolutely right, let&#39;s move on to step 2.</p>
+<p>Woohoo, you've just made your first NodeJS app compatible with Cozy!</p>
+<p>You might think "well, this sucks, I actually can't do anything with it". You are absolutely right, so let's move on to step 2.</p>
 <h2 id="step-2-listing-the-bookmarks-from-the-server">Step 2: listing the bookmarks from the server</h2>
-<p>NB : the source code of this step can be found <a href="https://github.com/mycozycloud/cozy-tutorial/tree/step-2">here</a>.</p>
-<p>For the step 2, we are going to use a list stored in memory on the server and render it within a template. We are going to use Jade as a template engine. If you don&#39;t know Jade, you will find it is not difficult to read and write it.</p>
+<p>NB: the source code for this step can be found <a href="https://github.com/mycozycloud/cozy-tutorial/tree/step-2">here</a>.</p>
+<p>For the step 2, we are going to use a list stored in memory on the server and render it within a template. We are going to use Jade as a template engine. If you don't master Jade, you will find it is not difficult to read and write it.</p>
 <p>First, install jade:</p>
-<pre class="highlighted"><code class="bash">npm install jade --save <span class="comment"># save also adds jade to package.json</span></code></pre>
-<p>Go back to <code>server.js</code> and change it that way:</p>
-<pre class="highlighted"><code class="javascript"><span class="comment">// server.js</span>
+<pre class="highlight"><code class="bash">npm install jade --save <span class="comment"># save also adds jade to package.json</span></code></pre>
+<p>Go back to <code>server.js</code> and change it in the following way:</p>
+<pre class="highlight"><code class="javascript"><span class="comment">// server.js</span>
 
 <span class="comment">/* We add configure directive to tell express to use Jade to
    render templates */</span>
-app.configure(<span class="keyword">function</span>() {
+app.configure(<span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
   app.set(<span class="string">'views'</span>, __dirname + <span class="string">'/public'</span>);
   app.engine(<span class="string">'.html'</span>, require(<span class="string">'jade'</span>).__express);
 });
@@ -84,16 +158,16 @@ bookmarks.push({title: <span class="string">"Cozy.io"</span>, url: <span class="
 bookmarks.push({title: <span class="string">"My Cozy"</span>, url: <span class="string">"http://localhost:9104/"</span>});
 
 <span class="comment">// We render the templates with the data</span>
-app.get(<span class="string">'/'</span>, <span class="keyword">function</span>(req, res) {
+app.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res)</span> {</span>
   params = {
     <span class="string">"bookmarks"</span>: bookmarks
   }
-  res.render(<span class="string">'index.jade'</span>, params, <span class="keyword">function</span>(err, html) {
+  res.render(<span class="string">'index.jade'</span>, params, <span class="function"><span class="keyword">function</span><span class="params">(err, html)</span> {</span>
     res.send(<span class="number">200</span>, html);
   });
 });</code></pre>
-<p>We also need to change the HTML file for a Jade file:</p>
-<pre class="highlighted"><code class="xml"># public/index.jade
+<p>We also need to change the HTML file into a Jade file:</p>
+<pre class="highlight"><code class="xml"># public/index.jade
 doctype 5
 html(lang="fr")
   head
@@ -112,57 +186,57 @@ html(lang="fr")
         - }</code></pre>
 <p>Start the server and go to <a href="http://localhost:9250/">http://localhost:9250/</a> to make sure the app displays
 your bookmarks.</p>
-<p>Again, this is not very useful because you can&#39;t modify the list. Let&#39;s fix it!</p>
+<p>Again, this is not very useful because you can't modify the list. Let's fix it!</p>
 <h2 id="step-3-adding-and-removing-bookmarks">Step 3: adding and removing bookmarks</h2>
-<p>NB : the source code of this step can be found <a href="https://github.com/mycozycloud/cozy-tutorial/tree/step-3">here</a>.</p>
+<p>NB: the source code for this step can be found <a href="https://github.com/mycozycloud/cozy-tutorial/tree/step-3">here</a>.</p>
 <p>First, add the following before the list in <code>index.jade</code></p>
-<pre class="highlighted"><code class="xml">form(action="add", method="post")
+<pre class="highlight"><code class="xml">form(action="add", method="post")
     label Title:
     input(type="text", name="title")
     label Url:
     input(type="text", name="url")
     input(type="submit", value="Add a new bookmark")</code></pre>
-<p>We also need a button to remove a bookmark, let&#39;s rewrite the way a bookmark is
+<p>We also need a button to remove a bookmark, let's rewrite the way a bookmark is
 displayed:</p>
-<pre class="highlighted"><code class="xml">li
+<pre class="highlight"><code class="xml">li
     a(href=bookmarks[bookmark].url)= bookmarks[bookmark].title
     | &amp;nbsp;- (
     a(href="delete/#{bookmark}") delete
     | )</code></pre>
 <p>Now we can create the corresponding routes in the server:</p>
-<pre class="highlighted"><code class="javascript">
+<pre class="highlight"><code class="javascript">
 <span class="comment">// add the body parser middleware to transform incoming data into a JS object.</span>
-app.configure(<span class="keyword">function</span>() {
+app.configure(<span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
   app.set(<span class="string">'views'</span>, __dirname + <span class="string">'/public'</span>);
   app.engine(<span class="string">'.html'</span>, require(<span class="string">'jade'</span>).__express);
   app.use(express.bodyParser());
 });
 
 <span class="comment">// We define a new route that will handle bookmark creation</span>
-app.post(<span class="string">'/add'</span>, <span class="keyword">function</span>(req, res) {
+app.post(<span class="string">'/add'</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res)</span> {</span>
   bookmarks.push(req.body);
   res.redirect(<span class="string">'/'</span>);
 });
 
 <span class="comment">// We define another route that will handle bookmark deletion</span>
-app.get(<span class="string">'/delete/:id'</span>, <span class="keyword">function</span>(req, res) {
+app.get(<span class="string">'/delete/:id'</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res)</span> {</span>
   bookmarks.splice(req.params.id, <span class="number">1</span>);
   res.redirect(<span class="string">'/'</span>);
 });</code></pre>
 <p>To be able to get the data from the POST request, we need to tell express to
-process the parameters. Add the following inside the &quot;app.configure&quot; section:</p>
-<pre class="highlighted"><code class="javascript"><span class="comment">// Allows express to get data from POST requests</span>
+process the parameters. Add the following inside the "app.configure" section:</p>
+<pre class="highlight"><code class="javascript"><span class="comment">// Allows express to get data from POST requests</span>
 app.use(express.bodyParser());</code></pre>
 <p>Et voilà! You can now add and remove bookmarks. But it still sucks, right? Each
-time you start and stop the server you lose everything. Let&#39;s use a database!</p>
+time you start and then stop the server you lose your data. Let's use a database!</p>
 <h2 id="step-4-using-a-real-database-sqlite">Step 4: using a real database, SQLite</h2>
-<p>NB : the source code of this step can be found
+<p>NB: the source code for this step can be found
 <a href="https://github.com/mycozycloud/cozy-tutorial/tree/step-4">here</a>.</p>
 <p>Even if Cozy main persistence layer is not SQLite, it is shipped with every Cozy.</p>
-<p>The first thing we need to do is getting a module to use SQLite:</p>
-<pre class="highlighted"><code class="bash">npm install sqlite3 --save</code></pre>
+<p>The first thing we need to do is to get a module to use SQLite:</p>
+<pre class="highlight"><code class="bash">npm install sqlite3 --save</code></pre>
 <p>Then we need to initialize the database. To achieve that, change the following in server.js:</p>
-<pre class="highlighted"><code class="javascript"><span class="keyword">var</span> http = require(<span class="string">'http'</span>),
+<pre class="highlight"><code class="javascript"><span class="keyword">var</span> http = require(<span class="string">'http'</span>),
     express = require(<span class="string">'express'</span>),
     app = express(),
     sqlite3 = require(<span class="string">'sqlite3'</span>).verbose(),
@@ -171,7 +245,7 @@ time you start and stop the server you lose everything. Let&#39;s use a database
 
 <span class="comment">// Database initialization</span>
 db.get(<span class="string">"SELECT name FROM sqlite_master WHERE type='table' AND name='bookmarks'"</span>,
-       <span class="keyword">function</span>(err, rows) {
+       <span class="function"><span class="keyword">function</span><span class="params">(err, rows)</span> {</span>
   <span class="keyword">if</span>(err !== <span class="literal">null</span>) {
     console.log(err);
   }
@@ -179,7 +253,7 @@ db.get(<span class="string">"SELECT name FROM sqlite_master WHERE type='table' A
     db.run(<span class="string">'CREATE TABLE "bookmarks" '</span> +
            <span class="string">'("id" INTEGER PRIMARY KEY AUTOINCREMENT, '</span> +
            <span class="string">'"title" VARCHAR(255), '</span> +
-           <span class="string">'url VARCHAR(255))'</span>, <span class="keyword">function</span>(err) {
+           <span class="string">'url VARCHAR(255))'</span>, <span class="function"><span class="keyword">function</span><span class="params">(err)</span> {</span>
       <span class="keyword">if</span>(err !== <span class="literal">null</span>) {
         console.log(err);
       }
@@ -193,16 +267,16 @@ db.get(<span class="string">"SELECT name FROM sqlite_master WHERE type='table' A
   }
 });</code></pre>
 <p>Now we must change the list, add and delete routes:</p>
-<pre class="highlighted"><code class="javascript"><span class="comment">// We render the templates with the data</span>
-app.get(<span class="string">'/'</span>, <span class="keyword">function</span>(req, res) {
+<pre class="highlight"><code class="javascript"><span class="comment">// We render the templates with the data</span>
+app.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res)</span> {</span>
 
-  db.all(<span class="string">'SELECT * FROM bookmarks ORDER BY title'</span>, <span class="keyword">function</span>(err, row) {
+  db.all(<span class="string">'SELECT * FROM bookmarks ORDER BY title'</span>, <span class="function"><span class="keyword">function</span><span class="params">(err, row)</span> {</span>
     <span class="keyword">if</span>(err !== <span class="literal">null</span>) {
       res.send(<span class="number">500</span>, <span class="string">"An error has occurred -- "</span> + err);
     }
     <span class="keyword">else</span> {
       console.log(row);
-      res.render(<span class="string">'index.jade'</span>, {bookmarks: row}, <span class="keyword">function</span>(err, html) {
+      res.render(<span class="string">'index.jade'</span>, {bookmarks: row}, <span class="function"><span class="keyword">function</span><span class="params">(err, html)</span> {</span>
         res.send(<span class="number">200</span>, html);
       });
     }
@@ -210,12 +284,12 @@ app.get(<span class="string">'/'</span>, <span class="keyword">function</span>(r
 });
 
 <span class="comment">// We define a new route that will handle bookmark creation</span>
-app.post(<span class="string">'/add'</span>, <span class="keyword">function</span>(req, res) {
+app.post(<span class="string">'/add'</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res)</span> {</span>
   title = req.body.title;
   url = req.body.url;
   sqlRequest = <span class="string">"INSERT INTO 'bookmarks' (title, url) "</span> +
                <span class="string">"VALUES('"</span> + title + <span class="string">"', '"</span> + url + <span class="string">"')"</span>
-  db.run(sqlRequest, <span class="keyword">function</span>(err) {
+  db.run(sqlRequest, <span class="function"><span class="keyword">function</span><span class="params">(err)</span> {</span>
     <span class="keyword">if</span>(err !== <span class="literal">null</span>) {
       res.send(<span class="number">500</span>, <span class="string">"An error has occurred -- "</span> + err);
     }
@@ -226,9 +300,9 @@ app.post(<span class="string">'/add'</span>, <span class="keyword">function</spa
 });
 
 <span class="comment">// We define another route that will handle bookmark deletion</span>
-app.get(<span class="string">'/delete/:id'</span>, <span class="keyword">function</span>(req, res) {
+app.get(<span class="string">'/delete/:id'</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res)</span> {</span>
   db.run(<span class="string">"DELETE FROM bookmarks WHERE id='"</span> + req.params.id + <span class="string">"'"</span>,
-         <span class="keyword">function</span>(err) {
+         <span class="function"><span class="keyword">function</span><span class="params">(err)</span> {</span>
     <span class="keyword">if</span>(err !== <span class="literal">null</span>) {
       res.send(<span class="number">500</span>, <span class="string">"An error has occurred -- "</span> + err);
     }
@@ -237,26 +311,31 @@ app.get(<span class="string">'/delete/:id'</span>, <span class="keyword">functio
     }
   });
 });</code></pre>
-<p>Don&#39;t forget to change the template too, in client/index.jade:</p>
-<pre class="highlighted"><code class="xml">li
+<p>Don't forget to change the template too, in client/index.jade:</p>
+<pre class="highlight"><code class="xml">li
     a(href=bookmarks[bookmark].url)= bookmarks[bookmark].title
     | &amp;nbsp;- (
     a(href="delete/#{bookmarks[bookmark].id}") delete
     | )</code></pre>
 <h2 id="step-5-deploying-your-app-into-cozy">Step 5 : deploying your app into Cozy</h2>
-<p>If you want to deploy the app on a Cozy, your first need to put on a public git repository. We use <a href="https://github.com">Github</a> because it&#39;s awesome but you can use any git provider.</p>
-<p>When you have published your code, go to your cozy if you have one or to <a href="http://localhost:9104/#applications">http://localhost:9104/#applications</a> and install your app through the dedicated interface.
-The application logs are available inside the virtual machine. To watch them, do the following:</p>
-<pre class="highlighted"><code class="bash">vagrant ssh
-tail -f /usr/local/cozy/apps/{yourapplication}/{yourapplication}/{yourapplication}/logs/production.log</code></pre>
+<p>If you want to deploy the app into a Cozy, your first need to put on a public git repository. We use <a href="https://github.com">Github</a> because it's awesome, but you can use any git provider.</p>
+<p>When you have published your code, go to your Cozy if you have one, or to <a href="http://localhost:9104/#applications">http://localhost:9104/#applications</a> and install your app through the dedicated interface.
+The application logs are available inside the virtual machine. In order to take a look at them, do the following:</p>
+<pre class="highlight"><code class="bash">vagrant ssh
+tail <span class="operator">-f</span> /usr/local/cozy/apps/{yourapplication}/{yourapplication}/{yourapplication}/logs/production.log</code></pre>
 <p>You can also run your application directly inside the virtual machine:</p>
-<pre class="highlighted"><code class="bash">vagrant ssh
-cd /vagrant/{yourapplication}/
+<pre class="highlight"><code class="bash">vagrant ssh
+<span class="built_in">cd</span> /vagrant/{yourapplication}/
 cozy-monitor dev-route:start {appSlug} {port}
 PORT={port} node server.js</code></pre>
-<p>Then go to <a href="http://localhost:9104/#apps/{appSlug}/">http://localhost:9104/#apps/{appSlug}/</a> and watch your app inside Cozy!</p>
-<h2 id="what-s-next-">What&#39;s next ?</h2>
-<p>You&#39;ve developed your first Cozy app and you must understand now that it&#39;s nothing more than a normal web application.</p>
-<p>You must understand that if applications are built that way they will struggle collaborating around the user&#39;s data and you will not be able to use Cozy at its best.</p>
-<p>Now we&#39;ll introduce you <a href="/hack/getting-started/architecture-overview.html">the Cozy architecture</a> before coming back to this tutorial and get into more Cozy webapp development.</p>
-</div><footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">Github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">Contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">mailing-list</a><a href="https://cozycloud.cc">Cozy Cloud</a></footer></div><script defer="defer"  src="/vendors/javascripts/jquery-2.0.3.min.js"></script><script defer="defer"  src="/assets/javascripts/main.js"></script></body></html>
+<p>Then go to <a href="http://localhost:9104/#apps/{appSlug}/">http://localhost:9104/#apps/{appSlug}/</a> and take a look at your app inside Cozy!</p>
+<h2 id="what-s-next-">What's next ?</h2>
+<p>You've developed your first Cozy app and you must now understand that it's nothing more than a normal web application.</p>
+<p>You must also understand that if applications are built that way they will struggle collaborate around the user's data and you will not be able to use Cozy at its best.</p>
+<p>Now we'll introduce you to <a href="/hack/getting-started/architecture-overview.html">the Cozy architecture</a> before coming back to this tutorial and getting into more Cozy webapp development.</p>
+
+      </div>
+      <footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">Github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">Contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">Mailing-list</a><a href="https://cozycloud.cc">Cozy Cloud</a></footer>
+    </div><script defer="defer"  src="/vendors/javascripts/jquery-2.0.3.min.js"></script><script defer="defer"  src="/vendors/javascripts/bootstrap.min.js"></script><script defer="defer"  src="/assets/javascripts/main.js"></script>
+  </body>
+</html>

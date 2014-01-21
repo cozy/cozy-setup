@@ -1,0 +1,130 @@
+<!DOCTYPE html><!--[if lte IE 7]> <html class="no-js ie67 ie678" lang="en"> <![endif]-->
+<!--[if IE 8]> <html class="no-js ie8 ie678" lang="en"> <![endif]-->
+<!--[if IE 9]> <html class="no-js ie9" lang="en"> <![endif]-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8"><!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="/assets/images/favicon.png">
+    <title>Deploy your applications
+    </title><link  rel="stylesheet" href="/vendors/css/knacss.css" /><link  rel="stylesheet" href="/vendors/css/sunburst.css" /><link  rel="stylesheet" href="/assets/css/main.css" /><link  rel="stylesheet" href="/assets/css/home.css" />
+  </head>
+  <body>
+    <div class="navbar fixed"><a href="/" class="nav-logo left"><img src="/assets/images/happycloud.png" alt="Happy Cloud"></a><span class="subtitle">
+        <div class="breadcrumb-item"><a href="/hack/getting-started/">Getting started</a>
+          <ul class="menu-item">
+            <li><a href="/hack/getting-started/setup-environment.html">Setting up the environment</a></li>
+            <li><a href="/hack/getting-started/first-app.html">Your first app in 30 minutes</a></li>
+            <li><a href="/hack/getting-started/architecture-overview.html">Understand the Cozy Architecture</a></li>
+            <li><a href="/hack/getting-started/play-with-data-system.html">Play with the Data System</a></li>
+            <li><a href="/hack/getting-started/discover-americano.html">Discover Americano</a></li>
+            <li><a href="/hack/getting-started/learn-single-page-app-way.html">Learn the Single Page App Way</a></li>
+          </ul>
+        </div>
+        <div class="breadcrumb-item current"><a href="/hack/cookbooks/">Cookbooks</a>
+          <ul class="menu-item">
+            <li><a href="/hack/cookbooks/data-system.html">The Data System API</a></li>
+            <li><a href="/hack/cookbooks/data-system-odm.html">The ODM for Data System API</a></li>
+            <li><a href="/hack/cookbooks/localization.html">Localize your applications</a></li>
+            <li><a href="/hack/cookbooks/deploy.html">Deploy your applications</a></li>
+          </ul>
+        </div>
+        <div class="breadcrumb-item"><a href="/hack/application-skeletons/">Application Skeletons</a>
+          <ul class="menu-item">
+            <li><a href="/hack/application-skeletons/cozy-official.html">Official Cozy skeleton</a></li>
+          </ul>
+        </div>
+        <div class="breadcrumb-item"><a href="/hack/contributing/">Contributing</a>
+        </div></span>
+      <div class="submenu-container right selected"><a href="/hack/getting-started/">Hack</a></div>
+      <div class="submenu-container right"><a href="/host/install.html">Host</a></div>
+    </div>
+    <div class="wrapper">
+      <div class="wrap-menu w25 mod left">&nbsp;
+        <aside>
+          <p class="title toc">Deploy your applications</p>
+          <nav id="navigation" role="navigation">
+            <ul class="nav first-level">
+              <li class="big"><a href="#declaring-the-permissions" class="label">Declaring the permissions</a>
+                <ul class="second-level">
+                </ul>
+              </li>
+              <li class="big"><a href="#naming-your-application" class="label">Naming your application</a>
+                <ul class="second-level">
+                </ul>
+              </li>
+              <li class="big"><a href="#distributing-to-other-users" class="label">Distributing to other users</a>
+                <ul class="second-level">
+                </ul>
+              </li>
+              <li class="big"><a href="#troubleshootings" class="label">Troubleshootings</a>
+                <ul class="second-level">
+                  <li class="small"><a href="#error-npm-failed-" class="label">Error: &quot;NPM failed&quot;</a></li>
+                  <li class="small"><a href="#error-broken-app-" class="label">Error: &quot;Broken app&quot;</a></li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+        </aside>
+      </div>
+      <div id="main" role="main" class="mod pam w75"><h1 id="deploy-your-application">Deploy your application</h1>
+<p>Once your awesome application is ready to be used, you migh wonder how use it in your Cozy. This cookbook will describe packaging and distributing your application while avoiding common pitfalls.
+Open your package.json file, you'll need it!</p>
+<p><em>Note: if you want to see a working example, please check <a href="https://github.com/mycozycloud/cozy-calendar/blob/master/package.json">Calendar's package.json</a>.</em></p>
+<h2 id="declaring-the-permissions">Declaring the permissions</h2>
+<p>In a production Cozy, the application will need permissions in order to access the Data System for every doctype it uses.</p>
+<p>In order to declare what permissions are required by your application, you must add the list to your package.json at the root level. Let's say our application needs the permissions for the doctype "Todo", "Event" and "Alarm".</p>
+<pre class="highlight"><code class="json">{
+    "<span class="attribute">cozy-permissions</span>": <span class="value">{
+        "<span class="attribute">Todo</span>": <span class="value">{
+            "<span class="attribute">description</span>": <span class="value"><span class="string">"Display the next things to do"</span>
+        </span>}</span>,
+        "<span class="attribute">Event</span>": <span class="value">{
+            "<span class="attribute">description</span>": <span class="value"><span class="string">"Manage your meetings"</span>
+        </span>}</span>,
+        "<span class="attribute">Alarm</span>": <span class="value">{
+            "<span class="attribute">description</span>": <span class="value"><span class="string">"Warn you when a meeting is happening soon"</span>
+        </span>}
+    </span>}
+</span>}</code></pre>
+<p>The "description" fields will be displayed to the user during installation. Do not miss the occasion to build trust between the user and your application!</p>
+<h2 id="naming-your-application">Naming your application</h2>
+<p>There are two fields regarding naming your application: "name", "cozy-displayName" and "description".</p>
+<p>Your application is identified by a slug withing Cozy, that slug is the "name field". You cannot put fancy characters in it, only use letters and "-" or "_", <strong>no space</strong>!</p>
+<p>The "cozy-displayName" field allows you to choose a fancy name, you can use all the character you want, but be careful! It will appear on the user's home, so it shouldn't be too long.</p>
+<p>The "description" field allows you to display to the user a description in the installation process.</p>
+<pre class="highlight"><code class="json">{
+    "<span class="attribute">name</span>": <span class="value"><span class="string">"cozy-mysuperapp-slug"</span></span>,
+    "<span class="attribute">cozy-displayName</span>": <span class="value"><span class="string">"My Super Application"</span>
+    <span class="string">"description"</span>: <span class="string">"My Super Application makes you awesome!"</span>
+</span>}</code></pre>
+<h2 id="distributing-to-other-users">Distributing to other users</h2>
+<p>The first thing to do is creating a Github account if you don't have one already. We are currently tightly integrated with Github but that's something we'll change when the time comes. So make a Github account and push your code to a <strong>public</strong> remote repository.
+<br /><br />
+Next comes the Cozy app market. Currently there isn't a fancy centralized marketplace where people write reviews and stars their favorite applications. We want to do that and we will do it at a certain point.</p>
+<p>For now, we do it manually. So send us an email (at contacts[at]cozycloud.cc) with the link of the previously created Github repository, saying "Hello I have built an awesome application, please add review it and add it to the market" and we will be more than happy to do it!</p>
+<h2 id="troubleshootings">Troubleshootings</h2>
+<p>When you install an application on Cozy, errors can occur. First thing to do is to try again 5 minutes later. If it still doesn't work, check the following sections and ask us for help on the IRC channel (#cozycloud on irc.freenode.net).</p>
+<h3 id="error-npm-failed-">Error: "NPM failed"</h3>
+<p>This error means something went wrong during the "npm install" phase. Two things: the NPM repository is down and we can't do anything except waiting (we don't own it!) or your application doesn't its depdency properly declared. Make sure you can do a local "npm install" before deploying!</p>
+<pre class="highlight"><code class="bash"><span class="built_in">cd</span> my-app/
+rm -rf node_modules/
+npm install</code></pre>
+<h3 id="error-broken-app-">Error: "Broken app"</h3>
+<p>This happens when the app failed to start after its installation. There are many possible cases, here are the most commons:</p>
+<h4 id="the-permissions-aren-t-properly-declared">The permissions aren't properly declared</h4>
+<p>Double-check that your application asks for all the permissions it needs. See part 1 of this cookbook for more information.</p>
+<h4 id="your-application-crashes-due-to-a-bug">Your application crashes due to a bug</h4>
+<p>Make sure your application starts locally with and <em>without</em> data (a use case that is often forgotten!).
+Also make sure all the NPM dependencies are properly declared in the package.json (i.e. you've installed a module without adding it to your dependency).</p>
+<h4 id="the-cozy-on-which-your-are-installing-the-application-is-messed-up">The Cozy on which your are installing the application is messed up</h4>
+<p>If you can, restart the Cozy manually, sometimes zombie processes clutter everything.</p>
+
+      </div>
+      <footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">Github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">Contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">Mailing-list</a><a href="https://cozycloud.cc">Cozy Cloud</a></footer>
+    </div><script defer="defer"  src="/vendors/javascripts/jquery-2.0.3.min.js"></script><script defer="defer"  src="/vendors/javascripts/bootstrap.min.js"></script><script defer="defer"  src="/assets/javascripts/main.js"></script>
+  </body>
+</html>

@@ -1,13 +1,70 @@
 <!DOCTYPE html><!--[if lte IE 7]> <html class="no-js ie67 ie678" lang="en"> <![endif]-->
 <!--[if IE 8]> <html class="no-js ie8 ie678" lang="en"> <![endif]-->
-<!--[if IE 9]> <html class="no-js ie9" lang="en"> <![endif]--><html lang="en"><head><meta charset="utf-8"><!--[if lt IE 9]>
-<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-<![endif]--><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width"><link rel="shortcut icon" href="/assets/images/favicon.png"><title>Setup the environment</title><link  rel="stylesheet" href="/vendors/css/knacss.css" /><link  rel="stylesheet" href="/vendors/css/sunburst.css" /><link  rel="stylesheet" href="/assets/css/main.css" /><link  rel="stylesheet" href="/assets/css/home.css" /></head><body><div class="navbar fixed"><a href="/" class="nav-logo left"><img src="/assets/images/happycloud.png" alt="Happy Cloud"></a><span class="subtitle">Setup the environment</span><a href="/hack/getting-started/" class="right">hack</a><a href="/host/install.html" class="right">host</a></div><div class="wrapper"><aside class="mod left w25 aside"><nav id="navigation" role="navigation"><ul class="first-level"><li class="big selected"><a href="/hack/getting-started/" class="label">Getting started</a><ul class="second-level"><li class="small"><a href="/hack/getting-started/setup-environment.html" class="label selected">Setup the environment</a></li><li class="small"><a href="/hack/getting-started/first-app.html" class="label">Your first app in 30 minutes</a></li><li class="small"><a href="/hack/getting-started/architecture-overview.html" class="label">Understand the Cozy Architecture</a></li><li class="small"><a href="/hack/getting-started/play-with-data-system.html" class="label">Play with the Data System</a></li><li class="small"><a href="/hack/getting-started/discover-americano.html" class="label">Discover Americano</a></li><li class="small"><a href="/hack/getting-started/learn-single-page-app-way.html" class="label">Learn the Single Page App Way</a></li></ul></li><li class="big"><a href="/hack/cookbooks/" class="label">Cookbooks</a></li><li class="big"><a href="/hack/application-skeletons/" class="label">Application Skeletons</a></li><li class="big"><a href="/hack/contributing/" class="label">Contributing</a></li></ul></nav></aside><div id="main" role="main" class="mod pam w75"><h1 id="setup-the-environment">Setup the environment</h1>
+<!--[if IE 9]> <html class="no-js ie9" lang="en"> <![endif]-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8"><!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="/assets/images/favicon.png">
+    <title>Setting up the environment
+    </title><link  rel="stylesheet" href="/vendors/css/knacss.css" /><link  rel="stylesheet" href="/vendors/css/sunburst.css" /><link  rel="stylesheet" href="/assets/css/main.css" /><link  rel="stylesheet" href="/assets/css/home.css" />
+  </head>
+  <body>
+    <div class="navbar fixed"><a href="/" class="nav-logo left"><img src="/assets/images/happycloud.png" alt="Happy Cloud"></a><span class="subtitle">
+        <div class="breadcrumb-item current"><a href="/hack/getting-started/">Getting started</a>
+          <ul class="menu-item">
+            <li><a href="/hack/getting-started/setup-environment.html">Setting up the environment</a></li>
+            <li><a href="/hack/getting-started/first-app.html">Your first app in 30 minutes</a></li>
+            <li><a href="/hack/getting-started/architecture-overview.html">Understand the Cozy Architecture</a></li>
+            <li><a href="/hack/getting-started/play-with-data-system.html">Play with the Data System</a></li>
+            <li><a href="/hack/getting-started/discover-americano.html">Discover Americano</a></li>
+            <li><a href="/hack/getting-started/learn-single-page-app-way.html">Learn the Single Page App Way</a></li>
+          </ul>
+        </div>
+        <div class="breadcrumb-item"><a href="/hack/cookbooks/">Cookbooks</a>
+          <ul class="menu-item">
+            <li><a href="/hack/cookbooks/data-system.html">The Data System API</a></li>
+            <li><a href="/hack/cookbooks/data-system-odm.html">The ODM for Data System API</a></li>
+            <li><a href="/hack/cookbooks/localization.html">Localize your applications</a></li>
+            <li><a href="/hack/cookbooks/deploy.html">Deploy your applications</a></li>
+          </ul>
+        </div>
+        <div class="breadcrumb-item"><a href="/hack/application-skeletons/">Application Skeletons</a>
+          <ul class="menu-item">
+            <li><a href="/hack/application-skeletons/cozy-official.html">Official Cozy skeleton</a></li>
+          </ul>
+        </div>
+        <div class="breadcrumb-item"><a href="/hack/contributing/">Contributing</a>
+        </div></span>
+      <div class="submenu-container right selected"><a href="/hack/getting-started/">Hack</a></div>
+      <div class="submenu-container right"><a href="/host/install.html">Host</a></div>
+    </div>
+    <div class="wrapper">
+      <div class="wrap-menu w25 mod left">&nbsp;
+        <aside>
+          <p class="title toc">Setting up the environment</p>
+          <nav id="navigation" role="navigation">
+            <ul class="nav first-level">
+              <li class="big active"><a href="#installing-dependencies" class="label">Installing dependencies</a>
+                <ul class="second-level">
+                  <li class="small"><a href="#for-simple-applications" class="label">For simple applications</a></li>
+                  <li class="small"><a href="#for-applications-that-take-advantage-of-the-data-system" class="label">For applications that take advantage of the Data System</a></li>
+                  <li class="small"><a href="#initializing-and-starting-the-virtual-machine" class="label">Initializing and starting the virtual machine</a></li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+        </aside>
+      </div>
+      <div id="main" role="main" class="mod pam w75"><h1 id="setting-up-the-environment">Setting up the environment</h1>
 <p>Welcome to the first step to get you started: the development environment setup
 process.</p>
-<p>Since Cozy is built on many software bricks, we wrapped it into an easy to use
-virtual machine so you don&#39;t pollute your local system. That also means you can
-use the operating system you like!</p>
+<p>Since Cozy is built on many software bricks, we wrapped it into an easy-to-use
+virtual machine, so you don't pollute your local system. That also means you can
+use the operation system you like (well, there are obviously issues on Windows)!</p>
 <h2 id="installing-dependencies">Installing dependencies</h2>
 <p>Before doing anything, install the following:</p>
 <h3 id="for-simple-applications">For simple applications</h3>
@@ -18,7 +75,7 @@ to manage the virtual machine more easily.</p>
 <p>Git is a control version tool that is now very common. We use it in combination
 with <a href="https://github.com">Github</a> that allows you to store online your
 repository and much more!</p>
-<p>If you don&#39;t want access to the specific features of Cozy Cloud, you can stop
+<p>If you don't want access to the specific features of Cozy Cloud, you can stop
 here and jump to our <a href="hack/getting-started/first-app.html">first tutorial</a>.</p>
 <h3 id="for-applications-that-take-advantage-of-the-data-system">For applications that take advantage of the Data System</h3>
 <h4 id="virtualbox-v4-3-0-a-href-https-www-virtualbox-org-wiki-downloads-target-_blank-download-a-">VirtualBox (&gt;= v4.3.0) (<a href="https://www.virtualbox.org/wiki/Downloads" target="_blank">download</a>)</h4>
@@ -26,39 +83,43 @@ here and jump to our <a href="hack/getting-started/first-app.html">first tutoria
 indirectly with Vagrant to power our virtual machine.
 (Latest tested version: 4.3.0)</p>
 <h4 id="vagrant-v1-3-5-a-href-http-downloads-vagrantup-com-target-_blank-download-a-">Vagrant (&gt;= v1.3.5) (<a href="http://downloads.vagrantup.com/" target="_blank">download</a>)</h4>
-<p>Vagrant is a tool to &quot;create and configure lightweight, reproducible and
-portable development environments.&quot; That&#39;s what we need here! We use it through
-a custom CLI tool so you will not manipulate it directly.
+<p>Vagrant is a tool to "create and configure lightweight, reproducible and
+portable development environments." That's what we need here! We use it through
+a custom CLI tool, so you will not manipulate it directly.
 (Latest tested version: 1.3.5)</p>
 <h4 id="-cozy-for-developers-https-github-com-mycozycloud-cozy-manager-"><a href="https://github.com/mycozycloud/cozy-manager">Cozy for developers</a></h4>
 <p>You will also need our tool:</p>
-<pre class="highlighted"><code class="bash">npm install -g cozy</code></pre>
-<p>The <code>cozy</code> tool will allow you to create and manage a virtual machine with a Cozy development environment, without dealing with VirtualBox and Vagrant. It can also generate an application skeleton from templates.</p>
+<pre class="highlight"><code class="bash">npm install -g cozy</code></pre>
+<p>The <code>cozy</code> tool will allow you to create and manage a virtual machine with a Cozy development environment, without dealing yourself with VirtualBox and Vagrant. Also, it can generate application skeletons from templates.</p>
 <h3 id="initializing-and-starting-the-virtual-machine">Initializing and starting the virtual machine</h3>
 <p>The next step is to get your virtual machine. Basically, you are going to
 have a linux running on your computer with all a Cozy needs to work on already
 installed and configured.</p>
-<p>To help you managing the VM, the Cozy Manager comes to rescue.
-Create a folder that will contain all your source code:</p>
-<pre class="highlighted"><code class="bash">mkdir cozy-dev &amp;&amp; cd cozy-dev</code></pre>
+<p>To help you managing the VM, the Cozy Manager comes to the rescue.</p>
+<p>Create a folder that will contain all your source code:</p>
+<pre class="highlight"><code class="bash">mkdir cozy-dev &amp;&amp; <span class="built_in">cd</span> cozy-dev</code></pre>
 <p>Now you can use the Cozy Manager to initialize the VM by running:</p>
-<pre class="highlighted"><code class="bash">cozy dev:init</code></pre>
+<pre class="highlight"><code class="bash">cozy dev:init</code></pre>
 <p>This will download the base box file (~500MB) and a custom configuration (<a href="https://github.com/mycozycloud/cozy-setup/blob/master/dev/Vagrantfile">see
 it on
 Github</a>).
 Then the VM will be created. The whole process will take about 15 minutes
 (depending on your internet connection and your computer).</p>
 <p>Then you can start the VM and check that everything is running correctly.</p>
-<pre class="highlighted"><code class="bash">cozy dev:start
+<pre class="highlight"><code class="bash">cozy dev:start
 cozy dev:vm-status</code></pre>
-<p>We advise you to update the VM the first time you start it (and regularly)
-because we don&#39;t update the base box each time we improve or fix a bug in the
-&quot;core&quot; of Cozy: <code>bash
-cozy dev:light-update</code></p>
-<p>You can go to <code>http://localhost:9104/</code> to see your Cozy running. You can also use
-it but beware! The Cozy running in your virtual machine is in development mode,
-meaning that most of the security measures are disabled. Only use it for
-testing purpose!</p>
-<p>We explain in details how the Cozy Manager works in the dedicated cookbook.</p>
-<p>You are now ready to <a href="/hack/getting-started/first-app.html">write your first application</a>, We hope it wasn&#39;t too long!</p>
-</div><footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">Github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">Contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">mailing-list</a><a href="https://cozycloud.cc">Cozy Cloud</a></footer></div><script defer="defer"  src="/vendors/javascripts/jquery-2.0.3.min.js"></script><script defer="defer"  src="/assets/javascripts/main.js"></script></body></html>
+<p>We advise you to update the VM the first time you start it (and regularly),
+because we don't update the base box each time we improve or fix a bug in the
+"core" of Cozy: <code>bash
+cozy dev:light-update</code>
+You can go to <code>http://localhost:9104/</code> in order to see your Cozy running. You can also use
+it, but beware! The Cozy running in your virtual machine is in development mode, meaning that most of the security measures are disabled. Only use it for
+testing purposes!</p>
+<p>We explain in detail how the Cozy Manager works in dedicated cookbook.</p>
+<p>You are now ready to <a href="/hack/getting-started/first-app.html">write your first application</a>, We hope it wasn't too long!</p>
+
+      </div>
+      <footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">Github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">Contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">Mailing-list</a><a href="https://cozycloud.cc">Cozy Cloud</a></footer>
+    </div><script defer="defer"  src="/vendors/javascripts/jquery-2.0.3.min.js"></script><script defer="defer"  src="/vendors/javascripts/bootstrap.min.js"></script><script defer="defer"  src="/assets/javascripts/main.js"></script>
+  </body>
+</html>

@@ -429,11 +429,7 @@ def install_controller():
     path = '/usr/local/lib/node_modules/cozy-controller/bin/cozy-controller'
     require.supervisor.process(
         'cozy-controller',
-        command=''.join([
-            '/usr/bin/pidproxy ',
-            '/etc/cozy/pids/controller.pid ',
-            '%s -u --auth --per 755',
-        ]) % path,
+        command="%s -u --auth --per 755" % path,
         environment='NODE_ENV="production"',
         user='root'
     )
@@ -443,13 +439,12 @@ def install_controller():
         sudo('pkill -9 node')
     supervisor.start_process('cozy-controller')
     if is_arm():
-        time.sleep(15)
+        time.sleep(20)
     else:
-        time.sleep(7)
+        time.sleep(10)
     with hide('running', 'stdout'):
-        result = run('curl -X GET http://127.0.0.1:9002/ ' +
-                     '-H "x-auth-token: %s"' % TOKEN)
-    if result != '{"message":"No drones specified"}':
+        result = run('curl -X GET http://127.0.0.1:9002/')
+    if result != '{"error":"Wrong auth token"}':
         print_failed('cozy-controller')
     print(green('Cozy Controller successfully started'))
 

@@ -2,14 +2,17 @@ import string
 import random
 import time
 
+from fabric import state
 from fabric.api import run, sudo, cd, prompt, task, settings
-from fabtools import require, python, supervisor, deb, system, nodejs, service
-from fabtools.require import file as require_file
 from fabric.contrib import files
 from fabric.colors import green, red
 from fabric.context_managers import hide
+from fabric.tasks import Task
+from fabric.task_utils import crawl
 
-from . import help  # noqa
+from fabtools import require, python, supervisor, deb, system, nodejs, service
+from fabtools.require import file as require_file
+
 
 '''
 Script to set up a cozy cloud environnement from a fresh system
@@ -19,6 +22,7 @@ Once your system is updated, launch
 $ fab -H user@Ip.Ip.Ip.Ip:Port install
 to install the full Cozy stack.
 '''
+
 
 # Helpers
 def id_generator(
@@ -100,6 +104,7 @@ def ask_for_confirmation(module):
     confirm = prompt('Are you sure you want to definitely remove %s from your'
             ' computer? ' % module, default="no")
     return confirm == "yes"
+
 
 @task
 def uninstall_all():
@@ -209,11 +214,12 @@ def uninstall_node08():
         filename = folder + '.tar.gz'
     require_file(url='http://nodejs.org/dist/v%s/%s' % (version, filename))
     sudo('tar -xzf %s' % filename)
-    with cd('%s' %folder):
+
+    with cd('%s' % folder):
         sudo('./configure')
         sudo('make uninstall')
         sudo('make distclean')
-    su_delete('%s*' %folder)
+    su_delete('%s*' % folder)
     print(green('Node 0.8.18 successfully uninstalled'))
 
 
@@ -628,6 +634,7 @@ server {
 }
 '''
 
+
 @task
 def install_nginx():
     '''
@@ -671,6 +678,7 @@ def install_nginx():
         su_delete('/etc/nginx/conf.d/example_ssl.conf')
     service.restart('nginx')
     print(green('Nginx successfully installed.'))
+
 
 @task
 def restart_cozy():
@@ -764,3 +772,38 @@ def reset_security_tokens():
     reset_controller_token()
     config_couchdb()
     print(green('All the tokens have been reset.'))
+
+
+"""Help tasks"""
+
+
+@task
+def help(name=None):
+    """Display help for a given task
+
+    Options:
+        name    - The task to display help on.
+
+    To display a list of available tasks type:
+
+        $ fab -l
+
+    To display help on a specific task type:
+
+        $ fab help:<name>
+    """
+
+    if name is None:
+        name = "help"
+
+    task = crawl(name, state.commands)
+    if isinstance(task, Task):
+        doc = getattr(task, "__doc__", None)
+        if doc is not None:
+            print("Help on {0:s}:".format(name))
+            print(doc)
+        else:
+            print("No help available for {0:s}".format(name))
+    else:
+        print("No such task {0:s}".format(name))
+        print("For a list of tasks type: fab -l")

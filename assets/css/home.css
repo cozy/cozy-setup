@@ -306,7 +306,7 @@ header form {
 }
 .social {
   padding-top: 40px;
-  padding-bottom: 100px;
+  padding-bottom: 0px;
 }
 .social h1 {
   font-size: 24px;
@@ -316,7 +316,7 @@ header form {
   margin: 0;
 }
 #goals {
-  padding-bottom: 10px;
+  padding-bottom: 100px;
 }
 #goals h1 {
   font-size: 24px;
@@ -459,9 +459,13 @@ header form {
   }
 }
 @media (max-width: 1000px) {
-  header .biglogo {
+  #header .biglogo {
+    float: none;
     width: 100%;
     margin-bottom: 30px;
+  }
+  #header .biglogo.left {
+    float: none;
   }
   header,
   section,

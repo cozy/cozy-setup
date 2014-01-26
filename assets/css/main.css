@@ -72,13 +72,13 @@ body {
 .navbar .subtitle .breadcrumb-item:hover a {
   border-bottom: 5px solid #fe8800;
 }
-.navbar .subtitle word-wrap.current > a,
-.navbar .subtitle .breadcrumb-item.current > a {
+.navbar .subtitle word-wrap.current a,
+.navbar .subtitle .breadcrumb-item.current a {
   border-bottom: 5px solid #34a6ff;
   background: #fefefe;
 }
-.navbar .subtitle word-wrap.current > a:hover,
-.navbar .subtitle .breadcrumb-item.current > a:hover {
+.navbar .subtitle word-wrap.current a:hover,
+.navbar .subtitle .breadcrumb-item.current a:hover {
   border-bottom: 5px solid #fe8800;
 }
 .navbar .subtitle word-wrap.current a,

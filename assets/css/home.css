@@ -124,6 +124,11 @@ button:active {
   cursor: pointer;
   text-decoration: none;
 }
+.external-links a.action {
+  background: #58bd58;
+  font-weight: bold;
+  color: #fff;
+}
 .external-links a:hover {
   color: #fff;
   -webkit-transition: color 0.3s ease-in;

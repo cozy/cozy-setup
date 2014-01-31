@@ -174,44 +174,20 @@ def install_node08():
     Install Node 0.8.18 (0.18.21 for ARM hardwares)
     '''
 
-    if not is_arm():
-        require.nodejs.installed_from_source('0.8.18')
-        print(green('Node 0.8.18 successfully installed'))
-    else:
-        version = '0.8.21'
-        folder = 'node-v%s-linux-arm-pi' % version
-        filename = folder + '.tar.gz'
-        require.files.directory('/opt/node', use_sudo=True)
-        archive_path = 'http://nodejs.org/dist/v%s/%s' % (version, filename)
-        require_file(url=archive_path)
-        run('tar -xzf %s' % filename)
-        sudo('cp -r %s/* /opt/node' % folder)
-        sudo('ln -s /opt/node/bin/node  /usr/local/bin/node')
-        sudo('ln -s /opt/node/bin/npm  /usr/local/bin/npm')
-        su_delete(folder)
-        su_delete(filename)
-        result = run('node -v')
-        if '0.8.21' in result:
-            print(green('Node 0.8.21 successfully installed'))
-        else:
-            print(red('Something went wrong while installing Node 0.8.21'))
+    require.nodejs.installed_from_source('0.8.20')
+    print(green('Node 0.8.20 successfully installed'))
 
 
 @task
 def uninstall_node08():
     '''
-    Uninstall node 0.8.18
+    Uninstall node 0.8.20
     '''
 
     sudo('npm uninstall npm')
-    if not is_arm():
-        version = '0.8.18'
-        folder = 'node-v%s' % version
-        filename = folder + '.tar.gz'
-    else:
-        version = '0.8.21'
-        folder = 'node-v%s-linux-arm-pi' % version
-        filename = folder + '.tar.gz'
+    version = '0.8.20'
+    folder = 'node-v%s' % version
+    filename = folder + '.tar.gz'
     require_file(url='http://nodejs.org/dist/v%s/%s' % (version, filename))
     sudo('tar -xzf %s' % filename)
 
@@ -416,7 +392,7 @@ def install_controller():
     '''
     Install Cozy Controller Application Manager. Daemonize with supervisor.
     '''
-    require.nodejs.package('cozy-controller')
+    #require.nodejs.package('cozy-controller')
     sudo('mkdir -p /etc/cozy')
     sudo('mkdir -p /etc/cozy/pids')
     require.files.file(
@@ -506,10 +482,7 @@ def install_indexer():
     )
     supervisor.restart_process(process_name)
 
-    if is_arm():
-        time.sleep(10)
-    else:
-        time.sleep(1)
+    time.sleep(10)
     result = run('curl -X GET http://127.0.0.1:9102/')
     is_installed = result.find("Cozy Data Indexer")
 

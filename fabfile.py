@@ -177,11 +177,11 @@ def install_tools():
 @task
 def install_node08():
     '''
-    Install Node 0.8.18 (0.18.21 for ARM hardwares)
+    Install Node 0.8.18
     '''
 
-    require.nodejs.installed_from_source('0.8.20')
-    print(green('Node 0.8.20 successfully installed'))
+    require.nodejs.installed_from_source('0.8.18')
+    print(green('Node 0.8.18 successfully installed'))
 
 
 @task
@@ -382,11 +382,7 @@ def install_monitor():
     '''
     Install Coffeescript, Compound and Cozy Monitor.
     '''
-    if is_arm():
-        sudo('npm install coffee-script -g')
-        sudo('ln -s /usr/local/bin/coffee /opt/node/bin/coffee')
-    else:
-        require.nodejs.package('coffee-script')
+    require.nodejs.package('coffee-script')
     require.nodejs.package('cozy-monitor')
     require.nodejs.package('brunch', version='1.6.3')
     print(green('Monitor, compound, brunch and coffee script ' +
@@ -398,7 +394,7 @@ def install_controller():
     '''
     Install Cozy Controller Application Manager. Daemonize with supervisor.
     '''
-    #require.nodejs.package('cozy-controller')
+    require.nodejs.package('cozy-controller')
     sudo('mkdir -p /etc/cozy')
     sudo('mkdir -p /etc/cozy/pids')
     require.files.file(

@@ -99,7 +99,7 @@ def install():
 def ask_for_confirmation(module):
     '''
     Simple function to ask for confirmation before uninstalling a module
-    installed by the the
+    installed by this fabfile.
     '''
     confirm = prompt('Are you sure you want to definitely remove %s from your'
             ' computer? ' % module, default="no")
@@ -111,7 +111,8 @@ def uninstall_all():
     '''
     Uninstall the whole stack (work in progress)
     '''
-    # TODO remove created users
+
+    sudo('cozy-monitor uninstall-all')
     if ask_for_confirmation("Cozy"):
         uninstall_cozy()
     if ask_for_confirmation("Node.js"):
@@ -120,6 +121,11 @@ def uninstall_all():
         uninstall_couchdb()
     if ask_for_confirmation("Postfix"):
         uninstall_postfix()
+    if ask_for_confirmation("Cozy users"):
+        sudo('userdel -r cozy')
+        sudo('userdel -r cozy-data-system')
+        sudo('userdel -r cozy-home')
+
 
 
 @task

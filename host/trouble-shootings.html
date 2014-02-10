@@ -77,21 +77,24 @@ Mention us the problems you encoutered, and which are not listed here, and we wi
 <p>Check the amount of RAM available on your system by clicking on the manage button on your home page. If you RAM machine is full, that means your Cozy can't install new applications.</p>
 <h2 id="install-never-ends-until-i-refresh-the-page-f5-">Install never ends until I refresh the page (F5)</h2>
 <p>That's because the data-system module is not properly synchronized with the database. Just restart the data system and everything should be back to normal.</p>
-<pre class="highlight"><code class="bash"><span class="comment"># On the cozy host</span>
-<span class="built_in">sudo</span> cozy-monitor restart data-system</code></pre>
+<pre class="highlight"><code class="bash"><span class="hljs-comment"># On the cozy host</span>
+<span class="hljs-built_in">sudo</span> cozy-monitor restart data-system
+</code></pre>
 <h2 id="server-error-occured-on-login">Server error occured on login</h2>
 <h3 id="problem-with-home">Problem with home</h3>
 <p>Check that your home is installed. In your browser go to <em><a href="https://yourcozyurl/status">https://yourcozyurl/status</a></em>
 Check that everything is set to true. If Home is marked as false, that means it is not running. To solve this problem, type the following commands in a terminal of your remote server:</p>
 <pre class="highlight"><code class="bash">cozy-monitor uninstall home
-cozy-monitor install home</code></pre>
+cozy-monitor install home
+</code></pre>
 <h3 id="problem-with-data-system">Problem with data-system</h3>
 <p>Check the log of your data-system in <code>/usr/local/cozy/apps/data-system/data-system/cozy-data-system/log/production.log</code>.
 If logs contain "Database cozy on localhost:5984 doesn't exist." and "The database could not be created, the file already exists.", that means data-system cannot connect to cozy database. To solve this problem, type the following commands in a terminal of your remote server :</p>
 <pre class="highlight"><code class="bash">cozy-monitor uninstall data-system
 cozy-monitor install data-system
 cozy-monitor restart home
-cozy-monitor restart proxy</code></pre>
+cozy-monitor restart proxy
+</code></pre>
 <h3 id="npm-errors">Npm errors</h3>
 <p>Cozy is based on Node.js applications. Node.js apps download their dependencies from the NPM registry. Sometimes this registry is not stable. So, if you encounter NPM related errors, try to run the installation again.</p>
 <h2 id="arm-processors">ARM processors</h2>
@@ -105,22 +108,26 @@ contribute!</p>
 <p>Package can be downloaded there: <a href="http://nginx.org/packages/debian/pool/nginx/n/nginx/">http://nginx.org/packages/debian/pool/nginx/n/nginx/</a></p>
 <h2 id="cozy-controller-not-started">Cozy Controller not started</h2>
 <p>If you get ECONNRESET when installing apps using the cozy-monitor, check if the cozy-controller is correctly started</p>
-<pre class="highlight"><code class="bash"><span class="built_in">sudo</span> supervisorctl</code></pre>
+<pre class="highlight"><code class="bash"><span class="hljs-built_in">sudo</span> supervisorctl
+</code></pre>
 <p>and check if the cozy-monitor is using port 9002</p>
-<pre class="highlight"><code class="bash"><span class="built_in">sudo</span> netstat -plunt | grep <span class="number">9002</span>
-tcp     <span class="number">0</span>     <span class="number">0</span> <span class="number">0.0</span>.<span class="number">0.0</span>:<span class="number">9002</span>      <span class="number">0.0</span>.<span class="number">0.0</span>:*        LISTEN      <span class="number">997</span>/node</code></pre>
+<pre class="highlight"><code class="bash"><span class="hljs-built_in">sudo</span> netstat -plunt | grep <span class="hljs-number">9002</span>
+tcp     <span class="hljs-number">0</span>     <span class="hljs-number">0</span> <span class="hljs-number">0.0</span>.<span class="hljs-number">0.0</span>:<span class="hljs-number">9002</span>      <span class="hljs-number">0.0</span>.<span class="hljs-number">0.0</span>:*        LISTEN      <span class="hljs-number">997</span>/node
+</code></pre>
 <h2 id="couchdb-password">CouchDB password</h2>
 <p>If you run several times the installation, the db password and the password used
 by the data-system could become different. To reset the password, comment the
 last line of <code>/usr/local/etc/couch/local.ini</code> in the admin section. Delete the
 file <code>/etc/cozy/couchdb.login</code> Then run installation again or run this command:</p>
-<pre class="highlight"><code class="bash">fab config_couchdb</code></pre>
+<pre class="highlight"><code class="bash">fab config_couchdb
+</code></pre>
 <h2 id="process-duplication">Process duplication</h2>
 <p>Sometimes a Node.js process duplication occurs. In that case, the simplest way
 to go back to normal is to run the following commands:</p>
-<pre class="highlight"><code class="bash"><span class="built_in">sudo</span> supervisorctl stop cozy-controller
-<span class="built_in">sudo</span> pkill -<span class="number">9</span> node
-<span class="built_in">sudo</span> supervisorctl start cozy-controller</code></pre>
+<pre class="highlight"><code class="bash"><span class="hljs-built_in">sudo</span> supervisorctl stop cozy-controller
+<span class="hljs-built_in">sudo</span> pkill -<span class="hljs-number">9</span> node
+<span class="hljs-built_in">sudo</span> supervisorctl start cozy-controller
+</code></pre>
 
       </div>
       <footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">Github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">Contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">Mailing-list</a><a href="https://cozycloud.cc">Cozy Cloud</a></footer>

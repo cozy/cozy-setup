@@ -98,58 +98,61 @@ can switch the storage engine (e.g. from CouchDB to PostgreSQL) without
 changing your code.</p>
 <p>Enough talking, let's see how we can use it in our application.</p>
 <pre class="highlight"><code class="bash">npm install jugglingdb --save
-npm install jugglingdb-cozy-adapter --save</code></pre>
+npm install jugglingdb-cozy-adapter --save
+</code></pre>
 <p>Then remove all the SQLite-related stuff from your server.js code and add the following:</p>
-<pre class="highlight"><code class="javascript"><span class="keyword">var</span> http = require(<span class="string">'http'</span>),
-    express = require(<span class="string">'express'</span>),
+<pre class="highlight"><code class="javascript"><span class="hljs-keyword">var</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">'http'</span>),
+    express = <span class="hljs-built_in">require</span>(<span class="hljs-string">'express'</span>),
     app = express(),
-    Schema = require(<span class="string">'jugglingdb'</span>).Schema,
-    db = <span class="keyword">new</span> Schema(<span class="string">'cozy-adapter'</span>, { url: <span class="string">'http://localhost:9101/'</span> });
+    Schema = <span class="hljs-built_in">require</span>(<span class="hljs-string">'jugglingdb'</span>).Schema,
+    db = <span class="hljs-keyword">new</span> Schema(<span class="hljs-string">'cozy-adapter'</span>, { url: <span class="hljs-string">'http://localhost:9101/'</span> });
 
-<span class="comment">// ...</span>
+<span class="hljs-comment">// ...</span>
 
-<span class="comment">// We define our data schema</span>
-Bookmark = db.define(<span class="string">'bookmarks'</span>, {
-  <span class="string">"id"</span>: String,
-  <span class="string">"title"</span>: String,
-  <span class="string">"url"</span>: { <span class="string">"type"</span>: String, <span class="string">"default"</span>: <span class="string">""</span>}
-});</code></pre>
+<span class="hljs-comment">// We define our data schema</span>
+Bookmark = db.define(<span class="hljs-string">'bookmarks'</span>, {
+  <span class="hljs-string">"id"</span>: <span class="hljs-built_in">String</span>,
+  <span class="hljs-string">"title"</span>: <span class="hljs-built_in">String</span>,
+  <span class="hljs-string">"url"</span>: { <span class="hljs-string">"type"</span>: <span class="hljs-built_in">String</span>, <span class="hljs-string">"default"</span>: <span class="hljs-string">""</span>}
+});
+</code></pre>
 <p>This defines a doctype in the data system. The doctype is a type of document
 (yup!) and is how data are structured inside Cozy. You can see them as SQL tables. There are already plenty of doctypes you can reuse. They are self-documented in the applications' code. Now let's play with the data.</p>
 <h3 id="adding-and-removing-a-bookmark">Adding and removing a bookmark</h3>
-<pre class="highlight"><code class="javascript"><span class="comment">// We define a new route that will handle bookmark creation</span>
-app.post(<span class="string">'/add'</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res)</span> {</span>
-  Bookmark.create(req.body, <span class="function"><span class="keyword">function</span><span class="params">(err, bookmark)</span> {</span>
-    <span class="keyword">if</span>(err != <span class="literal">null</span>) {
-      res.send(<span class="number">500</span>, <span class="string">"An error has occurred -- "</span> + err);
+<pre class="highlight"><code class="javascript"><span class="hljs-comment">// We define a new route that will handle bookmark creation</span>
+app.post(<span class="hljs-string">'/add'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(req, res)</span> {</span>
+  Bookmark.create(req.body, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err, bookmark)</span> {</span>
+    <span class="hljs-keyword">if</span>(err != <span class="hljs-literal">null</span>) {
+      res.send(<span class="hljs-number">500</span>, <span class="hljs-string">"An error has occurred -- "</span> + err);
     }
-    <span class="keyword">else</span> {
-      res.redirect(<span class="string">'back'</span>);
+    <span class="hljs-keyword">else</span> {
+      res.redirect(<span class="hljs-string">'back'</span>);
     }
   });
 });
 
-<span class="comment">// We define another route that will handle bookmark deletion</span>
-app.get(<span class="string">'/delete/:id'</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res)</span> {</span>
-  Bookmark.find(req.params.id, <span class="function"><span class="keyword">function</span><span class="params">(err, bookmark)</span> {</span>
-    <span class="keyword">if</span>(err != <span class="literal">null</span>) {
-      res.send(<span class="number">500</span>, <span class="string">"Bookmark couldn't be retrieved -- "</span> + err);
+<span class="hljs-comment">// We define another route that will handle bookmark deletion</span>
+app.get(<span class="hljs-string">'/delete/:id'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(req, res)</span> {</span>
+  Bookmark.find(req.params.id, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err, bookmark)</span> {</span>
+    <span class="hljs-keyword">if</span>(err != <span class="hljs-literal">null</span>) {
+      res.send(<span class="hljs-number">500</span>, <span class="hljs-string">"Bookmark couldn't be retrieved -- "</span> + err);
     }
-    <span class="keyword">else</span> <span class="keyword">if</span>(bookmark == <span class="literal">null</span>) {
-      res.send(<span class="number">404</span>, <span class="string">"Bookmark not found"</span>);
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(bookmark == <span class="hljs-literal">null</span>) {
+      res.send(<span class="hljs-number">404</span>, <span class="hljs-string">"Bookmark not found"</span>);
     }
-    <span class="keyword">else</span> {
-      bookmark.destroy(<span class="function"><span class="keyword">function</span><span class="params">(err)</span> {</span>
-        <span class="keyword">if</span>(err != <span class="literal">null</span>) {
-          res.send(<span class="number">500</span>, <span class="string">"An error has occurred -- "</span> + err);
+    <span class="hljs-keyword">else</span> {
+      bookmark.destroy(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err)</span> {</span>
+        <span class="hljs-keyword">if</span>(err != <span class="hljs-literal">null</span>) {
+          res.send(<span class="hljs-number">500</span>, <span class="hljs-string">"An error has occurred -- "</span> + err);
         }
-        <span class="keyword">else</span> {
-          res.redirect(<span class="string">'back'</span>);
+        <span class="hljs-keyword">else</span> {
+          res.redirect(<span class="hljs-string">'back'</span>);
         }
       });
     }
   });
-});</code></pre>
+});
+</code></pre>
 <p>The code is pretty straightforward. However you must be aware that we don't do
 security checks and data validation in the tutorial, because it is not the
 point. If you want to know how to do it, please ask us on IRC or by email
@@ -161,30 +164,32 @@ the basics are easy.</p>
 <p>In order to retrieve data, you need to declare "requests" that will allow CouchDB to
 create views. If you have no idea of what we are talking about, it's not a big
 deal, you don't need to understand all the details for now.</p>
-<pre class="highlight"><code class="javascript"><span class="comment">// Define the request. You need to do this only once.</span>
-<span class="keyword">var</span> request = <span class="function"><span class="keyword">function</span><span class="params">(doc)</span> {</span>
-  <span class="keyword">return</span> emit(doc._id, doc);
+<pre class="highlight"><code class="javascript"><span class="hljs-comment">// Define the request. You need to do this only once.</span>
+<span class="hljs-keyword">var</span> request = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(doc)</span> {</span>
+  <span class="hljs-keyword">return</span> emit(doc._id, doc);
 };
-Bookmark.defineRequest(<span class="string">"all"</span>, request, <span class="function"><span class="keyword">function</span><span class="params">(err)</span> {</span>
-  <span class="keyword">if</span>(err !== <span class="literal">null</span>) {
-    console.log(<span class="string">"An error occurred while declaring the request -- "</span> + err);
+Bookmark.defineRequest(<span class="hljs-string">"all"</span>, request, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err)</span> {</span>
+  <span class="hljs-keyword">if</span>(err !== <span class="hljs-literal">null</span>) {
+    console.log(<span class="hljs-string">"An error occurred while declaring the request -- "</span> + err);
   }
-});</code></pre>
+});
+</code></pre>
 <p>Then you can call the request to get the data:</p>
-<pre class="highlight"><code class="javascript"><span class="comment">// We render the templates with the data</span>
-app.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res)</span> {</span>
-  Bookmark.request(<span class="string">"all"</span>, {}, <span class="function"><span class="keyword">function</span><span class="params">(err, bookmarks)</span> {</span>
-    <span class="keyword">if</span>(err !== <span class="literal">null</span>) {
-      console.log(<span class="string">"An error has occurred -- "</span> + err);
+<pre class="highlight"><code class="javascript"><span class="hljs-comment">// We render the templates with the data</span>
+app.get(<span class="hljs-string">'/'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(req, res)</span> {</span>
+  Bookmark.request(<span class="hljs-string">"all"</span>, {}, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err, bookmarks)</span> {</span>
+    <span class="hljs-keyword">if</span>(err !== <span class="hljs-literal">null</span>) {
+      console.log(<span class="hljs-string">"An error has occurred -- "</span> + err);
     }
-    <span class="keyword">else</span> {
-      data = {<span class="string">"bookmarks"</span>: bookmarks}
-      res.render(<span class="string">'index.jade'</span>, data, <span class="function"><span class="keyword">function</span><span class="params">(err, html)</span> {</span>
-        res.send(<span class="number">200</span>, html);
+    <span class="hljs-keyword">else</span> {
+      data = {<span class="hljs-string">"bookmarks"</span>: bookmarks}
+      res.render(<span class="hljs-string">'index.jade'</span>, data, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err, html)</span> {</span>
+        res.send(<span class="hljs-number">200</span>, html);
       });
     }
   });
-});</code></pre>
+});
+</code></pre>
 <h2 id="permissions">Permissions</h2>
 <p>To retrieve the data from the Data System, your application needs permissions.
 You can declare permissions you need in the package.json file:</p>
@@ -195,7 +200,8 @@ You can declare permissions you need in the package.json file:</p>
   "CozyInstance": {
     "description": "Read language setting"
   }
-}</code></pre>
+}
+</code></pre>
 <p>Those will be displayed before the users install the application so they give their explicit agreement to the app to access the data, like the well-known marketplaces for smartphones.</p>
 <h2 id="what-s-next-">What's next ?</h2>
 <p>You've just met the Data System and got insight of what it does and how you

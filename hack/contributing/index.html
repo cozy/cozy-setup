@@ -120,55 +120,60 @@ Data System, Home, Controller or Proxy.</p>
 <li><p>Setup Vagrant</p>
 </li>
 <li><p>Get the development virtual machine</p>
-<pre class="highlight"><code class="brainfuck"> <span class="comment">vagrant</span> <span class="comment">box</span> <span class="comment">add</span> <span class="comment">cozycloud</span><span class="literal">-</span><span class="comment">dev</span><span class="literal">-</span><span class="comment">latest</span> <span class="comment">http://files</span><span class="string">.</span><span class="comment">cozycloud</span><span class="string">.</span><span class="comment">cc/cozycloud</span><span class="literal">-</span><span class="comment">dev</span><span class="literal">-</span><span class="comment">latest</span><span class="string">.</span><span class="comment">box</span></code></pre>
+<pre class="highlight"><code class="bash"> vagrant box add cozycloud-dev-latest http://files.cozycloud.cc/cozycloud-dev-latest.box
+</code></pre>
 </li>
 <li><p>Run the development virtual machine</p>
-<pre class="highlight"><code class="brainfuck"> <span class="comment">vagrant</span> <span class="comment">init</span> <span class="comment">cozycloud</span><span class="literal">-</span><span class="comment">dev</span><span class="literal">-</span><span class="comment">latest</span>
- <span class="comment">vagrant</span> <span class="comment">up</span></code></pre>
+<pre class="highlight"><code class="bash"> vagrant init cozycloud-dev-latest
+ vagrant up
+</code></pre>
 </li>
 <li><p>Update it, if needed</p>
-<pre class="highlight"><code class="brainfuck"> <span class="comment">vagrant</span> <span class="comment">ssh</span>
+<pre class="highlight"><code class="bash"> vagrant ssh
 
- <span class="comment">sudo</span> <span class="comment">supervisorctl</span> <span class="comment">stop</span> <span class="comment">cozy</span><span class="literal">-</span><span class="comment">controller</span>
- <span class="comment">sudo</span> <span class="comment">pkill</span> <span class="literal">-</span><span class="comment">9</span> <span class="comment">node</span> <span class="comment">#</span> <span class="comment">make</span> <span class="comment">sure</span> <span class="comment">no</span> <span class="comment">process</span> <span class="comment">is</span> <span class="comment">remaining</span><span class="string">.</span>
- <span class="comment">sudo</span> <span class="comment">npm</span> <span class="literal">-</span><span class="comment">g</span> <span class="comment">install</span> <span class="comment">cozy</span><span class="literal">-</span><span class="comment">controller</span>
- <span class="comment">sudo</span> <span class="comment">supervisorctl</span> <span class="comment">start</span> <span class="comment">cozy</span><span class="literal">-</span><span class="comment">controller</span>
+ <span class="hljs-built_in">sudo</span> supervisorctl stop cozy-controller
+ <span class="hljs-built_in">sudo</span> pkill -<span class="hljs-number">9</span> node <span class="hljs-comment"># make sure no process is remaining.</span>
+ <span class="hljs-built_in">sudo</span> npm -g install cozy-controller
+ <span class="hljs-built_in">sudo</span> supervisorctl start cozy-controller
 
- <span class="comment">sudo</span> <span class="comment">cozy</span><span class="literal">-</span><span class="comment">monitor</span> <span class="comment">install</span> <span class="comment">data</span><span class="literal">-</span><span class="comment">system</span>
- <span class="comment">sudo</span> <span class="comment">cozy</span><span class="literal">-</span><span class="comment">monitor</span> <span class="comment">install</span> <span class="comment">home</span>
- <span class="comment">sudo</span> <span class="comment">cozy</span><span class="literal">-</span><span class="comment">monitor</span> <span class="comment">install</span> <span class="comment">proxy</span>
+ <span class="hljs-built_in">sudo</span> cozy-monitor install data-system
+ <span class="hljs-built_in">sudo</span> cozy-monitor install home
+ <span class="hljs-built_in">sudo</span> cozy-monitor install proxy
 
- <span class="comment">cozy</span><span class="literal">-</span><span class="comment">monitor</span> <span class="comment">stop</span> <span class="comment">home</span></code></pre>
+ cozy-monitor stop home
+</code></pre>
 </li>
 <li><p>Clone the repository you want to work with (home in this example), install and run it.
 The --no-bin-links is needed because you can't symlink in the shared folder.</p>
-<pre class="highlight"><code class="brainfuck"> <span class="comment">cd</span> <span class="comment">/vagrant/</span>
- <span class="comment">git</span> <span class="comment">clone</span> <span class="comment">https://github</span><span class="string">.</span><span class="comment">com/mycozycloud/cozy</span><span class="literal">-</span><span class="comment">home</span>
- <span class="comment">cd</span> <span class="comment">/vagrant/cozy</span><span class="literal">-</span><span class="comment">home</span>
- <span class="comment">sudo</span> <span class="comment">npm</span> <span class="comment">install</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">no</span><span class="literal">-</span><span class="comment">bin</span><span class="literal">-</span><span class="comment">links</span>
- <span class="comment">node</span> <span class="comment">server</span><span class="string">.</span><span class="comment">js</span></code></pre>
+<pre class="highlight"><code class="bash"> <span class="hljs-built_in">cd</span> /vagrant/
+ git clone https://github.com/mycozycloud/cozy-home
+ <span class="hljs-built_in">cd</span> /vagrant/cozy-home
+ <span class="hljs-built_in">sudo</span> npm install --no-bin-links
+ node server.js
+</code></pre>
 </li>
 <li><p>On the host, browse to <a href="http://127.0.0.1:9104">http://127.0.0.1:9104</a>, register a user, and then check <a href="http://127.0.0.1:9104/#home">http://127.0.0.1:9104/#home</a>.
 You should see logs popping up in your console. IF you are asked to login instead of registering, use this fix:</p>
 <pre class="highlight"><code class="bash"> Ctrl + C
- <span class="built_in">sudo</span> cozy-monitor start home
- <span class="built_in">cd</span> /usr/local/cozy/apps/home/home/cozy-home/
- <span class="built_in">sudo</span> coffee commands cleanuser
- <span class="built_in">sudo</span> cozy-monitor stop home
- <span class="built_in">cd</span> /vagrant/cozy-home
- node server</code></pre>
+ <span class="hljs-built_in">sudo</span> cozy-monitor start home
+ <span class="hljs-built_in">cd</span> /usr/local/cozy/apps/home/home/cozy-home/
+ <span class="hljs-built_in">sudo</span> coffee commands cleanuser
+ <span class="hljs-built_in">sudo</span> cozy-monitor stop home
+ <span class="hljs-built_in">cd</span> /vagrant/cozy-home
+ node server
+</code></pre>
 </li>
 <li><p>Hack ! You should see the repository on your host system in the same directory as where you did vagrant up.
 Use your favorite editor to edit the .coffee files. You will need to compile before seeing your changes.</p>
 <p> For server changes :</p>
-<pre class="highlight"><code class="brainfuck">  <span class="comment">Ctrl</span> <span class="literal">+</span> <span class="comment">C</span>
-  <span class="comment">cake</span> <span class="comment">convert</span>
-  <span class="comment">node</span> <span class="comment">server</span></code></pre>
-<p> For client changes, open a new vagrant ssh and :</p>
-<pre class="highlight"><code class="brainfuck">  <span class="comment">cd</span> <span class="comment">/vagrant/cozy</span><span class="literal">-</span><span class="comment">home/client/</span>
-  <span class="comment">npm</span> <span class="comment">install</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">no</span><span class="literal">-</span><span class="comment">bin</span><span class="literal">-</span><span class="comment">links</span>
-  <span class="comment">brunch</span> <span class="comment">w</span></code></pre>
-</li>
+<pre class="highlight"><code class="mathematica">  Ctrl + <span class="hljs-keyword">C</span>
+  cake convert
+  node server
+</code></pre><p> For client changes, open a new vagrant ssh and :</p>
+<pre class="highlight"><code class="coffeescript">  cd <span class="hljs-regexp">/vagrant/cozy-home/client/</span>
+  <span class="hljs-built_in">npm</span> install --<span class="hljs-literal">no</span>-bin-links
+  brunch w
+</code></pre></li>
 </ol>
 
       </div>

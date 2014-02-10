@@ -77,68 +77,73 @@ We'll use the final code of our tutorial to illustrate this cookbook. You can fi
 </ul>
 <p>Next, create your "locales" files (one for each language) in your client. As an example, you can see how we did it for the <a href="https://github.com/mycozycloud/cozy-home/tree/master/client/app/locales">"Home" application</a>.
 We'll have English and French for our bookmark tutorial app:</p>
-<pre class="highlight"><code class="javascript"><span class="comment">// client/app/locales/en.js</span>
+<pre class="highlight"><code class="javascript"><span class="hljs-comment">// client/app/locales/en.js</span>
 module.exports = {
-    <span class="string">"main title"</span>: <span class="string">"Welcome on My Own Bookmarks"</span>,
-    <span class="string">"main description"</span>: <span class="string">"This application will help you manage your bookmarks!"</span>,
-    <span class="string">"form title label"</span>: <span class="string">"Title"</span>,
-    <span class="string">"form url label"</span>: <span class="string">"Url"</span>,
-    <span class="string">"form submit button"</span>: <span class="string">"Add a new bookmark"</span>,
-    <span class="string">"delete button"</span>: <span class="string">"delete"</span>
-}</code></pre>
-<pre class="highlight"><code class="javascript"><span class="comment">// client/app/locales/fr.js</span>
+    <span class="hljs-string">"main title"</span>: <span class="hljs-string">"Welcome on My Own Bookmarks"</span>,
+    <span class="hljs-string">"main description"</span>: <span class="hljs-string">"This application will help you manage your bookmarks!"</span>,
+    <span class="hljs-string">"form title label"</span>: <span class="hljs-string">"Title"</span>,
+    <span class="hljs-string">"form url label"</span>: <span class="hljs-string">"Url"</span>,
+    <span class="hljs-string">"form submit button"</span>: <span class="hljs-string">"Add a new bookmark"</span>,
+    <span class="hljs-string">"delete button"</span>: <span class="hljs-string">"delete"</span>
+}
+</code></pre>
+<pre class="highlight"><code class="javascript"><span class="hljs-comment">// client/app/locales/fr.js</span>
 module.exports = {
-    <span class="string">"main title"</span>: <span class="string">"Bienvenue sur My Own Bookmarks"</span>,
-    <span class="string">"main description"</span>: <span class="string">"Cette application vous permet de gérer vos marque-pages !"</span>,
-    <span class="string">"form title label"</span>: <span class="string">"Titre"</span>,
-    <span class="string">"form url label"</span>: <span class="string">"Url"</span>,
-    <span class="string">"form submit button"</span>: <span class="string">"Ajouter un nouveau marque-page"</span>,
-    <span class="string">"delete button"</span>: <span class="string">"supprimer"</span>
-}</code></pre>
+    <span class="hljs-string">"main title"</span>: <span class="hljs-string">"Bienvenue sur My Own Bookmarks"</span>,
+    <span class="hljs-string">"main description"</span>: <span class="hljs-string">"Cette application vous permet de gérer vos marque-pages !"</span>,
+    <span class="hljs-string">"form title label"</span>: <span class="hljs-string">"Titre"</span>,
+    <span class="hljs-string">"form url label"</span>: <span class="hljs-string">"Url"</span>,
+    <span class="hljs-string">"form submit button"</span>: <span class="hljs-string">"Ajouter un nouveau marque-page"</span>,
+    <span class="hljs-string">"delete button"</span>: <span class="hljs-string">"supprimer"</span>
+}
+</code></pre>
 <p>Each localization file is a key-value list. The key should always be the same accross the file. We'll see how we use it later. We have rules to name the keys, you can find them at the <a href="#guidelines">end of this page</a>.</p>
 <p>Then bootstrap Polyglot in your application:</p>
-<pre class="highlight"><code class="javascript"><span class="comment">// client/app/initialize.js</span>
+<pre class="highlight"><code class="javascript"><span class="hljs-comment">// client/app/initialize.js</span>
 
-$(document).ready(<span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
-    <span class="keyword">var</span> app = require(<span class="string">'application'</span>);
+$(document).ready(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">var</span> app = <span class="hljs-built_in">require</span>(<span class="hljs-string">'application'</span>);
 
-    <span class="keyword">var</span> locale = <span class="string">'en'</span>; <span class="comment">// default locale</span>
+    <span class="hljs-keyword">var</span> locale = <span class="hljs-string">'en'</span>; <span class="hljs-comment">// default locale</span>
 
-    <span class="comment">// we'll need to tweak the server to allow this</span>
-    $.ajax(<span class="string">'cozy-locale.json'</span>, {
-        success: <span class="function"><span class="keyword">function</span><span class="params">(data)</span> {</span>
+    <span class="hljs-comment">// we'll need to tweak the server to allow this</span>
+    $.ajax(<span class="hljs-string">'cozy-locale.json'</span>, {
+        success: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(data)</span> {</span>
             locale = data.locale
             initializeLocale(locale);
         },
-        error: <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+        error: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
             initializeLocale(locale);
         }
     });
 
-    <span class="comment">// let's define a function to initialize Polyglot</span>
-    <span class="keyword">var</span> initializeLocale = <span class="function"><span class="keyword">function</span><span class="params">(locale)</span> {</span>
-        <span class="keyword">var</span> locales = {};
-        <span class="keyword">try</span> {
-            locales = require(<span class="string">'locales/'</span> + locale);
+    <span class="hljs-comment">// let's define a function to initialize Polyglot</span>
+    <span class="hljs-keyword">var</span> initializeLocale = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(locale)</span> {</span>
+        <span class="hljs-keyword">var</span> locales = {};
+        <span class="hljs-keyword">try</span> {
+            locales = <span class="hljs-built_in">require</span>(<span class="hljs-string">'locales/'</span> + locale);
         }
-        <span class="keyword">catch</span>(err) {
-            locales = require(<span class="string">'locales/en'</span>);
+        <span class="hljs-keyword">catch</span>(err) {
+            locales = <span class="hljs-built_in">require</span>(<span class="hljs-string">'locales/en'</span>);
         }
 
-        <span class="keyword">var</span> polyglot = <span class="keyword">new</span> Polyglot();
-        <span class="comment">// we give polyglot the data</span>
+        <span class="hljs-keyword">var</span> polyglot = <span class="hljs-keyword">new</span> Polyglot();
+        <span class="hljs-comment">// we give polyglot the data</span>
         polyglot.extend(locales);
 
-        <span class="comment">// handy shortcut</span>
+        <span class="hljs-comment">// handy shortcut</span>
         window.t = polyglot.t.bind(polyglot);
         app.initialize();
     };
-});</code></pre>
+});
+</code></pre>
 <p>Now we must make the "cozy-locale.json" resource available on the server. We have a helper for that:</p>
-<pre class="highlight"><code class="bash">npm install cozy-i18n-helper --save</code></pre>
+<pre class="highlight"><code class="bash">npm install cozy-i18n-helper --save
+</code></pre>
 <p>Then add the following to the 'common' section of your configuration (if you are using americano or express):</p>
-<pre class="highlight"><code class="javascript"><span class="comment">// server/config.js</span>
-require(<span class="string">'cozy-i18n-helper'</span>).middleware</code></pre>
+<pre class="highlight"><code class="javascript"><span class="hljs-comment">// server/config.js</span>
+<span class="hljs-built_in">require</span>(<span class="hljs-string">'cozy-i18n-helper'</span>).middleware
+</code></pre>
 <p>It automatically retrieves the locale data of the cozy's user and create the route that will allow the client the get it. Don't forget to add the "CozyInstance" doctype to your application's permission, or you will get errors.</p>
 <p>Now you can change all the templates and view using the "t" function. Let's change <code>client/app/templates/home.hade</code> as an example:</p>
 <pre class="highlight"><code class="xml">h1= t('main title')
@@ -151,7 +156,8 @@ form
     input(type="text", name="url")
     input(id="add-bookmark", type="submit", value="#{t('form submit button')}")
 
-ul</code></pre>
+ul
+</code></pre>
 <p>To learn all the great thing Polyglot can do (interpolation and pluralization), please <a href="http://airbnb.github.io/polyglot.js/">read its documentation</a>.</p>
 <p>If you want to test everything is working, go to <a href="http://localhost:9104/#account">http://localhost:9104/#account</a> and change the language.</p>
 <h2 id="summary-for-translator-contributors">Summary for translator contributors</h2>

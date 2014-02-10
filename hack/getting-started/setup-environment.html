@@ -89,7 +89,8 @@ a custom CLI tool, so you will not manipulate it directly.
 (Latest tested version: 1.3.5)</p>
 <h4 id="-cozy-for-developers-https-github-com-mycozycloud-cozy-manager-"><a href="https://github.com/mycozycloud/cozy-manager">Cozy for developers</a></h4>
 <p>You will also need our tool:</p>
-<pre class="highlight"><code class="bash">npm install -g cozy</code></pre>
+<pre class="highlight"><code class="bash">npm install -g cozy
+</code></pre>
 <p>The <code>cozy</code> tool will allow you to create and manage a virtual machine with a Cozy development environment, without dealing yourself with VirtualBox and Vagrant. Also, it can generate application skeletons from templates.</p>
 <h3 id="initializing-and-starting-the-virtual-machine">Initializing and starting the virtual machine</h3>
 <p>The next step is to get your virtual machine. Basically, you are going to
@@ -97,9 +98,11 @@ have a linux running on your computer with all a Cozy needs to work on already
 installed and configured.</p>
 <p>To help you managing the VM, the Cozy Manager comes to the rescue.</p>
 <p>Create a folder that will contain all your source code:</p>
-<pre class="highlight"><code class="bash">mkdir cozy-dev &amp;&amp; <span class="built_in">cd</span> cozy-dev</code></pre>
+<pre class="highlight"><code class="bash">mkdir cozy-dev &amp;&amp; <span class="hljs-built_in">cd</span> cozy-dev
+</code></pre>
 <p>Now you can use the Cozy Manager to initialize the VM by running:</p>
-<pre class="highlight"><code class="bash">cozy dev:init</code></pre>
+<pre class="highlight"><code class="bash">cozy dev:init
+</code></pre>
 <p>This will download the base box file (~500MB) and a custom configuration (<a href="https://github.com/mycozycloud/cozy-setup/blob/master/dev/Vagrantfile">see
 it on
 Github</a>).
@@ -107,7 +110,8 @@ Then the VM will be created. The whole process will take about 15 minutes
 (depending on your internet connection and your computer).</p>
 <p>Then you can start the VM and check that everything is running correctly.</p>
 <pre class="highlight"><code class="bash">cozy dev:start
-cozy dev:vm-status</code></pre>
+cozy dev:vm-status
+</code></pre>
 <p>We advise you to update the VM the first time you start it (and regularly),
 because we don't update the base box each time we improve or fix a bug in the
 "core" of Cozy: <code>bash

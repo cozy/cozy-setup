@@ -89,15 +89,17 @@
 <p>The source code of this tutorial can be found <a href="https://github.com/mycozycloud/cozy-tutorial/tree/americano">here</a>.</p>
 <h3 id="getting-stated">Getting stated</h3>
 <p>In a brand new application folder, install americano:</p>
-<pre class="highlight"><code class="bash">mkdir bookmark-americano &amp;&amp; <span class="built_in">cd</span> bookmark-americano/
+<pre class="highlight"><code class="bash">mkdir bookmark-americano &amp;&amp; <span class="hljs-built_in">cd</span> bookmark-americano/
 npm install americano --save
-npm install americano-cozy --save <span class="comment"># the plugin that will handle database stuff</span></code></pre>
+npm install americano-cozy --save <span class="hljs-comment"># the plugin that will handle database stuff</span>
+</code></pre>
 <p>Then put the following in the server.js file:</p>
-<pre class="highlight"><code class="javascript"><span class="comment">// ./server.js</span>
-<span class="keyword">var</span> americano = require(<span class="string">'americano'</span>);
+<pre class="highlight"><code class="javascript"><span class="hljs-comment">// ./server.js</span>
+<span class="hljs-keyword">var</span> americano = <span class="hljs-built_in">require</span>(<span class="hljs-string">'americano'</span>);
 
-<span class="keyword">var</span> port = process.env.PORT || <span class="number">9250</span>;
-americano.start({name: <span class="string">'yourapp'</span>, port: port});</code></pre>
+<span class="hljs-keyword">var</span> port = process.env.PORT || <span class="hljs-number">9250</span>;
+americano.start({name: <span class="hljs-string">'yourapp'</span>, port: port});
+</code></pre>
 <p>We're done! We said no effort, but still!</p>
 <h2 id="file-structure">File structure</h2>
 <p>Americano constrains the way your file structure should be, let's see how:</p>
@@ -124,90 +126,95 @@ americano.start({name: <span class="string">'yourapp'</span>, port: port});</cod
 <p>Start by creating the architecture, then we'll move on the models' creation.</p>
 <h2 id="define-the-models">Define the models</h2>
 <p>The models folder allows you to put the doctype definition in separate files. Let's take the code we previously had in server.js and move it to <code>server/models/bookmark.js</code>:</p>
-<pre class="highlight"><code class="javascript">americano = require(<span class="string">'americano'</span>);
+<pre class="highlight"><code class="javascript">americano = <span class="hljs-built_in">require</span>(<span class="hljs-string">'americano'</span>);
 
-<span class="comment">// The americano plugin wraps the "db.define" JugglingDB function in a simpler "getModel" call</span>
-module.exports = Bookmark = americano.getModel(<span class="string">'bookmarks'</span>, {
-  <span class="string">"id"</span>: String,
-  <span class="string">"title"</span>: String,
-  <span class="string">"url"</span>: { <span class="string">"type"</span>: String, <span class="string">"default"</span>: <span class="string">""</span>}
+<span class="hljs-comment">// The americano plugin wraps the "db.define" JugglingDB function in a simpler "getModel" call</span>
+module.exports = Bookmark = americano.getModel(<span class="hljs-string">'bookmarks'</span>, {
+  <span class="hljs-string">"id"</span>: <span class="hljs-built_in">String</span>,
+  <span class="hljs-string">"title"</span>: <span class="hljs-built_in">String</span>,
+  <span class="hljs-string">"url"</span>: { <span class="hljs-string">"type"</span>: <span class="hljs-built_in">String</span>, <span class="hljs-string">"default"</span>: <span class="hljs-string">""</span>}
 });
 
-<span class="comment">// You can easily define here some helpers or method for bookmarks</span></code></pre>
+<span class="hljs-comment">// You can easily define here some helpers or method for bookmarks</span>
+</code></pre>
 <p>Then move to server/models/requests.js so we can define the request we are going to use. The nice part of the Cozy plugin for americano is that it makes requests declaration very clear:</p>
 <pre class="highlight"><code class="javascript">module.exports =
   bookmark: {
-    all: <span class="function"><span class="keyword">function</span><span class="params">(doc)</span> {</span>
+    all: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(doc)</span> {</span>
       emit(doc._id, doc);
     }
-  };</code></pre>
+  };
+</code></pre>
 <p>This will <strong>automatically</strong> trigger the old "Bookmark.defineRequest" when the server starts. Americano's Cozy plugin knows that the "all request" is often the same and offers this handy shortcut:</p>
-<pre class="highlight"><code class="javascript">americano = require(<span class="string">'americano'</span>);
+<pre class="highlight"><code class="javascript">americano = <span class="hljs-built_in">require</span>(<span class="hljs-string">'americano'</span>);
 
 module.exports =
   bookmark: {
     all: americano.defaultRequests.all
-  };</code></pre>
+  };
+</code></pre>
 <p>You can now add a helper to your bookmark model (we'll use it in the next section):</p>
-<pre class="highlight"><code class="javascript"><span class="comment">// server/models/bookmark.js</span>
+<pre class="highlight"><code class="javascript"><span class="hljs-comment">// server/models/bookmark.js</span>
 
-Bookmark.all = <span class="function"><span class="keyword">function</span><span class="params">(callback)</span> {</span>
-  Bookmark.request(<span class="string">"all"</span>, {}, <span class="function"><span class="keyword">function</span><span class="params">(err, bookmarks)</span> {</span>
-    callback(<span class="literal">null</span>, bookmarks);
+Bookmark.all = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(callback)</span> {</span>
+  Bookmark.request(<span class="hljs-string">"all"</span>, {}, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err, bookmarks)</span> {</span>
+    callback(<span class="hljs-literal">null</span>, bookmarks);
   });
-};</code></pre>
+};
+</code></pre>
 <p>Now let's focus on the business logic of your application.</p>
 <h2 id="organize-your-code-with-controllers">Organize your code with Controllers</h2>
 <p>Create the bookmark controller: server/controllers/bookmarks.js</p>
-<pre class="highlight"><code class="javascript">Bookmark = require(<span class="string">'../models/bookmark'</span>);
+<pre class="highlight"><code class="javascript">Bookmark = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../models/bookmark'</span>);
 
-module.exports.list = <span class="function"><span class="keyword">function</span><span class="params">(req, res)</span> {</span>
-  Bookmark.all(<span class="function"><span class="keyword">function</span><span class="params">(err, bookmarks)</span> {</span>
-    <span class="keyword">if</span>(err != <span class="literal">null</span>) {
-      res.send(<span class="number">500</span>, <span class="string">"An error has occurred -- "</span> + err);
+module.exports.list = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(req, res)</span> {</span>
+  Bookmark.all(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err, bookmarks)</span> {</span>
+    <span class="hljs-keyword">if</span>(err != <span class="hljs-literal">null</span>) {
+      res.send(<span class="hljs-number">500</span>, <span class="hljs-string">"An error has occurred -- "</span> + err);
     }
-    <span class="keyword">else</span> {
-      data = {<span class="string">"bookmarks"</span>: bookmarks}
-      res.render(<span class="string">'index.jade'</span>, data, <span class="function"><span class="keyword">function</span><span class="params">(err, html)</span> {</span>
-        res.send(<span class="number">200</span>, html);
+    <span class="hljs-keyword">else</span> {
+      data = {<span class="hljs-string">"bookmarks"</span>: bookmarks}
+      res.render(<span class="hljs-string">'index.jade'</span>, data, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err, html)</span> {</span>
+        res.send(<span class="hljs-number">200</span>, html);
       });
     }
   });
 };
 
-<span class="comment">// We define a new route that will handle bookmark creation</span>
-module.exports.add = <span class="function"><span class="keyword">function</span><span class="params">(req, res)</span> {</span>
-  Bookmark.create(req.body, <span class="function"><span class="keyword">function</span><span class="params">(err, bookmark)</span> {</span>
-    <span class="keyword">if</span>(err != <span class="literal">null</span>) {
-      res.send(<span class="number">500</span>, <span class="string">"An error has occurred -- "</span> + err);
+<span class="hljs-comment">// We define a new route that will handle bookmark creation</span>
+module.exports.add = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(req, res)</span> {</span>
+  Bookmark.create(req.body, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err, bookmark)</span> {</span>
+    <span class="hljs-keyword">if</span>(err != <span class="hljs-literal">null</span>) {
+      res.send(<span class="hljs-number">500</span>, <span class="hljs-string">"An error has occurred -- "</span> + err);
     }
-    <span class="keyword">else</span> {
-      res.redirect(<span class="string">'back'</span>);
+    <span class="hljs-keyword">else</span> {
+      res.redirect(<span class="hljs-string">'back'</span>);
     }
   });
 };
 
-<span class="comment">// We define another route that will handle bookmark deletion</span>
-module.exports.<span class="keyword">delete</span> = <span class="function"><span class="keyword">function</span><span class="params">(req, res)</span> {</span>
-  Bookmark.find(req.params.id, <span class="function"><span class="keyword">function</span><span class="params">(err, bookmark)</span> {</span>
-    <span class="keyword">if</span>(err != <span class="literal">null</span>) {
-      res.send(<span class="number">500</span>, <span class="string">"Bookmark couldn't be retrieved -- "</span> + err);
+<span class="hljs-comment">// We define another route that will handle bookmark deletion</span>
+module.exports.delete = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(req, res)</span> {</span>
+  Bookmark.find(req.params.id, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err, bookmark)</span> {</span>
+    <span class="hljs-keyword">if</span>(err != <span class="hljs-literal">null</span>) {
+      res.send(<span class="hljs-number">500</span>, <span class="hljs-string">"Bookmark couldn't be retrieved -- "</span> + err);
     }
-    <span class="keyword">else</span> <span class="keyword">if</span>(bookmark == <span class="literal">null</span>) {
-      res.send(<span class="number">404</span>, <span class="string">"Bookmark not found"</span>);
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(bookmark == <span class="hljs-literal">null</span>) {
+      res.send(<span class="hljs-number">404</span>, <span class="hljs-string">"Bookmark not found"</span>);
     }
-    <span class="keyword">else</span> {
-      bookmark.destroy(<span class="function"><span class="keyword">function</span><span class="params">(err)</span> {</span>
-        <span class="keyword">if</span>(err != <span class="literal">null</span>) {
-          res.send(<span class="number">500</span>, <span class="string">"An error has occurred -- "</span> + err);
+    <span class="hljs-keyword">else</span> {
+      bookmark.destroy(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err)</span> {</span>
+        <span class="hljs-keyword">if</span>(err != <span class="hljs-literal">null</span>) {
+          res.send(<span class="hljs-number">500</span>, <span class="hljs-string">"An error has occurred -- "</span> + err);
         }
-        <span class="keyword">else</span> {
-          res.redirect(<span class="string">'back'</span>);
+        <span class="hljs-keyword">else</span> {
+          res.redirect(<span class="hljs-string">'back'</span>);
         }
       });
     }
   });
-};</code></pre>
+};
+</code></pre>
 <p>We basically copied and pasted what was in the old server.js, and removed the
 "which URL will trigger that action" part to focus on the code itself.</p>
 <p>You probably noticed the "require" instruction. It loads the bookmark model we</p>
@@ -223,58 +230,61 @@ controllers when you are looking for a specific piece of code. Just check the
 routes, they are the map of your application.</p>
 <p>Americano <strong>automatically</strong> handles their loading when the server starts and
 makes their syntax handy:</p>
-<pre class="highlight"><code class="javascript"><span class="comment">// ./server/controllers/routes.js</span>
+<pre class="highlight"><code class="javascript"><span class="hljs-comment">// ./server/controllers/routes.js</span>
 
-<span class="keyword">var</span> bookmarks = require(<span class="string">'./bookmarks'</span>);
+<span class="hljs-keyword">var</span> bookmarks = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./bookmarks'</span>);
 
 module.exports = {
-  <span class="string">''</span>: {
+  <span class="hljs-string">''</span>: {
     get: bookmarks.list
   },
-  <span class="string">'add'</span>: {
+  <span class="hljs-string">'add'</span>: {
     post: bookmarks.add
   },
-  <span class="string">'delete/:id'</span>: {
-    get: bookmarks.<span class="keyword">delete</span>
+  <span class="hljs-string">'delete/:id'</span>: {
+    get: bookmarks.delete
   }
-};</code></pre>
+};
+</code></pre>
 <p>Please note that every "route" is <strong>automatically</strong> prefixed by a '/' so you don't need to put it yourself.</p>
 <p>You can also bind different HTTP verbs to the same route:</p>
-<pre class="highlight"><code class="javascript"><span class="comment">// this example will not work with the code you have, you must change the template for that</span>
+<pre class="highlight"><code class="javascript"><span class="hljs-comment">// this example will not work with the code you have, you must change the template for that</span>
 module.exports = {
-  <span class="string">'bookmarks'</span>: {
+  <span class="hljs-string">'bookmarks'</span>: {
     get: bookmarks.list
     post: bookmarks.add
   },
-};</code></pre>
+};
+</code></pre>
 <h2 id="configuration">Configuration</h2>
 <p>Now our application should already be working but there is one thing we left aside: configuration.</p>
 <p>Again, Americano will provide you a handy syntax and loads everything <strong>automatically</strong> at start:</p>
-<pre class="highlight"><code class="javascript"><span class="comment">// ./server/config.js</span>
+<pre class="highlight"><code class="javascript"><span class="hljs-comment">// ./server/config.js</span>
 
-<span class="keyword">var</span> americano = require(<span class="string">'americano'</span>);
+<span class="hljs-keyword">var</span> americano = <span class="hljs-built_in">require</span>(<span class="hljs-string">'americano'</span>);
 
 module.exports = {
   common: [
     americano.bodyParser(),
     americano.methodOverride(),
     americano.errorHandler({
-      dumpExceptions: <span class="literal">true</span>,
-      showStack: <span class="literal">true</span>
+      dumpExceptions: <span class="hljs-literal">true</span>,
+      showStack: <span class="hljs-literal">true</span>
     }),
-    americano.static(__dirname + <span class="string">'/../public'</span>, {
-      maxAge: <span class="number">86400000</span>
+    americano.static(__dirname + <span class="hljs-string">'/../public'</span>, {
+      maxAge: <span class="hljs-number">86400000</span>
     }),
-    americano.set(<span class="string">'views'</span>, __dirname + <span class="string">'/../client'</span>),
-    americano.engine(<span class="string">'.html'</span>, require(<span class="string">'jade'</span>).__express)
+    americano.set(<span class="hljs-string">'views'</span>, __dirname + <span class="hljs-string">'/../client'</span>),
+    americano.engine(<span class="hljs-string">'.html'</span>, <span class="hljs-built_in">require</span>(<span class="hljs-string">'jade'</span>).__express)
   ],
   development: [
-    americano.logger(<span class="string">'dev'</span>)
+    americano.logger(<span class="hljs-string">'dev'</span>)
   ],
   production: [
-    americano.logger(<span class="string">'short'</span>)
+    americano.logger(<span class="hljs-string">'short'</span>)
   ]
-};</code></pre>
+};
+</code></pre>
 <p>The configuration works exactly like in Express (remember, Americano extends
 Express!), so be sure to change it the way you like.</p>
 <h2 id="what-s-next-">What's next ?</h2>

@@ -96,9 +96,10 @@ that the browser will display</li>
 </ul>
 <h3 id="get-ready">Get ready</h3>
 <p>Get the template:</p>
-<pre class="highlight"><code class="bash"><span class="built_in">cd</span> cozy-dev/ <span class="comment"># where you start the VM</span>
-git clone https://github.com/mycozycloud/cozy-tutorial.git &amp;&amp; <span class="built_in">cd</span> cozy-tutorial
-npm install</code></pre>
+<pre class="highlight"><code class="bash"><span class="hljs-built_in">cd</span> cozy-dev/ <span class="hljs-comment"># where you start the VM</span>
+git clone https://github.com/mycozycloud/cozy-tutorial.git &amp;&amp; <span class="hljs-built_in">cd</span> cozy-tutorial
+npm install
+</code></pre>
 <p>Here is how the folders and files are organized:</p>
 <ul>
 <li>public/ : this is where we will have our public assets (html pages, styles, images, javascripts)</li>
@@ -108,31 +109,33 @@ npm install</code></pre>
 <h2 id="step-1-displaying-html-pages">Step 1: displaying HTML pages</h2>
 <p>NB: the source code for this step can be found <a href="https://github.com/mycozycloud/cozy-tutorial/tree/step-1">here</a>.</p>
 <p>We first need to create an HTTP server that will serve the content for requests:</p>
-<pre class="highlight"><code class="javascript"><span class="comment">// server.js</span>
+<pre class="highlight"><code class="javascript"><span class="hljs-comment">// server.js</span>
 
-<span class="comment">// Generate a new instance of express server.</span>
-<span class="keyword">var</span> express = require(<span class="string">'express'</span>)
-  , http = require(<span class="string">'http'</span>);
+<span class="hljs-comment">// Generate a new instance of express server.</span>
+<span class="hljs-keyword">var</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">'express'</span>)
+  , http = <span class="hljs-built_in">require</span>(<span class="hljs-string">'http'</span>);
 
-<span class="keyword">var</span> app = express();
+<span class="hljs-keyword">var</span> app = express();
 
-<span class="comment">/* This will allow Cozy to run your app smoothly but
+<span class="hljs-comment">/* This will allow Cozy to run your app smoothly but
  it won't break other execution environment */</span>
-<span class="keyword">var</span> port = process.env.PORT || <span class="number">9250</span>;
-<span class="keyword">var</span> host = process.env.HOST || <span class="string">"127.0.0.1"</span>;
+<span class="hljs-keyword">var</span> port = process.env.PORT || <span class="hljs-number">9250</span>;
+<span class="hljs-keyword">var</span> host = process.env.HOST || <span class="hljs-string">"127.0.0.1"</span>;
 
-<span class="comment">// Starts the server itself</span>
-<span class="keyword">var</span> server = http.createServer(app).listen(port, host, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
-  console.log(<span class="string">"Server listening to %s:%d within %s environment"</span>,
-              host, port, app.get(<span class="string">'env'</span>));
+<span class="hljs-comment">// Starts the server itself</span>
+<span class="hljs-keyword">var</span> server = http.createServer(app).listen(port, host, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+  console.log(<span class="hljs-string">"Server listening to %s:%d within %s environment"</span>,
+              host, port, app.get(<span class="hljs-string">'env'</span>));
 });
 
-<span class="comment">// At the root of your website, we show the index.html page</span>
-app.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res)</span> {</span>
-  res.sendfile(<span class="string">'./public/index.html'</span>)
-});</code></pre>
+<span class="hljs-comment">// At the root of your website, we show the index.html page</span>
+app.get(<span class="hljs-string">'/'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(req, res)</span> {</span>
+  res.sendfile(<span class="hljs-string">'./public/index.html'</span>)
+});
+</code></pre>
 <p>Now start the server by running:</p>
-<pre class="highlight"><code class="bash">node server.js</code></pre>
+<pre class="highlight"><code class="bash">node server.js
+</code></pre>
 <p>Then open your browser on <a href="http://localhost:9250/">http://localhost:9250/</a> and check the result.</p>
 <p>Woohoo, you've just made your first NodeJS app compatible with Cozy!</p>
 <p>You might think "well, this sucks, I actually can't do anything with it". You are absolutely right, so let's move on to step 2.</p>
@@ -140,32 +143,34 @@ app.get(<span class="string">'/'</span>, <span class="function"><span class="key
 <p>NB: the source code for this step can be found <a href="https://github.com/mycozycloud/cozy-tutorial/tree/step-2">here</a>.</p>
 <p>For the step 2, we are going to use a list stored in memory on the server and render it within a template. We are going to use Jade as a template engine. If you don't master Jade, you will find it is not difficult to read and write it.</p>
 <p>First, install jade:</p>
-<pre class="highlight"><code class="bash">npm install jade --save <span class="comment"># save also adds jade to package.json</span></code></pre>
+<pre class="highlight"><code class="bash">npm install jade --save <span class="hljs-comment"># save also adds jade to package.json</span>
+</code></pre>
 <p>Go back to <code>server.js</code> and change it in the following way:</p>
-<pre class="highlight"><code class="javascript"><span class="comment">// server.js</span>
+<pre class="highlight"><code class="javascript"><span class="hljs-comment">// server.js</span>
 
-<span class="comment">/* We add configure directive to tell express to use Jade to
+<span class="hljs-comment">/* We add configure directive to tell express to use Jade to
    render templates */</span>
-app.configure(<span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
-  app.set(<span class="string">'views'</span>, __dirname + <span class="string">'/public'</span>);
-  app.engine(<span class="string">'.html'</span>, require(<span class="string">'jade'</span>).__express);
+app.configure(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+  app.set(<span class="hljs-string">'views'</span>, __dirname + <span class="hljs-string">'/public'</span>);
+  app.engine(<span class="hljs-string">'.html'</span>, <span class="hljs-built_in">require</span>(<span class="hljs-string">'jade'</span>).__express);
 });
 
-<span class="comment">// Let's define some bookmarks</span>
-<span class="keyword">var</span> bookmarks = []
-bookmarks.push({title: <span class="string">"Cozycloud"</span>, url: <span class="string">"https://cozycloud.cc"</span>});
-bookmarks.push({title: <span class="string">"Cozy.io"</span>, url: <span class="string">"http://cozy.io"</span>});
-bookmarks.push({title: <span class="string">"My Cozy"</span>, url: <span class="string">"http://localhost:9104/"</span>});
+<span class="hljs-comment">// Let's define some bookmarks</span>
+<span class="hljs-keyword">var</span> bookmarks = []
+bookmarks.push({title: <span class="hljs-string">"Cozycloud"</span>, url: <span class="hljs-string">"https://cozycloud.cc"</span>});
+bookmarks.push({title: <span class="hljs-string">"Cozy.io"</span>, url: <span class="hljs-string">"http://cozy.io"</span>});
+bookmarks.push({title: <span class="hljs-string">"My Cozy"</span>, url: <span class="hljs-string">"http://localhost:9104/"</span>});
 
-<span class="comment">// We render the templates with the data</span>
-app.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res)</span> {</span>
+<span class="hljs-comment">// We render the templates with the data</span>
+app.get(<span class="hljs-string">'/'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(req, res)</span> {</span>
   params = {
-    <span class="string">"bookmarks"</span>: bookmarks
+    <span class="hljs-string">"bookmarks"</span>: bookmarks
   }
-  res.render(<span class="string">'index.jade'</span>, params, <span class="function"><span class="keyword">function</span><span class="params">(err, html)</span> {</span>
-    res.send(<span class="number">200</span>, html);
+  res.render(<span class="hljs-string">'index.jade'</span>, params, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err, html)</span> {</span>
+    res.send(<span class="hljs-number">200</span>, html);
   });
-});</code></pre>
+});
+</code></pre>
 <p>We also need to change the HTML file into a Jade file:</p>
 <pre class="highlight"><code class="xml"># public/index.jade
 doctype 5
@@ -183,7 +188,8 @@ html(lang="fr")
                 | &amp;nbsp;- (
                 a(href=bookmarks[bookmark].url) link
                 | )
-        - }</code></pre>
+        - }
+</code></pre>
 <p>Start the server and go to <a href="http://localhost:9250/">http://localhost:9250/</a> to make sure the app displays
 your bookmarks.</p>
 <p>Again, this is not very useful because you can't modify the list. Let's fix it!</p>
@@ -195,38 +201,42 @@ your bookmarks.</p>
     input(type="text", name="title")
     label Url:
     input(type="text", name="url")
-    input(type="submit", value="Add a new bookmark")</code></pre>
+    input(type="submit", value="Add a new bookmark")
+</code></pre>
 <p>We also need a button to remove a bookmark, let's rewrite the way a bookmark is
 displayed:</p>
 <pre class="highlight"><code class="xml">li
     a(href=bookmarks[bookmark].url)= bookmarks[bookmark].title
     | &amp;nbsp;- (
     a(href="delete/#{bookmark}") delete
-    | )</code></pre>
+    | )
+</code></pre>
 <p>Now we can create the corresponding routes in the server:</p>
 <pre class="highlight"><code class="javascript">
-<span class="comment">// add the body parser middleware to transform incoming data into a JS object.</span>
-app.configure(<span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
-  app.set(<span class="string">'views'</span>, __dirname + <span class="string">'/public'</span>);
-  app.engine(<span class="string">'.html'</span>, require(<span class="string">'jade'</span>).__express);
+<span class="hljs-comment">// add the body parser middleware to transform incoming data into a JS object.</span>
+app.configure(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+  app.set(<span class="hljs-string">'views'</span>, __dirname + <span class="hljs-string">'/public'</span>);
+  app.engine(<span class="hljs-string">'.html'</span>, <span class="hljs-built_in">require</span>(<span class="hljs-string">'jade'</span>).__express);
   app.use(express.bodyParser());
 });
 
-<span class="comment">// We define a new route that will handle bookmark creation</span>
-app.post(<span class="string">'/add'</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res)</span> {</span>
+<span class="hljs-comment">// We define a new route that will handle bookmark creation</span>
+app.post(<span class="hljs-string">'/add'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(req, res)</span> {</span>
   bookmarks.push(req.body);
-  res.redirect(<span class="string">'/'</span>);
+  res.redirect(<span class="hljs-string">'/'</span>);
 });
 
-<span class="comment">// We define another route that will handle bookmark deletion</span>
-app.get(<span class="string">'/delete/:id'</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res)</span> {</span>
-  bookmarks.splice(req.params.id, <span class="number">1</span>);
-  res.redirect(<span class="string">'/'</span>);
-});</code></pre>
+<span class="hljs-comment">// We define another route that will handle bookmark deletion</span>
+app.get(<span class="hljs-string">'/delete/:id'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(req, res)</span> {</span>
+  bookmarks.splice(req.params.id, <span class="hljs-number">1</span>);
+  res.redirect(<span class="hljs-string">'/'</span>);
+});
+</code></pre>
 <p>To be able to get the data from the POST request, we need to tell express to
 process the parameters. Add the following inside the "app.configure" section:</p>
-<pre class="highlight"><code class="javascript"><span class="comment">// Allows express to get data from POST requests</span>
-app.use(express.bodyParser());</code></pre>
+<pre class="highlight"><code class="javascript"><span class="hljs-comment">// Allows express to get data from POST requests</span>
+app.use(express.bodyParser());
+</code></pre>
 <p>Et voilà! You can now add and remove bookmarks. But it still sucks, right? Each
 time you start and then stop the server you lose your data. Let's use a database!</p>
 <h2 id="step-4-using-a-real-database-sqlite">Step 4: using a real database, SQLite</h2>
@@ -234,100 +244,106 @@ time you start and then stop the server you lose your data. Let's use a database
 <a href="https://github.com/mycozycloud/cozy-tutorial/tree/step-4">here</a>.</p>
 <p>Even if Cozy main persistence layer is not SQLite, it is shipped with every Cozy.</p>
 <p>The first thing we need to do is to get a module to use SQLite:</p>
-<pre class="highlight"><code class="bash">npm install sqlite3 --save</code></pre>
+<pre class="highlight"><code class="bash">npm install sqlite3 --save
+</code></pre>
 <p>Then we need to initialize the database. To achieve that, change the following in server.js:</p>
-<pre class="highlight"><code class="javascript"><span class="keyword">var</span> http = require(<span class="string">'http'</span>),
-    express = require(<span class="string">'express'</span>),
+<pre class="highlight"><code class="javascript"><span class="hljs-keyword">var</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">'http'</span>),
+    express = <span class="hljs-built_in">require</span>(<span class="hljs-string">'express'</span>),
     app = express(),
-    sqlite3 = require(<span class="string">'sqlite3'</span>).verbose(),
-    db = <span class="keyword">new</span> sqlite3.Database(<span class="string">'cozy.db'</span>);
+    sqlite3 = <span class="hljs-built_in">require</span>(<span class="hljs-string">'sqlite3'</span>).verbose(),
+    db = <span class="hljs-keyword">new</span> sqlite3.Database(<span class="hljs-string">'cozy.db'</span>);
 
 
-<span class="comment">// Database initialization</span>
-db.get(<span class="string">"SELECT name FROM sqlite_master WHERE type='table' AND name='bookmarks'"</span>,
-       <span class="function"><span class="keyword">function</span><span class="params">(err, rows)</span> {</span>
-  <span class="keyword">if</span>(err !== <span class="literal">null</span>) {
+<span class="hljs-comment">// Database initialization</span>
+db.get(<span class="hljs-string">"SELECT name FROM sqlite_master WHERE type='table' AND name='bookmarks'"</span>,
+       <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err, rows)</span> {</span>
+  <span class="hljs-keyword">if</span>(err !== <span class="hljs-literal">null</span>) {
     console.log(err);
   }
-  <span class="keyword">else</span> <span class="keyword">if</span>(rows === <span class="literal">undefined</span>) {
-    db.run(<span class="string">'CREATE TABLE "bookmarks" '</span> +
-           <span class="string">'("id" INTEGER PRIMARY KEY AUTOINCREMENT, '</span> +
-           <span class="string">'"title" VARCHAR(255), '</span> +
-           <span class="string">'url VARCHAR(255))'</span>, <span class="function"><span class="keyword">function</span><span class="params">(err)</span> {</span>
-      <span class="keyword">if</span>(err !== <span class="literal">null</span>) {
+  <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(rows === <span class="hljs-literal">undefined</span>) {
+    db.run(<span class="hljs-string">'CREATE TABLE "bookmarks" '</span> +
+           <span class="hljs-string">'("id" INTEGER PRIMARY KEY AUTOINCREMENT, '</span> +
+           <span class="hljs-string">'"title" VARCHAR(255), '</span> +
+           <span class="hljs-string">'url VARCHAR(255))'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err)</span> {</span>
+      <span class="hljs-keyword">if</span>(err !== <span class="hljs-literal">null</span>) {
         console.log(err);
       }
-      <span class="keyword">else</span> {
-        console.log(<span class="string">"SQL Table 'bookmarks' initialized."</span>);
+      <span class="hljs-keyword">else</span> {
+        console.log(<span class="hljs-string">"SQL Table 'bookmarks' initialized."</span>);
       }
     });
   }
-  <span class="keyword">else</span> {
-    console.log(<span class="string">"SQL Table 'bookmarks' already initialized."</span>);
+  <span class="hljs-keyword">else</span> {
+    console.log(<span class="hljs-string">"SQL Table 'bookmarks' already initialized."</span>);
   }
-});</code></pre>
+});
+</code></pre>
 <p>Now we must change the list, add and delete routes:</p>
-<pre class="highlight"><code class="javascript"><span class="comment">// We render the templates with the data</span>
-app.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res)</span> {</span>
+<pre class="highlight"><code class="javascript"><span class="hljs-comment">// We render the templates with the data</span>
+app.get(<span class="hljs-string">'/'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(req, res)</span> {</span>
 
-  db.all(<span class="string">'SELECT * FROM bookmarks ORDER BY title'</span>, <span class="function"><span class="keyword">function</span><span class="params">(err, row)</span> {</span>
-    <span class="keyword">if</span>(err !== <span class="literal">null</span>) {
-      res.send(<span class="number">500</span>, <span class="string">"An error has occurred -- "</span> + err);
+  db.all(<span class="hljs-string">'SELECT * FROM bookmarks ORDER BY title'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err, row)</span> {</span>
+    <span class="hljs-keyword">if</span>(err !== <span class="hljs-literal">null</span>) {
+      res.send(<span class="hljs-number">500</span>, <span class="hljs-string">"An error has occurred -- "</span> + err);
     }
-    <span class="keyword">else</span> {
+    <span class="hljs-keyword">else</span> {
       console.log(row);
-      res.render(<span class="string">'index.jade'</span>, {bookmarks: row}, <span class="function"><span class="keyword">function</span><span class="params">(err, html)</span> {</span>
-        res.send(<span class="number">200</span>, html);
+      res.render(<span class="hljs-string">'index.jade'</span>, {bookmarks: row}, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err, html)</span> {</span>
+        res.send(<span class="hljs-number">200</span>, html);
       });
     }
   });
 });
 
-<span class="comment">// We define a new route that will handle bookmark creation</span>
-app.post(<span class="string">'/add'</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res)</span> {</span>
+<span class="hljs-comment">// We define a new route that will handle bookmark creation</span>
+app.post(<span class="hljs-string">'/add'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(req, res)</span> {</span>
   title = req.body.title;
   url = req.body.url;
-  sqlRequest = <span class="string">"INSERT INTO 'bookmarks' (title, url) "</span> +
-               <span class="string">"VALUES('"</span> + title + <span class="string">"', '"</span> + url + <span class="string">"')"</span>
-  db.run(sqlRequest, <span class="function"><span class="keyword">function</span><span class="params">(err)</span> {</span>
-    <span class="keyword">if</span>(err !== <span class="literal">null</span>) {
-      res.send(<span class="number">500</span>, <span class="string">"An error has occurred -- "</span> + err);
+  sqlRequest = <span class="hljs-string">"INSERT INTO 'bookmarks' (title, url) "</span> +
+               <span class="hljs-string">"VALUES('"</span> + title + <span class="hljs-string">"', '"</span> + url + <span class="hljs-string">"')"</span>
+  db.run(sqlRequest, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err)</span> {</span>
+    <span class="hljs-keyword">if</span>(err !== <span class="hljs-literal">null</span>) {
+      res.send(<span class="hljs-number">500</span>, <span class="hljs-string">"An error has occurred -- "</span> + err);
     }
-    <span class="keyword">else</span> {
-      res.redirect(<span class="string">'back'</span>);
+    <span class="hljs-keyword">else</span> {
+      res.redirect(<span class="hljs-string">'back'</span>);
     }
   });
 });
 
-<span class="comment">// We define another route that will handle bookmark deletion</span>
-app.get(<span class="string">'/delete/:id'</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res)</span> {</span>
-  db.run(<span class="string">"DELETE FROM bookmarks WHERE id='"</span> + req.params.id + <span class="string">"'"</span>,
-         <span class="function"><span class="keyword">function</span><span class="params">(err)</span> {</span>
-    <span class="keyword">if</span>(err !== <span class="literal">null</span>) {
-      res.send(<span class="number">500</span>, <span class="string">"An error has occurred -- "</span> + err);
+<span class="hljs-comment">// We define another route that will handle bookmark deletion</span>
+app.get(<span class="hljs-string">'/delete/:id'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(req, res)</span> {</span>
+  db.run(<span class="hljs-string">"DELETE FROM bookmarks WHERE id='"</span> + req.params.id + <span class="hljs-string">"'"</span>,
+         <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err)</span> {</span>
+    <span class="hljs-keyword">if</span>(err !== <span class="hljs-literal">null</span>) {
+      res.send(<span class="hljs-number">500</span>, <span class="hljs-string">"An error has occurred -- "</span> + err);
     }
-    <span class="keyword">else</span> {
-      res.redirect(<span class="string">'back'</span>);
+    <span class="hljs-keyword">else</span> {
+      res.redirect(<span class="hljs-string">'back'</span>);
     }
   });
-});</code></pre>
+});
+</code></pre>
 <p>Don't forget to change the template too, in client/index.jade:</p>
 <pre class="highlight"><code class="xml">li
     a(href=bookmarks[bookmark].url)= bookmarks[bookmark].title
     | &amp;nbsp;- (
     a(href="delete/#{bookmarks[bookmark].id}") delete
-    | )</code></pre>
+    | )
+</code></pre>
 <h2 id="step-5-deploying-your-app-into-cozy">Step 5 : deploying your app into Cozy</h2>
 <p>If you want to deploy the app into a Cozy, your first need to put on a public git repository. We use <a href="https://github.com">Github</a> because it's awesome, but you can use any git provider.</p>
 <p>When you have published your code, go to your Cozy if you have one, or to <a href="http://localhost:9104/#applications">http://localhost:9104/#applications</a> and install your app through the dedicated interface.
 The application logs are available inside the virtual machine. In order to take a look at them, do the following:</p>
 <pre class="highlight"><code class="bash">vagrant ssh
-tail <span class="operator">-f</span> /usr/local/cozy/apps/{yourapplication}/{yourapplication}/{yourapplication}/logs/production.log</code></pre>
+tail <span class="hljs-operator">-f</span> /usr/local/cozy/apps/{yourapplication}/{yourapplication}/{yourapplication}/logs/production.log
+</code></pre>
 <p>You can also run your application directly inside the virtual machine:</p>
 <pre class="highlight"><code class="bash">vagrant ssh
-<span class="built_in">cd</span> /vagrant/{yourapplication}/
+<span class="hljs-built_in">cd</span> /vagrant/{yourapplication}/
 cozy-monitor dev-route:start {appSlug} {port}
-PORT={port} node server.js</code></pre>
+PORT={port} node server.js
+</code></pre>
 <p>Then go to <a href="http://localhost:9104/#apps/{appSlug}/">http://localhost:9104/#apps/{appSlug}/</a> and take a look at your app inside Cozy!</p>
 <h2 id="what-s-next-">What's next ?</h2>
 <p>You've developed your first Cozy app and you must now understand that it's nothing more than a normal web application.</p>

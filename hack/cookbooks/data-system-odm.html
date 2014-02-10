@@ -60,7 +60,7 @@
                 <ul class="second-level">
                 </ul>
               </li>
-              <li class="big"><a href="#files-attachements" class="label">Files/Attachements</a>
+              <li class="big"><a href="#files" class="label">Files</a>
                 <ul class="second-level">
                 </ul>
               </li>
@@ -76,98 +76,115 @@
 <p>We've created a driver for JugglingDB, an ODM (Object Document Mapper) to easily work with Cozy Data System. This document will gives you the detailed API to use it, but you can already check <a href="/hack/getting-started/play-with-data-system.html">the tutorial</a> where we introduce it in order to see a working example.</p>
 <h2 id="generic-note">Generic note</h2>
 <p>Depending on what you use, you might want to install JugglingDB and the Cozy adapter in order to make it works. If you use a framework where it is integrated (like Americano with the Cozy plugin), refers to the framework's documentation too see how to boostrap it. Otherwise, you can follow the steps described in this section.</p>
-<pre class="highlight"><code class="bash">npm install jugglindb jugglingdb-cozy-adapter --save</code></pre>
+<pre class="highlight"><code class="bash">npm install jugglindb jugglingdb-cozy-adapter --save
+</code></pre>
 <p>In the following example, "Note" refers to a model and "note" to a document of the model "Note". "Note" was declared like this:</p>
-<pre class="highlight"><code class="javascript"><span class="keyword">var</span> Schema = require(<span class="string">'jugglingdb'</span>).Schema,
-<span class="keyword">var</span> db = <span class="keyword">new</span> Schema(<span class="string">'cozy-adapter'</span>, { url: <span class="string">'http://localhost:9101/'</span> });
+<pre class="highlight"><code class="javascript"><span class="hljs-keyword">var</span> Schema = <span class="hljs-built_in">require</span>(<span class="hljs-string">'jugglingdb'</span>).Schema,
+<span class="hljs-keyword">var</span> db = <span class="hljs-keyword">new</span> Schema(<span class="hljs-string">'cozy-adapter'</span>, { url: <span class="hljs-string">'http://localhost:9101/'</span> });
 
-Note = db.define(<span class="string">'Note'</span>, {
-  <span class="string">"id"</span>: String,
-  <span class="string">"title"</span>: String,
-  <span class="string">"content"</span>: { <span class="string">"type"</span>: String, <span class="string">"default"</span>: <span class="string">""</span>}
-});</code></pre>
+Note = db.define(<span class="hljs-string">'Note'</span>, {
+  <span class="hljs-string">"id"</span>: <span class="hljs-built_in">String</span>,
+  <span class="hljs-string">"title"</span>: <span class="hljs-built_in">String</span>,
+  <span class="hljs-string">"content"</span>: { <span class="hljs-string">"type"</span>: <span class="hljs-built_in">String</span>, <span class="hljs-string">"default"</span>: <span class="hljs-string">""</span>}
+});
+</code></pre>
 <p>Also, you don't have to worry about authentfication and authorization while using the ODM, because they are automatically handled for you.</p>
 <h2 id="documents">Documents</h2>
-<pre class="highlight"><code class="javascript"><span class="comment">// Checking document existence</span>
-Note.exists(<span class="number">123</span>, <span class="function"><span class="keyword">function</span><span class="params">(err, isExist)</span> {</span>
+<pre class="highlight"><code class="javascript"><span class="hljs-comment">// Checking document existence</span>
+Note.exists(<span class="hljs-number">123</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err, isExist)</span> {</span>
     console.log(isExist);
 });
 
-<span class="comment">// Retrieving a document with its ID</span>
-Note.find(<span class="number">321</span>, <span class="function"><span class="keyword">function</span><span class="params">(err, note)</span> {</span>
+<span class="hljs-comment">// Retrieving a document with its ID</span>
+Note.find(<span class="hljs-number">321</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err, note)</span> {</span>
     console.log(note);
 });
 
-<span class="comment">// Creating a document</span>
-Note.create({ id: <span class="string">"321"</span>, <span class="string">"content"</span>:<span class="string">"created value"</span>}, <span class="function"><span class="keyword">function</span><span class="params">(err, note)</span> {</span>
+<span class="hljs-comment">// Creating a document</span>
+Note.create({ id: <span class="hljs-string">"321"</span>, <span class="hljs-string">"content"</span>:<span class="hljs-string">"created value"</span>}, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err, note)</span> {</span>
     console.log(note.id);
 });
 
-<span class="comment">// Upserting (update or create if doesn't exist) a document</span>
-Note.createOrUpdate(<span class="number">123</span>, <span class="function"><span class="keyword">function</span><span class="params">(err, note)</span> {</span>
+<span class="hljs-comment">// Upserting (update or create if doesn't exist) a document</span>
+Note.createOrUpdate(<span class="hljs-number">123</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err, note)</span> {</span>
     console.log(err);
 });
 
-<span class="comment">// Updating a document (will replace the existing one)</span>
-note.save(<span class="function"><span class="keyword">function</span><span class="params">(err)</span> {</span>
+<span class="hljs-comment">// Updating a document (will replace the existing one)</span>
+note.save(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err)</span> {</span>
     console.log(err);
 });
 
-<span class="comment">// Updating attributes (only replace the specified attributes)</span>
-note.updateAttributes({title: <span class="string">"my new title"</span>}, <span class="function"><span class="keyword">function</span><span class="params">(err)</span> {</span>
+<span class="hljs-comment">// Updating attributes (only replace the specified attributes)</span>
+note.updateAttributes({title: <span class="hljs-string">"my new title"</span>}, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err)</span> {</span>
     console.log(err);
 });
 
-<span class="comment">// Deleting a document</span>
-note.destroy(<span class="function"><span class="keyword">function</span><span class="params">(err)</span> {</span>
+<span class="hljs-comment">// Deleting a document</span>
+note.destroy(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err)</span> {</span>
     console.log(err);
-});</code></pre>
+});
+</code></pre>
 <h2 id="indexation">Indexation</h2>
-<pre class="highlight"><code class="javascript"><span class="comment">// Indexing document fields</span>
-note.index([<span class="string">"title"</span>, <span class="string">"content"</span>], <span class="function"><span class="keyword">function</span><span class="params">(err)</span> {</span>
+<pre class="highlight"><code class="javascript"><span class="hljs-comment">// Indexing document fields</span>
+note.index([<span class="hljs-string">"title"</span>, <span class="hljs-string">"content"</span>], <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err)</span> {</span>
     console.log(err);
 });
 
-<span class="comment">// Searching the 10 most relevant indexed documents</span>
-Note.search(<span class="string">"dragons"</span>, <span class="function"><span class="keyword">function</span><span class="params">(err, notes)</span> {</span>
+<span class="hljs-comment">// Searching the 10 most relevant indexed documents</span>
+Note.search(<span class="hljs-string">"dragons"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err, notes)</span> {</span>
    console.log(notes);
-});</code></pre>
-<h2 id="files-attachements">Files/Attachements</h2>
+});
+</code></pre>
+<h2 id="files">Files</h2>
 <pre class="highlight"><code class="javascript"># Uploading/attaching a file to a document
-note.attachFile(<span class="string">"./test.png"</span>, <span class="function"><span class="keyword">function</span><span class="params">(err)</span> {</span>
+note.attachBinary(<span class="hljs-string">"./test.png"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err)</span> {</span>
     console.log(err);
 });
 
-# Get file
-stream = note.getFile(<span class="string">"test.png"</span>, functino(err) {
+# Get the file
+stream = note.getBinary(<span class="hljs-string">"test.png"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err)</span> {</span>
     console.log(err);
 });
-stream.pipe(fs.createWriteStream(<span class="string">'./test.png'</span>));</code></pre>
+stream.pipe(fs.createWriteStream(<span class="hljs-string">'./test.png'</span>));
+
+# Save the file to the disk
+<span class="hljs-keyword">var</span> path = <span class="hljs-string">"/tmp/test.png"</span>;
+note.saveBinary(<span class="hljs-string">"test.png"</span>, path, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err)</span> {</span>
+    console.log(err);
+});
+
+# Remove the file
+note.removeBinary(<span class="hljs-string">"test.png"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err)</span> {</span>
+    console.log(err);
+});
+</code></pre>
 <h2 id="requests">Requests</h2>
 <pre class="highlight"><code class="javascript"># Defining request
-map = <span class="function"><span class="keyword">function</span><span class="params">(doc)</span> {</span>
+map = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(doc)</span> {</span>
     emit(doc._id, doc);
-    <span class="keyword">return</span>;
+    <span class="hljs-keyword">return</span>;
 }
 
-Note.defineRequest(<span class="string">"all"</span>, map, <span class="function"><span class="keyword">function</span><span class="params">(err)</span> {</span>
+Note.defineRequest(<span class="hljs-string">"all"</span>, map, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err)</span> {</span>
     console.log(err);
 });
 
 # Getting request results
-Note.request(<span class="string">"all"</span>, <span class="function"><span class="keyword">function</span> <span class="params">(err, notes)</span> {</span>
+Note.request(<span class="hljs-string">"all"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(err, notes)</span> {</span>
     console.log(notes);
 });
 
 # Destroying all documents of a request result
-Note.requestDestroy(<span class="string">"all"</span>, {key: ids[<span class="number">3</span>]}, <span class="function"><span class="keyword">function</span><span class="params">(err)</span> {</span>
+Note.requestDestroy(<span class="hljs-string">"all"</span>, {key: ids[<span class="hljs-number">3</span>]}, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err)</span> {</span>
     console.log(err);
 });
 
 # Removing a request
-Note.removeRequest(<span class="string">"all"</span>, <span class="function"><span class="keyword">function</span><span class="params">(err)</span> {</span>
+Note.removeRequest(<span class="hljs-string">"all"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err)</span> {</span>
     console.log(err);
-});</code></pre>
+});
+</code></pre>
 
       </div>
       <footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">Github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">Contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">Mailing-list</a><a href="https://cozycloud.cc">Cozy Cloud</a></footer>

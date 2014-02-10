@@ -78,18 +78,19 @@ Open your package.json file, you'll need it!</p>
 <p>In a production Cozy, the application will need permissions in order to access the Data System for every doctype it uses.</p>
 <p>In order to declare what permissions are required by your application, you must add the list to your package.json at the root level. Let's say our application needs the permissions for the doctype "Todo", "Event" and "Alarm".</p>
 <pre class="highlight"><code class="json">{
-    "<span class="attribute">cozy-permissions</span>": <span class="value">{
-        "<span class="attribute">Todo</span>": <span class="value">{
-            "<span class="attribute">description</span>": <span class="value"><span class="string">"Display the next things to do"</span>
+    "<span class="hljs-attribute">cozy-permissions</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">Todo</span>": <span class="hljs-value">{
+            "<span class="hljs-attribute">description</span>": <span class="hljs-value"><span class="hljs-string">"Display the next things to do"</span>
         </span>}</span>,
-        "<span class="attribute">Event</span>": <span class="value">{
-            "<span class="attribute">description</span>": <span class="value"><span class="string">"Manage your meetings"</span>
+        "<span class="hljs-attribute">Event</span>": <span class="hljs-value">{
+            "<span class="hljs-attribute">description</span>": <span class="hljs-value"><span class="hljs-string">"Manage your meetings"</span>
         </span>}</span>,
-        "<span class="attribute">Alarm</span>": <span class="value">{
-            "<span class="attribute">description</span>": <span class="value"><span class="string">"Warn you when a meeting is happening soon"</span>
+        "<span class="hljs-attribute">Alarm</span>": <span class="hljs-value">{
+            "<span class="hljs-attribute">description</span>": <span class="hljs-value"><span class="hljs-string">"Warn you when a meeting is happening soon"</span>
         </span>}
     </span>}
-</span>}</code></pre>
+</span>}
+</code></pre>
 <p>The "description" fields will be displayed to the user during installation. Do not miss the occasion to build trust between the user and your application!</p>
 <h2 id="naming-your-application">Naming your application</h2>
 <p>There are two fields regarding naming your application: "name", "cozy-displayName" and "description".</p>
@@ -97,10 +98,11 @@ Open your package.json file, you'll need it!</p>
 <p>The "cozy-displayName" field allows you to choose a fancy name, you can use all the character you want, but be careful! It will appear on the user's home, so it shouldn't be too long.</p>
 <p>The "description" field allows you to display to the user a description in the installation process.</p>
 <pre class="highlight"><code class="json">{
-    "<span class="attribute">name</span>": <span class="value"><span class="string">"cozy-mysuperapp-slug"</span></span>,
-    "<span class="attribute">cozy-displayName</span>": <span class="value"><span class="string">"My Super Application"</span>
-    <span class="string">"description"</span>: <span class="string">"My Super Application makes you awesome!"</span>
-</span>}</code></pre>
+    "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"cozy-mysuperapp-slug"</span></span>,
+    "<span class="hljs-attribute">cozy-displayName</span>": <span class="hljs-value"><span class="hljs-string">"My Super Application"</span>
+    <span class="hljs-string">"description"</span>: <span class="hljs-string">"My Super Application makes you awesome!"</span>
+</span>}
+</code></pre>
 <h2 id="distributing-to-other-users">Distributing to other users</h2>
 <p>The first thing to do is creating a Github account if you don't have one already. We are currently tightly integrated with Github but that's something we'll change when the time comes. So make a Github account and push your code to a <strong>public</strong> remote repository.
 <br /><br />
@@ -110,9 +112,10 @@ Next comes the Cozy app market. Currently there isn't a fancy centralized market
 <p>When you install an application on Cozy, errors can occur. First thing to do is to try again 5 minutes later. If it still doesn't work, check the following sections and ask us for help on the IRC channel (#cozycloud on irc.freenode.net).</p>
 <h3 id="error-npm-failed-">Error: "NPM failed"</h3>
 <p>This error means something went wrong during the "npm install" phase. Two things: the NPM repository is down and we can't do anything except waiting (we don't own it!) or your application doesn't its depdency properly declared. Make sure you can do a local "npm install" before deploying!</p>
-<pre class="highlight"><code class="bash"><span class="built_in">cd</span> my-app/
+<pre class="highlight"><code class="bash"><span class="hljs-built_in">cd</span> my-app/
 rm -rf node_modules/
-npm install</code></pre>
+npm install
+</code></pre>
 <h3 id="error-broken-app-">Error: "Broken app"</h3>
 <p>This happens when the app failed to start after its installation. There are many possible cases, here are the most commons:</p>
 <h4 id="the-permissions-aren-t-properly-declared">The permissions aren't properly declared</h4>

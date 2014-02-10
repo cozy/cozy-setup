@@ -106,13 +106,15 @@
 <p>The source code of this tutorial can be found <a href="https://github.com/mycozycloud/cozy-tutorial/tree/spa-final">here</a>.</p>
 <h3 id="get-ready">Get ready</h3>
 <p>First, install Brunch:</p>
-<pre class="highlight"><code class="javascript">npm install -g brunch</code></pre>
+<pre class="highlight"><code class="javascript">npm install -g brunch
+</code></pre>
 <p>Then, get the source we prepared for you to bootstrap the tutorial.</p>
 <pre class="highlight"><code class="bash">git clone https://github.com/mycozycloud/cozy-tutorial.git --branch spa spa-bookmarks
-<span class="built_in">cd</span> spa-bookmarks/
+<span class="hljs-built_in">cd</span> spa-bookmarks/
 npm install
-<span class="built_in">cd</span> client/
-npm install</code></pre>
+<span class="hljs-built_in">cd</span> client/
+npm install
+</code></pre>
 <p>Note your command includes <code>npm install</code> twice. The client's one is for Brunch specific modules. We'll come back to what Brunch does soon.</p>
 <h2 id="file-structure-of-the-bootstrap-backbone-application">File structure of the bootstrap Backbone application</h2>
 <p>You already know about the server part of the file structure, so let's focus on the client folder.</p>
@@ -152,8 +154,9 @@ You can use pretty much everything you want to for templates (Jade, Handlebars, 
 <p>If you want to know everything about Brunch, please check out their <a href="http://brunch.io/">website</a> (it is not mandatory for this tutorial though).</p>
 <p>Brunch is also awesome because it detects when a file changes and recompiles the code automatically, so everything is smooth for you.</p>
 <p>To start brunch, open a terminal:</p>
-<pre class="highlight"><code class="bash"><span class="built_in">cd</span> tutorial-spa/client/
-brunch w</code></pre>
+<pre class="highlight"><code class="bash"><span class="hljs-built_in">cd</span> tutorial-spa/client/
+brunch w
+</code></pre>
 <p>From now on, you shouldn't be modifying a file outside the app/ directory.</p>
 <h2 id="step-1-discovering-backbone">Step 1: discovering Backbone</h2>
 <p>We set up a template with a working Backbone app through Brunch so you can start quickly. But before writing code, let's look at what Backbone is.</p>
@@ -174,183 +177,196 @@ Then the view is rendered. The render process is: load the template, put data in
 <h2 id="step-2-adding-a-new-bookmark">Step 2: adding a new bookmark</h2>
 <p>The provided code displays a collection of bookmarks. Let's bind our "new bookmark" form to Backbone.</p>
 <p>Along the "el" and the "template" attribute, add the event binding:</p>
-<pre class="highlight"><code class="javascript"><span class="comment">// apps/views/app_view.js</span>
-el: <span class="string">'body'</span>,
-template: require(<span class="string">'../templates/home'</span>),
+<pre class="highlight"><code class="javascript"><span class="hljs-comment">// apps/views/app_view.js</span>
+el: <span class="hljs-string">'body'</span>,
+template: <span class="hljs-built_in">require</span>(<span class="hljs-string">'../templates/home'</span>),
 events: {
-    <span class="string">"click #add-bookmark"</span>: <span class="string">"createBookmark"</span>
-},</code></pre>
+    <span class="hljs-string">"click #add-bookmark"</span>: <span class="hljs-string">"createBookmark"</span>
+},
+</code></pre>
 <p>This means that when the user clicks on the #add-bookmark button, the "createBookmark" callback will be triggered. So let's define the "createBookmark" function in the code:</p>
-<pre class="highlight"><code class="javascript">createBookmark: <span class="function"><span class="keyword">function</span><span class="params">(event)</span> {</span>
-    <span class="comment">// submit button reload the page, we don't want that</span>
+<pre class="highlight"><code class="javascript">createBookmark: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> {</span>
+    <span class="hljs-comment">// submit button reload the page, we don't want that</span>
     event.preventDefault();
 
-    <span class="comment">// create a new model</span>
-    <span class="keyword">var</span> bookmark = <span class="keyword">new</span> Bookmark({
-        title: <span class="keyword">this</span>.$el.find(<span class="string">'input[name="title"]'</span>).val(),
-        url: <span class="keyword">this</span>.$el.find(<span class="string">'input[name="url"]'</span>).val()
+    <span class="hljs-comment">// create a new model</span>
+    <span class="hljs-keyword">var</span> bookmark = <span class="hljs-keyword">new</span> Bookmark({
+        title: <span class="hljs-keyword">this</span>.$el.find(<span class="hljs-string">'input[name="title"]'</span>).val(),
+        url: <span class="hljs-keyword">this</span>.$el.find(<span class="hljs-string">'input[name="url"]'</span>).val()
     });
 
-    <span class="comment">// add it to the collection</span>
-    <span class="keyword">this</span>.collection.add(bookmark);
-}</code></pre>
+    <span class="hljs-comment">// add it to the collection</span>
+    <span class="hljs-keyword">this</span>.collection.add(bookmark);
+}
+</code></pre>
 <p>You will need the "Bookmark" class, so put this at the top of the file:</p>
-<pre class="highlight"><code class="javascript"><span class="keyword">var</span> Bookmark = require(<span class="string">'../models/bookmark'</span>);</code></pre>
+<pre class="highlight"><code class="javascript"><span class="hljs-keyword">var</span> Bookmark = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../models/bookmark'</span>);
+</code></pre>
 <p>If you try it, nothing will happen, and it's normal. Let's bind the view to the collection, so it can change when a new bookmark is created:</p>
-<pre class="highlight"><code class="javascript"><span class="comment">// initialize is automatically called once after the view is constructed</span>
-initialize: <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
-    <span class="keyword">this</span>.listenTo(<span class="keyword">this</span>.collection, <span class="string">"add"</span>, <span class="keyword">this</span>.onBookmarkAdded);
+<pre class="highlight"><code class="javascript"><span class="hljs-comment">// initialize is automatically called once after the view is constructed</span>
+initialize: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">this</span>.listenTo(<span class="hljs-keyword">this</span>.collection, <span class="hljs-string">"add"</span>, <span class="hljs-keyword">this</span>.onBookmarkAdded);
 },
-onBookmarkAdded: <span class="function"><span class="keyword">function</span><span class="params">(model)</span> {</span>
-    <span class="comment">// re-render the view</span>
-    <span class="keyword">this</span>.render();
-}</code></pre>
+onBookmarkAdded: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(model)</span> {</span>
+    <span class="hljs-comment">// re-render the view</span>
+    <span class="hljs-keyword">this</span>.render();
+}
+</code></pre>
 <p>The new bookmark should now be displayed!</p>
 <h2 id="step-3-using-a-separate-view-for-the-bookmark">Step 3: using a separate view for the bookmark</h2>
 <p>If you want to fully take advantage of what Backbone offers you, you must think modular.</p>
 <p>We have a list of bookmarks and rendering them each time we add a new one could be a bottleneck one day. Also it could be better if we could manipulate each bookmark independently, so deletion would be dead easy to implement. Let's do this!</p>
 <p>Create a new view <code>app/views/bookmark.js</code>:</p>
-<pre class="highlight"><code class="javascript"><span class="comment">// app/views/bookmarks.js</span>
+<pre class="highlight"><code class="javascript"><span class="hljs-comment">// app/views/bookmarks.js</span>
 module.exports = AppView = Backbone.View.extend({
 
-    tagName: <span class="string">'li'</span>,
-    template: require(<span class="string">'../templates/bookmark'</span>),
+    tagName: <span class="hljs-string">'li'</span>,
+    template: <span class="hljs-built_in">require</span>(<span class="hljs-string">'../templates/bookmark'</span>),
 
-    render: <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
-        <span class="keyword">this</span>.$el.html(<span class="keyword">this</span>.template({
-            bookmark: <span class="keyword">this</span>.model.toJSON()
+    render: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+        <span class="hljs-keyword">this</span>.$el.html(<span class="hljs-keyword">this</span>.template({
+            bookmark: <span class="hljs-keyword">this</span>.model.toJSON()
         }));
     }
-});</code></pre>
+});
+</code></pre>
 <p>The tagname will be used when we create a view to automatically create a "li" DOM node.</p>
 <p>Now create the bookmark template <code>app/templates/bookmark.jade</code>:</p>
 <pre class="highlight"><code class="bash">a(href=bookmark.url)= bookmark.title
 | &amp;nbsp;- (
 a.delete delete
-| )</code></pre>
+| )
+</code></pre>
 <p>We must also change the way the app_view renders. First clean the home template (<code>apps/templates/home.jade</code>) by removing everything under the "ul" tag.</p>
 <p>Next rewrite the render function that way:</p>
-<pre class="highlight"><code class="javascript">render: <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+<pre class="highlight"><code class="javascript">render: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-    <span class="comment">// we render the template</span>
-    <span class="keyword">this</span>.$el.html(<span class="keyword">this</span>.template());
+    <span class="hljs-comment">// we render the template</span>
+    <span class="hljs-keyword">this</span>.$el.html(<span class="hljs-keyword">this</span>.template());
 
-    _this = <span class="keyword">this</span>;
-    <span class="keyword">this</span>.collection.forEach(<span class="function"><span class="keyword">function</span><span class="params">(bookmark)</span> {</span>
+    _this = <span class="hljs-keyword">this</span>;
+    <span class="hljs-keyword">this</span>.collection.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(bookmark)</span> {</span>
         _this.onBookmarkAdded(bookmark);
     });
 
-    <span class="keyword">return</span> <span class="keyword">this</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
 },
-onBookmarkAdded: <span class="function"><span class="keyword">function</span><span class="params">(bookmark)</span> {</span>
-    <span class="comment">// render the specific element</span>
-    bookmarkView = <span class="keyword">new</span> BookmarkView({
+onBookmarkAdded: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(bookmark)</span> {</span>
+    <span class="hljs-comment">// render the specific element</span>
+    bookmarkView = <span class="hljs-keyword">new</span> BookmarkView({
         model: bookmark
     });
     bookmarkView.render();
-    <span class="keyword">this</span>.$el.find(<span class="string">'ul'</span>).append(bookmarkView.$el);
-}</code></pre>
+    <span class="hljs-keyword">this</span>.$el.find(<span class="hljs-string">'ul'</span>).append(bookmarkView.$el);
+}
+</code></pre>
 <p>Everything should be working as before, but each bookmark is rendered separately, which also means they can be managed separately. Let's see how we can easily add the "delete" feature now.</p>
 <h2 id="step-4-removing-a-bookmark">Step 4: removing a bookmark</h2>
 <p>In the bookmark view, add the "delete" feature like we did earlier for the "create" one.</p>
-<pre class="highlight"><code class="javascript"><span class="comment">// app/views/bookmark.js</span>
+<pre class="highlight"><code class="javascript"><span class="hljs-comment">// app/views/bookmark.js</span>
 events: {
-    <span class="string">'click a.delete'</span>: <span class="string">'deleteBookmark'</span>
+    <span class="hljs-string">'click a.delete'</span>: <span class="hljs-string">'deleteBookmark'</span>
 },
 
-deleteBookmark: <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
-    <span class="keyword">this</span>.model.destroy();
-    <span class="keyword">this</span>.remove();
-}</code></pre>
+deleteBookmark: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">this</span>.model.destroy();
+    <span class="hljs-keyword">this</span>.remove();
+}
+</code></pre>
 <p>Note that the events declaration is reduced to the children of the view in the DOM so "a.delete" actually means (jQuery style): $(document).find('theview').find('a.delete').</p>
 <p>Your application is still useless (we came back in the first tutorial state :(), because the changes are not saved in the server. Let's fix this!</p>
 <h2 id="step-5-binding-your-single-page-app-with-your-server">Step 5: binding your single page app with your server</h2>
 <p>To achieve that we must tell the Backbone collection where the server is and then create the right route on the server side.</p>
-<pre class="highlight"><code class="javascript"><span class="comment">// app/collections/bookmarks.js</span>
-Bookmark = require(<span class="string">'../models/bookmark'</span>);
+<pre class="highlight"><code class="javascript"><span class="hljs-comment">// app/collections/bookmarks.js</span>
+Bookmark = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../models/bookmark'</span>);
 module.exports = Bookmarks = Backbone.Collection.extend({
     model: Bookmark,
-    url: <span class="string">'bookmarks'</span>
-});</code></pre>
+    url: <span class="hljs-string">'bookmarks'</span>
+});
+</code></pre>
 <p>We also need to tell Backbone to properly persist the model on the server:</p>
-<pre class="highlight"><code class="javascript"><span class="comment">// app/views/app_view.js</span>
-createBookmark: <span class="function"><span class="keyword">function</span><span class="params">(event)</span> {</span>
-    <span class="comment">// submit button reload the page, we don't want that</span>
+<pre class="highlight"><code class="javascript"><span class="hljs-comment">// app/views/app_view.js</span>
+createBookmark: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> {</span>
+    <span class="hljs-comment">// submit button reload the page, we don't want that</span>
     event.preventDefault();
 
-    <span class="comment">// add it to the collection</span>
-    <span class="keyword">this</span>.collection.create({
-        title: <span class="keyword">this</span>.$el.find(<span class="string">'input[name="title"]'</span>).val(),
-        url: <span class="keyword">this</span>.$el.find(<span class="string">'input[name="url"]'</span>).val()
+    <span class="hljs-comment">// add it to the collection</span>
+    <span class="hljs-keyword">this</span>.collection.create({
+        title: <span class="hljs-keyword">this</span>.$el.find(<span class="hljs-string">'input[name="title"]'</span>).val(),
+        url: <span class="hljs-keyword">this</span>.$el.find(<span class="hljs-string">'input[name="url"]'</span>).val()
     });
-}</code></pre>
+}
+</code></pre>
 <p>Make sure you also change the render function from the app_view to retrieve the bookmarks from the database:</p>
-<pre class="highlight"><code class="javascript"><span class="comment">// app/views/app_view.js</span>
-render: <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+<pre class="highlight"><code class="javascript"><span class="hljs-comment">// app/views/app_view.js</span>
+render: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
 
-    <span class="comment">// we render the template</span>
-    <span class="keyword">this</span>.$el.html(<span class="keyword">this</span>.template());
+    <span class="hljs-comment">// we render the template</span>
+    <span class="hljs-keyword">this</span>.$el.html(<span class="hljs-keyword">this</span>.template());
 
-    <span class="comment">// fetch the bookmarks from the database</span>
-    <span class="keyword">this</span>.collection.fetch();
-}</code></pre>
+    <span class="hljs-comment">// fetch the bookmarks from the database</span>
+    <span class="hljs-keyword">this</span>.collection.fetch();
+}
+</code></pre>
 <p>Backbone considers the server is RESTful and that it sends and receives JSON so we change the server routes to match the standard:</p>
-<pre class="highlight"><code class="javascript"><span class="comment">// server/controllers/routes.js</span>
+<pre class="highlight"><code class="javascript"><span class="hljs-comment">// server/controllers/routes.js</span>
 module.exports = {
-    <span class="string">'bookmarks'</span>: {
+    <span class="hljs-string">'bookmarks'</span>: {
         get: bookmarks.list,
         post: bookmarks.add,
     },
-    <span class="string">'bookmarks/:id'</span>: {
-        del: bookmarks.<span class="keyword">delete</span>
+    <span class="hljs-string">'bookmarks/:id'</span>: {
+        del: bookmarks.delete
     }
-};</code></pre>
+};
+</code></pre>
 <p>And adjust the controller in the right way:</p>
-<pre class="highlight"><code class="javascript"><span class="comment">// server/controllers/bookmarks.js</span>
-Bookmark = require(<span class="string">'../models/bookmark'</span>);
+<pre class="highlight"><code class="javascript"><span class="hljs-comment">// server/controllers/bookmarks.js</span>
+Bookmark = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../models/bookmark'</span>);
 
-module.exports.list = <span class="function"><span class="keyword">function</span><span class="params">(req, res)</span> {</span>
-    Bookmark.all(<span class="function"><span class="keyword">function</span><span class="params">(err, bookmarks)</span> {</span>
-        <span class="keyword">if</span>(err != <span class="literal">null</span>) {
-            res.send(<span class="number">500</span>, {error: <span class="string">"Couldn't retrieved the bookmarks."</span>});
+module.exports.list = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(req, res)</span> {</span>
+    Bookmark.all(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err, bookmarks)</span> {</span>
+        <span class="hljs-keyword">if</span>(err != <span class="hljs-literal">null</span>) {
+            res.send(<span class="hljs-number">500</span>, {error: <span class="hljs-string">"Couldn't retrieved the bookmarks."</span>});
         }
-        <span class="keyword">else</span> {
-            res.send(<span class="number">200</span>, bookmarks);
+        <span class="hljs-keyword">else</span> {
+            res.send(<span class="hljs-number">200</span>, bookmarks);
         }
     });
 };
 
-module.exports.add = <span class="function"><span class="keyword">function</span><span class="params">(req, res)</span> {</span>
-    Bookmark.create(req.body, <span class="function"><span class="keyword">function</span><span class="params">(err, bookmark)</span> {</span>
-        <span class="keyword">if</span>(err != <span class="literal">null</span>) {
-            res.send(<span class="number">500</span>, <span class="string">"An error has occurred -- "</span> + err);
+module.exports.add = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(req, res)</span> {</span>
+    Bookmark.create(req.body, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err, bookmark)</span> {</span>
+        <span class="hljs-keyword">if</span>(err != <span class="hljs-literal">null</span>) {
+            res.send(<span class="hljs-number">500</span>, <span class="hljs-string">"An error has occurred -- "</span> + err);
         }
-        <span class="keyword">else</span> {
-            res.send(<span class="number">201</span>);
+        <span class="hljs-keyword">else</span> {
+            res.send(<span class="hljs-number">201</span>);
         }
     });
 };
 
-module.exports.<span class="keyword">delete</span> = <span class="function"><span class="keyword">function</span><span class="params">(req, res)</span> {</span>
-    Bookmark.find(req.params.id, <span class="function"><span class="keyword">function</span><span class="params">(err, bookmark)</span> {</span>
-        <span class="keyword">if</span>(err != <span class="literal">null</span>) {
-            res.send(<span class="number">500</span>, {error: <span class="string">"Bookmark couldn't be retrieved -- "</span> + err});
+module.exports.delete = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(req, res)</span> {</span>
+    Bookmark.find(req.params.id, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err, bookmark)</span> {</span>
+        <span class="hljs-keyword">if</span>(err != <span class="hljs-literal">null</span>) {
+            res.send(<span class="hljs-number">500</span>, {error: <span class="hljs-string">"Bookmark couldn't be retrieved -- "</span> + err});
         }
-        <span class="keyword">else</span> <span class="keyword">if</span>(bookmark == <span class="literal">null</span>) {
-            res.send(<span class="number">404</span>, {error: <span class="string">"Bookmark not found"</span>});
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(bookmark == <span class="hljs-literal">null</span>) {
+            res.send(<span class="hljs-number">404</span>, {error: <span class="hljs-string">"Bookmark not found"</span>});
         }
-        <span class="keyword">else</span> {
-            bookmark.destroy(<span class="function"><span class="keyword">function</span><span class="params">(err)</span> {</span>
-                <span class="keyword">if</span>(err != <span class="literal">null</span>) {
-                    res.send(<span class="number">500</span>, {error: <span class="string">"An error has occurred -- "</span> + err});
+        <span class="hljs-keyword">else</span> {
+            bookmark.destroy(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err)</span> {</span>
+                <span class="hljs-keyword">if</span>(err != <span class="hljs-literal">null</span>) {
+                    res.send(<span class="hljs-number">500</span>, {error: <span class="hljs-string">"An error has occurred -- "</span> + err});
                 }
-                <span class="keyword">else</span> {
-                    res.send(<span class="number">200</span>);
+                <span class="hljs-keyword">else</span> {
+                    res.send(<span class="hljs-number">200</span>);
                 }
             });
         }
     });
-};</code></pre>
+};
+</code></pre>
 <p>You server is now a RESTful API that allows your single page app to request it easily thanks to Backbone.</p>
 <h2 id="what-s-next-">What's next?</h2>
 <p>This tutorial doesn't cover every aspect and good practice of Backbone but it should give you good insight into how you can build awesome single page apps.</p>

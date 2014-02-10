@@ -93,20 +93,25 @@
 <p>For a production usage, you MUST renew the SSL certificate, reset the database credentials and reset the controller token.</p>
 <p>For this purpose, use the following command:</p>
 <pre class="highlight"><code class="bash">wget https://raw.github.com/mycozycloud/cozy-setup/master/fabfile.py
-fab -H user@ip reset_security_tokens</code></pre>
+fab -H user@ip reset_security_tokens
+</code></pre>
 <p>You should also change the superuser credentials and by the way, you should not user a password but a SSH key to connect to your Cozy. Please see <a href="http://www.debian-administration.org/article/SSH_with_authentication_key_instead_of_password">this tutorial</a> to help you.</p>
 <h2 id="manual-installation">Manual installation</h2>
 <h3 id="use-our-script">Use our script</h3>
 <p>On your local machine install Fabric and fabtools:</p>
 <pre class="highlight"><code class="bash">apt-get install python python-pip python-dev software-properties-common
-<span class="built_in">sudo</span> pip install fabric fabtools</code></pre>
+<span class="hljs-built_in">sudo</span> pip install fabric fabtools
+</code></pre>
 <p>Download our Fabric file (a script that will run commands on your remote
 server):</p>
-<pre class="highlight"><code class="bash">wget https://raw.github.com/mycozycloud/cozy-setup/master/fabfile.py</code></pre>
+<pre class="highlight"><code class="bash">wget https://raw.github.com/mycozycloud/cozy-setup/master/fabfile.py
+</code></pre>
 <p>Once your system is prepared, use the Fabric script from your local
 machine to launch the Cozy installation (run it in the same directory as the fabfile
 you have previously downloaded):</p>
-<pre class="highlight"><code class="bash">fab -H sudoer@ip install</code></pre>
+<pre class="highlight"><code class="bash">fab -H sudoer@ip install
+</code></pre>
+<p>Where "sudoer" is a sudo user and "ip" your server IP.</p>
 <p>Enter your settings (such as domain name) when prompted by the installer.</p>
 <p>Be patient; some commands or app deployments can take some time. It
 depends on your network and hardware capabilities.</p>
@@ -116,7 +121,8 @@ and then to run the fabfile script with your virtual machine as target.
 This allows you to experiment with Cozy without installing numerous packages
 into your environment.</p>
 <p>The way to install it locally without VM or container is to run this command:</p>
-<pre class="highlight"><code class="bash">fab -H sudoer@localhost install</code></pre>
+<pre class="highlight"><code class="bash">fab -H sudoer@localhost install
+</code></pre>
 <h4 id="try-cozy-with-vagrant">Try Cozy with Vagrant</h4>
 <p>If you want to use Vagrant to run Cozy Cloud Setup in a virtual machine
 we recommend you to use the Ubuntu 12.04 box. Be careful as the update will require that
@@ -150,15 +156,17 @@ renew the SSL certificate, the database credentials and the controller token.</e
 <p>In order to run Cozy on your Raspberry Pi, the simplest way is to download our image and
 set it up on a SD card.</p>
 <p>For that, get the image archive:</p>
-<pre class="highlight"><code class="bash"><span class="comment"># Download the image (~ 1.5GB)</span>
+<pre class="highlight"><code class="bash"><span class="hljs-comment"># Download the image (~ 1.5GB)</span>
 wget http://files.cozycloud.cc/cozy-raspberrypi.im.tar.gz
 
-<span class="comment"># Uncompress it</span>
-tar -xvzf cozy-raspberrypi.im.tar.gz</code></pre>
+<span class="hljs-comment"># Uncompress it</span>
+tar -xvzf cozy-raspberrypi.im.tar.gz
+</code></pre>
 <p>Next, find where is mounted your SDCard; let's assume it is on <em>/dev/sdc</em>,
 then make a low level copy of the image to your card.</p>
 <p>WARNING: this operation will erase all previously stored data into the card.</p>
-<pre class="highlight"><code class="bash"><span class="built_in">sudo</span> dd bs=<span class="number">4</span>M <span class="keyword">if</span>=/my/path/cozy-raspberry.im of=/dev/sdc</code></pre>
+<pre class="highlight"><code class="bash"><span class="hljs-built_in">sudo</span> dd bs=<span class="hljs-number">4</span>M <span class="hljs-keyword">if</span>=/my/path/cozy-raspberry.im of=/dev/sdc
+</code></pre>
 <p>Now insert the SD Card in your Raspberry Pi SD Card reader. Reboot your
 Raspberry, then you will be able to access to your Cozy through the port 443
 (https protocol).</p>
@@ -174,64 +182,72 @@ Virtual Machine for VirtualBox</li>
 <h3 id="import-and-try">Import and try</h3>
 <p>Import the image to Virtualbox and start it.
 You should be able to access to your Cozy through your browser by connecting to this URL:</p>
-<pre class="highlight"><code class="bash">https://localhost:<span class="number">2223</span>/</code></pre>
+<pre class="highlight"><code class="bash">https://localhost:<span class="hljs-number">2223</span>/
+</code></pre>
 <h3 id="additional-informations">Additional informations</h3>
 <p>To access to the box shell use root/password as login and password.</p>
 <p>You can find the box ip with the <code>ifconfig</code> command.</p>
 <p>You can connect through ssh with:</p>
-<pre class="highlight"><code class="bash">ssh -p <span class="number">2222</span> root@localhost</code></pre>
+<pre class="highlight"><code class="bash">ssh -p <span class="hljs-number">2222</span> root@localhost
+</code></pre>
 <h2 id="openvz-image">OpenVZ image</h2>
 <p>Here we assume that you have already installed OpenVZ utilities.</p>
 <h3 id="download-and-start">Download and start</h3>
-<pre class="highlight"><code class="bash"><span class="comment"># Download the OpenVz template (~ 1.3GB)</span>
+<pre class="highlight"><code class="bash"><span class="hljs-comment"># Download the OpenVz template (~ 1.3GB)</span>
 wget http://files.cozycloud.cc/vzdump-openvz-cozycloud-debian.tar
 
-<span class="comment"># Mount and start the container</span>
+<span class="hljs-comment"># Mount and start the container</span>
 vzrestore vzdump-openvz-cozycloud-debian.tar ctid
-vzctl start ctid</code></pre>
+vzctl start ctid
+</code></pre>
 <p><em>Credentials are root/password</em></p>
 <p>NB: Replace ctid by an available ctid (101, 102, etc.)</p>
 <h3 id="with-a-configured-network">With a configured network</h3>
 <p>You will probably need to give access to your container from outside of your
 host. Here is a way to do it:</p>
-<pre class="highlight"><code class="bash"><span class="comment"># Download the OpenVz template (~ 1.3GB)</span>
+<pre class="highlight"><code class="bash"><span class="hljs-comment"># Download the OpenVz template (~ 1.3GB)</span>
 wget http://files.cozycloud.cc/vzdump-openvz-cozycloud-debian.tar
 
-<span class="comment"># Mount your new container, give it an IP address and start it:</span>
+<span class="hljs-comment"># Mount your new container, give it an IP address and start it:</span>
 vzrestore vzdump-openvz-cozycloud-debian.tar ctid
-vzctl <span class="keyword">set</span> ctid --ipadd <span class="number">10.0</span>.<span class="number">0.10</span>  --save
+vzctl <span class="hljs-keyword">set</span> ctid --ipadd <span class="hljs-number">10.0</span>.<span class="hljs-number">0.10</span>  --save
 vzctl start ctid
 
-<span class="comment"># Setup a reverse proxy that routes your 8888 port to https://10.0.0.10:443</span>
-<span class="comment"># (Use Nginx for instance).</span>
-<span class="comment"># ...</span>
-<span class="comment"># Then authorize the routing:</span>
-/sbin/iptables -t nat -A PREROUTING -i vmbr0 -p tcp --dport <span class="number">8888</span> -j DNAT --to <span class="number">10.0</span>.<span class="number">0.10</span>:<span class="number">443</span></code></pre>
+<span class="hljs-comment"># Setup a reverse proxy that routes your 8888 port to https://10.0.0.10:443</span>
+<span class="hljs-comment"># (Use Nginx for instance).</span>
+<span class="hljs-comment"># ...</span>
+<span class="hljs-comment"># Then authorize the routing:</span>
+/sbin/iptables -t nat -A PREROUTING -i vmbr0 -p tcp --dport <span class="hljs-number">8888</span> -j DNAT --to <span class="hljs-number">10.0</span>.<span class="hljs-number">0.10</span>:<span class="hljs-number">443</span>
+</code></pre>
 <p>Of course you can change 8888 by the value you want.</p>
 <h2 id="lxc-image">LXC image</h2>
 <p>Use the LXC webpanel to add and configure containers; it's very easy to use.
 For Ubuntu this can be installed this way:</p>
-<pre class="highlight"><code class="bash"><span class="built_in">sudo</span> apt-get install -y lxc debootstrap bridge-utils
-<span class="built_in">sudo</span> su
+<pre class="highlight"><code class="bash"><span class="hljs-built_in">sudo</span> apt-get install -y lxc debootstrap bridge-utils
+<span class="hljs-built_in">sudo</span> su
 wget http://lxc-webpanel.github.com/tools/install.sh -O - | bash
-<span class="keyword">exit</span></code></pre>
+<span class="hljs-keyword">exit</span>
+</code></pre>
 <p>Now access the webpanel at <a href="http://myhost.com:5000">http://myhost.com:5000</a>, the default login is admin/admin
 (change this). Create a container, remember what you named it. Make it run at
 startup. Then, go to command line to access the container.</p>
-<pre class="highlight"><code class="bash">lxc console &lt;container name&gt;</code></pre>
+<pre class="highlight"><code class="bash">lxc console &lt;container name&gt;
+</code></pre>
 <p>Follow the Cozy installation instructions (install fab, curl fabfile). Once
 finished, Cozy is up and running and your Cozy container will be listening on
 port 9104. You also need to know the IP address that LXC assigned to your
 container:</p>
-<pre class="highlight"><code class="bash">/sbin/ifconfig <span class="variable">$1</span> | grep <span class="string">"inet addr"</span> | awk -F: <span class="string">'{print $2}'</span> | awk <span class="string">'{print $1}'</span></code></pre>
+<pre class="highlight"><code class="bash">/sbin/ifconfig <span class="hljs-variable">$1</span> | grep <span class="hljs-string">"inet addr"</span> | awk -F: <span class="hljs-string">'{print $2}'</span> | awk <span class="hljs-string">'{print $1}'</span>
+</code></pre>
 <p>Exit your container. Now that it's set up, you should disable the LXC webpanel
 since, it's a security risk.</p>
-<pre class="highlight"><code class="bash"><span class="built_in">sudo</span> service lwp stop
-<span class="built_in">sudo</span> update-rc.d <span class="operator">-f</span> lwp remove</code></pre>
+<pre class="highlight"><code class="bash"><span class="hljs-built_in">sudo</span> service lwp stop
+<span class="hljs-built_in">sudo</span> update-rc.d <span class="hljs-operator">-f</span> lwp remove
+</code></pre>
 <p>Finally, set up your main server as a reverse proxy for the cozy container. For
 nginx we used this template:</p>
 <pre class="highlight"><code class="bash">server {
-    listen <span class="number">80</span>;
+    listen <span class="hljs-number">80</span>;
 
     server_name cloud.myhost.com;
 
@@ -241,14 +257,15 @@ nginx we used this template:</p>
     index  index.html index.htm;
 
         location / {
-                proxy_<span class="keyword">set</span>_header X-Real-IP <span class="variable">$remote_addr</span>;
-                proxy_<span class="keyword">set</span>_header X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;
-                proxy_<span class="keyword">set</span>_header Host <span class="variable">$http_host</span>;
-                proxy_<span class="keyword">set</span>_header X-NginX-Proxy <span class="literal">true</span>;
-                proxy_pass http://&lt;container IP&gt;:<span class="number">9104</span>;
-                proxy_redirect http://&lt;container IP&gt;:<span class="number">9104</span> https://<span class="variable">$server_name</span>/;
+                proxy_<span class="hljs-keyword">set</span>_header X-Real-IP <span class="hljs-variable">$remote_addr</span>;
+                proxy_<span class="hljs-keyword">set</span>_header X-Forwarded-For <span class="hljs-variable">$proxy_add_x_forwarded_for</span>;
+                proxy_<span class="hljs-keyword">set</span>_header Host <span class="hljs-variable">$http_host</span>;
+                proxy_<span class="hljs-keyword">set</span>_header X-NginX-Proxy <span class="hljs-literal">true</span>;
+                proxy_pass http://&lt;container IP&gt;:<span class="hljs-number">9104</span>;
+                proxy_redirect http://&lt;container IP&gt;:<span class="hljs-number">9104</span> https://<span class="hljs-variable">$server_name</span>/;
         }
-}</code></pre>
+}
+</code></pre>
 <p>Restart nginx, and your Cozy should be accessible at <a href="http://cloud.myhost.com">http://cloud.myhost.com</a></p>
 <h2 id="hosting-services">Hosting services</h2>
 <h3 id="cozycloud">Cozycloud</h3>

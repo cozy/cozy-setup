@@ -65,72 +65,95 @@
 the installation. But in this case, you should not call the installation task but the
 udpate tasks:</p>
 <pre class="highlight"><code class="bash">fab -H user@ip update_stack
-fab -H user@ip update_all_apps</code></pre>
+fab -H user@ip update_all_apps
+</code></pre>
 <h4 id="manual-update">Manual update</h4>
 <p>If you want update your Cozy without Fabric, you can run the following commands
 directly on your server.</p>
-<pre class="highlight"><code class="bash"><span class="built_in">sudo</span> cozy-monitor update data-system
-<span class="built_in">sudo</span> cozy-monitor update home
-<span class="built_in">sudo</span> cozy-monitor update proxy
-<span class="built_in">sudo</span> supervisorctl stop cozy-controller
-<span class="built_in">sudo</span> pkill -<span class="number">9</span> node <span class="comment"># make sure no process is remaining.</span>
-<span class="built_in">sudo</span> npm -g update cozy-controller
-<span class="built_in">sudo</span> supervisorctl start cozy-controller</code></pre>
+<pre class="highlight"><code class="bash"><span class="hljs-built_in">sudo</span> cozy-monitor update data-system
+<span class="hljs-built_in">sudo</span> cozy-monitor update home
+<span class="hljs-built_in">sudo</span> cozy-monitor update proxy
+<span class="hljs-built_in">sudo</span> supervisorctl stop cozy-controller
+<span class="hljs-built_in">sudo</span> pkill -<span class="hljs-number">9</span> node <span class="hljs-comment"># make sure no process is remaining.</span>
+<span class="hljs-built_in">sudo</span> npm -g update cozy-controller
+<span class="hljs-built_in">sudo</span> supervisorctl start cozy-controller
+</code></pre>
 <h4 id="application-update">Application update</h4>
 <p>To update a single application, you can run the following command on your targe
 server.</p>
-<pre class="highlight"><code class="bash"><span class="built_in">sudo</span> cozy-monitor update &lt;app&gt;</code></pre>
+<pre class="highlight"><code class="bash"><span class="hljs-built_in">sudo</span> cozy-monitor update &lt;app&gt;
+</code></pre>
 <h3 id="restart">Restart</h3>
 <p>Restart cozy stack.
 Cozy stack means home, proxy and data-system. In others words, cozy stack corresponds to applications allow to run Cozy.</p>
-<pre class="highlight"><code class="bash">cozy-monitor restart-cozy-stack</code></pre>
+<pre class="highlight"><code class="bash">cozy-monitor restart-cozy-stack
+</code></pre>
 <h3 id="information">Information</h3>
 <p>Display installed application</p>
-<pre class="highlight"><code class="bash">cozy-monitor status</code></pre>
+<pre class="highlight"><code class="bash">cozy-monitor status
+</code></pre>
 <p>Display cozy stack applications</p>
-<pre class="highlight"><code class="bash">cozy-monitor versions</code></pre>
+<pre class="highlight"><code class="bash">cozy-monitor versions
+</code></pre>
 <p>Display applications versions</p>
-<pre class="highlight"><code class="bash">cozy-monitor versions-apps</code></pre>
+<pre class="highlight"><code class="bash">cozy-monitor versions-apps
+</code></pre>
 <h2 id="applications-management">Applications management</h2>
 <h3 id="installation">Installation</h3>
 <p>Install application <app></app></p>
-<pre class="highlight"><code class="bash">cozy-monitor install &lt;app&gt;</code></pre>
+<pre class="highlight"><code class="bash">cozy-monitor install &lt;app&gt;
+</code></pre>
 <h3 id="manage">Manage</h3>
 <p>Stop application <app></app></p>
-<pre class="highlight"><code class="bash">cozy-monitor stop &lt;app&gt;</code></pre>
+<pre class="highlight"><code class="bash">cozy-monitor stop &lt;app&gt;
+</code></pre>
 <p>Start application <app></app></p>
-<pre class="highlight"><code class="bash">cozy-monitor start &lt;app&gt;</code></pre>
+<pre class="highlight"><code class="bash">cozy-monitor start &lt;app&gt;
+</code></pre>
 <p>Restart application <app></app></p>
-<pre class="highlight"><code class="bash">cozy-monitor restart &lt;app&gt;</code></pre>
+<pre class="highlight"><code class="bash">cozy-monitor restart &lt;app&gt;
+</code></pre>
 <p>Update application <app></app></p>
-<pre class="highlight"><code class="bash">cozy-monitor update &lt;app&gt;</code></pre>
+<pre class="highlight"><code class="bash">cozy-monitor update &lt;app&gt;
+</code></pre>
 <p>Update all applications. This commands update cozy stack applications and others applications installed by cozy user</p>
-<pre class="highlight"><code class="bash">cozy-monitor update-all</code></pre>
+<pre class="highlight"><code class="bash">cozy-monitor update-all
+</code></pre>
 <p>Brunch application <app></app></p>
-<pre class="highlight"><code class="bash">cozy-monitor brunch &lt;app&gt;</code></pre>
+<pre class="highlight"><code class="bash">cozy-monitor brunch &lt;app&gt;
+</code></pre>
 <h3 id="uninstallation">Uninstallation</h3>
 <p>Uninstall application <app></app></p>
-<pre class="highlight"><code class="bash">cozy-monitor uninstall &lt;app&gt;</code></pre>
+<pre class="highlight"><code class="bash">cozy-monitor uninstall &lt;app&gt;
+</code></pre>
 <p>Uninstall all applications</p>
-<pre class="highlight"><code class="bash">cozy-monitor uninstall-all</code></pre>
+<pre class="highlight"><code class="bash">cozy-monitor uninstall-all
+</code></pre>
 <p>Warning: this commands uninstall also cozy stack applications.</p>
 <h2 id="database-management">Database management</h2>
 <p>By default, database option is "cozy".</p>
 <p>Compact database</p>
-<pre class="highlight"><code class="bash">cozy-monitor compact [database]</code></pre>
+<pre class="highlight"><code class="bash">cozy-monitor compact [database]
+</code></pre>
 <p>Compact a view</p>
-<pre class="highlight"><code class="bash">cozy-monitor compact-view &lt;view&gt; [database]</code></pre>
+<pre class="highlight"><code class="bash">cozy-monitor compact-view &lt;view&gt; [database]
+</code></pre>
 <p>Compact all views</p>
-<pre class="highlight"><code class="bash">cozy-monitor compact-all-view [database]</code></pre>
+<pre class="highlight"><code class="bash">cozy-monitor compact-all-view [database]
+</code></pre>
 <p>Backup database</p>
-<pre class="highlight"><code class="bash">cozy-monitor backup [target]</code></pre>
+<pre class="highlight"><code class="bash">cozy-monitor backup [target]
+</code></pre>
 <p>Clean database</p>
-<pre class="highlight"><code class="bash">cozy-monitor cleanup [database]</code></pre>
+<pre class="highlight"><code class="bash">cozy-monitor cleanup [database]
+</code></pre>
 <h2 id="others">Others</h2>
 <p>Reset proxy routes</p>
-<pre class="highlight"><code class="bash">cozy-monitor reset-proxy</code></pre>
+<pre class="highlight"><code class="bash">cozy-monitor reset-proxy
+</code></pre>
 <p>Launch script that comes with given application</p>
-<pre class="highlight"><code class="bash">cozy-monitor script &lt;app&gt; &lt;script&gt; [argument]</code></pre>
+<pre class="highlight"><code class="bash">cozy-monitor script &lt;app&gt; &lt;script&gt; [argument]
+</code></pre>
 
       </div>
       <footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">Github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">Contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">Mailing-list</a><a href="https://cozycloud.cc">Cozy Cloud</a></footer>

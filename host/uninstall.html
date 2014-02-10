@@ -54,7 +54,8 @@
 to remove that virtual machine or container.</p>
 <h2 id="easy-way">Easy way</h2>
 <p>The easiest way to uninstall Cozy is to use the Fabric installation file used for the installation. But in this case, you should not call the installation task but the uninstall task:</p>
-<pre class="highlight"><code class="bash">fab -H user@ip uninstall_all</code></pre>
+<pre class="highlight"><code class="bash">fab -H user@ip uninstall_all
+</code></pre>
 <h2 id="manual-uninstall">Manual uninstall</h2>
 <p>If you want to uninstall your Cozy without Fabric, you can run the following
 commands directly on your server.</p>
@@ -62,11 +63,12 @@ commands directly on your server.</p>
 supervisorctl stop cozy-indexer
 supervisorctl stop couchdb
 rm -rf /usr/local/var/cozy-indexer
-rm <span class="operator">-f</span> /etc/supervisor/conf.d/cozy-controller.conf
-rm <span class="operator">-f</span> /etc/supervisor/conf.d/cozy-indexer.conf
+rm <span class="hljs-operator">-f</span> /etc/supervisor/conf.d/cozy-controller.conf
+rm <span class="hljs-operator">-f</span> /etc/supervisor/conf.d/cozy-indexer.conf
 rm -rf /usr/local/cozy
 rm -rf /etc/cozy
-apt-get purge supervisord</code></pre>
+apt-get purge supervisord
+</code></pre>
 
       </div>
       <footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">Github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">Contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">Mailing-list</a><a href="https://cozycloud.cc">Cozy Cloud</a></footer>

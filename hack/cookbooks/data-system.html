@@ -73,9 +73,9 @@
                   <li class="small"><a href="#delete-the-view" class="label">Delete the view</a></li>
                 </ul>
               </li>
-              <li class="big"><a href="#attachments-api" class="label">Attachments API</a>
+              <li class="big"><a href="#files-api" class="label">Files API</a>
                 <ul class="second-level">
-                  <li class="small"><a href="#save-a-file-as-attachement-of-a-document" class="label">Save a file as attachement of a document</a></li>
+                  <li class="small"><a href="#save-a-file" class="label">Save a file</a></li>
                   <li class="small"><a href="#download-an-attached-file" class="label">Download an attached file</a></li>
                   <li class="small"><a href="#delete-an-attached-file" class="label">Delete an attached file</a></li>
                 </ul>
@@ -139,7 +139,8 @@ Response:
   Status code: 200|500
   Body
     200: {exist: true|false}
-    500: {error: "the error message"}</code></pre>
+    500: {error: "the error message"}
+</code></pre>
 <p>Requires authentification and authorization.</p>
 <h3 id="retrieving-a-document-by-id">Retrieving a document by ID</h3>
 <pre class="highlight"><code class="undefined">GET /data/:id/
@@ -150,7 +151,8 @@ Response:
   Body
     200: {the document}
     404: {error: "not found"}
-    500: {error: "the error message"}</code></pre>
+    500: {error: "the error message"}
+</code></pre>
 <p>Requires authentification and authorization.</p>
 <h3 id="creating-generates-a-new-id-">Creating (generates a new ID)</h3>
 <pre class="highlight"><code class="undefined">POST /data/
@@ -160,7 +162,8 @@ Response:
   Status code: 201|500
   Body
     201: {"_id": the document ID}
-    500: {error: "the error message"}</code></pre>
+    500: {error: "the error message"}
+</code></pre>
 <p>Requires authentification and authorization.</p>
 <h3 id="creating-with-specified-id-">Creating (with specified ID)</h3>
 <pre class="highlight"><code class="undefined">POST /data/:id/
@@ -172,7 +175,8 @@ Response:
   Body
     201: {"_id": the document ID}
     409: {error: "The document exists"}
-    500: {error: "the error message"}</code></pre>
+    500: {error: "the error message"}
+</code></pre>
 <p>Requires authentification and authorization.</p>
 <h3 id="update-overwrite-old-version-">Update (overwrite old version)</h3>
 <pre class="highlight"><code class="undefined">PUT /data/:id/
@@ -184,7 +188,8 @@ Response
   Body
     200: {success: true}
     404: {error: "not found"}
-    500: {error: "the error message"}</code></pre>
+    500: {error: "the error message"}
+</code></pre>
 <p>Requires authentification and authorization.</p>
 <h3 id="updating-or-creating-with-specified-id-">Updating or creating (with specified ID)</h3>
 <pre class="highlight"><code class="undefined">PUT  /data/upsert/:id/
@@ -196,7 +201,8 @@ Response
   Body
     200: {success: true}
     201: {"_id": the document ID}
-    500: {error: "the error message"}</code></pre>
+    500: {error: "the error message"}
+</code></pre>
 <p>Requires authentification and authorization.</p>
 <h3 id="deleting-a-document">Deleting a document</h3>
 <pre class="highlight"><code class="undefined">DELETE /data/:id/
@@ -207,7 +213,8 @@ Response
   Body
     204: {success: true}
     404: {error: "not found"}
-    500: {error: "the message"}</code></pre>
+    500: {error: "the message"}
+</code></pre>
 <p>Requires authentification and authorization.</p>
 <h3 id="updating-only-the-given-fields-">Updating (only the given fields)</h3>
 <pre class="highlight"><code class="undefined">PUT /data/merge/:id
@@ -217,7 +224,8 @@ Response
   Status code: 200|500
   Body
     200: {success: true}
-    500: {error: "the message"}</code></pre>
+    500: {error: "the message"}
+</code></pre>
 <p>Requires authentification and authorization.</p>
 <h2 id="request-api">Request API</h2>
 <p>The Request API is used to create, update, delete and retrieve documents based on CouchDB views.</p>
@@ -240,7 +248,8 @@ Response
   Body
     200: [an array of documents]
     404: {error: "not found"}
-    500: {error: "the error message"}</code></pre>
+    500: {error: "the error message"}
+</code></pre>
 <p>Requires authentification and authorization.</p>
 <h3 id="create-or-update-a-view">Create or update a view</h3>
 <pre class="highlight"><code class="undefined">PUT /request/:type/:req_name/
@@ -255,7 +264,8 @@ Response
   Status code: 200|500
   Body
     200: {success: true}
-    500: {error: "the error message"}</code></pre>
+    500: {error: "the error message"}
+</code></pre>
 <p>Requires authentification and authorization.</p>
 <h3 id="delete-all-the-docs-returned-by-the-specified-view">Delete all the docs returned by the specified view</h3>
 <pre class="highlight"><code class="undefined">PUT /request/:type/:req_name/destroy/
@@ -276,7 +286,8 @@ Response
   Body
     204: {success: true}
     404: {error: "not found"}
-    500: {error: "the error message"}</code></pre>
+    500: {error: "the error message"}
+</code></pre>
 <p>Requires authentification and authorization.</p>
 <h3 id="delete-the-view">Delete the view</h3>
 <pre class="highlight"><code class="undefined">DELETE /request/:type/:req_name/
@@ -288,12 +299,14 @@ Response
   Body
     204: {success: true}
     404: {error: "not found"}
-    500: {error: "the error message"}</code></pre>
+    500: {error: "the error message"}
+</code></pre>
 <p>Requires authentification and authorization.</p>
-<h2 id="attachments-api">Attachments API</h2>
-<p>Attachements are basically files attached to documents. It allows you to upload and download files (e.g. music library application)</p>
-<h3 id="save-a-file-as-attachement-of-a-document">Save a file as attachement of a document</h3>
-<pre class="highlight"><code class="undefined">POST /data/:id/attachments/
+<h2 id="files-api">Files API</h2>
+<p>The Data System offers an API to upload/download files to the database (e.g. for a music library application).</p>
+<p>How does it work? Using the API you will attach a file to a document and retrieve it when needed. But behind the scene, a document is created with the doctype "Binary", so the same file can be reused by various applications in different context (e.g. music library application and files sync application). That's a technical detail you probably won't even have to deal with!</p>
+<h3 id="save-a-file">Save a file</h3>
+<pre class="highlight"><code class="undefined">POST /data/:id/binaries/
 Param:
   id: ID of the document the file will be attached to
   Body {
@@ -304,12 +317,13 @@ Response
   Status code: 201|400|404|500
   Body
     201: {success: true}
-    400: {error: "No file sent"}
+    400: {error: "no file sent"}
     404: {error: "not found"}
-    500: {error: "the error message"}</code></pre>
+    500: {error: "the error message"}
+</code></pre>
 <p>Requires authentification and authorization.</p>
 <h3 id="download-an-attached-file">Download an attached file</h3>
-<pre class="highlight"><code class="undefined">GET /data/:id/attachments/:name
+<pre class="highlight"><code class="undefined">GET /data/:id/binaries/:name
 Param:
   id: ID of the document the file is attached to
   name: the file name
@@ -318,10 +332,11 @@ Response
   Body
     200: {success: true}
     404: {error: "not found"}
-    500: {error: "the error message"}</code></pre>
+    500: {error: "the error message"}
+</code></pre>
 <p>Requires authentification and authorization.</p>
 <h3 id="delete-an-attached-file">Delete an attached file</h3>
-<pre class="highlight"><code class="undefined">DELETE /data/:id/attachments/:name
+<pre class="highlight"><code class="undefined">DELETE /data/:id/binaries/:name
 Param:
   id: ID of the document the file is attached to
   name: the file name
@@ -330,7 +345,8 @@ Response
   Body
     204: {success: true}
     404: {error: "not found"}
-    500: {error: "the error message"}</code></pre>
+    500: {error: "the error message"}
+</code></pre>
 <p>Requires authentification and authorization.</p>
 <h2 id="indexer-api">Indexer API</h2>
 <p>We use <a href="https://pypi.python.org/pypi/Whoosh/">Whoosh</a> as an indexer but you can only access it through its API in the Data System.</p>
@@ -346,7 +362,8 @@ Response
   Body
     200: {success: true}
     404: {error: "not found"}
-    500: {error: "the error message"}</code></pre>
+    500: {error: "the error message"}
+</code></pre>
 <h3 id="searching-10-documents-that-best-match-the-query">Searching 10 documents that best match the query</h3>
 <pre class="highlight"><code class="undefined">POST /data/search/:type
 Param:
@@ -358,7 +375,8 @@ Response
   Status code: 200|500
   Body
     200: {rows: [the documents]}
-    500: {error: "the error message"}</code></pre>
+    500: {error: "the error message"}
+</code></pre>
 <h3 id="removing-indexation-for-a-given-document">Removing indexation for a given document</h3>
 <pre class="highlight"><code class="undefined">DELETE /data/index/:id
 Param:
@@ -368,48 +386,53 @@ Response
   Body
     200: {success: true}
     404: {error: "not found"}
-    500: {error: "the error message"}</code></pre>
+    500: {error: "the error message"}
+</code></pre>
 <h3 id="clearing-the-indexer">Clearing the indexer</h3>
 <pre class="highlight"><code class="undefined">DELETE /data/index/clear-all/
 Response
   Status code: 200|500
   Body
     200: {success: true}
-    500: {error: "the error message"}</code></pre>
+    500: {error: "the error message"}
+</code></pre>
 <h2 id="miscellaneous">Miscellaneous</h2>
 <h3 id="getting-the-doctype-list">Getting the doctype list</h3>
 <pre class="highlight"><code class="undefined">GET /doctypes
 Response
   Status code: 200|500
   Body
-    200: ['list', 'of', 'doctype', 'names']</code></pre>
+    200: ['list', 'of', 'doctype', 'names']
+</code></pre>
 <h1 id="example-of-use">Example of use</h1>
 <p>How to request the Data System from a NodeJS application ? You can use any HTTP client but we recommend (, use and maintain) request-json:</p>
-<pre class="highlight"><code class="bash">npm install request-json --save</code></pre>
-<pre class="highlight"><code class="javascript">Client = require(<span class="string">'request-json'</span>).JsonClient;
+<pre class="highlight"><code class="bash">npm install request-json --save
+</code></pre>
+<pre class="highlight"><code class="javascript">Client = <span class="hljs-built_in">require</span>(<span class="hljs-string">'request-json'</span>).JsonClient;
 
-<span class="comment">// The data system listens to localhost:9101</span>
-dataSystem = <span class="keyword">new</span> Client(<span class="string">'http://localhost:9101'</span>);
+<span class="hljs-comment">// The data system listens to localhost:9101</span>
+dataSystem = <span class="hljs-keyword">new</span> Client(<span class="hljs-string">'http://localhost:9101'</span>);
 
-<span class="comment">// In production we must authentificate the application</span>
-<span class="keyword">if</span>(process.env.NODE_ENV === <span class="string">'production'</span>) {
+<span class="hljs-comment">// In production we must authentificate the application</span>
+<span class="hljs-keyword">if</span>(process.env.NODE_ENV === <span class="hljs-string">'production'</span>) {
   user = process.env.NAME;
   password = process.env.TOKEN;
   dataSystem.setBasicAuth(user, password);
 }
 
-<span class="comment">// The request must be created first, let's say it is</span>
-dataSystem.post(<span class="string">'/request/alarm/all/'</span>, <span class="function"><span class="keyword">function</span><span class="params">(err, res, body)</span> {</span>
-  <span class="keyword">if</span>(err !== <span class="literal">null</span> || (res !== <span class="literal">null</span> &amp;&amp; res.statusCode != <span class="number">200</span>)) {
-    <span class="keyword">if</span>(res !== <span class="literal">null</span>) {code = res.statusCode;} <span class="keyword">else</span> { code = <span class="string">"no status code"</span>; }
-    console.log(<span class="string">"An error occurred -- ["</span> + code + <span class="string">"] "</span> + err);
+<span class="hljs-comment">// The request must be created first, let's say it is</span>
+dataSystem.post(<span class="hljs-string">'/request/alarm/all/'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err, res, body)</span> {</span>
+  <span class="hljs-keyword">if</span>(err !== <span class="hljs-literal">null</span> || (res !== <span class="hljs-literal">null</span> &amp;&amp; res.statusCode != <span class="hljs-number">200</span>)) {
+    <span class="hljs-keyword">if</span>(res !== <span class="hljs-literal">null</span>) {code = res.statusCode;} <span class="hljs-keyword">else</span> { code = <span class="hljs-string">"no status code"</span>; }
+    console.log(<span class="hljs-string">"An error occurred -- ["</span> + code + <span class="hljs-string">"] "</span> + err);
   }
-  <span class="keyword">else</span> {
-    console.log(<span class="string">"List of all the alarms"</span>);
+  <span class="hljs-keyword">else</span> {
+    console.log(<span class="hljs-string">"List of all the alarms"</span>);
     console.log(body);
   }
 }
-});</code></pre>
+});
+</code></pre>
 <p>For more examples and the complete documentation of request-json, please see the <a href="http://github.com/mycozycloud/request-json/">github repository</a> of the module.</p>
 <p><a name="troubleshootings"></a></p>
 <h1 id="troubleshootings">Troubleshootings</h1>

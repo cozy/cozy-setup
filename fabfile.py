@@ -187,11 +187,11 @@ def install_node08():
 @task
 def uninstall_node08():
     '''
-    Uninstall node 0.8.20
+    Uninstall node 0.8.18
     '''
 
     sudo('npm uninstall npm')
-    version = '0.8.20'
+    version = '0.8.18'
     folder = 'node-v%s' % version
     filename = folder + '.tar.gz'
     require_file(url='http://nodejs.org/dist/v%s/%s' % (version, filename))

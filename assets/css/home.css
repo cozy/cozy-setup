@@ -109,6 +109,18 @@ button:active {
 .grid3 > * {
   width: 32%;
 }
+.warning {
+  color: #fff;
+  font-weight: bold;
+  background-color: #e57a00;
+  border-radius: 5px;
+  padding: 20px;
+}
+.warning a,
+.warning a:hover,
+.warning a:visited {
+  color: #fff;
+}
 .external-links {
   height: 60px;
 }

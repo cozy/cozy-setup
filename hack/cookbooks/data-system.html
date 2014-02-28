@@ -93,7 +93,7 @@
                   <li class="small"><a href="#getting-the-doctype-list" class="label">Getting the doctype list</a></li>
                 </ul>
               </li>
-              <li class="big"><a href="#authentification-and-authorization" class="label">Authentification and authorization</a>
+              <li class="big"><a href="#authentication-and-authorization" class="label">authentication and authorization</a>
                 <ul class="second-level">
                 </ul>
               </li>
@@ -104,9 +104,9 @@
       <div id="main" role="main" class="mod pam w75"><h1 id="the-data-system-api">The Data System API</h1>
 <p>The Data System API allows the access of the following:</p>
 <ul>
-<li>the data itslef</li>
+<li>the data itself</li>
 <li>the CouchDB views (through "requests")</li>
-<li>the attachements (files)</li>
+<li>the attachments (files)</li>
 <li>the indexer</li>
 </ul>
 <h2 id="generic-notes">Generic notes</h2>
@@ -118,16 +118,16 @@
 <li>204: success (and something has been deleted)</li>
 <li>400: bad request</li>
 <li>401: unauthorized</li>
-<li>403: not authentificated</li>
+<li>403: not authenticated</li>
 <li>404: document not found</li>
 <li>409: document already exists</li>
 <li>500: internal server error</li>
 </ul>
-<p>All the requests that mention "Requires authentification and authorization" are likely to send 401 and 403 if the conditions are not met.
+<p>All the requests that mention "Requires authentication and authorization" are likely to send 401 and 403 if the conditions are not met.
 See <a href="#troubleshootings">troubleshootings</a> to understand what those error mean.</p>
 <h3 id="todo-for-this-cookbook">Todo for this cookbook</h3>
 <ul>
-<li>Adding documentation about authentification and authorization process</li>
+<li>Adding documentation about authentication and authorization process</li>
 </ul>
 <h2 id="data-api">Data API</h2>
 <p>This API lets you manage data with four common operations: create, read, update and delete but utiliy functions like exist, find or merge can also help you.</p>
@@ -141,7 +141,7 @@ Response:
     200: {exist: true|false}
     500: {error: "the error message"}
 </code></pre>
-<p>Requires authentification and authorization.</p>
+<p>Requires authentication and authorization.</p>
 <h3 id="retrieving-a-document-by-id">Retrieving a document by ID</h3>
 <pre class="highlight"><code class="undefined">GET /data/:id/
 Param:
@@ -153,7 +153,7 @@ Response:
     404: {error: "not found"}
     500: {error: "the error message"}
 </code></pre>
-<p>Requires authentification and authorization.</p>
+<p>Requires authentication and authorization.</p>
 <h3 id="creating-generates-a-new-id-">Creating (generates a new ID)</h3>
 <pre class="highlight"><code class="undefined">POST /data/
 Param:
@@ -164,7 +164,7 @@ Response:
     201: {"_id": the document ID}
     500: {error: "the error message"}
 </code></pre>
-<p>Requires authentification and authorization.</p>
+<p>Requires authentication and authorization.</p>
 <h3 id="creating-with-specified-id-">Creating (with specified ID)</h3>
 <pre class="highlight"><code class="undefined">POST /data/:id/
 Param:
@@ -177,7 +177,7 @@ Response:
     409: {error: "The document exists"}
     500: {error: "the error message"}
 </code></pre>
-<p>Requires authentification and authorization.</p>
+<p>Requires authentication and authorization.</p>
 <h3 id="update-overwrite-old-version-">Update (overwrite old version)</h3>
 <pre class="highlight"><code class="undefined">PUT /data/:id/
 Param:
@@ -190,7 +190,7 @@ Response
     404: {error: "not found"}
     500: {error: "the error message"}
 </code></pre>
-<p>Requires authentification and authorization.</p>
+<p>Requires authentication and authorization.</p>
 <h3 id="updating-or-creating-with-specified-id-">Updating or creating (with specified ID)</h3>
 <pre class="highlight"><code class="undefined">PUT  /data/upsert/:id/
 Param:
@@ -203,7 +203,7 @@ Response
     201: {"_id": the document ID}
     500: {error: "the error message"}
 </code></pre>
-<p>Requires authentification and authorization.</p>
+<p>Requires authentication and authorization.</p>
 <h3 id="deleting-a-document">Deleting a document</h3>
 <pre class="highlight"><code class="undefined">DELETE /data/:id/
 Param:
@@ -215,7 +215,7 @@ Response
     404: {error: "not found"}
     500: {error: "the message"}
 </code></pre>
-<p>Requires authentification and authorization.</p>
+<p>Requires authentication and authorization.</p>
 <h3 id="updating-only-the-given-fields-">Updating (only the given fields)</h3>
 <pre class="highlight"><code class="undefined">PUT /data/merge/:id
 Param:
@@ -226,7 +226,7 @@ Response
     200: {success: true}
     500: {error: "the message"}
 </code></pre>
-<p>Requires authentification and authorization.</p>
+<p>Requires authentication and authorization.</p>
 <h2 id="request-api">Request API</h2>
 <p>The Request API is used to create, update, delete and retrieve documents based on CouchDB views.</p>
 <h3 id="getting-documents-from-a-view">Getting documents from a view</h3>
@@ -250,7 +250,7 @@ Response
     404: {error: "not found"}
     500: {error: "the error message"}
 </code></pre>
-<p>Requires authentification and authorization.</p>
+<p>Requires authentication and authorization.</p>
 <h3 id="create-or-update-a-view">Create or update a view</h3>
 <pre class="highlight"><code class="undefined">PUT /request/:type/:req_name/
 Param:
@@ -266,7 +266,7 @@ Response
     200: {success: true}
     500: {error: "the error message"}
 </code></pre>
-<p>Requires authentification and authorization.</p>
+<p>Requires authentication and authorization.</p>
 <h3 id="delete-all-the-docs-returned-by-the-specified-view">Delete all the docs returned by the specified view</h3>
 <pre class="highlight"><code class="undefined">PUT /request/:type/:req_name/destroy/
 Param:
@@ -288,7 +288,7 @@ Response
     404: {error: "not found"}
     500: {error: "the error message"}
 </code></pre>
-<p>Requires authentification and authorization.</p>
+<p>Requires authentication and authorization.</p>
 <h3 id="delete-the-view">Delete the view</h3>
 <pre class="highlight"><code class="undefined">DELETE /request/:type/:req_name/
 Param:
@@ -301,7 +301,7 @@ Response
     404: {error: "not found"}
     500: {error: "the error message"}
 </code></pre>
-<p>Requires authentification and authorization.</p>
+<p>Requires authentication and authorization.</p>
 <h2 id="files-api">Files API</h2>
 <p>The Data System offers an API to upload/download files to the database (e.g. for a music library application).</p>
 <p>How does it work? Using the API you will attach a file to a document and retrieve it when needed. But behind the scene, a document is created with the doctype "Binary", so the same file can be reused by various applications in different context (e.g. music library application and files sync application). That's a technical detail you probably won't even have to deal with!</p>
@@ -321,7 +321,7 @@ Response
     404: {error: "not found"}
     500: {error: "the error message"}
 </code></pre>
-<p>Requires authentification and authorization.</p>
+<p>Requires authentication and authorization.</p>
 <h3 id="download-an-attached-file">Download an attached file</h3>
 <pre class="highlight"><code class="undefined">GET /data/:id/binaries/:name
 Param:
@@ -334,7 +334,7 @@ Response
     404: {error: "not found"}
     500: {error: "the error message"}
 </code></pre>
-<p>Requires authentification and authorization.</p>
+<p>Requires authentication and authorization.</p>
 <h3 id="delete-an-attached-file">Delete an attached file</h3>
 <pre class="highlight"><code class="undefined">DELETE /data/:id/binaries/:name
 Param:
@@ -347,7 +347,7 @@ Response
     404: {error: "not found"}
     500: {error: "the error message"}
 </code></pre>
-<p>Requires authentification and authorization.</p>
+<p>Requires authentication and authorization.</p>
 <h2 id="indexer-api">Indexer API</h2>
 <p>We use <a href="https://pypi.python.org/pypi/Whoosh/">Whoosh</a> as an indexer but you can only access it through its API in the Data System.</p>
 <h3 id="indexing">Indexing</h3>
@@ -437,7 +437,7 @@ dataSystem.post(<span class="hljs-string">'/request/alarm/all/'</span>, <span cl
 <p><a name="troubleshootings"></a></p>
 <h1 id="troubleshootings">Troubleshootings</h1>
 <p>Coming soon...</p>
-<h2 id="authentification-and-authorization">Authentification and authorization</h2>
+<h2 id="authentication-and-authorization">authentication and authorization</h2>
 <p>Coming soon...</p>
 
       </div>

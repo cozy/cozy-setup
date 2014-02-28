@@ -1,0 +1,56 @@
+<!DOCTYPE html><!--[if lte IE 7]> <html class="no-js ie67 ie678" lang="en"> <![endif]-->
+<!--[if IE 8]> <html class="no-js ie8 ie678" lang="en"> <![endif]-->
+<!--[if IE 9]> <html class="no-js ie9" lang="en"> <![endif]-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8"><!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="/assets/images/favicon.png">
+    <title>Fix NPM Certificate Configuration
+    </title><link  rel="stylesheet" href="/vendors/css/knacss.css" /><link  rel="stylesheet" href="/vendors/css/sunburst.css" /><link  rel="stylesheet" href="/assets/css/main.css" /><link  rel="stylesheet" href="/assets/css/home.css" />
+  </head>
+  <body>
+    <div class="navbar fixed"><a href="/" class="nav-logo left"><img src="/assets/images/happycloud.png" alt="Happy Cloud"></a><span class="subtitle">
+        <div class="breadcrumb-item"><a href="/host/install.html">Install</a>
+        </div>
+        <div class="breadcrumb-item"><a href="/host/manage.html">Manage</a>
+        </div>
+        <div class="breadcrumb-item"><a href="/host/uninstall.html">Uninstall</a>
+        </div>
+        <div class="breadcrumb-item"><a href="/host/trouble-shootings.html">Trouble Shootings</a>
+        </div></span>
+      <div class="submenu-container right"><a href="/hack/getting-started/">Hack</a></div>
+      <div class="submenu-container right selected"><a href="/host/install.html">Host</a></div>
+    </div>
+    <div class="wrapper">
+      <div class="wrap-menu w25 mod left">&nbsp;
+        <aside>
+          <p class="title">Fix NPM Certificate Configuration</p>
+          <nav id="navigation" role="navigation">
+            <ul class="nav first-level">
+            </ul>
+          </nav>
+        </aside>
+      </div>
+      <div id="main" role="main" class="mod pam w80"><h1 id="problem">Problem</h1>
+<p>NPM changed its certificate policy. Since Cozy runs on an old version of
+Node.js, it doesn&#39;t support the new policy. 
+<a href="http://blog.npmjs.org/post/78085451721/npms-self-signed-certificate-is-no-more">More details
+here</a>.</p>
+<h1 id="the-fix">The fix</h1>
+<p>Run the following command on your server:</p>
+<pre class="highlight"><code class="bash"><span class="hljs-built_in">sudo</span> npm config <span class="hljs-keyword">set</span> ca <span class="hljs-string">""</span>
+</code></pre><p>Or use this our fabric file to target the machine that hosts Cozy:</p>
+<pre class="highlight"><code class="lasso">sudo apt<span class="hljs-attribute">-get</span> install python python<span class="hljs-attribute">-pip</span> python<span class="hljs-attribute">-dev</span> software<span class="hljs-attribute">-properties</span><span class="hljs-attribute">-common</span>
+sudo pip install fabric fabtools
+wget https:<span class="hljs-comment">//raw.github.com/mycozycloud/cozy-setup/master/fabfile.py</span>
+fab <span class="hljs-attribute">-H</span> sudoer@ip install fix_npm_ca_config
+</code></pre>
+      </div>
+      <footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">Github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">Contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">Mailing-list</a><a href="https://cozycloud.cc">Cozy Cloud</a></footer>
+    </div><script defer="defer"  src="/vendors/javascripts/jquery-2.0.3.min.js"></script><script defer="defer"  src="/vendors/javascripts/bootstrap.min.js"></script><script defer="defer"  src="/assets/javascripts/main.js"></script>
+  </body>
+</html>

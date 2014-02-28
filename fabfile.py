@@ -778,3 +778,9 @@ def help(name=None):
     else:
         print("No such task {0:s}".format(name))
         print("For a list of tasks type: fab -l")
+
+
+@task
+def fix_npm_ca_config():
+    sudo('npm config set ca ""')
+    print(green('NPM certificate configuration fixed.'))

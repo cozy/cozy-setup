@@ -181,6 +181,7 @@ def install_node08():
     '''
 
     require.nodejs.installed_from_source('0.8.18')
+    sudo('npm config set ca ""')
     print(green('Node 0.8.18 successfully installed'))
 
 

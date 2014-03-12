@@ -99,12 +99,14 @@ cozy-monitor restart proxy
 <p>Cozy is based on Node.js applications. Node.js apps download their dependencies from the NPM registry. Sometimes this registry is not stable. So, if you encounter NPM related errors, try to run the installation again.</p>
 <h2 id="arm-processors">ARM processors</h2>
 <h3 id="node-js">Node.js</h3>
-<p>Node.js requires a specific configuration to be built on an ARM processor. Actually, the version that is set up only supports Raspberry Pi like processors (ARMv6).</p>
+<p>Node.js requires a specific configuration to be run on Raspberry Pi. Install
+Node with the prebuilt package available in the Node.js source directory. About
+building Node.js on other ARM processors, we successfully built it on A20
+Allwinner. </p>
 <h3 id="nginx">Nginx</h3>
-<p>We didn't find yet a good solution to setting up Nginx on a Raspberry. We are still
-working on it. If you want to help us with solving this issue, feel free to
-contribute!</p>
-<p>Here is a good tutorial to install Nginx on your Raspberry Pi: <a href="http://virtualitblog.blogspot.fr/2013/05/install-nginx-141-raspberry-pi.html">http://virtualitblog.blogspot.fr/2013/05/install-nginx-141-raspberry-pi.html</a></p>
+<p>Here is a good tutorial to install Nginx on your Raspberry Pi:
+<a href="http://virtualitblog.blogspot.fr/2013/05/install-nginx-141-raspberry-pi.html">http://virtualitblog.blogspot.fr/2013/05/install-nginx-141-raspberry-pi.html</a> .
+It works only for Debian based distributions.</p>
 <p>Package can be downloaded there: <a href="http://nginx.org/packages/debian/pool/nginx/n/nginx/">http://nginx.org/packages/debian/pool/nginx/n/nginx/</a></p>
 <h2 id="cozy-controller-not-started">Cozy Controller not started</h2>
 <p>If you get ECONNRESET when installing apps using the cozy-monitor, check if the cozy-controller is correctly started</p>

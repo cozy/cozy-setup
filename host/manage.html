@@ -89,69 +89,71 @@ Cozy stack means home, proxy and data-system. In others words, cozy stack corres
 <pre class="highlight"><code class="bash">cozy-monitor restart-cozy-stack
 </code></pre>
 <h3 id="information">Information</h3>
-<p>Display installed application</p>
+<p>Display installed application with their status (up or down).</p>
 <pre class="highlight"><code class="bash">cozy-monitor status
 </code></pre>
-<p>Display cozy stack applications</p>
+<p>Display cozy stack modules version</p>
 <pre class="highlight"><code class="bash">cozy-monitor versions
 </code></pre>
-<p>Display applications versions</p>
+<p>Display installed applications versions</p>
 <pre class="highlight"><code class="bash">cozy-monitor versions-apps
 </code></pre>
 <h2 id="applications-management">Applications management</h2>
 <h3 id="installation">Installation</h3>
-<p>Install application <app></app></p>
-<pre class="highlight"><code class="bash">cozy-monitor install &lt;app&gt;
+<p>Install given application. If it is not an official Cozy application you should
+give repo location too.</p>
+<pre class="highlight"><code class="bash">cozy-monitor install &lt;app&gt; [--repo &lt;repo&gt;]
 </code></pre>
 <h3 id="manage">Manage</h3>
-<p>Stop application <app></app></p>
+<p>Stop application with given name.</p>
 <pre class="highlight"><code class="bash">cozy-monitor stop &lt;app&gt;
 </code></pre>
-<p>Start application <app></app></p>
+<p>Start application with given name.</p>
 <pre class="highlight"><code class="bash">cozy-monitor start &lt;app&gt;
 </code></pre>
-<p>Restart application <app></app></p>
+<p>Restart application with given name.</p>
 <pre class="highlight"><code class="bash">cozy-monitor restart &lt;app&gt;
 </code></pre>
-<p>Update application <app></app></p>
+<p>Update application with given name (git clone + npm install + restart).</p>
 <pre class="highlight"><code class="bash">cozy-monitor update &lt;app&gt;
 </code></pre>
 <p>Update all applications. This commands update cozy stack applications and others applications installed by cozy user</p>
 <pre class="highlight"><code class="bash">cozy-monitor update-all
 </code></pre>
-<p>Brunch application <app></app></p>
+<p>Run Brunch build for the client of given application.</p>
 <pre class="highlight"><code class="bash">cozy-monitor brunch &lt;app&gt;
 </code></pre>
 <h3 id="uninstallation">Uninstallation</h3>
-<p>Uninstall application <app></app></p>
+<p>Uninstall application with given name.</p>
 <pre class="highlight"><code class="bash">cozy-monitor uninstall &lt;app&gt;
 </code></pre>
-<p>Uninstall all applications</p>
+<p>Uninstall all applications.</p>
 <pre class="highlight"><code class="bash">cozy-monitor uninstall-all
 </code></pre>
 <p>Warning: this commands uninstall also cozy stack applications.</p>
 <h2 id="database-management">Database management</h2>
 <p>By default, database option is "cozy".</p>
-<p>Compact database</p>
+<p>Run compact CouchDB command on database (remove unused revisions).</p>
 <pre class="highlight"><code class="bash">cozy-monitor compact [database]
 </code></pre>
-<p>Compact a view</p>
+<p>Compact a given CouchDB view.</p>
 <pre class="highlight"><code class="bash">cozy-monitor compact-view &lt;view&gt; [database]
 </code></pre>
-<p>Compact all views</p>
+<p>Compact all views.</p>
 <pre class="highlight"><code class="bash">cozy-monitor compact-all-view [database]
 </code></pre>
-<p>Backup database</p>
+<p>Backup database by replicating it to another CouchDB instance.</p>
 <pre class="highlight"><code class="bash">cozy-monitor backup [target]
 </code></pre>
-<p>Clean database</p>
+<p>Clean database.</p>
 <pre class="highlight"><code class="bash">cozy-monitor cleanup [database]
 </code></pre>
 <h2 id="others">Others</h2>
-<p>Reset proxy routes</p>
+<p>Ask for proxy to reset its routes via the information stored in the Data
+System.</p>
 <pre class="highlight"><code class="bash">cozy-monitor reset-proxy
 </code></pre>
-<p>Launch script that comes with given application</p>
+<p>Launch script that comes with given application (deprecated).</p>
 <pre class="highlight"><code class="bash">cozy-monitor script &lt;app&gt; &lt;script&gt; [argument]
 </code></pre>
 

@@ -100,25 +100,20 @@
     </section>
     <section id="host" class="line target">
       <h2 class="icon-cloud">&nbsp; Host it</h2>
-      <h3><strong>Target your server with this script (sudoer required).</strong></h3>
-      <p class="code">curl https://install-files.cozycloud.cc/install_cozy.sh | HOST=root@<strong>ip</strong> sh</p>
-      <div class="line">&nbsp;</div>
+      <h3><strong>
+           
+          Use one of our image or target your server with our
+          Fabric script (sudoer required on your target server).</strong></h3>
+      <p class="code">sudo apt-get install python python-pip python-dev<br>sudo pip install fabric fabtools<br>wget https://raw.github.com/mycozycloud/cozy-setup/master/fabfile.py<br>fab -H sudoer@ip install
+        &nbsp;
+      </p>
       <div class="line mt2">
-        <p>
-          This script installs several tools on your
-          local computer: Python, pip, fabric and fabtools.
-          You will need these tools in order to run the installation on
-          your remote server.
-          The script works only with Debian/Ubuntu distros.
-        </p>
+        <p>The script works only with Debian/Ubuntu distros.</p>
         <p>
           Because of the numerous packages and process installed,
           we recommend you to install Cozy in a virtual machine or
-          in a&nbsp;<a href="/host/lxc.html">container</a>.
+          in a&nbsp;<a href="/host/lxc.html">container</a>. Check our &nbsp;<a href="/host/install.html">full documentation</a>.
         </p>
-      </div>
-      <div class="line mt2">
-        <p>Check our &nbsp;<a href="/host/install.html">full documentation</a>.</p>
       </div>
     </section>
     <section id="developers" class="highlight">
@@ -303,10 +298,9 @@
         Here is a list of the many communication tools that we use
         to stay connected with the community:
       </p>
-      <p>IRC Chat Room:<a href="http://webchat.freenode.net/?channels=cozycloud"> <strong>#cozycloud</strong> on irc.freenode.net</a></p>
+      <p>IRC Chat Room:<a href="http://webchat.freenode.net/?channels=cozycloud"><strong>#cozycloud</strong> on irc.freenode.net</a></p>
       <p><a href="https://groups.google.com/forum/#!forum/cozy-cloud">Google Group (Mailing List)</a></p>
       <p><a href="https://forum.cozycloud.cc/">Forum</a></p>
-      <p><a href="https://blog.cozycloud.cc">Cozy Blog</a></p>
       <p><a href="https://twitter.com/mycozycloud">Twitter Feed</a></p>
     </section>
     <section id="partners" class="highlight">
@@ -333,17 +327,11 @@
       <p class="right"><img src="/assets/images/cozy-logo.png" alt="Cozy Logo"></p>
       <p>
         Cozy Cloud is a young France-based startup. We are
-        a&nbsp;<a href="https://www.cozycloud.cc/team/">team of six</a>&nbsp;and we are supported by&nbsp;<a href="http://webfwd.org">WebFWD</a>, the Mozilla startup accelerator.
+        a team of six
+        &nbsp;and we are &nbsp;<a href="http://webfwd.org">WebFWD</a>alumni.
       </p>
       <p>
-        We provide convenient ways for you to start with Cozy. If you want
-        the benefits of Cozy without the constraints of self-hosting,
-        visit
-        <a href="https://cozycloud.cc">cozycloud.cc</a>
-        and try our hosting solutions!
-      </p>
-      <p>
-        Photo Credits: Official Raspberry Photo, Bob Lash,
+        Photo Credits: Official Raspberry Photo, Piour,
         PhotoG Jon (Flickr), Flowerwolf (Flickr), TechGenStaffer
         (Flickr)
       </p>

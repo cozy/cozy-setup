@@ -1,4 +1,4 @@
-# Cozy Makes Your Webapps Smarter
+# Cozy Makes Your Web Apps Smarter
 
 ![Cozy Logo](https://raw.github.com/mycozycloud/cozy-setup/gh-pages/assets/images/happycloud.png)
 

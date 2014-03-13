@@ -1,4 +1,4 @@
-# Cozy: a Personal Cloud You Can Hack, Host and Delete
+# Cozy Makes Your Webapps Smarter
 
 ![Cozy Logo](https://raw.github.com/mycozycloud/cozy-setup/gh-pages/assets/images/happycloud.png)
 

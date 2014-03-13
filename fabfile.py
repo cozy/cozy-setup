@@ -45,6 +45,10 @@ def is_arm():
     result = run('lscpu', quiet=True)
     return 'arm' in result
 
+@task
+def is_pi():
+    result = run('Lscpu', quiet=True)
+    return 'armv6l' in result
 
 def print_failed(module):
     print(red('Installation of %s failed.\n' +
@@ -666,10 +670,12 @@ def update_stack():
     '''
     Update applications
     '''
-    supervisor.stop_process('cozy-controller')
     nodejs.update_package('cozy-controller')
-    supervisor.start_process('cozy-controller')
     nodejs.update_package('cozy-monitor')
+    if is_pi():
+        sudo('/etc/init.d/cozy-controller restart')
+    else:
+        supervisor.restart_process('cozy-controller')
     sudo('cozy-monitor update data-system')
     sudo('cozy-monitor update home')
     sudo('cozy-monitor update proxy')

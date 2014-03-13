@@ -14,8 +14,8 @@ See our [online demo](https://demo.cozycloud.cc/) to discover our applications.
 # Install Cozy
 
 Cozy Cloud is designed to be used remotely on your own server.
-So, this project contains what you need to achieve that goal 
-(it only works for Debian/Ubuntu systems). 
+So, this project contains what you need to achieve that goal
+(it only works for Debian/Ubuntu systems).
 
 # How to install Cozy on your server?
 
@@ -38,12 +38,12 @@ you downloaded before):
 
 Enter your settings (such as domain name) when prompted by the installer.
 
-Be patient; some commands or app deployments can take some time. It 
+Be patient; some commands or app deployments can take some time. It
 depends on your network and hardware capabilities.
 
 *About local installation*
 
-To install Cozy locally, we recommend you to create a virtual machine, 
+To install Cozy locally, we recommend you to create a virtual machine,
 and then to run the fabfile script with your virtual machine as target.
 This allows you to experiment with Cozy without installing numerous packages
 into your environment.
@@ -94,7 +94,7 @@ The Cozy install script installs the following tools:
 * Node tools: cozy-controller, cozy-monitor, coffee-script, brunch
 * Cozy Controller Daemon
 * Cozy Data Indexer
-* Cozy Data System 
+* Cozy Data System
 * Cozy Proxy
 * Cozy Home
 

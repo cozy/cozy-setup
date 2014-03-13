@@ -1,4 +1,13 @@
-# Cozy Setup
+# Cozy: a Personal Cloud You Can Hack, Host and Delete
+
+[Cozy](http://cozy.io) is a platform that brings all your web services in the
+same private space.  With it, your web apps and your devices can share data
+easily, providing you
+with a new experience. You can install Cozy on your own hardware where no one
+profiles you. You install only the applications you want. You can build your
+own one too.
+
+# Install Cozy
 
 Cozy Cloud is designed to be used remotely on your own server.
 So, this project contains what you need to achieve that goal 
@@ -96,15 +105,6 @@ stack in an isolated virtual machine or in a container (OpenVz or LXC). But
 it's not mandatory, you can install Cozy Cloud on your server (that's
 what you should do if you have a small server like a Sheeva Plug or an old
 machine).
-
-
-# About Cozy
-
-Cozy is a private personal cloud solution that allows you to host all your 
-personal applications in a single place that you control.
-This way, you can manage your data from anywhere while protecting your privacy.
-
-https://cozycloud.cc
 
 # Cozy on IRC
 Feel free to check out our IRC channel (#cozycloud at freenode.net) if you have

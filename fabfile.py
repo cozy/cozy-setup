@@ -41,11 +41,6 @@ TOKEN = simple_id_generator()
 
 
 @task
-def is_arm():
-    result = run('lscpu', quiet=True)
-    return 'arm' in result
-
-@task
 def is_pi():
     result = run('Lscpu', quiet=True)
     return 'armv6l' in result
@@ -421,14 +416,24 @@ def install_controller():
     with settings(warn_only=True):
         sudo('pkill -9 node')
     supervisor.start_process('cozy-controller')
-    if is_arm():
-        time.sleep(20)
-    else:
-        time.sleep(10)
-    with hide('running', 'stdout'):
-        result = run('curl -X GET http://127.0.0.1:9002/')
-    if result != '{"error":"Wrong auth token"}':
+
+    num_attempts = 0
+    MATCH_STR = '{"error":"Wrong auth token"}'
+    MAX_ATTEMPTS = 60
+    result = ''
+
+    print('Waiting for cozy-controller to be launched...')
+    # Tries to curl from the cozy-controller MAX_ATTEMPTS times, once per second.
+    # Aborts if we reached the main end-point (success) or the maximum amount of attempts (failure).
+    while result != MATCH_STR and num_attempts < MAX_ATTEMPTS:
+        with hide('running', 'stdout'):
+            result = run('curl -X GET http://127.0.0.1:9002/', warn_only=True)
+        num_attempts += 1
+        time.sleep(1)
+
+    if num_attempts == MAX_ATTEMPTS:
         print_failed('cozy-controller')
+
     print(green('Cozy Controller successfully started'))
 
 

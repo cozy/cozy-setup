@@ -1,11 +1,15 @@
 # Cozy: a Personal Cloud You Can Hack, Host and Delete
 
+![Cozy Logo](https://raw.github.com/mycozycloud/cozy-setup/gh-pages/assets/images/happycloud.png)
+
 [Cozy](http://cozy.io) is a platform that brings all your web services in the
 same private space.  With it, your web apps and your devices can share data
 easily, providing you
 with a new experience. You can install Cozy on your own hardware where no one
 profiles you. You install only the applications you want. You can build your
 own one too.
+
+See our [online demo](https://demo.cozycloud.cc/) to discover our applications.
 
 # Install Cozy
 
@@ -67,6 +71,7 @@ The CPU is not a limitation, Cozy can even run on RaspberryPi.
 
 RAM: 512MB (it allows to have 4 apps running simultaneously)
 Disk space: 5GB
+SD Class 10 for mini boards.
 
 ### Recommended
 
@@ -86,12 +91,12 @@ The Cozy install script installs the following tools:
 * Python runtime
 * Node.js runtime
 * CouchDB document database
-* Node tools: cozy-controller, cozy-monitor, coffee-script, compound, brunch
+* Node tools: cozy-controller, cozy-monitor, coffee-script, brunch
 * Cozy Controller Daemon
-* Cozy data indexer
-* Cozy data layer 
-* Cozy proxy
-* Cozy Home (web app)
+* Cozy Data Indexer
+* Cozy Data System 
+* Cozy Proxy
+* Cozy Home
 
 
 If you want to know more about how Cozy works you can check our [architecture
@@ -106,6 +111,16 @@ it's not mandatory, you can install Cozy Cloud on your server (that's
 what you should do if you have a small server like a Sheeva Plug or an old
 machine).
 
-# Cozy on IRC
-Feel free to check out our IRC channel (#cozycloud at freenode.net) if you have
-any technical issues/inquiries or simply to speak about Cozy Cloud in general.
+# Community 
+
+You can reach the Cozy community on various support:
+
+* IRC #cozycloud on irc.freenode.net
+* Post on our [Forum](https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud)
+* Post issues on the [Github repos](https://github.com/mycozycloud/)
+* Via [Twitter](http://twitter.com/mycozycloud)
+
+# License
+
+Cozy is developed by Cozy Cloud under the AGPL v3 license (see each module for
+exceptions).

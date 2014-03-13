@@ -111,7 +111,7 @@ it's not mandatory, you can install Cozy Cloud on your server (that's
 what you should do if you have a small server like a Sheeva Plug or an old
 machine).
 
-# Community 
+## Community 
 
 You can reach the Cozy community on various support:
 
@@ -120,7 +120,7 @@ You can reach the Cozy community on various support:
 * Post issues on the [Github repos](https://github.com/mycozycloud/)
 * Via [Twitter](http://twitter.com/mycozycloud)
 
-# License
+## License
 
 Cozy is developed by Cozy Cloud under the AGPL v3 license (see each module for
 exceptions).

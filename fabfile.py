@@ -68,6 +68,27 @@ def su_delete(filename):
     sudo('rm -rf %s' % filename)
 
 
+def try_delayed_run(program, comparator, max_attempts = 60, wait = 1):
+    '''Runs the given program and matches the resulting string by applying the
+    comparator function (which should return something truthy or falsy). If the
+    comparator returns false, wait for 'wait' seconds and retries, with
+    a maximum of max_attempts attempts.
+    Returns true if the comparator has returned true once, false otherwise.
+    '''
+    num_attempts = 0
+    result = ''
+    with hide('running', 'stdout'):
+        result = run(program, warn_only=True)
+
+    while not comparator(result) and num_attempts < max_attempts:
+        time.sleep(wait)
+        with hide('running', 'stdout'):
+            result = run(program, warn_only=True)
+        num_attempts += 1
+
+    return comparator(result)
+
+
 # Tasks
 
 
@@ -417,23 +438,16 @@ def install_controller():
         sudo('pkill -9 node')
     supervisor.start_process('cozy-controller')
 
-    num_attempts = 0
-    MATCH_STR = '{"error":"Wrong auth token"}'
-    MAX_ATTEMPTS = 60
-    result = ''
-
     print('Waiting for cozy-controller to be launched...')
-    # Tries to curl from the cozy-controller MAX_ATTEMPTS times, once per second.
-    # Aborts if we reached the main end-point (success) or the maximum amount of attempts (failure).
-    while result != MATCH_STR and num_attempts < MAX_ATTEMPTS:
-        with hide('running', 'stdout'):
-            result = run('curl -X GET http://127.0.0.1:9002/', warn_only=True)
-        num_attempts += 1
-        time.sleep(1)
+    program = 'curl -X GET http://127.0.0.1:9002/'
 
-    if num_attempts == MAX_ATTEMPTS:
+    MATCH_STR = '{"error":"Wrong auth token"}'
+    def comparator(r):
+        return r == MATCH_STR
+
+    # Run curl until we get the MATCH_STR or a timeout
+    if not try_delayed_run(program, comparator):
         print_failed('cozy-controller')
-
     print(green('Cozy Controller successfully started'))
 
 

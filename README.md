@@ -19,16 +19,25 @@ So, this project contains what you need to achieve that goal
 
 # How to install Cozy on your server?
 
-On your local machine install Fabric and fabtools:
+On your local machine install Fabric and fabtools. For that purpose, be sure to have
+python and the pip tools on your machine. For instance, if you're on a Debian based
+distribution:
 
     apt-get install python python-pip python-dev software-properties-common
+
+If you're on an Apple computer (MacBook and so on), you should already have python and
+easy install tools, so you can just do:
+
+    sudo easy_install pip
+
+Once you have the pip tools installed on your machine:
+
     sudo pip install fabric fabtools
 
 Download our Fabric file (a script that will run commands on your remote
 server):
 
     wget https://raw.github.com/mycozycloud/cozy-setup/master/fabfile.py
-
 
 Once your system is prepared, use the Fabric script from your local
 machine to launch the Cozy installation (run it in the same directory as the fabfile

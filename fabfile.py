@@ -45,6 +45,7 @@ def is_pi():
     result = run('Lscpu', quiet=True)
     return 'armv6l' in result
 
+
 def print_failed(module):
     print(red('Installation of %s failed.\n' +
               'You can join us on our IRC channel: '
@@ -68,8 +69,9 @@ def su_delete(filename):
     sudo('rm -rf %s' % filename)
 
 
-def try_delayed_run(program, comparator, max_attempts = 60, wait = 1):
-    '''Runs the given program and matches the resulting string by applying the
+def try_delayed_run(program, comparator, max_attempts=60, wait=1):
+    '''
+    Runs the given program and matches the resulting string by applying the
     comparator function (which should return something truthy or falsy). If the
     comparator returns false, wait for 'wait' seconds and retries, with
     a maximum of max_attempts attempts.
@@ -77,13 +79,16 @@ def try_delayed_run(program, comparator, max_attempts = 60, wait = 1):
     '''
     num_attempts = 0
     result = ''
+
     with hide('running', 'stdout'):
         result = run(program, warn_only=True)
 
     while not comparator(result) and num_attempts < max_attempts:
         time.sleep(wait)
+
         with hide('running', 'stdout'):
             result = run(program, warn_only=True)
+
         num_attempts += 1
 
     return comparator(result)
@@ -122,7 +127,7 @@ def ask_for_confirmation(module):
     installed by this fabfile.
     '''
     confirm = prompt('Are you sure you want to definitely remove %s from your'
-            ' computer? ' % module, default="no")
+                     ' computer? ' % module, default="no")
     return confirm == "yes"
 
 
@@ -145,7 +150,6 @@ def uninstall_all():
         sudo('userdel -r cozy')
         sudo('userdel -r cozy-data-system')
         sudo('userdel -r cozy-home')
-
 
 
 @task
@@ -441,9 +445,8 @@ def install_controller():
     print('Waiting for cozy-controller to be launched...')
     program = 'curl -X GET http://127.0.0.1:9002/'
 
-    MATCH_STR = '{"error":"Wrong auth token"}'
-    def comparator(r):
-        return r == MATCH_STR
+    def comparator(result):
+        return result == '{"error":"Wrong auth token"}'
 
     # Run curl until we get the MATCH_STR or a timeout
     if not try_delayed_run(program, comparator):
@@ -722,8 +725,8 @@ def update_indexer():
 
     with python.virtualenv(indexer_env_dir):
         sudo(
-            'pip install --use-mirrors --upgrade -r %s/requirements/common.txt' %
-            indexer_dir)
+            'pip install --use-mirrors --upgrade -r '
+            '%s/requirements/common.txt' % indexer_dir)
     supervisor.restart_process('cozy-indexer')
 
 

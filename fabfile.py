@@ -41,11 +41,6 @@ TOKEN = simple_id_generator()
 
 
 @task
-def is_arm():
-    result = run('lscpu', quiet=True)
-    return 'arm' in result
-
-@task
 def is_pi():
     result = run('Lscpu', quiet=True)
     return 'armv6l' in result
@@ -71,6 +66,27 @@ def delete_if_exists(filename):
 def su_delete(filename):
     '''Delete given file with root permission'''
     sudo('rm -rf %s' % filename)
+
+
+def try_delayed_run(program, comparator, max_attempts = 60, wait = 1):
+    '''Runs the given program and matches the resulting string by applying the
+    comparator function (which should return something truthy or falsy). If the
+    comparator returns false, wait for 'wait' seconds and retries, with
+    a maximum of max_attempts attempts.
+    Returns true if the comparator has returned true once, false otherwise.
+    '''
+    num_attempts = 0
+    result = ''
+    with hide('running', 'stdout'):
+        result = run(program, warn_only=True)
+
+    while not comparator(result) and num_attempts < max_attempts:
+        time.sleep(wait)
+        with hide('running', 'stdout'):
+            result = run(program, warn_only=True)
+        num_attempts += 1
+
+    return comparator(result)
 
 
 # Tasks
@@ -421,13 +437,16 @@ def install_controller():
     with settings(warn_only=True):
         sudo('pkill -9 node')
     supervisor.start_process('cozy-controller')
-    if is_arm():
-        time.sleep(20)
-    else:
-        time.sleep(10)
-    with hide('running', 'stdout'):
-        result = run('curl -X GET http://127.0.0.1:9002/')
-    if result != '{"error":"Wrong auth token"}':
+
+    print('Waiting for cozy-controller to be launched...')
+    program = 'curl -X GET http://127.0.0.1:9002/'
+
+    MATCH_STR = '{"error":"Wrong auth token"}'
+    def comparator(r):
+        return r == MATCH_STR
+
+    # Run curl until we get the MATCH_STR or a timeout
+    if not try_delayed_run(program, comparator):
         print_failed('cozy-controller')
     print(green('Cozy Controller successfully started'))
 

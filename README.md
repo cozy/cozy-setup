@@ -14,21 +14,30 @@ See our [online demo](https://demo.cozycloud.cc/) to discover our applications.
 # Install Cozy
 
 Cozy Cloud is designed to be used remotely on your own server.
-So, this project contains what you need to achieve that goal 
-(it only works for Debian/Ubuntu systems). 
+So, this project contains what you need to achieve that goal
+(it only works for Debian/Ubuntu systems).
 
 # How to install Cozy on your server?
 
-On your local machine install Fabric and fabtools:
+On your local machine install Fabric and fabtools. For that purpose, be sure to have
+python and the pip tools on your machine. For instance, if you're on a Debian based
+distribution:
 
     apt-get install python python-pip python-dev software-properties-common
+
+If you're on an Apple computer (MacBook and so on), you should already have python and
+easy install tools, so you can just do:
+
+    sudo easy_install pip
+
+Once you have the pip tools installed on your machine:
+
     sudo pip install fabric fabtools
 
 Download our Fabric file (a script that will run commands on your remote
 server):
 
     wget https://raw.github.com/mycozycloud/cozy-setup/master/fabfile.py
-
 
 Once your system is prepared, use the Fabric script from your local
 machine to launch the Cozy installation (run it in the same directory as the fabfile
@@ -38,12 +47,12 @@ you downloaded before):
 
 Enter your settings (such as domain name) when prompted by the installer.
 
-Be patient; some commands or app deployments can take some time. It 
+Be patient; some commands or app deployments can take some time. It
 depends on your network and hardware capabilities.
 
 *About local installation*
 
-To install Cozy locally, we recommend you to create a virtual machine, 
+To install Cozy locally, we recommend you to create a virtual machine,
 and then to run the fabfile script with your virtual machine as target.
 This allows you to experiment with Cozy without installing numerous packages
 into your environment.
@@ -94,7 +103,7 @@ The Cozy install script installs the following tools:
 * Node tools: cozy-controller, cozy-monitor, coffee-script, brunch
 * Cozy Controller Daemon
 * Cozy Data Indexer
-* Cozy Data System 
+* Cozy Data System
 * Cozy Proxy
 * Cozy Home
 

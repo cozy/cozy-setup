@@ -201,12 +201,23 @@ def install_tools():
 @task
 def install_node08():
     '''
-    Install Node 0.8.18
+    install node 0.8.18
     '''
 
     require.nodejs.installed_from_source('0.8.18')
     sudo('npm config set ca ""')
-    print(green('Node 0.8.18 successfully installed'))
+    print(green('node 0.8.18 successfully installed'))
+
+
+@task
+def install_node010():
+    '''
+    install node 0.10.26
+    '''
+
+    require.nodejs.installed_from_source('0.10.26')
+    print(green('node 0.10.26 successfully installed'))
+
 
 
 @task

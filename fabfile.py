@@ -103,7 +103,7 @@ def install():
     Install the full cozy stack.
     '''
     install_tools()
-    install_node08()
+    install_node10()
     install_couchdb()
     install_postfix()
     create_cozy_user()
@@ -141,7 +141,7 @@ def uninstall_all():
     if ask_for_confirmation("Cozy"):
         uninstall_cozy()
     if ask_for_confirmation("Node.js"):
-        uninstall_node08()
+        uninstall_node10()
     if ask_for_confirmation("CouchDB"):
         uninstall_couchdb()
     if ask_for_confirmation("Postfix"):
@@ -158,7 +158,7 @@ def install_dev():
     Install stuff to prepare a virtual machine dedicated to development.
     '''
     install_tools()
-    install_node08()
+    install_node10()
     install_couchdb()
     install_postfix()
     create_cozy_user()
@@ -219,7 +219,6 @@ def install_node010():
     print(green('node 0.10.26 successfully installed'))
 
 
-
 @task
 def uninstall_node08():
     '''
@@ -239,6 +238,28 @@ def uninstall_node08():
         sudo('make distclean')
     su_delete('%s*' % folder)
     print(green('Node 0.8.18 successfully uninstalled'))
+
+
+
+@task
+def uninstall_node10():
+    '''
+    Uninstall node 0.10.26
+    '''
+
+    sudo('npm uninstall npm')
+    version = '0.10.26'
+    folder = 'node-v%s' % version
+    filename = folder + '.tar.gz'
+    require_file(url='http://nodejs.org/dist/v%s/%s' % (version, filename))
+    sudo('tar -xzf %s' % filename)
+
+    with cd('%s' % folder):
+        sudo('./configure')
+        sudo('make uninstall')
+        sudo('make distclean')
+    su_delete('%s*' % folder)
+    print(green('Node 0.10.26 successfully uninstalled'))
 
 
 @task
@@ -714,6 +735,20 @@ def update_stack():
     sudo('cozy-monitor update proxy')
     update_indexer()
     print(green('Stack updated successfully.'))
+
+
+@task
+def upgrade_to_node10():
+    '''
+    Upgrade the whole stack to node 0.10.26
+    '''
+    uninstall_node08()
+    install_node10()
+    # some modules need to be re-compiled with the new node version
+    sudo('rm -rf /usr/local/cozy/apps/*/*/*/node_modules')
+    update_all_apps()
+    update_stack() # restarts the controller
+    print(green('Cozy successfully upgraded to node 0.10.26.'))
 
 
 @task

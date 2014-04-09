@@ -94,6 +94,15 @@ def try_delayed_run(program, comparator, max_attempts=60, wait=1):
     return comparator(result)
 
 
+def get_couchdb_version():
+    if system.distrib_id() == 'Ubuntu' \
+            and system.distrib_release() == '13.10':
+        version = '1.5.0'
+    else:
+        version = '1.3.0'
+
+    return version
+
 # Tasks
 
 
@@ -210,7 +219,7 @@ def install_node08():
 
 
 @task
-def install_node010():
+def install_node10():
     '''
     install node 0.10.26
     '''
@@ -265,7 +274,7 @@ def uninstall_node10():
 @task
 def install_couchdb():
     '''
-    Install CouchDB 1.3.0
+    Install CouchDB 1.3.0 or 1.5.0
     '''
     packages = [
         'erlang',
@@ -281,19 +290,21 @@ def install_couchdb():
         packages.append('libmozjs185-dev')
     require.deb.packages(packages)
 
+    version = get_couchdb_version()
+
     require_file(
         url='http://apache.crihan.fr/dist/couchdb/source/' +
-        '1.3.0/apache-couchdb-1.3.0.tar.gz')
-    run('tar -xzvf apache-couchdb-1.3.0.tar.gz')
-    with cd('apache-couchdb-1.3.0'):
+        '%s/apache-couchdb-%s.tar.gz' % (version, version))
+    run('tar -xzvf apache-couchdb-%s.tar.gz' % version)
+    with cd('apache-couchdb-%s' % version):
         run('./configure; make')
         result = sudo('make install')
         installed = result.find('You have installed Apache CouchDB,' +
                                 ' time to relax.')
         if installed == -1:
             print_failed('couchdb')
-    su_delete('apache-couchdb-1.3.0')
-    su_delete('rm -rf apache-couchdb-1.3.0.tar.gz')
+    su_delete('apache-couchdb-%s' % version)
+    su_delete('rm -rf apache-couchdb-%s.tar.gz' % version)
 
     require.users.user('couchdb', home='/usr/local/var/lib/couchdb')
     sudo('chown -R couchdb:couchdb /usr/local/etc/couchdb')
@@ -309,7 +320,7 @@ def install_couchdb():
         'couchdb', user='couchdb',
         command='couchdb', autostart='true',
         environment='HOME=/usr/local/var/lib/couchdb')
-    print(green('CouchDB 1.3.0 successfully installed'))
+    print(green('CouchDB %s successfully installed' % version))
 
 
 @task
@@ -352,19 +363,21 @@ def config_couchdb():
         owner='cozy-data-system',
         mode='700'
     )
-    print(green('CouchDB 1.3.0 successfully configured'))
+    version = get_couchdb_version()
+    print(green('CouchDB %s successfully configured' % version))
 
 
 @task
 def uninstall_couchdb():
     '''
-    Install CouchDB 1.3.0
+    Uninstall CouchDB 1.3.0 or 1.5.0
     '''
+    version = get_couchdb_version()
     require_file(
         url='http://apache.crihan.fr/dist/couchdb/source/' +
-        '1.3.0/apache-couchdb-1.3.0.tar.gz')
-    run('tar -xzvf apache-couchdb-1.3.0.tar.gz')
-    with cd('apache-couchdb-1.3.0'):
+        '%s/apache-couchdb-%s.tar.gz' % (version, version))
+    run('tar -xzvf apache-couchdb-%s.tar.gz' % version)
+    with cd('apache-couchdb-%s' % version):
         sudo('./configure')
         sudo('make uninstall')
         sudo('make distclean')
@@ -376,12 +389,12 @@ def uninstall_couchdb():
     su_delete('/usr/local/share/doc/couchdb')
     su_delete('/usr/local/bin/couchjs')
     su_delete('/usr/local/bin/couchdb')
-    su_delete('apache-couchdb-1.3.0')
-    su_delete('apache-couchdb-1.3.0.tar.gz')
+    su_delete('apache-couchdb-%s' % version)
+    su_delete('apache-couchdb-%s.tar.gz' % version)
     su_delete('/etc/supervisor/conf.d/couchdb.conf')
     su_delete('/etc/cozy/couchdb.login')
     supervisor.update_config()
-    print(green('CouchDB 1.3.0 successfully uninstalled'))
+    print(green('CouchDB %s successfully uninstalled' % version))
 
 
 @task

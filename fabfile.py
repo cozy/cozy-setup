@@ -741,9 +741,9 @@ def update_stack():
         sudo('/etc/init.d/cozy-controller restart')
     else:
         supervisor.restart_process('cozy-controller')
-    sudo('cozy-monitor update data-system')
-    sudo('cozy-monitor update home')
-    sudo('cozy-monitor update proxy')
+    sudo('cozy-monitor install data-system')
+    sudo('cozy-monitor install home')
+    sudo('cozy-monitor install proxy')
     update_indexer()
     print(green('Stack updated successfully.'))
 

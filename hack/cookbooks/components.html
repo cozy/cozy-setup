@@ -1,0 +1,146 @@
+<!DOCTYPE html><!--[if lte IE 7]> <html class="no-js ie67 ie678" lang="en"> <![endif]-->
+<!--[if IE 8]> <html class="no-js ie8 ie678" lang="en"> <![endif]-->
+<!--[if IE 9]> <html class="no-js ie9" lang="en"> <![endif]-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8"><!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="/assets/images/favicon.png">
+    <title>Components
+    </title><link  rel="stylesheet" href="/vendors/css/knacss.css" /><link  rel="stylesheet" href="/vendors/css/sunburst.css" /><link  rel="stylesheet" href="/assets/css/main.css" /><link  rel="stylesheet" href="/assets/css/home.css" />
+  </head>
+  <body>
+    <div class="navbar fixed"><a href="/" class="nav-logo left"><img src="/assets/images/happycloud.png" alt="Happy Cloud"></a><span class="subtitle">
+        <div class="breadcrumb-item"><a href="/hack/getting-started/">Getting started</a>
+          <ul class="menu-item">
+            <li><a href="/hack/getting-started/setup-environment.html">Setting up the environment</a></li>
+            <li><a href="/hack/getting-started/first-app.html">Your first app in 30 minutes</a></li>
+            <li><a href="/hack/getting-started/architecture-overview.html">Understand the Cozy Architecture</a></li>
+            <li><a href="/hack/getting-started/play-with-data-system.html">Play with the Data System</a></li>
+            <li><a href="/hack/getting-started/discover-americano.html">Discover Americano</a></li>
+            <li><a href="/hack/getting-started/learn-single-page-app-way.html">Learn the Single Page App Way</a></li>
+          </ul>
+        </div>
+        <div class="breadcrumb-item current"><a href="/hack/cookbooks/">Cookbooks</a>
+          <ul class="menu-item">
+            <li><a href="/hack/cookbooks/data-system.html">The Data System API</a></li>
+            <li><a href="/hack/cookbooks/data-system-odm.html">The ODM for Data System API</a></li>
+            <li><a href="/hack/cookbooks/localization.html">Localize your applications</a></li>
+            <li><a href="/hack/cookbooks/deploy.html">Deploy your applications</a></li>
+            <li><a href="/hack/cookbooks/nodemon-server-auto-refresh-on-change.html">Using nodemon to auto-refresh the server on code change</a></li>
+            <li><a href="/hack/cookbooks/components.html">Components</a></li>
+            <li><a href="/hack/cookbooks/authentication-authorization-workflows.html">Authentication and Authorization workflows</a></li>
+            <li><a href="/hack/cookbooks/encryption.html">Encryption management</a></li>
+          </ul>
+        </div>
+        <div class="breadcrumb-item"><a href="/hack/application-skeletons/">Application Skeletons</a>
+          <ul class="menu-item">
+            <li><a href="/hack/application-skeletons/cozy-official.html">Official Cozy skeleton</a></li>
+          </ul>
+        </div>
+        <div class="breadcrumb-item"><a href="/hack/contributing/">Contributing</a>
+        </div></span>
+      <div class="submenu-container right selected"><a href="/hack/getting-started/">Hack</a></div>
+      <div class="submenu-container right"><a href="/host/install.html">Host</a></div>
+    </div>
+    <div class="wrapper">
+      <div class="wrap-menu w25 mod left">&nbsp;
+        <aside>
+          <p class="title toc">Components</p>
+          <nav id="navigation" role="navigation">
+            <ul class="nav first-level">
+              <li class="big"><a href="#the-stack" class="label">The stack</a>
+                <ul class="second-level">
+                </ul>
+              </li>
+              <li class="big"><a href="#modules-libraries" class="label">Modules / Libraries</a>
+                <ul class="second-level">
+                  <li class="small"><a href="#generic" class="label">Generic</a></li>
+                  <li class="small"><a href="#cozy-specific" class="label">Cozy specific</a></li>
+                </ul>
+              </li>
+              <li class="big"><a href="#tools" class="label">Tools</a>
+                <ul class="second-level">
+                </ul>
+              </li>
+              <li class="big"><a href="#applications" class="label">Applications</a>
+                <ul class="second-level">
+                  <li class="small"><a href="#official" class="label">Official</a></li>
+                  <li class="small"><a href="#community-contributions" class="label">Community contributions</a></li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+        </aside>
+      </div>
+      <div id="main" role="main" class="mod pam w75"><h1 id="components">Components</h1>
+<p>Here is a list that references the components of Cozy.</p>
+<h2 id="the-stack">The stack</h2>
+<p>What we call the "stack" are the core components of Cozy:</p>
+<ul>
+<li><a href="https://github.com/mycozycloud/cozy-controller">Controller</a>: the PaaS that run the various applications <img src="https://travis-ci.org/mycozycloud/cozy-controller.png?branch=master" alt="Build Status" /> <img src="https://david-dm.org/mycozycloud/cozy-controller.png" alt="Dependencies Status" /></li>
+<li><a href="https://github.com/mycozycloud/cozy-data-system">Data System</a>: unified persistence layer <img src="https://travis-ci.org/mycozycloud/cozy-data-system.png?branch=master" alt="Build Status" /> <img src="https://david-dm.org/mycozycloud/cozy-data-system.png" alt="Dependencies Status" /></li>
+<li><a href="https://github.com/mycozycloud/cozy-proxy">Proxy</a>: handles registrer and authentication <img src="https://travis-ci.org/mycozycloud/cozy-proxy.png?branch=master" alt="Build Status" /> <img src="https://david-dm.org/mycozycloud/cozy-proxy.png" alt="Dependencies Status" /></li>
+<li><a href="https://github.com/mycozycloud/cozy-home">Home</a>: end-user friendly Cozy manager <img src="https://travis-ci.org/mycozycloud/cozy-home.png?branch=master" alt="Build Status" /> <img src="https://david-dm.org/mycozycloud/cozy-home.png" alt="Dependencies Status" /></li>
+<li><a href="https://github.com/mycozycloud/cozy-data-indexer">Indexer</a></li>
+</ul>
+<p>The last one is not a true Cozy component but is used to install and manage self-hosted Cozy: <a href="https://github.com/mycozycloud/cozy-setup">cozy-setup</a>.</p>
+<h2 id="modules-libraries">Modules / Libraries</h2>
+<p>This is a set a of libraries developed and maintained by Cozycloud that are used in Cozy.</p>
+<h3 id="generic">Generic</h3>
+<ul>
+<li><a href="https://github.com/mycozycloud/request-json">request-json</a>: simple JSON-only requests <img src="https://travis-ci.org/mycozycloud/request-json.png?branch=master" alt="Build Status" /> <img src="https://david-dm.org/mycozycloud/request-json.png" alt="Dependencies Status" /></li>
+<li><a href="https://github.com/mycozycloud/cozy-vcard">cozy-vcard</a>: a vcard parser <img src="https://david-dm.org/mycozycloud/cozy-vcard.png" alt="Dependencies Status" /></li>
+<li><a href="https://github.com/mycozycloud/cozy-ical">cozy-ical</a>: an iCal parser <img src="https://david-dm.org/mycozycloud/cozy-ical.png" alt="Dependencies Status" /></li>
+<li><a href="https://github.com/mycozycloud/americano">americano</a>: makes Expressjs more opinionated about configuration <img src="https://travis-ci.org/mycozycloud/americano.png?branch=master" alt="Build Status" /> <img src="https://david-dm.org/mycozycloud/americano.png" alt="Dependencies Status" /></li>
+</ul>
+<h3 id="cozy-specific">Cozy specific</h3>
+<ul>
+<li><a href="https://github.com/mycozycloud/americano-cozy">americano-cozy</a>: an americano plugin to ease the use of the Data System <img src="https://david-dm.org/mycozycloud/americano-cozy.png" alt="Dependencies Status" /></li>
+<li><a href="https://github.com/mycozycloud/cozy-realtime-adapter">cozy-realtime-adapter</a>: let your app be notified in realtime of changes <img src="https://david-dm.org/mycozycloud/cozy-realtime-adapter.png" alt="Dependencies Status" /></li>
+<li><a href="https://github.com/mycozycloud/cozy-notifications-helper">cozy-notifications-helper</a>: east notifications for your app <img src="https://travis-ci.org/mycozycloud/cozy-notifications-helper.png?branch=master" alt="Build Status" /> <img src="https://david-dm.org/mycozycloud/cozy-notifications-helper.png" alt="Dependencies Status" /></li>
+<li><a href="https://github.com/mycozycloud/cozy-i18n-helper">cozy-i18n-helper</a>: enable localization in your application with no effort <img src="https://david-dm.org/mycozycloud/cozy-i18n-helper.png" alt="Dependencies Status" /></li>
+<li><a href="https://github.com/mycozycloud/jugglingdb-cozy-adapter">jugglingdb-cozy-adapter</a>: Data System ODM plugin <img src="https://travis-ci.org/mycozycloud/jugglingdb-cozy-adapter.png?branch=master" alt="Build Status" /> <img src="https://david-dm.org/mycozycloud/jugglingdb-cozy-adapter.png" alt="Dependencies Status" /></li>
+<li><a href="https://github.com/aenario/cozy-clearance">cozy-clearance</a>: sharing feature in a snap of a finger <img src="https://david-dm.org/aenario/cozy-clearance.png" alt="Dependencies Status" /></li>
+</ul>
+<h2 id="tools">Tools</h2>
+<p>Using/developping with Cozy is easy thanks to the existing tools:</p>
+<ul>
+<li><a href="https://github.com/mycozycloud/cozy-monitor">cozy-monitor</a>: easy Cozy management (<a href="/host/manage.html">full documentation</a>) <img src="https://david-dm.org/mycozycloud/cozy-monitor.png" alt="Dependencies Status" /></li>
+<li><a href="https://github.com/mycozycloud/cozy-manager">cozy-manager</a>: your best friend to developer Cozy applications <img src="https://david-dm.org/mycozycloud/cozy-manager.png" alt="Dependencies Status" /></li>
+<li><a href="https://github.com/mycozycloud/cozy-fixtures">cozy-fixtures</a>: add fixtures to the database to test your application <img src="https://travis-ci.org/mycozycloud/cozy-fixtures.png?branch=master" alt="Build Status" /> <img src="https://david-dm.org/mycozycloud/cozy-fixtures.png" alt="Dependencies Status" /></li>
+</ul>
+<h2 id="applications">Applications</h2>
+<h3 id="official">Official</h3>
+<p>These applications are officially maintained by Cozycloud:</p>
+<ul>
+<li><a href="https://github.com/mycozycloud/cozy-files">Files</a>: files and folder management <img src="https://travis-ci.org/mycozycloud/cozy-files.png?branch=master" alt="Build Status" /> <img src="https://david-dm.org/mycozycloud/cozy-files.png" alt="Dependencies Status" /></li>
+<li><a href="https://github.com/mycozycloud/cozy-calendar">Calendar</a>: easy yet powerful calendar management <img src="https://travis-ci.org/mycozycloud/cozy-calendar.png?branch=master" alt="Build Status" /> <img src="https://david-dm.org/mycozycloud/cozy-calendar.png" alt="Dependencies Status" /></li>
+<li><a href="https://github.com/mycozycloud/cozy-contacts">Contacts</a>: a personal relationships manager <img src="https://travis-ci.org/mycozycloud/cozy-contacts.png?branch=master" alt="Build Status" /> <img src="https://david-dm.org/mycozycloud/cozy-contacts.png" alt="Dependencies Status" /></li>
+<li><a href="https://github.com/mycozycloud/cozy-webdav">Webdav</a>: contact and calendar synchronization <img src="https://travis-ci.org/mycozycloud/cozy-webdav.png?branch=master" alt="Build Status" /> <img src="https://david-dm.org/mycozycloud/cozy-webdav.png" alt="Dependencies Status" /></li>
+</ul>
+<h3 id="community-contributions">Community contributions</h3>
+<p>These applications have been released by members of the Community or by Cozycloud (but aren't officially maintained)</p>
+<ul>
+<li><a href="https://github.com/Piour/cozy-bookmarks">Bookmarks</a>: manage your brower's bookmarks <img src="https://david-dm.org/Piour/cozy-bookmarks.png" alt="Dependencies Status" /></li>
+<li><a href="https://github.com/rdubigny/cozy-music">Cozic</a>: your music whenever you need it <img src="https://david-dm.org/rdubigny/cozy-music.png" alt="Dependencies Status" /></li>
+<li><a href="https://github.com/n-a-n/cozy-databrowser">Databrowser</a>: browse all your data <img src="https://david-dm.org/n-a-n/cozy-databrowser.png" alt="Dependencies Status" /></li>
+<li><a href="https://github.com/Piour/cozy-feeds">Feeds</a>: a RSS feed reader <img src="https://david-dm.org/Piour/cozy-feeds.png" alt="Dependencies Status" /></li>
+<li><a href="https://github.com/frankrousseau/konnectors">Konnectors</a>: bring more data to your Cozy <img src="https://david-dm.org/frankrousseau/konnectors.png" alt="Dependencies Status" /></li>
+<li><a href="https://github.com/frankrousseau/kyou">KYou</a>: Know Yourself through various measures <img src="https://david-dm.org/frankrousseau/kyou.png" alt="Dependencies Status" /></li>
+<li><a href="https://github.com/seeker89/cozy-pfm">MesComptes</a>: manage your banking accounts <img src="https://david-dm.org/seeker89/cozy-pfm.png" alt="Dependencies Status" /></li>
+<li><a href="https://github.com/frankrousseau/cozy-nirc">Nirc</a>: an IRC client <img src="https://david-dm.org/frankrousseau/cozy-nirc.png" alt="Dependencies Status" /></li>
+<li><a href="https://github.com/mycozycloud/cozy-notes">Notes</a>: self-explanatory <img src="https://david-dm.org/mycozycloud/cozy-notes.png" alt="Dependencies Status" /></li>
+<li><a href="https://github.com/Piour/piour-cozy-owm">OWM</a>: weather forecast <img src="https://david-dm.org/Piour/piour-cozy-owm.png" alt="Dependencies Status" /></li>
+<li><a href="https://github.com/mycozycloud/cozy-photos">Photos</a>: manage and share your photos <img src="https://david-dm.org/mycozycloud/cozy-photos.png" alt="Dependencies Status" /></li>
+<li><a href="https://github.com/mycozycloud/cozy-todos">Todos</a>: list, prioritize, be more productive <img src="https://david-dm.org/mycozycloud/cozy-todos.png" alt="Dependencies Status" /></li>
+</ul>
+
+      </div>
+      <footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">Github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">Contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">Mailing-list</a><a href="https://cozycloud.cc">Cozy Cloud</a></footer>
+    </div><script defer="defer"  src="/vendors/javascripts/jquery-2.0.3.min.js"></script><script defer="defer"  src="/vendors/javascripts/bootstrap.min.js"></script><script defer="defer"  src="/assets/javascripts/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html><!--[if lte IE 7]> <html class="no-js ie67 ie678" lang="en"> <![endif]-->
+<!--[if IE 8]> <html class="no-js ie8 ie678" lang="en"> <![endif]-->
+<!--[if IE 9]> <html class="no-js ie9" lang="en"> <![endif]-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8"><!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="/assets/images/favicon.png">
+    <title>Authentication and Authorization workflows
+    </title><link  rel="stylesheet" href="/vendors/css/knacss.css" /><link  rel="stylesheet" href="/vendors/css/sunburst.css" /><link  rel="stylesheet" href="/assets/css/main.css" /><link  rel="stylesheet" href="/assets/css/home.css" />
+  </head>
+  <body>
+    <div class="navbar fixed"><a href="/" class="nav-logo left"><img src="/assets/images/happycloud.png" alt="Happy Cloud"></a><span class="subtitle">
+        <div class="breadcrumb-item"><a href="/hack/getting-started/">Getting started</a>
+          <ul class="menu-item">
+            <li><a href="/hack/getting-started/setup-environment.html">Setting up the environment</a></li>
+            <li><a href="/hack/getting-started/first-app.html">Your first app in 30 minutes</a></li>
+            <li><a href="/hack/getting-started/architecture-overview.html">Understand the Cozy Architecture</a></li>
+            <li><a href="/hack/getting-started/play-with-data-system.html">Play with the Data System</a></li>
+            <li><a href="/hack/getting-started/discover-americano.html">Discover Americano</a></li>
+            <li><a href="/hack/getting-started/learn-single-page-app-way.html">Learn the Single Page App Way</a></li>
+          </ul>
+        </div>
+        <div class="breadcrumb-item current"><a href="/hack/cookbooks/">Cookbooks</a>
+          <ul class="menu-item">
+            <li><a href="/hack/cookbooks/data-system.html">The Data System API</a></li>
+            <li><a href="/hack/cookbooks/data-system-odm.html">The ODM for Data System API</a></li>
+            <li><a href="/hack/cookbooks/localization.html">Localize your applications</a></li>
+            <li><a href="/hack/cookbooks/deploy.html">Deploy your applications</a></li>
+            <li><a href="/hack/cookbooks/nodemon-server-auto-refresh-on-change.html">Using nodemon to auto-refresh the server on code change</a></li>
+            <li><a href="/hack/cookbooks/components.html">Components</a></li>
+            <li><a href="/hack/cookbooks/authentication-authorization-workflows.html">Authentication and Authorization workflows</a></li>
+            <li><a href="/hack/cookbooks/encryption.html">Encryption management</a></li>
+          </ul>
+        </div>
+        <div class="breadcrumb-item"><a href="/hack/application-skeletons/">Application Skeletons</a>
+          <ul class="menu-item">
+            <li><a href="/hack/application-skeletons/cozy-official.html">Official Cozy skeleton</a></li>
+          </ul>
+        </div>
+        <div class="breadcrumb-item"><a href="/hack/contributing/">Contributing</a>
+        </div></span>
+      <div class="submenu-container right selected"><a href="/hack/getting-started/">Hack</a></div>
+      <div class="submenu-container right"><a href="/host/install.html">Host</a></div>
+    </div>
+    <div class="wrapper">
+      <div class="wrap-menu w25 mod left">&nbsp;
+        <aside>
+          <p class="title toc">Authentication and Authorization workflows</p>
+          <nav id="navigation" role="navigation">
+            <ul class="nav first-level">
+              <li class="big"><a href="#workflows" class="label">Workflows</a>
+                <ul class="second-level">
+                  <li class="small"><a href="#the-user" class="label">The user</a></li>
+                  <li class="small"><a href="#first-party-client" class="label">First-party client</a></li>
+                  <li class="small"><a href="#third-party-client" class="label">Third-party client</a></li>
+                  <li class="small"><a href="#conclusion" class="label">Conclusion</a></li>
+                </ul>
+              </li>
+              <li class="big"><a href="#applications-authentication-and-permissions" class="label">Applications authentication and permissions</a>
+                <ul class="second-level">
+                  <li class="small"><a href="#authentication" class="label">Authentication</a></li>
+                  <li class="small"><a href="#authorization" class="label">Authorization</a></li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+        </aside>
+      </div>
+      <div id="main" role="main" class="mod pam w75"><h1 id="authentication-and-authorization-workflows">Authentication and Authorization workflows</h1>
+<p>Cozy protects the user's data but it would be useless to keep data behind airtight walls. That's why there are specific pipes from which third-party clients (web applications, mobile application, ...) can get the data. How does it work? Let's figure!</p>
+<h2 id="workflows">Workflows</h2>
+<p><strong>Important Notice</strong>: this is something that can (and that will) change in the future, Cozy is building step by step and architecture decisions cannot be made just on one or two use cases. Feel free to share yours and advise us, we'd love hearing your ideas!</p>
+<p><img src="/assets/images/authentication-workflows.svg" alt="Authentication and authorization workflows diagram" /></p>
+<p>As you can see, there are 3 entry points, corresponding to 3 use cases. Let's detail them individually.</p>
+<h3 id="the-user">The user</h3>
+<p>The classic use case is the user that authenticate with its password into Cozy and then access applications. How those applications are authorized or not to retrieve data is discussed later on this page.</p>
+<p>The user password is salted and hashed using <a href="http://en.wikipedia.org/wiki/Bcrypt">Bcrypt</a> and is <strong>never</strong> stored as-in in Cozy.</p>
+<h3 id="first-party-client">First-party client</h3>
+<p>First-party clients are external clients that ask for the user's password for their initialization. The password shouldn't be stored but is used to register the first-party client as a "device" in the Data System. During the intialization, a unique token is generated and transmitted to the client that will use it to authenticate further requests.</p>
+<p>Today, there are only clients developoed by Cozycloud that are concerned by this workflow: desktop and mobiles clients for Files synchronization.</p>
+<p>For now, the user should only accept to give his password to trusted applications...this is something we'll have to rework in the future.</p>
+<p>An other thing subject to future change is the fact that first-party client requests directly goes to CouchDB, that means a godlike access to mess things up.</p>
+<h3 id="third-party-client">Third-party client</h3>
+<p>If your application cannot be trusted (i.e. is not developped by Cozycloud), you can still choose the third workflow:</p>
+<ul>
+<li>build a Cozy application that asks for the permissions you need</li>
+<li>build an authentication (token based, probably) system in the public part of your application, by generating a token and asking the user to paste this token within the third-party client.</li>
+</ul>
+<p>This workflow is not smooth for the user and reinvent the wheels each time by reimplementing the token-based authentication.</p>
+<h3 id="conclusion">Conclusion</h3>
+<p>We are going to change things. Nothing has been decided yet and we are more than open to inputs and ideas. First-party and third-party workflows could be unified and standardized. For example, the Data System could be accessed from the outside of a Cozy and the authentication handled by a standard protocol like oAuth, openID, Mozilla Persona, ...</p>
+<h2 id="applications-authentication-and-permissions">Applications authentication and permissions</h2>
+<p>The workflows diagram gives you the big picture but there is one point it lacks to explain: how applications are given permissions. Here is a sequence diagram that will clear your mind about it.</p>
+<p><strong>Note: if the diagrams are too small, click them!</strong></p>
+<h3 id="authentication">Authentication</h3>
+<p>Applications are authenticated with a unique token, generated by the Home during the installation.
+When the Controller starts an application, it passes two environment variables, "NAME" and "TOKEN" that are respectively related to the application's slug and token.</p>
+<p>The application can then request the Data System by authenticating its request using the <a href="http://en.wikipedia.org/wiki/Basic_access_authentication">basic access authentication</a> protocol.</p>
+<p><a href="/assets/images/app-authentication.png"><img src="/assets/images/app-authentication.png" alt="Application authentication" /></a></p>
+<h3 id="authorization">Authorization</h3>
+<p>When the Data System is requested, it first checks if the user/token corresponds to an application (authentication, see previous part).
+Then, it checks if the authenticated application has the permission to access the requested resource.
+Those permissions are defined during installation, where the user must explicitely agree on.</p>
+<p><a href="/assets/images/app-authentication.png"><img src="/assets/images/app-authorization.png" alt="Application authentication" /></a></p>
+<p>There are two types of permissions: per doctype permissions and specific permissions.</p>
+<h4 id="per-doctype-permissions">Per doctype permissions</h4>
+<p>As a reminder, a doctype is a category of data, like "Contact", "Event", "Alarm", "Task", or "MyAppConfiguration", "OrderedList", and so on. You can see a doctype as a sort of SQL table if it helps.</p>
+<p>Doctype's permissions are correspond to a single doctype, that means that if the application wants to access the data from 5 different doctypes, it must ask the permission for each doctype.</p>
+<h4 id="specific-permissions">Specific permissions</h4>
+<p>There are a set of permissions that are not related to doctypes. Here the detailed list:</p>
+<ul>
+<li>all: allow the application to access the data of every doctypes</li>
+<li>device: it is a per-doctype permission but also a specific one since the Data System has an API to manage devices (see first part)</li>
+<li>send mail</li>
+<li>send mail to user</li>
+<li>send mail from user</li>
+</ul>
+<p>Others will probably come, it's very flexible system.</p>
+
+      </div>
+      <footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">Github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">Contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">Mailing-list</a><a href="https://cozycloud.cc">Cozy Cloud</a></footer>
+    </div><script defer="defer"  src="/vendors/javascripts/jquery-2.0.3.min.js"></script><script defer="defer"  src="/vendors/javascripts/bootstrap.min.js"></script><script defer="defer"  src="/assets/javascripts/main.js"></script>
+  </body>
+</html>

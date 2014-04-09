@@ -1,0 +1,111 @@
+<!DOCTYPE html><!--[if lte IE 7]> <html class="no-js ie67 ie678" lang="en"> <![endif]-->
+<!--[if IE 8]> <html class="no-js ie8 ie678" lang="en"> <![endif]-->
+<!--[if IE 9]> <html class="no-js ie9" lang="en"> <![endif]-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8"><!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="/assets/images/favicon.png">
+    <title>Encryption management
+    </title><link  rel="stylesheet" href="/vendors/css/knacss.css" /><link  rel="stylesheet" href="/vendors/css/sunburst.css" /><link  rel="stylesheet" href="/assets/css/main.css" /><link  rel="stylesheet" href="/assets/css/home.css" />
+  </head>
+  <body>
+    <div class="navbar fixed"><a href="/" class="nav-logo left"><img src="/assets/images/happycloud.png" alt="Happy Cloud"></a><span class="subtitle">
+        <div class="breadcrumb-item"><a href="/hack/getting-started/">Getting started</a>
+          <ul class="menu-item">
+            <li><a href="/hack/getting-started/setup-environment.html">Setting up the environment</a></li>
+            <li><a href="/hack/getting-started/first-app.html">Your first app in 30 minutes</a></li>
+            <li><a href="/hack/getting-started/architecture-overview.html">Understand the Cozy Architecture</a></li>
+            <li><a href="/hack/getting-started/play-with-data-system.html">Play with the Data System</a></li>
+            <li><a href="/hack/getting-started/discover-americano.html">Discover Americano</a></li>
+            <li><a href="/hack/getting-started/learn-single-page-app-way.html">Learn the Single Page App Way</a></li>
+          </ul>
+        </div>
+        <div class="breadcrumb-item current"><a href="/hack/cookbooks/">Cookbooks</a>
+          <ul class="menu-item">
+            <li><a href="/hack/cookbooks/data-system.html">The Data System API</a></li>
+            <li><a href="/hack/cookbooks/data-system-odm.html">The ODM for Data System API</a></li>
+            <li><a href="/hack/cookbooks/localization.html">Localize your applications</a></li>
+            <li><a href="/hack/cookbooks/deploy.html">Deploy your applications</a></li>
+            <li><a href="/hack/cookbooks/nodemon-server-auto-refresh-on-change.html">Using nodemon to auto-refresh the server on code change</a></li>
+            <li><a href="/hack/cookbooks/components.html">Components</a></li>
+            <li><a href="/hack/cookbooks/authentication-authorization-workflows.html">Authentication and Authorization workflows</a></li>
+            <li><a href="/hack/cookbooks/encryption.html">Encryption management</a></li>
+          </ul>
+        </div>
+        <div class="breadcrumb-item"><a href="/hack/application-skeletons/">Application Skeletons</a>
+          <ul class="menu-item">
+            <li><a href="/hack/application-skeletons/cozy-official.html">Official Cozy skeleton</a></li>
+          </ul>
+        </div>
+        <div class="breadcrumb-item"><a href="/hack/contributing/">Contributing</a>
+        </div></span>
+      <div class="submenu-container right selected"><a href="/hack/getting-started/">Hack</a></div>
+      <div class="submenu-container right"><a href="/host/install.html">Host</a></div>
+    </div>
+    <div class="wrapper">
+      <div class="wrap-menu w25 mod left">&nbsp;
+        <aside>
+          <p class="title toc">Encryption management</p>
+          <nav id="navigation" role="navigation">
+            <ul class="nav first-level">
+              <li class="big"><a href="#encryption-and-decryption" class="label">Encryption and decryption</a>
+                <ul class="second-level">
+                </ul>
+              </li>
+              <li class="big"><a href="#change-user-password" class="label">Change user password</a>
+                <ul class="second-level">
+                </ul>
+              </li>
+              <li class="big"><a href="#reset-user-password" class="label">Reset user password</a>
+                <ul class="second-level">
+                </ul>
+              </li>
+              <li class="big"><a href="#limitations" class="label">Limitations</a>
+                <ul class="second-level">
+                  <li class="small"><a href="#reset-user-password" class="label">Reset user password</a></li>
+                  <li class="small"><a href="#restart-the-data-system" class="label">Restart the Data System</a></li>
+                  <li class="small"><a href="#security-concern" class="label">Security concern</a></li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+        </aside>
+      </div>
+      <div id="main" role="main" class="mod pam w75"><h1 id="encryption-management">Encryption management</h1>
+<p>The Data System can encrypt data to improve their protection. Currently, when there is a "password" field in any document that is posted to the Data System, its value is encrypted.</p>
+<p>This is far from being optimal and will probably be improved in the future.</p>
+<p>Let's see how it works!</p>
+<h2 id="encryption-and-decryption">Encryption and decryption</h2>
+<p>Two keys are used in encryption and decryption operations.</p>
+<p>The first key, called the <strong>master key</strong> is generated from the user password. It is used to encrypt the second key, called the <strong>slave key</strong>, using an AES-256 algorithm. Once encrypted, the slave key is saved in the database. The <strong>master key</strong> stays in memory and is never persisted.</p>
+<p>Each user connection, the master key is generated from the user password and a salt.</p>
+<p><img src="/assets/images/encryption-workflow.jpg" alt="How encryption keys are generated" /></p>
+<p>Keys initialization is managed by the request <code>POST /accounts/password/</code> in the Data System. It generates the master key and recovers encrypted slave key from database. The Proxy requests the Data-System to initialize the keys at each user connection.</p>
+<h2 id="change-user-password">Change user password</h2>
+<p>When user changes his password, master key is modified since it is generated by user password and a salt. New master key is generated and old master key is known because the user is logged.</p>
+<p>Slave key is encrypted by the new master key.</p>
+<p><img src="/assets/images/encryption-password-modification.jpg" alt="How encryption keys are regenerated when the user changes its password" /></p>
+<p>This operation is managed by the request <code>PUT /accounts/password</code> in the Data System.</p>
+<h2 id="reset-user-password">Reset user password</h2>
+<p>When the user forgets its password, the slave key cannot be decrypted anymore since the old master key isn't known. Thus, encrypted data can't be decrypted.</p>
+<p>A new slave key must be generated to encrypt new data.</p>
+<p>Data have a witness which is a known encrypted string like account password. If we can't decrypt correctly the witness, it means data are corrupted. It's the case after a password reset since the new slave key doesn't correspond anymore.</p>
+<p>This operation is managed by the request <code>DELETE /accounts/reset</code> in the Data System.</p>
+<h2 id="limitations">Limitations</h2>
+<h3 id="reset-user-password">Reset user password</h3>
+<p>As mentioned above, the reset of the user password is a critical operation since it means the lost of every encrypted data. The corrupted data must be removed manually (if no applications take care of it) and eventually recreated.</p>
+<h3 id="restart-the-data-system">Restart the Data System</h3>
+<p>Another limitation is when the Data System is restarted. The user must log in afterwards otherwise the master key won't be found, resulting in the Data System unable to decrypt data.</p>
+<h3 id="security-concern">Security concern</h3>
+<p>If an attacker gains a root access he can scans the memory to retrieve the user password, or at least the master key.</p>
+<p>Applications are run with their own (non-sudoer) user so they can't do that.</p>
+
+      </div>
+      <footer id="footer" role="contentinfo" class="line pam row"><a href="https://github.com/mycozycloud">Github</a><a href="irc://irc.freenode.net/cozycloud">IRC</a><a href="mailto:contact@cozycloud.cc">Contact</a><a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">Mailing-list</a><a href="https://cozycloud.cc">Cozy Cloud</a></footer>
+    </div><script defer="defer"  src="/vendors/javascripts/jquery-2.0.3.min.js"></script><script defer="defer"  src="/vendors/javascripts/bootstrap.min.js"></script><script defer="defer"  src="/assets/javascripts/main.js"></script>
+  </body>
+</html>

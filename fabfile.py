@@ -452,10 +452,8 @@ def install_monitor():
     '''
     Install Coffeescript, Compound and Cozy Monitor.
     '''
-    require.nodejs.package('coffee-script')
-    require.nodejs.package('cozy-monitor')
-    require.nodejs.package('brunch', version='1.6.3')
-    print(green('Monitor, compound, brunch and coffee script ' +
+    sudo('npm install -g coffee-script cozy-monitor brunch@1.6.3')
+    print(green('Monitor, brunch and coffee script ' +
                 'successfully installed'))
 
 
@@ -464,7 +462,7 @@ def install_controller():
     '''
     Install Cozy Controller Application Manager. Daemonize with supervisor.
     '''
-    require.nodejs.package('cozy-controller')
+    sudo('npm install -g cozy-controller')
     sudo('mkdir -p /etc/cozy')
     sudo('mkdir -p /etc/cozy/pids')
     require.files.file(
@@ -504,7 +502,7 @@ def install_controller_dev():
     '''
     Install Cozy Controller Application Manager. Daemonize with supervisor.
     '''
-    require.nodejs.package('cozy-controller')
+    sudo('npm install -g cozy-controller')
     require.supervisor.process(
         'cozy-controller',
         command='cozy-controller -c -u --per 755',

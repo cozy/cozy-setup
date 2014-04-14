@@ -94,6 +94,15 @@ def try_delayed_run(program, comparator, max_attempts=60, wait=1):
     return comparator(result)
 
 
+def get_couchdb_version():
+    if system.distrib_id() == 'Ubuntu' \
+            and system.distrib_release() == '13.10':
+        version = '1.5.0'
+    else:
+        version = '1.3.0'
+
+    return version
+
 # Tasks
 
 
@@ -103,7 +112,7 @@ def install():
     Install the full cozy stack.
     '''
     install_tools()
-    install_node08()
+    install_node10()
     install_couchdb()
     install_postfix()
     create_cozy_user()
@@ -141,7 +150,7 @@ def uninstall_all():
     if ask_for_confirmation("Cozy"):
         uninstall_cozy()
     if ask_for_confirmation("Node.js"):
-        uninstall_node08()
+        uninstall_node10()
     if ask_for_confirmation("CouchDB"):
         uninstall_couchdb()
     if ask_for_confirmation("Postfix"):
@@ -158,7 +167,7 @@ def install_dev():
     Install stuff to prepare a virtual machine dedicated to development.
     '''
     install_tools()
-    install_node08()
+    install_node10()
     install_couchdb()
     install_postfix()
     create_cozy_user()
@@ -210,14 +219,13 @@ def install_node08():
 
 
 @task
-def install_node010():
+def install_node10():
     '''
     install node 0.10.26
     '''
 
     require.nodejs.installed_from_source('0.10.26')
     print(green('node 0.10.26 successfully installed'))
-
 
 
 @task
@@ -241,10 +249,32 @@ def uninstall_node08():
     print(green('Node 0.8.18 successfully uninstalled'))
 
 
+
+@task
+def uninstall_node10():
+    '''
+    Uninstall node 0.10.26
+    '''
+
+    sudo('npm uninstall npm')
+    version = '0.10.26'
+    folder = 'node-v%s' % version
+    filename = folder + '.tar.gz'
+    require_file(url='http://nodejs.org/dist/v%s/%s' % (version, filename))
+    sudo('tar -xzf %s' % filename)
+
+    with cd('%s' % folder):
+        sudo('./configure')
+        sudo('make uninstall')
+        sudo('make distclean')
+    su_delete('%s*' % folder)
+    print(green('Node 0.10.26 successfully uninstalled'))
+
+
 @task
 def install_couchdb():
     '''
-    Install CouchDB 1.3.0
+    Install CouchDB 1.3.0 or 1.5.0
     '''
     packages = [
         'erlang',
@@ -260,19 +290,21 @@ def install_couchdb():
         packages.append('libmozjs185-dev')
     require.deb.packages(packages)
 
+    version = get_couchdb_version()
+
     require_file(
         url='http://apache.crihan.fr/dist/couchdb/source/' +
-        '1.3.0/apache-couchdb-1.3.0.tar.gz')
-    run('tar -xzvf apache-couchdb-1.3.0.tar.gz')
-    with cd('apache-couchdb-1.3.0'):
+        '%s/apache-couchdb-%s.tar.gz' % (version, version))
+    run('tar -xzvf apache-couchdb-%s.tar.gz' % version)
+    with cd('apache-couchdb-%s' % version):
         run('./configure; make')
         result = sudo('make install')
         installed = result.find('You have installed Apache CouchDB,' +
                                 ' time to relax.')
         if installed == -1:
             print_failed('couchdb')
-    su_delete('apache-couchdb-1.3.0')
-    su_delete('rm -rf apache-couchdb-1.3.0.tar.gz')
+    su_delete('apache-couchdb-%s' % version)
+    su_delete('rm -rf apache-couchdb-%s.tar.gz' % version)
 
     require.users.user('couchdb', home='/usr/local/var/lib/couchdb')
     sudo('chown -R couchdb:couchdb /usr/local/etc/couchdb')
@@ -288,7 +320,7 @@ def install_couchdb():
         'couchdb', user='couchdb',
         command='couchdb', autostart='true',
         environment='HOME=/usr/local/var/lib/couchdb')
-    print(green('CouchDB 1.3.0 successfully installed'))
+    print(green('CouchDB %s successfully installed' % version))
 
 
 @task
@@ -331,19 +363,21 @@ def config_couchdb():
         owner='cozy-data-system',
         mode='700'
     )
-    print(green('CouchDB 1.3.0 successfully configured'))
+    version = get_couchdb_version()
+    print(green('CouchDB %s successfully configured' % version))
 
 
 @task
 def uninstall_couchdb():
     '''
-    Install CouchDB 1.3.0
+    Uninstall CouchDB 1.3.0 or 1.5.0
     '''
+    version = get_couchdb_version()
     require_file(
         url='http://apache.crihan.fr/dist/couchdb/source/' +
-        '1.3.0/apache-couchdb-1.3.0.tar.gz')
-    run('tar -xzvf apache-couchdb-1.3.0.tar.gz')
-    with cd('apache-couchdb-1.3.0'):
+        '%s/apache-couchdb-%s.tar.gz' % (version, version))
+    run('tar -xzvf apache-couchdb-%s.tar.gz' % version)
+    with cd('apache-couchdb-%s' % version):
         sudo('./configure')
         sudo('make uninstall')
         sudo('make distclean')
@@ -355,12 +389,12 @@ def uninstall_couchdb():
     su_delete('/usr/local/share/doc/couchdb')
     su_delete('/usr/local/bin/couchjs')
     su_delete('/usr/local/bin/couchdb')
-    su_delete('apache-couchdb-1.3.0')
-    su_delete('apache-couchdb-1.3.0.tar.gz')
+    su_delete('apache-couchdb-%s' % version)
+    su_delete('apache-couchdb-%s.tar.gz' % version)
     su_delete('/etc/supervisor/conf.d/couchdb.conf')
     su_delete('/etc/cozy/couchdb.login')
     supervisor.update_config()
-    print(green('CouchDB 1.3.0 successfully uninstalled'))
+    print(green('CouchDB %s successfully uninstalled' % version))
 
 
 @task
@@ -418,10 +452,8 @@ def install_monitor():
     '''
     Install Coffeescript, Compound and Cozy Monitor.
     '''
-    require.nodejs.package('coffee-script')
-    require.nodejs.package('cozy-monitor')
-    require.nodejs.package('brunch', version='1.6.3')
-    print(green('Monitor, compound, brunch and coffee script ' +
+    sudo('npm install -g coffee-script cozy-monitor brunch@1.6.3')
+    print(green('Monitor, brunch and coffee script ' +
                 'successfully installed'))
 
 
@@ -430,7 +462,7 @@ def install_controller():
     '''
     Install Cozy Controller Application Manager. Daemonize with supervisor.
     '''
-    require.nodejs.package('cozy-controller')
+    sudo('npm install -g cozy-controller')
     sudo('mkdir -p /etc/cozy')
     sudo('mkdir -p /etc/cozy/pids')
     require.files.file(
@@ -470,7 +502,7 @@ def install_controller_dev():
     '''
     Install Cozy Controller Application Manager. Daemonize with supervisor.
     '''
-    require.nodejs.package('cozy-controller')
+    sudo('npm install -g cozy-controller')
     require.supervisor.process(
         'cozy-controller',
         command='cozy-controller -c -u --per 755',
@@ -709,11 +741,25 @@ def update_stack():
         sudo('/etc/init.d/cozy-controller restart')
     else:
         supervisor.restart_process('cozy-controller')
-    sudo('cozy-monitor update data-system')
-    sudo('cozy-monitor update home')
-    sudo('cozy-monitor update proxy')
+    sudo('cozy-monitor install data-system')
+    sudo('cozy-monitor install home')
+    sudo('cozy-monitor install proxy')
     update_indexer()
     print(green('Stack updated successfully.'))
+
+
+@task
+def upgrade_to_node10():
+    '''
+    Upgrade the whole stack to node 0.10.26
+    '''
+    uninstall_node08()
+    install_node10()
+    # some modules need to be re-compiled with the new node version
+    sudo('rm -rf /usr/local/cozy/apps/*/*/*/node_modules')
+    update_all_apps()
+    update_stack() # restarts the controller
+    print(green('Cozy successfully upgraded to node 0.10.26.'))
 
 
 @task

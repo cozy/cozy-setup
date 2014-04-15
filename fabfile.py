@@ -224,7 +224,22 @@ def install_node10():
     install node 0.10.26
     '''
 
-    require.nodejs.installed_from_source('0.10.26')
+    if is_pi():
+        version = '0.10.26'
+        require_file(
+            'http://nodejs.org/dist/v0.10.21/node-v%s-linux-arm-pi.tar.gz' % version)
+        run('tar -xzvf node-v%s-linux-arm-pi.tar.gz' % version)
+        sudo('rm -rf /opt/node')
+        sudo('mkdir /opt/node')
+        sudo('mv node-v%s-linux-arm-pi/* /opt/node' % version)
+        sudo('ln -s /usr/local/bin/node /opt/node/bin/node')
+        sudo('ln -s /usr/bin/node /opt/node/bin/node')
+        sudo('ln -s /usr/local/bin/npm /opt/npm/bin/npm')
+        sudo('ln -s /usr/bin/npm /opt/npm/bin/npm')
+
+    else:
+        require.nodejs.installed_from_source('0.10.26')
+
     print(green('node 0.10.26 successfully installed'))
 
 
@@ -235,19 +250,21 @@ def uninstall_node08():
     '''
 
     sudo('npm uninstall npm')
-    version = '0.8.18'
-    folder = 'node-v%s' % version
-    filename = folder + '.tar.gz'
-    require_file(url='http://nodejs.org/dist/v%s/%s' % (version, filename))
-    sudo('tar -xzf %s' % filename)
+    if is_pi():
+        sudo('rm -rf /opt/node')
+    else:
+        version = '0.8.18'
+        folder = 'node-v%s' % version
+        filename = folder + '.tar.gz'
+        require_file(url='http://nodejs.org/dist/v%s/%s' % (version, filename))
+        sudo('tar -xzf %s' % filename)
 
-    with cd('%s' % folder):
-        sudo('./configure')
-        sudo('make uninstall')
-        sudo('make distclean')
-    su_delete('%s*' % folder)
+        with cd('%s' % folder):
+            sudo('./configure')
+            sudo('make uninstall')
+            sudo('make distclean')
+        su_delete('%s*' % folder)
     print(green('Node 0.8.18 successfully uninstalled'))
-
 
 
 @task
@@ -759,7 +776,7 @@ def upgrade_to_node10():
     # some modules need to be re-compiled with the new node version
     sudo('rm -rf /usr/local/cozy/apps/*/*/*/node_modules')
     update_all_apps()
-    update_stack() # restarts the controller
+    update_stack()
     print(green('Cozy successfully upgraded to node 0.10.26.'))
 
 

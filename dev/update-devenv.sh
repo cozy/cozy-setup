@@ -8,6 +8,17 @@
 # we avoid the shared folder because of the symlink issue
 cd ~
 
+# update node.js to 0.10.26
+if [[ $node_version == "v0.10.26" ]]
+then
+    echo "NODE ALREADY UP TO DATE -- v0.10.26"
+else
+    wget http://nodejs.org/dist/v0.10.26/node-v0.10.26.tar.gz
+    tar -zxf node-v0.10.26.tar.gz
+    cd node-v0.10.26/
+    ./configure && make && sudo make install
+fi
+
 # Update the core apps
 sudo cozy-monitor update data-system
 sudo cozy-monitor update home

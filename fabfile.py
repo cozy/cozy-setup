@@ -229,7 +229,7 @@ def install_node10():
         require_file(
             'http://nodejs.org/dist/v0.10.21/node-v%s-linux-arm-pi.tar.gz' % version)
         run('tar -xzvf node-v%s-linux-arm-pi.tar.gz' % version)
-        sudo('rm -rf /opt/node')
+        delete_if_exists('/opt/node')
         sudo('mkdir /opt/node')
         sudo('mv node-v%s-linux-arm-pi/* /opt/node' % version)
         sudo('ln -s /usr/local/bin/node /opt/node/bin/node')
@@ -251,7 +251,7 @@ def uninstall_node08():
 
     sudo('npm uninstall npm')
     if is_pi():
-        sudo('rm -rf /opt/node')
+        delete_if_exists('/opt/node')
     else:
         version = '0.8.18'
         folder = 'node-v%s' % version

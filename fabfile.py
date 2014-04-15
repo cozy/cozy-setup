@@ -118,7 +118,7 @@ def install():
     create_cert()
     install_nginx()
     restart_cozy()
-    print(green('Cozy installation finished. Now, enjoy !'))
+    print(green('Cozy installation finished. Now, enjoy!'))
 
 
 def ask_for_confirmation(module):
@@ -709,6 +709,7 @@ def update_stack():
         sudo('/etc/init.d/cozy-controller restart')
     else:
         supervisor.restart_process('cozy-controller')
+    time.sleep(5)
     sudo('cozy-monitor update data-system')
     sudo('cozy-monitor update home')
     sudo('cozy-monitor update proxy')

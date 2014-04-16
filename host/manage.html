@@ -78,6 +78,17 @@ directly on your server.</p>
 <span class="hljs-built_in">sudo</span> npm -g update cozy-controller
 <span class="hljs-built_in">sudo</span> supervisorctl start cozy-controller
 </code></pre>
+<h4 id="indexer-update">Indexer update</h4>
+<p>Manual update:</p>
+<pre class="highlight"><code class="bash"><span class="hljs-built_in">cd</span> /usr/local/cozy-indexer/cozy-data-indexer
+. virtualenv/bin/activate
+git pull origin master
+pip install --use-mirrors --upgrade -r ./requirements/common.txt
+supervisortctl restart cozy-indexer
+</code></pre>
+<p>Fabric update:</p>
+<pre class="highlight"><code class="bash">fab -H sudoer@host:ip update_indexer
+</code></pre>
 <h4 id="application-update">Application update</h4>
 <p>To update a single application, you can run the following command on your targe
 server.</p>

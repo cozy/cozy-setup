@@ -755,9 +755,13 @@ def update_stack():
     nodejs.update_package('cozy-controller')
     nodejs.update_package('cozy-monitor')
     if is_pi():
-        sudo('/etc/init.d/cozy-controller restart')
+        sudo('/etc/init.d/cozy-controller stop')
+        sudo('pkill node')
+        sudo('/etc/init.d/cozy-controller start')
     else:
-        supervisor.restart_process('cozy-controller')
+        supervisor.stop_process('cozy-controller')
+        sudo('pkill node')
+        supervisor.start_process('cozy-controller')
     time.sleep(5)
     sudo('cozy-monitor update data-system')
     sudo('cozy-monitor update home')
@@ -771,7 +775,6 @@ def upgrade_to_node10():
     '''
     Upgrade the whole stack to node 0.10.26
     '''
-    uninstall_node08()
     install_node10()
     # some modules need to be re-compiled with the new node version
     sudo('rm -rf /usr/local/cozy/apps/*/*/*/node_modules')

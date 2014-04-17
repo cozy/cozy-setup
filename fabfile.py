@@ -756,11 +756,13 @@ def update_stack():
     nodejs.update_package('cozy-monitor')
     if is_pi():
         sudo('/etc/init.d/cozy-controller stop')
-        sudo('pkill node')
+        with settings(warn_only=True):
+            sudo('pkill node')
         sudo('/etc/init.d/cozy-controller start')
     else:
         supervisor.stop_process('cozy-controller')
-        sudo('pkill node')
+        with settings(warn_only=True):
+            sudo('pkill node')
         supervisor.start_process('cozy-controller')
     time.sleep(5)
     sudo('cozy-monitor update data-system')

@@ -794,7 +794,6 @@ def upgrade_to_node10():
     sudo('cozy-monitor uninstall data-system')
     sudo('cozy-monitor uninstall home')
     sudo('cozy-monitor uninstall proxy')
-
     restart_controller()
 
     sudo('cozy-monitor install data-system')
@@ -802,7 +801,6 @@ def upgrade_to_node10():
     sudo('cozy-monitor install proxy')
     sudo('rm -rf /usr/local/cozy/apps/*/*/*/node_modules')
     update_all_apps()
-
     restart_controller()
     print(green('Cozy successfully upgraded to node 0.10.26.'))
 

@@ -764,8 +764,10 @@ def update_stack():
         with settings(warn_only=True):
             sudo('pkill node')
         supervisor.start_process('cozy-controller')
-    time.sleep(5)
+    time.sleep(10)
     sudo('cozy-monitor update data-system')
+    # we force the home to start because the controller waits before starting it
+    sudo('cozy-monitor start home')
     sudo('cozy-monitor update home')
     sudo('cozy-monitor update proxy')
     update_indexer()
@@ -781,6 +783,16 @@ def upgrade_to_node10():
     # some modules need to be re-compiled with the new node version
     sudo('rm -rf /usr/local/cozy/apps/*/*/*/node_modules')
     update_all_apps()
+
+    # we must make the npm install manually because those app must be started
+    # in order to be updated
+    appPath = '/usr/local/cozy/apps/'
+    with cd('%sdata-system/data-system/cozy-data-system' % appPath):
+        sudo('npm install')
+    with cd('%sproxy/proxy/cozy-proxy' % appPath):
+        sudo('npm install')
+    with cd('%shome/home/cozy-home' % appPath):
+        sudo('npm install')
     update_stack()
     print(green('Cozy successfully upgraded to node 0.10.26.'))
 

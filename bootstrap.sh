@@ -9,4 +9,4 @@ fi
 
 pip install -U $requirements
 
-echo "Done. Please run: fab build"
+echo "Done. Please run: fab -H user@host:ip install"

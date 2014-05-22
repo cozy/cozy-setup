@@ -226,16 +226,16 @@ def install_node10():
 
     if is_pi():
         version = '0.10.26'
-        require_file(
-            'http://nodejs.org/dist/v0.10.21/node-v%s-linux-arm-pi.tar.gz' % version)
+        require_file(url='http://nodejs.org/dist/v{0}/'
+                            + 'node-v{0}-linux-arm-pi.tar.gz'.format(version))
         run('tar -xzvf node-v%s-linux-arm-pi.tar.gz' % version)
         delete_if_exists('/opt/node')
         sudo('mkdir /opt/node')
         sudo('mv node-v%s-linux-arm-pi/* /opt/node' % version)
-        sudo('ln -s /usr/local/bin/node /opt/node/bin/node')
-        sudo('ln -s /usr/bin/node /opt/node/bin/node')
-        sudo('ln -s /usr/local/bin/npm /opt/npm/bin/npm')
-        sudo('ln -s /usr/bin/npm /opt/npm/bin/npm')
+        sudo('ln -s /opt/node/bin/node /usr/local/bin/node')
+        sudo('ln -s /opt/node/bin/node /usr/bin/node')
+        sudo('ln -s /opt/node/bin/npm /usr/local/bin/npm')
+        sudo('ln -s /opt/node/bin/npm /usr/bin/npm')
 
     else:
         require.nodejs.installed_from_source('0.10.26')

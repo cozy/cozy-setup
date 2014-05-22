@@ -42,7 +42,7 @@ TOKEN = simple_id_generator()
 
 @task
 def is_pi():
-    result = run('Lscpu', quiet=True)
+    result = run('lscpu', quiet=True)
     return 'armv6l' in result
 
 

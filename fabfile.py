@@ -226,8 +226,8 @@ def install_node10():
 
     if is_pi():
         version = '0.10.26'
-        require_file(url='http://nodejs.org/dist/v{0}/'
-                            + 'node-v{0}-linux-arm-pi.tar.gz'.format(version))
+        node_url = 'http://nodejs.org/dist/v{0}/node-v{0}-linux-arm-pi.tar.gz'
+        require_file(url=node_url.format(version))
         run('tar -xzvf node-v%s-linux-arm-pi.tar.gz' % version)
         delete_if_exists('/opt/node')
         sudo('mkdir /opt/node')

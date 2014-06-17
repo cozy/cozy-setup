@@ -42,7 +42,7 @@ TOKEN = simple_id_generator()
 
 @task
 def is_pi():
-    result = run('Lscpu', quiet=True)
+    result = run('lscpu', quiet=True)
     return 'armv6l' in result
 
 
@@ -235,16 +235,16 @@ def install_node10():
                 return True
 
         version = '0.10.26'
-        require_file(
-            'http://nodejs.org/dist/v0.10.21/node-v%s-linux-arm-pi.tar.gz' % version)
+        node_url = 'http://nodejs.org/dist/v{0}/node-v{0}-linux-arm-pi.tar.gz'
+        require_file(url=node_url.format(version))
         run('tar -xzvf node-v%s-linux-arm-pi.tar.gz' % version)
         delete_if_exists('/opt/node')
         sudo('mkdir /opt/node')
         sudo('mv node-v%s-linux-arm-pi/* /opt/node' % version)
-        sudo('ln -s /usr/local/bin/node /opt/node/bin/node')
-        sudo('ln -s /usr/bin/node /opt/node/bin/node')
-        sudo('ln -s /usr/local/bin/npm /opt/npm/bin/npm')
-        sudo('ln -s /usr/bin/npm /opt/npm/bin/npm')
+        sudo('ln -s /opt/node/bin/node /usr/local/bin/node')
+        sudo('ln -s /opt/node/bin/node /usr/bin/node')
+        sudo('ln -s /opt/node/bin/npm /usr/local/bin/npm')
+        sudo('ln -s /opt/node/bin/npm /usr/bin/npm')
 
     else:
         require.nodejs.installed_from_source('0.10.26')
@@ -735,15 +735,16 @@ def install_nginx():
     Install NGINX and make it use certs.
     '''
     if system.distrib_id() == 'Debian':
-        require_file(url='http://nginx.org/packages/keys/nginx_signing.key')
-        deb.add_apt_key('nginx_signing.key')
-        su_delete('nginx_signing.key')
+        if not is_pi():
+            require_file(url='http://nginx.org/packages/keys/nginx_signing.key')
+            deb.add_apt_key('nginx_signing.key')
+            su_delete('nginx_signing.key')
 
-        url = 'http://nginx.org/packages/debian/'
-        distrib = 'squeeze'
-        if system.distrib_release().startswith('7'):
-            distrib = 'wheezy'
-        require.deb.source('nginx', url, distrib, 'nginx')
+            url = 'http://nginx.org/packages/debian/'
+            distrib = 'squeeze'
+            if system.distrib_release().startswith('7'):
+                distrib = 'wheezy'
+            require.deb.source('nginx', url, distrib, 'nginx')
 
         require.deb.package('nginx')
         contents = PROXIED_SITE_TEMPLATE % {

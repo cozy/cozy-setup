@@ -421,7 +421,7 @@ def install_postfix():
     '''
     #domain = prompt('Enter your domain name:',
     #                default='myinstance.cozycloud.cc')
-    require.postfix.server('cozycloud.cc')
+    require.postfix.server('mydomain.net')
     print(green('Postfix successfully installed'))
 
 

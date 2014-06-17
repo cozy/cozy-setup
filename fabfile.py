@@ -96,7 +96,8 @@ def try_delayed_run(program, comparator, max_attempts=60, wait=1):
 
 def get_couchdb_version():
     if system.distrib_id() == 'Ubuntu' \
-            and system.distrib_release() == '13.10':
+            and (system.distrib_release() == '13.10' \
+                 or system.distrib_release() == '14.04'):
         version = '1.5.0'
     else:
         version = '1.3.0'
@@ -202,6 +203,7 @@ def install_tools():
         'sudo',
         'lsb-release',
         'imagemagick',
+        'curl',
         'sqlite3'
     ])
     print(green('Tools successfully installed'))
@@ -225,6 +227,13 @@ def install_node10():
     '''
 
     if is_pi():
+        with settings(warn_only=True):
+            result = run('node -v')
+            is_installed = result.find('v0.10.26')
+            if is_installed != -1:
+                print(green("Node.js is already installed"))
+                return True
+
         version = '0.10.26'
         require_file(
             'http://nodejs.org/dist/v0.10.21/node-v%s-linux-arm-pi.tar.gz' % version)
@@ -293,6 +302,15 @@ def install_couchdb():
     '''
     Install CouchDB 1.3.0 or 1.5.0
     '''
+
+    # Check if controller is already installed, .
+    with settings(warn_only=True):
+        result = run('curl -X GET http://127.0.0.1:5984/')
+        is_installed = result.find('Welcome')
+        if is_installed != -1:
+            print(green("CouchDB is already installed"))
+            return True
+
     packages = [
         'erlang',
         'libicu-dev',
@@ -419,8 +437,6 @@ def install_postfix():
     '''
     Install a postfix instance (required for mail sending).
     '''
-    #domain = prompt('Enter your domain name:',
-    #                default='myinstance.cozycloud.cc')
     require.postfix.server('mydomain.net')
     print(green('Postfix successfully installed'))
 
@@ -469,7 +485,7 @@ def install_monitor():
     '''
     Install Coffeescript, Compound and Cozy Monitor.
     '''
-    sudo('npm install -g coffee-script cozy-monitor brunch@1.6.3')
+    require.nodejs.package('coffee-script')
     print(green('Monitor, brunch and coffee script ' +
                 'successfully installed'))
 
@@ -479,9 +495,18 @@ def install_controller():
     '''
     Install Cozy Controller Application Manager. Daemonize with supervisor.
     '''
-    sudo('npm install -g cozy-controller')
-    sudo('mkdir -p /etc/cozy')
-    sudo('mkdir -p /etc/cozy/pids')
+    # Check if controller is already installed, .
+    with settings(warn_only=True):
+        result = run('curl -X GET http://127.0.0.1:9002/')
+        is_installed = result.find('{"error":"Wrong auth token"}')
+        if is_installed != -1:
+            print(green("Cozy Controller already installed"))
+            return True
+
+    require.nodejs.package('cozy-controller')
+    require.directory('/etc/cozy', owner='root', use_sudo=True)
+    require.directory('/etc/cozy/pids', owner='root', use_sudo=True)
+
     require.files.file(
         path='/etc/cozy/controller.token',
         mode='700',
@@ -497,6 +522,7 @@ def install_controller():
         user='root'
     )
     supervisor.stop_process('cozy-controller')
+
     ## In case where two cozy-controllers are started
     with settings(warn_only=True):
         sudo('pkill -9 node')
@@ -511,6 +537,7 @@ def install_controller():
     # Run curl until we get the MATCH_STR or a timeout
     if not try_delayed_run(program, comparator):
         print_failed('cozy-controller')
+
     print(green('Cozy Controller successfully started'))
 
 
@@ -519,7 +546,7 @@ def install_controller_dev():
     '''
     Install Cozy Controller Application Manager. Daemonize with supervisor.
     '''
-    sudo('npm install -g cozy-controller')
+    require.nodejs.package('cozy-controller')
     require.supervisor.process(
         'cozy-controller',
         command='cozy-controller -c -u --per 755',
@@ -527,12 +554,13 @@ def install_controller_dev():
         user='root'
     )
     supervisor.restart_process('cozy-controller')
-    import time
+
     time.sleep(5)
     with hide('running', 'stdout'):
         result = run('curl -X GET http://127.0.0.1:9002/')
     if result != '{"message":"No drones specified"}':
         print_failed("cozy-controller")
+
     print(green('Cozy Controller successfully started'))
 
 
@@ -547,6 +575,14 @@ def install_indexer():
     python_exe = indexer_dir + '/virtualenv/bin/python'
     indexer_exe = 'server.py'
     process_name = 'cozy-indexer'
+
+    # Check if indexer is already installed, .
+    with settings(warn_only=True):
+        result = run('curl -X GET http://127.0.0.1:9102/')
+        is_installed = result.find("Cozy Data Indexer")
+        if is_installed != -1:
+            print(green("Data Indexer already installed"))
+            return True
 
     require.files.directory(home, use_sudo=True)
 
@@ -577,6 +613,7 @@ def install_indexer():
 
     if is_installed == -1:
         print_failed("cozy-data-indexer")
+
     print(green("Data Indexer successfully started"))
 
 

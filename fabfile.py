@@ -294,7 +294,7 @@ def uninstall_node10():
         sudo('make uninstall')
         sudo('make distclean')
     su_delete('%s*' % folder)
-    print(green('Node 0.10.26 successfully uninstalled'))
+    print(green('Node {0} successfully uninstalled'.format(version)))
 
 
 @task
@@ -485,10 +485,10 @@ def install_monitor():
     '''
     Install Coffeescript, Compound and Cozy Monitor.
     '''
-    require.nodejs.package('coffee-script')
-    require.nodejs.package('cozy-monitor')
-    print(green('Monitor, brunch and coffee script ' +
-                'successfully installed'))
+    if sudo('npm install -g coffee-script cozy-monitor').succeeded:
+        print(green('Monitor and coffee script successfully installed'))
+    else:
+        print(red('Error : Monitor and coffee script have not been installed'))
 
 
 @task
@@ -504,7 +504,7 @@ def install_controller():
             print(green("Cozy Controller already installed"))
             return True
 
-    require.nodejs.package('cozy-controller')
+    sudo('npm install -g cozy-controller')
     require.directory('/etc/cozy', owner='root', use_sudo=True)
     require.directory('/etc/cozy/pids', owner='root', use_sudo=True)
 
@@ -594,9 +594,8 @@ def install_indexer():
 
     require.python.virtualenv(indexer_env_dir, use_sudo=True)
     with python.virtualenv(indexer_env_dir):
-        sudo(
-            'pip install --use-mirrors -r %s/requirements/common.txt' %
-            indexer_dir)
+        python.install_requirements(
+            indexer_dir + '/requirements/common.txt', use_sudo=True)
 
     sudo('chown -R cozy:cozy %s' % home)
 
@@ -863,9 +862,9 @@ def update_indexer():
         sudo('git pull origin master')
 
     with python.virtualenv(indexer_env_dir):
-        sudo(
-            'pip install --use-mirrors --upgrade -r '
-            '%s/requirements/common.txt' % indexer_dir)
+        python.install_requirements(indexer_dir + '/requirements/common.txt',
+                                    upgrade=True, use_sudo=True)
+
     supervisor.restart_process('cozy-indexer')
 
 

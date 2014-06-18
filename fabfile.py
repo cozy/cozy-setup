@@ -485,10 +485,10 @@ def install_monitor():
     '''
     Install Coffeescript, Compound and Cozy Monitor.
     '''
-    require.nodejs.package('coffee-script')
-    require.nodejs.package('cozy-monitor')
-    print(green('Monitor, brunch and coffee script ' +
-                'successfully installed'))
+    if sudo('npm install -g coffee-script cozy-monitor').succeeded:
+        print(green('Monitor and coffee script successfully installed'))
+    else:
+        print(red('Error : Monitor and coffee script have not been installed'))
 
 
 @task

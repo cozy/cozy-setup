@@ -486,6 +486,7 @@ def install_monitor():
     Install Coffeescript, Compound and Cozy Monitor.
     '''
     require.nodejs.package('coffee-script')
+    require.nodejs.package('cozy-monitor')
     print(green('Monitor, brunch and coffee script ' +
                 'successfully installed'))
 

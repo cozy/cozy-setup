@@ -294,7 +294,7 @@ def uninstall_node10():
         sudo('make uninstall')
         sudo('make distclean')
     su_delete('%s*' % folder)
-    print(green('Node 0.10.26 successfully uninstalled'))
+    print(green('Node {0} successfully uninstalled'.format(version)))
 
 
 @task
@@ -594,9 +594,8 @@ def install_indexer():
 
     require.python.virtualenv(indexer_env_dir, use_sudo=True)
     with python.virtualenv(indexer_env_dir):
-        sudo(
-            'pip install --use-mirrors -r %s/requirements/common.txt' %
-            indexer_dir)
+        python.install_requirements(
+            indexer_dir + '/requirements/common.txt', use_sudo=True)
 
     sudo('chown -R cozy:cozy %s' % home)
 
@@ -863,9 +862,9 @@ def update_indexer():
         sudo('git pull origin master')
 
     with python.virtualenv(indexer_env_dir):
-        sudo(
-            'pip install --use-mirrors --upgrade -r '
-            '%s/requirements/common.txt' % indexer_dir)
+        python.install_requirements(indexer_dir + '/requirements/common.txt',
+                                    upgrade=True, use_sudo=True)
+
     supervisor.restart_process('cozy-indexer')
 
 

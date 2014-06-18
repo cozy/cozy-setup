@@ -504,7 +504,7 @@ def install_controller():
             print(green("Cozy Controller already installed"))
             return True
 
-    require.nodejs.package('cozy-controller')
+    sudo('npm install -g cozy-controller')
     require.directory('/etc/cozy', owner='root', use_sudo=True)
     require.directory('/etc/cozy/pids', owner='root', use_sudo=True)
 

@@ -204,7 +204,8 @@ def install_tools():
         'lsb-release',
         'imagemagick',
         'curl',
-        'sqlite3'
+        'sqlite3',
+        'software-properties-common'
     ])
     print(green('Tools successfully installed'))
 

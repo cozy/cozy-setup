@@ -187,26 +187,30 @@ def install_tools():
     '''
     Install build tools
     '''
+    packages = [
+                'python',
+                'python-dev',
+                'python-setuptools',
+                'python-pip',
+                'openssl',
+                'libssl-dev',
+                'libxml2-dev',
+                'libxslt1-dev',
+                'build-essential',
+                'git',
+                'sudo',
+                'lsb-release',
+                'imagemagick',
+                'curl',
+                'sqlite3'
+                ]
+
+    if system.distrib_id() == 'Ubuntu':
+        packages.append('software-properties-common')
+
     deb.update_index()
     deb.upgrade()
-    require.deb.packages([
-        'python',
-        'python-dev',
-        'python-setuptools',
-        'python-pip',
-        'openssl',
-        'libssl-dev',
-        'libxml2-dev',
-        'libxslt1-dev',
-        'build-essential',
-        'git',
-        'sudo',
-        'lsb-release',
-        'imagemagick',
-        'curl',
-        'sqlite3',
-        'software-properties-common'
-    ])
+    require.deb.packages(packages)
     print(green('Tools successfully installed'))
 
 

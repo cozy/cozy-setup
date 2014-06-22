@@ -4,8 +4,14 @@ Tests for cozy-setup
 """
 import os
 
-from fabric.api import env, hide, lcd, local, settings, abort, sudo
+from fabric.api import env, hide, lcd, local, settings, abort, sudo, execute
 from fabtools import require
+
+# Set env values for fabric tasks
+env.host = '192.168.33.10'
+env.user = 'vagrant'
+env.password = 'vagrant'
+env.host_string = 'vagrant@192.168.33.10'
 
 
 # ------------ Vagrant
@@ -92,29 +98,36 @@ def _test_install(folder, box):
 
     with lcd(folder):
         start_box(box)
-        install_cozy()
-
-        local('vagrant halt -f')
+        try:
+            install_cozy()
+            _test_status(5)
+            _test_register()
+            _test_bad_register()
+        except Exception, e:
+            local('vagrant halt -f')
+            raise e
+        else:
+            local('vagrant halt -f')
 
 
 # ------------ Tests
 
 def _test_status(app=5):
     """
-Test if all modules are started
-All applications should be up
-"""
+    Test if all modules are started
+    All applications should be up
+    """
     result = sudo('cozy-monitor status')
-    startedApps = result.count("up")
-    brokenApps = result.count("down")
+    started_apps = result.count("up")
+    broken_apps = result.count("down")
     # Check number of started application
     print("Expect %s started applications and %s applications are started" %
-          (app, startedApps))
-    assert startedApps == app
+          (app, started_apps))
+    assert started_apps == app
     # Check number of broken application
     print("Expect 0 broken applications and %s applications are broken" %
-          brokenApps)
-    assert brokenApps == 0
+          broken_apps)
+    assert broken_apps == 0
 
 
 def _test_pid():
@@ -180,21 +193,21 @@ def _test_uninstall_app():
 
 #------------ Test Cases
 
-def test_install_cozy_ubuntu_14_04():
-    """
-    Test installation of cozy on ubuntu 14.04
-    """
-    box = 'chef/ubuntu-14.04'
-    folder = 'ubuntu_14.04'
-    _test_install(folder, box)
-
-
 def test_install_cozy_ubuntu_12_04():
     """
     Test installation of cozy on ubuntu 12.04
     """
     box = 'hashicorp/precise64'
     folder = 'ubuntu_12.04'
+    _test_install(folder, box)
+
+
+def test_install_cozy_ubuntu_14_04():
+    """
+    Test installation of cozy on ubuntu 14.04
+    """
+    box = 'chef/ubuntu-14.04'
+    folder = 'ubuntu_14.04'
     _test_install(folder, box)
 
 

@@ -187,8 +187,7 @@ def install_tools():
     '''
     Install build tools
     '''
-    packages = [
-                'python',
+    packages = ['python',
                 'python-dev',
                 'python-setuptools',
                 'python-pip',
@@ -202,8 +201,7 @@ def install_tools():
                 'lsb-release',
                 'imagemagick',
                 'curl',
-                'sqlite3'
-                ]
+                'sqlite3']
 
     if system.distrib_id() == 'Ubuntu':
         packages.append('software-properties-common')

@@ -3,8 +3,11 @@
 Tests for cozy-setup
 """
 import os
+import sys
+import traceback
 
-from fabric.api import env, hide, lcd, local, settings, abort, sudo, execute
+
+from fabric.api import env, hide, lcd, local, settings, abort, sudo
 from fabtools import require
 
 # Set env values for fabric tasks
@@ -105,7 +108,8 @@ def _test_install(folder, box):
             _test_bad_register()
         except Exception, e:
             local('vagrant halt -f')
-            raise e
+            traceback.print_exc()
+            sys.exit(1)
         else:
             local('vagrant halt -f')
 
@@ -151,8 +155,7 @@ def _test_register():
     result = sudo('curl -H "Accept: application/json" -H "Content-type: application/json"'
                   ' -X POST http://localhost:9104/register -d \'{"email": "test@cozycloud.cc", '
                   '"password": "password", "timezone":"Europe/Paris"}\'')
-    print result
-    assert result == '{"success":true,"msg":"Login succeeded"}'
+    assert result == '{"success":true}'
 
 
 def _test_bad_register():

@@ -150,7 +150,8 @@ def _test_register():
     print("Test register")
     result = sudo('curl -H "Accept: application/json" -H "Content-type: application/json"'
                   ' -X POST http://localhost:9104/register -d \'{"email": "test@cozycloud.cc", '
-                  '"password": "password"}\'')
+                  '"password": "password", "timezone":"Europe/Paris"}\'')
+    print result
     assert result == '{"success":true,"msg":"Login succeeded"}'
 
 
@@ -163,8 +164,8 @@ def _test_bad_register():
     print("Test register with a user already registered")
     result = sudo('curl -H "Accept: application/json" -H "Content-type: application/json"'
                   ' -X POST http://localhost:9104/register -d \'{"email": "test@cozycloud.cc", '
-                  '"password": "password"}\'')
-    assert result == '{"error":true,"msg":"User already registered."}'
+                  '"password": "password", "timezone":"Europe/Paris"}\'')
+    assert result == '{"error":"User already registered."}'
 
 
 def _test_install_app():
@@ -174,7 +175,7 @@ def _test_install_app():
     Answer should be 'Install successfully'
     """
     print("Test installation of application mails")
-    result = sudo('cozy-monitor install_home mails')
+    result = sudo('cozy-monitor install calendar')
     installed_app = result.count("successfully installed")
     assert installed_app == 1
 
@@ -186,7 +187,7 @@ def _test_uninstall_app():
     Answer should be 'Uninstall successfully'
     """
     print("Test installation of application mails")
-    result = sudo('cozy-monitor uninstall_home mails')
+    result = sudo('cozy-monitor uninstall calendar')
     uninstalled_app = result.count("successfully uninstalled")
     assert uninstalled_app == 1
 

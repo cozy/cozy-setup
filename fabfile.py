@@ -209,6 +209,11 @@ def install_tools():
     deb.update_index()
     deb.upgrade()
     require.deb.packages(packages)
+
+    # Dirty hack because of fabtools that don't install pip properly
+    sudo('curl -o - https://bootstrap.pypa.io/ez_setup.py -O - | python')
+    sudo('curl -o - https://bootstrap.pypa.io/get-pip.py | python -')
+
     print(green('Tools successfully installed'))
 
 

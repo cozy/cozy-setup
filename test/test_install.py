@@ -106,11 +106,14 @@ def _test_install(folder, box):
             _test_status(5)
             _test_register()
             _test_bad_register()
+            _test_install_app()
+            _test_uninstall_app()
         except Exception, e:
             local('vagrant halt -f')
             traceback.print_exc()
             sys.exit(1)
         else:
+            print('Test succeeded')
             local('vagrant halt -f')
 
 

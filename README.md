@@ -1,6 +1,6 @@
 # Cozy Makes Your Web Apps Smarter
 
-![Cozy Logo](https://raw.github.com/mycozycloud/cozy-setup/gh-pages/assets/images/happycloud.png)
+![Cozy Logo](https://raw.githubusercontent.com/cozy/cozy-setup/gh-pages/assets/images/happycloud.png)
 
 [Cozy](http://cozy.io) is a platform that brings all your web services in the
 same private space.  With it, your web apps and your devices can share data
@@ -36,7 +36,7 @@ Once you have the pip tools installed on your machine:
 Download our Fabric file (a script that will run commands on your remote
 server):
 
-    wget https://raw.github.com/mycozycloud/cozy-setup/master/fabfile.py
+    wget https://raw.githubusercontent.com/cozy/cozy-setup/master/fabfile.py
 
 Once your system is prepared, use the Fabric script from your local
 machine to launch the Cozy installation (run it in the same directory as the fabfile
@@ -67,9 +67,9 @@ http://files.vagrantup.com/precise64.box
 *Assistance*
 
 You can either read our [Trouble
-Shootings](https://github.com/mycozycloud/cozy-setup/wiki/Trouble-shootings) section or contact us via email
-contact@cozycloud.cc or join our IRC channel and ask for assistance (#cozycloud
-on freenode.net).
+Shootings](http://cozy.io/host/trouble-shootings.html) section or contact us
+via email contact@cozycloud.cc or join our IRC channel and ask for assistance
+(#cozycloud on freenode.net).
 
 ## Recommended Hardware
 
@@ -108,7 +108,7 @@ The Cozy install script installs the following tools:
 
 
 If you want to know more about how Cozy works you can check our [architecture
-page](https://github.com/mycozycloud/cozy-setup/wiki/Cozy-architecture).
+page](http://cozy.io/hack/getting-started/architecture-overview.html).
 
 
 ## About virtual machines and containers
@@ -125,7 +125,7 @@ You can reach the Cozy community by:
 
 * chatting with us on IRC #cozycloud on irc.freenode.net
 * Posting on our [Forum](https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud)
-* Posting issues on the [Github repos](https://github.com/mycozycloud/)
+* Posting issues on the [Github repos](https://github.com/cozy/)
 * Mentioning us on [Twitter](http://twitter.com/mycozycloud)
 
 ## License

@@ -463,7 +463,7 @@ def install_indexer():
     with cd(home):
         if files.exists('cozy-data-indexer'):
             su_delete('cozy-data-indexer')
-        sudo('git clone https://github.com/mycozycloud/cozy-data-indexer.git')
+        sudo('git clone https://github.com/cozy/cozy-data-indexer.git')
 
     require.python.virtualenv(indexer_env_dir, use_sudo=True)
     with python.virtualenv(indexer_env_dir):

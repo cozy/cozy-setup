@@ -18,14 +18,15 @@ So, this project contains what you need to achieve that goal
 
 # How to install Cozy on your server?
 
-On your local machine install Fabric and fabtools. For that purpose, be sure to have
-python and the pip tools on your machine. For instance, if you're on a Debian based
+On your local machine install Fabric and fabtools. For that purpose, be sure to
+have python and the pip tools on your machine. For instance, if you're on a
+Debian based
 distribution:
 
     apt-get install python python-pip python-dev software-properties-common
 
-If you're on an Apple computer (MacBook and so on), you should already have python and
-easy install tools, so you can just do:
+If you're on an Apple computer (MacBook and so on), you should already have
+python and easy install tools, so you can just do:
 
     sudo easy_install pip
 
@@ -38,8 +39,8 @@ server):
 
     wget https://raw.githubusercontent.com/cozy/cozy-setup/master/fabfile.py
 
-Once your system is prepared, use the Fabric script from your local
-machine to launch the Cozy installation (run it in the same directory as the fabfile
+Once your system is prepared, use the Fabric script from your local machine to
+launch the Cozy installation (run it in the same directory as the fabfile
 you downloaded before):
 
     fab -H user@ip install
@@ -59,8 +60,9 @@ into your environment.
 *Try Cozy with Vagrant*
 
 If you want to use Vagrant to run Cozy Cloud Setup in a virtual machine
-we recommend you use the Ubuntu 12.04 box. Be careful as the update will require that
-you configure your boot sequence. Choose the first filesystem that is offered, then click ok.
+we recommend you use the Ubuntu 12.04 box. Be careful as the update will
+require that you configure your boot sequence. Choose the first filesystem that
+is offered, then click ok.
 
 http://files.vagrantup.com/precise64.box
 
@@ -83,14 +85,14 @@ SD Class 10 for mini boards.
 
 ### Recommended
 
-RAM: 1024 MB (it allows to have 10 apps simultaneously).
+RAM: 2048 MB (it allows to have 15 apps simultaneously).
 Disk space: a lot of space to store all your files.
 
 ## Test 
 
-Once the installation is done, you can access https://IP:443 to create your Cozy
-main account. Be sure that you used the HTTPS protocol if you just see the nginx
-welcome page.
+Once the installation is done, you can access https://IP:443 to create your
+Cozy main account. Be sure that you used the HTTPS protocol if you just see the
+nginx welcome page.
 
 ## What will this script install on your server?
 

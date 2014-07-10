@@ -1,13 +1,11 @@
 ## Tests
 
-Setup Cozy in a Vagrant virtual machine (we assume you have a box named 
-"test\_box" available):
+Test Cozy setup on the currently supported platforms in Vagrant virtual machines.
 
-    fab -f test_install.py start_box
-    fab -f test_install.py install_cozy
-    fab -f test_install.py test_status -H vagrant@192.168.33.10
-    fab -f test_install.py test_register -H vagrant@192.168.33.10
-    fab -f test_install.py test_install_app -H vagrant@192.168.33.10
+To run the tests you need :
+- `Vagrant` (version >= 1.5)
+- `pytest` (disponible via pip: `pip install pytest`)
 
-Because tests suscribe to cozy, you should not run them on your final
-installation. 
+Once these requirements are fullfilled, simply change into the `test` directory and run `py.test`:
+
+it will run the four tests, downloading vagrant boxes if necessary (It may take some time on the first run).

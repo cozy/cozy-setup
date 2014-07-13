@@ -96,14 +96,7 @@ def try_delayed_run(program, comparator, max_attempts=60, wait=1):
 
 
 def get_couchdb_version():
-    if system.distrib_id() == 'Ubuntu' \
-            and (system.distrib_release() == '13.10'
-                 or system.distrib_release() == '14.04'):
-        version = '1.5.0'
-    else:
-        version = '1.3.0'
-
-    return version
+    return '1.5.0'
 
 
 def ask_for_confirmation(module):

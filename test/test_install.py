@@ -119,7 +119,7 @@ def _test_install(folder, box):
 
 # ------------ Tests
 
-def _test_status(app=5):
+def _test_status(app=7):
     """
     Test if all modules are started
     All applications should be up

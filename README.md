@@ -50,6 +50,10 @@ you downloaded before):
 
 Enter your settings (such as domain name) when prompted by the installer.
 
+Set domain name by running
+    
+    fab -H user@ip init_domain
+
 Be patient; some commands or app deployments can take some time. It
 depends on your network and hardware capabilities.
 
@@ -129,7 +133,7 @@ machine).
 You can reach the Cozy community by:
 
 * chatting with us on IRC #cozycloud on irc.freenode.net
-* Posting on our [Forum](https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud)
+* Posting on our [Forum](https://forum.cozy.io)
 * Posting issues on the [Github repos](https://github.com/cozy/)
 * Mentioning us on [Twitter](http://twitter.com/mycozycloud)
 

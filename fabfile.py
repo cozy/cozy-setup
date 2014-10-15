@@ -369,11 +369,11 @@ def install_controller():
         if is_installed != -1:
             print(green("Cozy Controller already installed"))
             return True
-    sudo('npm install -g cozy-controller')
+    require.nodejs.package('cozy-controller')
     require.directory('/etc/cozy', owner='root', use_sudo=True)
     require.supervisor.process(
         'cozy-controller',
-        command="node /usr/local/lib/node_modules/cozy-controller/bin/cozy-controller",
+        command='cozy-controller',
         environment='NODE_ENV="production"',
         user='root'
     )
@@ -399,7 +399,7 @@ def install_controller_dev():
     require.nodejs.package('cozy-controller')
     require.supervisor.process(
         'cozy-controller',
-        command='cozy-controller -c -u --per 755',
+        command='cozy-controller',
         environment='NODE_ENV="development"',
         user='root'
     )

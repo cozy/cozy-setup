@@ -365,7 +365,7 @@ def install_controller():
     # Check if controller is already installed, .
     with settings(warn_only=True):
         result = run('curl -X GET http://127.0.0.1:9002/drones/running')
-        is_installed = result.find('{"app":{}}')
+        is_installed = result.find('Application is not authenticated')
         if is_installed != -1:
             print(green("Cozy Controller already installed"))
             return True
@@ -382,7 +382,7 @@ def install_controller():
     program = 'curl -X GET http://127.0.0.1:9002/drones/running'
 
     def comparator(result):
-        return result == '{"app":{}}'
+        return result == 'Application is not authenticated'
 
     # Run curl until we get the MATCH_STR or a timeout
     if not try_delayed_run(program, comparator):

@@ -364,32 +364,25 @@ def install_controller():
     '''
     # Check if controller is already installed, .
     with settings(warn_only=True):
-        result = run('curl -X GET http://127.0.0.1:9002/')
-        is_installed = result.find('{"error":"Wrong auth token"}')
+        result = run('curl -X GET http://127.0.0.1:9002/drones/running')
+        is_installed = result.find('{"app":{}}')
         if is_installed != -1:
             print(green("Cozy Controller already installed"))
             return True
-
     sudo('npm install -g cozy-controller')
     require.directory('/etc/cozy', owner='root', use_sudo=True)
     require.supervisor.process(
         'cozy-controller',
-        command="cozy-controller",
+        command="node /usr/local/lib/node_modules/cozy-controller/bin/cozy-controller",
         environment='NODE_ENV="production"',
         user='root'
     )
-    supervisor.stop_process('cozy-controller')
-
-    ## In case where two cozy-controllers are started
-    with settings(warn_only=True):
-        sudo('pkill -9 node')
-    supervisor.start_process('cozy-controller')
 
     print('Waiting for cozy-controller to be launched...')
-    program = 'curl -X GET http://127.0.0.1:9002/'
+    program = 'curl -X GET http://127.0.0.1:9002/drones/running'
 
     def comparator(result):
-        return result == '{"error":"Wrong auth token"}'
+        return result == '{"app":{}}'
 
     # Run curl until we get the MATCH_STR or a timeout
     if not try_delayed_run(program, comparator):

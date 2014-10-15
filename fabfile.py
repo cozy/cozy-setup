@@ -410,18 +410,9 @@ def install_controller():
     '''
     require.nodejs.package('cozy-controller')
     sudo('mkdir -p /etc/cozy')
-    sudo('mkdir -p /etc/cozy/pids')
-    require.files.file(
-        path='/etc/cozy/controller.token',
-        mode='700',
-        contents=TOKEN,
-        use_sudo=True,
-        owner='cozy-home'
-    )
-    path = '/usr/local/lib/node_modules/cozy-controller/bin/cozy-controller'
     require.supervisor.process(
         'cozy-controller',
-        command="%s -u --auth --per 755" % path,
+        command="cozy-controller",
         environment='NODE_ENV="production"',
         user='root'
     )

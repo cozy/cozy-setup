@@ -369,7 +369,7 @@ def install_controller():
         if is_installed != -1:
             print(green("Cozy Controller already installed"))
             return True
-    require.nodejs.package('cozy-controller')
+    sudo('npm install -g cozy-controller')
     require.directory('/etc/cozy', owner='root', use_sudo=True)
     require.supervisor.process(
         'cozy-controller',
@@ -396,7 +396,7 @@ def install_controller_dev():
     '''
     Install Cozy Controller Application Manager. Daemonize with supervisor.
     '''
-    require.nodejs.package('cozy-controller')
+    sudo('npm install -g cozy-controller')
     require.supervisor.process(
         'cozy-controller',
         command='cozy-controller',

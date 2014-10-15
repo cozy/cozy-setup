@@ -2,12 +2,16 @@ import string
 import random
 import time
 
+from fabric import state
 from fabric.api import run, sudo, cd, prompt, task, settings
-from fabtools import require, python, supervisor, deb, system, nodejs, service
-from fabtools.require import file as require_file
 from fabric.contrib import files
 from fabric.colors import green, red
 from fabric.context_managers import hide
+from fabric.tasks import Task
+from fabric.task_utils import crawl
+
+from fabtools import require, python, supervisor, deb, system, nodejs, service
+
 
 '''
 Script to set up a cozy cloud environnement from a fresh system
@@ -18,7 +22,10 @@ $ fab -H user@Ip.Ip.Ip.Ip:Port install
 to install the full Cozy stack.
 '''
 
-# Helpers
+
+''' Helpers '''
+
+
 def id_generator(
         size=32,
         chars=string.ascii_uppercase + string.digits + string.ascii_lowercase):
@@ -35,9 +42,9 @@ TOKEN = simple_id_generator()
 
 
 @task
-def is_arm():
+def is_pi():
     result = run('lscpu', quiet=True)
-    return 'arm' in result
+    return 'armv6l' in result
 
 
 def print_failed(module):
@@ -52,15 +59,54 @@ def cozydo(cmd):
     sudo(cmd, user='cozy')
 
 
-def delete_if_exists(filename):
-    '''Delete given file if it already exists'''
-    if files.exists(filename):
-        sudo('rm -rf %s' % filename)
-
-
 def su_delete(filename):
     '''Delete given file with root permission'''
     sudo('rm -rf %s' % filename)
+
+
+def delete_if_exists(filename):
+    '''Delete given file if it already exists'''
+    if files.exists(filename):
+        su_delete(filename)
+
+
+def try_delayed_run(program, comparator, max_attempts=60, wait=1):
+    '''
+    Runs the given program and matches the resulting string by applying the
+    comparator function (which should return something truthy or falsy). If the
+    comparator returns false, wait for 'wait' seconds and retries, with
+    a maximum of max_attempts attempts.
+    Returns true if the comparator has returned true once, false otherwise.
+    '''
+    num_attempts = 0
+    result = ''
+
+    with hide('running', 'stdout'):
+        result = run(program, warn_only=True)
+
+    while not comparator(result) and num_attempts < max_attempts:
+        time.sleep(wait)
+
+        with hide('running', 'stdout'):
+            result = run(program, warn_only=True)
+
+        num_attempts += 1
+
+    return comparator(result)
+
+
+def get_couchdb_version():
+    return '1.5.0'
+
+
+def ask_for_confirmation(module):
+    '''
+    Simple function to ask for confirmation before uninstalling a module
+    installed by this fabfile.
+    '''
+    confirm = prompt('Are you sure you want to definitely remove %s from your'
+                     ' computer? ' % module, default="no")
+    return confirm == "yes"
 
 
 # Tasks
@@ -72,7 +118,7 @@ def install():
     Install the full cozy stack.
     '''
     install_tools()
-    install_node08()
+    install_node10()
     install_couchdb()
     install_postfix()
     create_cozy_user()
@@ -83,36 +129,10 @@ def install():
     install_data_system()
     install_home()
     install_proxy()
-    #init_domain()
     create_cert()
     install_nginx()
     restart_cozy()
-    print(green('Cozy installation finished. Now, enjoy !'))
-
-
-def ask_for_confirmation(module):
-    '''
-    Simple function to ask for confirmation before uninstalling a module
-    installed by the the
-    '''
-    confirm = prompt('Are you sure you want to definitely remove %s from your'
-            ' computer? ' % module, default="no")
-    return confirm == "yes"
-
-@task
-def uninstall_all():
-    '''
-    Uninstall the whole stack (work in progress)
-    '''
-    # TODO remove created users
-    if ask_for_confirmation("Cozy"):
-        uninstall_cozy()
-    if ask_for_confirmation("Node.js"):
-        uninstall_node08()
-    if ask_for_confirmation("CouchDB"):
-        uninstall_couchdb()
-    if ask_for_confirmation("Postfix"):
-        uninstall_postfix()
+    print(green('Cozy installation finished. Now, enjoy!'))
 
 
 @task
@@ -121,7 +141,7 @@ def install_dev():
     Install stuff to prepare a virtual machine dedicated to development.
     '''
     install_tools()
-    install_node08()
+    install_node10()
     install_couchdb()
     install_postfix()
     create_cozy_user()
@@ -131,7 +151,6 @@ def install_dev():
     install_data_system()
     install_home()
     install_proxy()
-    #init_domain()
     print(green('The Cozy development environment has been installed.'))
 
 
@@ -140,86 +159,82 @@ def install_tools():
     '''
     Install build tools
     '''
+    packages = ['python',
+                'python-dev',
+                'python-setuptools',
+                'python-pip',
+                'openssl',
+                'libssl-dev',
+                'libxml2-dev',
+                'libxslt1-dev',
+                'build-essential',
+                'git',
+                'sudo',
+                'lsb-release',
+                'imagemagick',
+                'curl',
+                'sqlite3']
+
+    if system.distrib_id() == 'Ubuntu':
+        packages.append('software-properties-common')
+
     deb.update_index()
     deb.upgrade()
-    require.deb.packages([
-        'python',
-        'python-dev',
-        'python-setuptools',
-        'python-pip',
-        'openssl',
-        'libssl-dev',
-        'libxml2-dev',
-        'libxslt1-dev',
-        'build-essential',
-        'git',
-        'sudo',
-        'lsb-release',
-        'imagemagick',
-        'sqlite3'
-    ])
+    require.deb.packages(packages)
+
+    # Dirty hack because of fabtools that don't install pip properly
+    sudo('curl -o - https://bootstrap.pypa.io/ez_setup.py -O - | python')
+    sudo('curl -o - https://bootstrap.pypa.io/get-pip.py | python -')
+
     print(green('Tools successfully installed'))
 
 
 @task
-def install_node08():
+def install_node10():
     '''
-    Install Node 0.8.18 (0.18.21 for ARM hardwares)
+    install node 0.10.26
     '''
 
-    if not is_arm():
-        require.nodejs.installed_from_source('0.8.18')
-        print(green('Node 0.8.18 successfully installed'))
+    if is_pi():
+        with settings(warn_only=True):
+            result = run('node -v')
+            is_installed = result.find('v0.10.26')
+            if is_installed != -1:
+                print(green("Node.js is already installed"))
+                return True
+
+        version = '0.10.26'
+        node_url = 'http://nodejs.org/dist/v{0}/node-v{0}-linux-arm-pi.tar.gz'
+        require.file(url=node_url.format(version))
+        run('tar -xzvf node-v%s-linux-arm-pi.tar.gz' % version)
+        delete_if_exists('/opt/node')
+        require.directory('/opt/node', owner='root')
+        sudo('mv node-v%s-linux-arm-pi/* /opt/node' % version)
+        sudo('ln -s /opt/node/bin/node /usr/local/bin/node')
+        sudo('ln -s /opt/node/bin/node /usr/bin/node')
+        sudo('ln -s /opt/node/bin/npm /usr/local/bin/npm')
+        sudo('ln -s /opt/node/bin/npm /usr/bin/npm')
+
     else:
-        version = '0.8.21'
-        folder = 'node-v%s-linux-arm-pi' % version
-        filename = folder + '.tar.gz'
-        require.files.directory('/opt/node', use_sudo=True)
-        archive_path = 'http://nodejs.org/dist/v%s/%s' % (version, filename)
-        require_file(url=archive_path)
-        run('tar -xzf %s' % filename)
-        sudo('cp -r %s/* /opt/node' % folder)
-        sudo('ln -s /opt/node/bin/node  /usr/local/bin/node')
-        sudo('ln -s /opt/node/bin/npm  /usr/local/bin/npm')
-        su_delete(folder)
-        su_delete(filename)
-        result = run('node -v')
-        if '0.8.21' in result:
-            print(green('Node 0.8.21 successfully installed'))
-        else:
-            print(red('Something went wrong while installing Node 0.8.21'))
+        require.nodejs.installed_from_source('0.10.26')
 
-
-@task
-def uninstall_node08():
-    '''
-    Uninstall node 0.8.18
-    '''
-
-    sudo('npm uninstall npm')
-    if not is_arm():
-        version = '0.8.18'
-        folder = 'node-v%s' % version
-        filename = folder + '.tar.gz'
-    else:
-        version = '0.8.21'
-        folder = 'node-v%s-linux-arm-pi' % version
-        filename = folder + '.tar.gz'
-    require_file(url='http://nodejs.org/dist/v%s/%s' % (version, filename))
-    sudo('tar -xzf %s' % filename)
-    with cd('%s' %folder):
-        sudo('./configure')
-        sudo('make uninstall')
-        sudo('make distclean')
-    su_delete('%s*' %folder)
-    print(green('Node 0.8.18 successfully uninstalled'))
+    print(green('node 0.10.26 successfully installed'))
 
 
 @task
 def install_couchdb():
     '''
-    Install CouchDB 1.3.0
+    Install CouchDB 1.3.0 or 1.5.0 depending on the target distribution.
     '''
+
+    # Check if controller is already installed, .
+    with settings(warn_only=True):
+        result = run('curl -X GET http://127.0.0.1:5984/')
+        is_installed = result.find('Welcome')
+        if is_installed != -1:
+            print(green("CouchDB is already installed"))
+            return True
+
     packages = [
         'erlang',
         'libicu-dev',
@@ -234,19 +249,21 @@ def install_couchdb():
         packages.append('libmozjs185-dev')
     require.deb.packages(packages)
 
-    require_file(
+    version = get_couchdb_version()
+
+    require.file(
         url='http://apache.crihan.fr/dist/couchdb/source/' +
-        '1.3.0/apache-couchdb-1.3.0.tar.gz')
-    run('tar -xzvf apache-couchdb-1.3.0.tar.gz')
-    with cd('apache-couchdb-1.3.0'):
+        '%s/apache-couchdb-%s.tar.gz' % (version, version))
+    run('tar -xzvf apache-couchdb-%s.tar.gz' % version)
+    with cd('apache-couchdb-%s' % version):
         run('./configure; make')
         result = sudo('make install')
         installed = result.find('You have installed Apache CouchDB,' +
                                 ' time to relax.')
         if installed == -1:
             print_failed('couchdb')
-    su_delete('apache-couchdb-1.3.0')
-    su_delete('rm -rf apache-couchdb-1.3.0.tar.gz')
+    su_delete('apache-couchdb-%s' % version)
+    su_delete('apache-couchdb-%s.tar.gz' % version)
 
     require.users.user('couchdb', home='/usr/local/var/lib/couchdb')
     sudo('chown -R couchdb:couchdb /usr/local/etc/couchdb')
@@ -262,7 +279,7 @@ def install_couchdb():
         'couchdb', user='couchdb',
         command='couchdb', autostart='true',
         environment='HOME=/usr/local/var/lib/couchdb')
-    print(green('CouchDB 1.3.0 successfully installed'))
+    print(green('CouchDB %s successfully installed' % version))
 
 
 @task
@@ -305,36 +322,8 @@ def config_couchdb():
         owner='cozy-data-system',
         mode='700'
     )
-    print(green('CouchDB 1.3.0 successfully configured'))
-
-
-@task
-def uninstall_couchdb():
-    '''
-    Install CouchDB 1.3.0
-    '''
-    require_file(
-        url='http://apache.crihan.fr/dist/couchdb/source/' +
-        '1.3.0/apache-couchdb-1.3.0.tar.gz')
-    run('tar -xzvf apache-couchdb-1.3.0.tar.gz')
-    with cd('apache-couchdb-1.3.0'):
-        sudo('./configure')
-        sudo('make uninstall')
-        sudo('make distclean')
-    su_delete('/usr/local/share/couchdb')
-    su_delete('/usr/local/lib/couchdb')
-    su_delete('/usr/local/var/lib/couchdb')
-    su_delete('/usr/local/var/log/couchdb')
-    su_delete('/usr/local/var/run/couchdb')
-    su_delete('/usr/local/share/doc/couchdb')
-    su_delete('/usr/local/bin/couchjs')
-    su_delete('/usr/local/bin/couchdb')
-    su_delete('apache-couchdb-1.3.0')
-    su_delete('apache-couchdb-1.3.0.tar.gz')
-    su_delete('/etc/supervisor/conf.d/couchdb.conf')
-    su_delete('/etc/cozy/couchdb.login')
-    supervisor.update_config()
-    print(green('CouchDB 1.3.0 successfully uninstalled'))
+    version = get_couchdb_version()
+    print(green('CouchDB %s successfully configured' % version))
 
 
 @task
@@ -342,38 +331,8 @@ def install_postfix():
     '''
     Install a postfix instance (required for mail sending).
     '''
-    #domain = prompt('Enter your domain name:',
-    #                default='myinstance.cozycloud.cc')
-    require.postfix.server('cozycloud.cc')
+    require.postfix.server('mydomain.net')
     print(green('Postfix successfully installed'))
-
-
-@task
-def uninstall_postfix():
-    '''
-    Uninstall postfix.
-    '''
-    require.deb.uninstall('postfix')
-    print(green('Postfix successfully uninstalled'))
-
-
-@task
-def uninstall_cozy():
-    '''
-    Uninstall postfix.
-    '''
-    supervisor.stop_process('cozy-controller')
-    supervisor.stop_process('cozy-indexer')
-    su_delete('/usr/local/var/cozy-indexer')
-    su_delete('/usr/local/cozy-indexer')
-    su_delete('/usr/local/cozy')
-    su_delete('/home/cozy*')
-    su_delete('/etc/cozy')
-    su_delete('/etc/nginx/conf.d/cozy.conf')
-    su_delete('/etc/supervisor/conf.d/cozy-controller.conf')
-    su_delete('/etc/supervisor/conf.d/cozy-indexer.conf')
-    supervisor.update_config()
-    print(green('Cozy successfully uninstalled'))
 
 
 @task
@@ -392,15 +351,10 @@ def install_monitor():
     '''
     Install Coffeescript, Compound and Cozy Monitor.
     '''
-    if is_arm():
-        sudo('npm install coffee-script -g')
-        sudo('ln -s /usr/local/bin/coffee /opt/node/bin/coffee')
+    if sudo('npm install -g coffee-script cozy-monitor').succeeded:
+        print(green('Monitor and coffee script successfully installed'))
     else:
-        require.nodejs.package('coffee-script')
-    require.nodejs.package('cozy-monitor')
-    require.nodejs.package('brunch', version='1.6.3')
-    print(green('Monitor, compound, brunch and coffee script ' +
-                'successfully installed'))
+        print(red('Error: Monitor and coffee script have not been installed'))
 
 
 @task
@@ -408,8 +362,16 @@ def install_controller():
     '''
     Install Cozy Controller Application Manager. Daemonize with supervisor.
     '''
-    require.nodejs.package('cozy-controller')
-    sudo('mkdir -p /etc/cozy')
+    # Check if controller is already installed, .
+    with settings(warn_only=True):
+        result = run('curl -X GET http://127.0.0.1:9002/')
+        is_installed = result.find('{"error":"Wrong auth token"}')
+        if is_installed != -1:
+            print(green("Cozy Controller already installed"))
+            return True
+
+    sudo('npm install -g cozy-controller')
+    require.directory('/etc/cozy', owner='root', use_sudo=True)
     require.supervisor.process(
         'cozy-controller',
         command="cozy-controller",
@@ -417,18 +379,22 @@ def install_controller():
         user='root'
     )
     supervisor.stop_process('cozy-controller')
+
     ## In case where two cozy-controllers are started
     with settings(warn_only=True):
         sudo('pkill -9 node')
     supervisor.start_process('cozy-controller')
-    if is_arm():
-        time.sleep(20)
-    else:
-        time.sleep(10)
-    with hide('running', 'stdout'):
-        result = run('curl -X GET http://127.0.0.1:9002/')
-    if result != '{"error":"Wrong auth token"}':
+
+    print('Waiting for cozy-controller to be launched...')
+    program = 'curl -X GET http://127.0.0.1:9002/'
+
+    def comparator(result):
+        return result == '{"error":"Wrong auth token"}'
+
+    # Run curl until we get the MATCH_STR or a timeout
+    if not try_delayed_run(program, comparator):
         print_failed('cozy-controller')
+
     print(green('Cozy Controller successfully started'))
 
 
@@ -445,12 +411,13 @@ def install_controller_dev():
         user='root'
     )
     supervisor.restart_process('cozy-controller')
-    import time
+
     time.sleep(5)
     with hide('running', 'stdout'):
         result = run('curl -X GET http://127.0.0.1:9002/')
     if result != '{"message":"No drones specified"}':
         print_failed("cozy-controller")
+
     print(green('Cozy Controller successfully started'))
 
 
@@ -466,18 +433,25 @@ def install_indexer():
     indexer_exe = 'server.py'
     process_name = 'cozy-indexer'
 
+    # Check if indexer is already installed, .
+    with settings(warn_only=True):
+        result = run('curl -X GET http://127.0.0.1:9102/')
+        is_installed = result.find("Cozy Data Indexer")
+        if is_installed != -1:
+            print(green("Data Indexer already installed"))
+            return True
+
     require.files.directory(home, use_sudo=True)
 
     with cd(home):
         if files.exists('cozy-data-indexer'):
             su_delete('cozy-data-indexer')
-        sudo('git clone https://github.com/mycozycloud/cozy-data-indexer.git')
+        sudo('git clone https://github.com/cozy/cozy-data-indexer.git')
 
     require.python.virtualenv(indexer_env_dir, use_sudo=True)
     with python.virtualenv(indexer_env_dir):
-        sudo(
-            'pip install --use-mirrors -r %s/requirements/common.txt' %
-            indexer_dir)
+        python.install_requirements(
+            indexer_dir + '/requirements/common.txt', use_sudo=True)
 
     sudo('chown -R cozy:cozy %s' % home)
 
@@ -489,15 +463,13 @@ def install_indexer():
     )
     supervisor.restart_process(process_name)
 
-    if is_arm():
-        time.sleep(10)
-    else:
-        time.sleep(1)
+    time.sleep(10)
     result = run('curl -X GET http://127.0.0.1:9102/')
     is_installed = result.find("Cozy Data Indexer")
 
     if is_installed == -1:
         print_failed("cozy-data-indexer")
+
     print(green("Data Indexer successfully started"))
 
 
@@ -538,17 +510,6 @@ def install_proxy():
         print_failed('proxy')
     else:
         print(green('Proxy successfully installed'))
-
-
-@task
-def init_domain():
-    '''
-    Register domain name inside Cozy Home.
-    '''
-    domain = prompt('What is your domain name (ex: cozycloud.cc)?')
-    with cd('ls /usr/local/cozy/apps/home/home/cozy-home/'):
-        cozydo('coffee commands setdomain %s' % domain)
-    print(green('Domain set to: %s' % domain))
 
 
 @task
@@ -612,21 +573,24 @@ server {
 }
 '''
 
+
 @task
 def install_nginx():
     '''
     Install NGINX and make it use certs.
     '''
     if system.distrib_id() == 'Debian':
-        require_file(url='http://nginx.org/packages/keys/nginx_signing.key')
-        deb.add_apt_key('nginx_signing.key')
-        su_delete('nginx_signing.key')
+        if not is_pi():
+            key_url = 'http://nginx.org/packages/keys/nginx_signing.key'
+            require.file(url=key_url)
+            deb.add_apt_key('nginx_signing.key')
+            su_delete('nginx_signing.key')
 
-        url = 'http://nginx.org/packages/debian/'
-        distrib = 'squeeze'
-        if system.distrib_release().startswith('7'):
-            distrib = 'wheezy'
-        require.deb.source('nginx', url, distrib, 'nginx')
+            url = 'http://nginx.org/packages/debian/'
+            distrib = 'squeeze'
+            if system.distrib_release().startswith('7'):
+                distrib = 'wheezy'
+            require.deb.source('nginx', url, distrib, 'nginx')
 
         require.deb.package('nginx')
         contents = PROXIED_SITE_TEMPLATE % {
@@ -656,6 +620,7 @@ def install_nginx():
     service.restart('nginx')
     print(green('Nginx successfully installed.'))
 
+
 @task
 def restart_cozy():
     sudo('cozy-monitor restart data-system')
@@ -667,19 +632,61 @@ def restart_cozy():
 ## No setup tasks
 
 @task
+def restart_controller():
+    if is_pi():
+        sudo('/etc/init.d/cozy-controller stop')
+        with settings(warn_only=True):
+            sudo('pkill node')
+        sudo('/etc/init.d/cozy-controller start')
+    else:
+        supervisor.stop_process('cozy-controller')
+        with settings(warn_only=True):
+            sudo('pkill node')
+        supervisor.start_process('cozy-controller')
+    time.sleep(10)
+
+
+@task
 def update_stack():
     '''
     Update applications
     '''
-    supervisor.stop_process('cozy-controller')
     nodejs.update_package('cozy-controller')
-    supervisor.start_process('cozy-controller')
     nodejs.update_package('cozy-monitor')
+
+    restart_controller()
     sudo('cozy-monitor update data-system')
+    # we force the home to start because the controller waits before starting
+    # it.
+    sudo('cozy-monitor start home')
     sudo('cozy-monitor update home')
     sudo('cozy-monitor update proxy')
     update_indexer()
     print(green('Stack updated successfully.'))
+
+
+@task
+def upgrade_to_node10():
+    '''
+    Upgrade the whole stack to node 0.10.26
+    '''
+    install_node10()
+
+    nodejs.update_package('cozy-controller')
+    nodejs.update_package('cozy-monitor')
+
+    sudo('cozy-monitor uninstall data-system')
+    sudo('cozy-monitor uninstall home')
+    sudo('cozy-monitor uninstall proxy')
+    restart_controller()
+
+    sudo('cozy-monitor install data-system')
+    sudo('cozy-monitor install home')
+    sudo('cozy-monitor install proxy')
+    sudo('rm -rf /usr/local/cozy/apps/*/*/*/node_modules')
+    update_all_apps()
+    restart_controller()
+    print(green('Cozy successfully upgraded to node 0.10.26.'))
 
 
 @task
@@ -701,9 +708,9 @@ def update_indexer():
         sudo('git pull origin master')
 
     with python.virtualenv(indexer_env_dir):
-        sudo(
-            'pip install --use-mirrors --upgrade -r %s/requirements/common.txt' %
-            indexer_dir)
+        python.install_requirements(indexer_dir + '/requirements/common.txt',
+                                    upgrade=True, use_sudo=True)
+
     supervisor.restart_process('cozy-indexer')
 
 
@@ -748,3 +755,196 @@ def reset_security_tokens():
     reset_controller_token()
     config_couchdb()
     print(green('All the tokens have been reset.'))
+
+
+"""Uninstall tasks"""
+
+
+@task
+def uninstall_all():
+    '''
+    Uninstall the whole stack (work in progress)
+    '''
+
+    sudo('cozy-monitor uninstall-all')
+    if ask_for_confirmation("Cozy"):
+        uninstall_cozy()
+    if ask_for_confirmation("Node.js"):
+        uninstall_node10()
+    if ask_for_confirmation("CouchDB"):
+        uninstall_couchdb()
+    if ask_for_confirmation("Postfix"):
+        uninstall_postfix()
+    if ask_for_confirmation("Cozy users"):
+        sudo('userdel -r cozy')
+        sudo('userdel -r cozy-data-system')
+        sudo('userdel -r cozy-home')
+
+
+@task
+def uninstall_node10():
+    '''
+    Uninstall node 0.10.26
+    '''
+
+    sudo('npm uninstall npm')
+    version = '0.10.26'
+    folder = 'node-v%s' % version
+    filename = folder + '.tar.gz'
+    require.file(url='http://nodejs.org/dist/v%s/%s' % (version, filename))
+    sudo('tar -xzf %s' % filename)
+
+    with cd('%s' % folder):
+        sudo('./configure')
+        sudo('make uninstall')
+        sudo('make distclean')
+    su_delete('%s*' % folder)
+    print(green('Node {0} successfully uninstalled'.format(version)))
+
+
+@task
+def uninstall_couchdb():
+    '''
+    Uninstall CouchDB 1.3.0 or 1.5.0
+    '''
+    version = get_couchdb_version()
+    require.file(
+        url='http://apache.crihan.fr/dist/couchdb/source/' +
+        '%s/apache-couchdb-%s.tar.gz' % (version, version))
+    run('tar -xzvf apache-couchdb-%s.tar.gz' % version)
+    with cd('apache-couchdb-%s' % version):
+        sudo('./configure')
+        sudo('make uninstall')
+        sudo('make distclean')
+    su_delete('/usr/local/share/couchdb')
+    su_delete('/usr/local/lib/couchdb')
+    su_delete('/usr/local/var/lib/couchdb')
+    su_delete('/usr/local/var/log/couchdb')
+    su_delete('/usr/local/var/run/couchdb')
+    su_delete('/usr/local/share/doc/couchdb')
+    su_delete('/usr/local/bin/couchjs')
+    su_delete('/usr/local/bin/couchdb')
+    su_delete('apache-couchdb-%s' % version)
+    su_delete('apache-couchdb-%s.tar.gz' % version)
+    su_delete('/etc/supervisor/conf.d/couchdb.conf')
+    su_delete('/etc/cozy/couchdb.login')
+    supervisor.update_config()
+    print(green('CouchDB %s successfully uninstalled' % version))
+
+
+@task
+def uninstall_postfix():
+    '''
+    Uninstall postfix.
+    '''
+    require.deb.uninstall('postfix')
+    print(green('Postfix successfully uninstalled'))
+
+
+@task
+def uninstall_cozy():
+    '''
+    Uninstall postfix.
+    '''
+    supervisor.stop_process('cozy-controller')
+    supervisor.stop_process('cozy-indexer')
+    su_delete('/usr/local/var/cozy-indexer')
+    su_delete('/usr/local/cozy-indexer')
+    su_delete('/usr/local/cozy')
+    su_delete('/home/cozy*')
+    su_delete('/etc/cozy')
+    su_delete('/etc/nginx/conf.d/cozy.conf')
+    su_delete('/etc/supervisor/conf.d/cozy-controller.conf')
+    su_delete('/etc/supervisor/conf.d/cozy-indexer.conf')
+    supervisor.update_config()
+    print(green('Cozy successfully uninstalled'))
+
+
+"""Help tasks"""
+
+
+@task
+def help(name=None):
+    """Display help for a given task
+
+    Options:
+        name    - The task to display help on.
+
+    To display a list of available tasks type:
+
+        $ fab -l
+
+    To display help on a specific task type:
+
+        $ fab help:<name>
+    """
+
+    if name is None:
+        name = "help"
+
+    task = crawl(name, state.commands)
+    if isinstance(task, Task):
+        doc = getattr(task, "__doc__", None)
+        if doc is not None:
+            print("Help on {0:s}:".format(name))
+            print(doc)
+        else:
+            print("No help available for {0:s}".format(name))
+    else:
+        print("No such task {0:s}".format(name))
+        print("For a list of tasks type: fab -l")
+
+
+'''Deprecated'''
+
+
+@task
+def fix_npm_ca_config():
+    sudo('npm config set ca ""')
+    print(green('NPM certificate configuration fixed.'))
+
+
+@task
+def install_node08():
+    '''
+    install node 0.8.18
+    '''
+
+    require.nodejs.installed_from_source('0.8.18')
+    sudo('npm config set ca ""')
+    print(green('node 0.8.18 successfully installed'))
+
+
+@task
+def uninstall_node08():
+    '''
+    Uninstall node 0.8.18
+    '''
+
+    sudo('npm uninstall npm')
+    if is_pi():
+        delete_if_exists('/opt/node')
+    else:
+        version = '0.8.18'
+        folder = 'node-v%s' % version
+        filename = folder + '.tar.gz'
+        require.file(url='http://nodejs.org/dist/v%s/%s' % (version, filename))
+        sudo('tar -xzf %s' % filename)
+
+        with cd('%s' % folder):
+            sudo('./configure')
+            sudo('make uninstall')
+            sudo('make distclean')
+        su_delete('%s*' % folder)
+    print(green('Node 0.8.18 successfully uninstalled'))
+
+
+@task
+def init_domain():
+    '''
+    Register domain name inside Cozy Home.
+    '''
+    domain = prompt('What is your domain name (ex: cozycloud.cc)?')
+    with cd('/usr/local/cozy/apps/home/home/cozy-home/'):
+        cozydo('coffee commands.coffee setdomain %s' % domain)
+    print(green('Domain set to: %s' % domain))

@@ -364,42 +364,25 @@ def install_controller():
     '''
     # Check if controller is already installed, .
     with settings(warn_only=True):
-        result = run('curl -X GET http://127.0.0.1:9002/')
-        is_installed = result.find('{"error":"Wrong auth token"}')
+        result = run('curl -X GET http://127.0.0.1:9002/drones/running')
+        is_installed = result.find('Application is not authenticated')
         if is_installed != -1:
             print(green("Cozy Controller already installed"))
             return True
-
     sudo('npm install -g cozy-controller')
     require.directory('/etc/cozy', owner='root', use_sudo=True)
-    require.directory('/etc/cozy/pids', owner='root', use_sudo=True)
-
-    require.files.file(
-        path='/etc/cozy/controller.token',
-        mode='700',
-        contents=TOKEN,
-        use_sudo=True,
-        owner='cozy-home'
-    )
-    path = '/usr/local/lib/node_modules/cozy-controller/bin/cozy-controller'
     require.supervisor.process(
         'cozy-controller',
-        command="%s -u --auth --per 755" % path,
+        command='cozy-controller',
         environment='NODE_ENV="production"',
         user='root'
     )
-    supervisor.stop_process('cozy-controller')
-
-    ## In case where two cozy-controllers are started
-    with settings(warn_only=True):
-        sudo('pkill -9 node')
-    supervisor.start_process('cozy-controller')
 
     print('Waiting for cozy-controller to be launched...')
-    program = 'curl -X GET http://127.0.0.1:9002/'
+    program = 'curl -X GET http://127.0.0.1:9002/drones/running'
 
     def comparator(result):
-        return result == '{"error":"Wrong auth token"}'
+        return result == 'Application is not authenticated'
 
     # Run curl until we get the MATCH_STR or a timeout
     if not try_delayed_run(program, comparator):
@@ -413,10 +396,10 @@ def install_controller_dev():
     '''
     Install Cozy Controller Application Manager. Daemonize with supervisor.
     '''
-    require.nodejs.package('cozy-controller')
+    sudo('npm install -g cozy-controller')
     require.supervisor.process(
         'cozy-controller',
-        command='cozy-controller -c -u --per 755',
+        command='cozy-controller',
         environment='NODE_ENV="development"',
         user='root'
     )

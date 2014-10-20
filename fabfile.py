@@ -821,6 +821,8 @@ def uninstall_couchdb():
     su_delete('apache-couchdb-%s.tar.gz' % version)
     su_delete('/etc/supervisor/conf.d/couchdb.conf')
     su_delete('/etc/cozy/couchdb.login')
+    # removes dependency of CouchDB
+    require.deb.uninstall('erlang', False, ['--auto-remove'])
     supervisor.update_config()
     print(green('CouchDB %s successfully uninstalled' % version))
 

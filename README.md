@@ -10,6 +10,11 @@ profiles you.
 
 See our [online demo](https://demo.cozycloud.cc/) to discover our applications.
 
+# Project Tickets
+
+* [Bug List](https://github.com/issues?q=is%3Aopen+is%3Aissue+user%3Acozy+label%3Abug+-repo%3Acozy%2Ftodos+-repo%3Acozy%2Fnotes+-repo%3Acozy%2Fcozy-editor+)
+* [Feature Request List](https://github.com/issues?q=is%3Aopen+is%3Aissue+user%3Acozy+label%3Aenhancement+-repo%3Acozy%2Ftodos+-repo%3Acozy%2Fnotes+-repo%3Acozy%2Fcozy-editor+)
+
 # Install Cozy
 
 Cozy Cloud is designed to be used remotely on your own server.

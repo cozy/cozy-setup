@@ -1,20 +1,3 @@
-$provision = <<SCRIPT
-sudo apt-get --yes --force-yes install build-essential git
-
-exe="/usr/local/bin/cozy-monitor"
-
-appsToStart=("data-system" "home" "proxy")
-
-echo "STARTING MAIN APPS"
-for app in ${appsToStart[@]}
-do
-    $exe start $app
-done
-
-echo "CURRENT COZY STATUS"
-$exe status
-SCRIPT
-
 Vagrant.configure("2") do |config|
 
   # Base box for Cozy development environment.
@@ -42,6 +25,4 @@ Vagrant.configure("2") do |config|
   config.vm.provider :virtualbox do |vb|
     vb.customize ["modifyvm", :id, "--memory", "1024"]
   end
-
-  config.vm.provision :shell, :inline => $provision
 end

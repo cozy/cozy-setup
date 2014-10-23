@@ -34,12 +34,19 @@ sudo rm /usr/local/cozy/autostart/logreader*
 sudo npm install -g cozy-controller
 sudo npm install -g cozy-monitor
 
+# updates cozy-controller config for supervisor
+new_conf="[program:cozy-controller]\nautorestart=true\ncommand=cozy-controller\nenvironment=NODE_ENV=\"development\"\nredirect_stderr=true\nuser=root"
+echo $new_conf > /etc/supervisor/conf.d/cozy-controller.conf
+
+# mandatory otherwise the patch fails, somehow
+sudo rm -rf /usr/local/var/log/cozy
+
 sudo supervisorctl start cozy-controller
 
 # Update the indexer
 sudo supervisorctl stop cozy-indexer
 cd /usr/local/var/cozy-indexer/cozy-data-indexer
-rm -rf indexes
+rm -rf indexes # to prevent issues
 sudo git pull origin master
 sudo virtualenv virtualenv
 . virtualenv/bin/activate

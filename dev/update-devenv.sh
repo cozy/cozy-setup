@@ -9,7 +9,8 @@
 cd ~
 
 # update node.js to 0.10.26
-if [[ $node_version == "v0.10.26" ]]
+node_version=$(node --version)
+if [ "$node_version" = "v0.10.26" ]
 then
     echo "NODE ALREADY UP TO DATE -- v0.10.26"
 else

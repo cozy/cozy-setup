@@ -39,6 +39,7 @@ sudo supervisorctl start cozy-controller
 # Update the indexer
 sudo supervisorctl stop cozy-indexer
 cd /usr/local/var/cozy-indexer/cozy-data-indexer
+rm -rf indexes
 sudo git pull origin master
 sudo virtualenv virtualenv
 . virtualenv/bin/activate

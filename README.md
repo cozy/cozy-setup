@@ -6,7 +6,7 @@
 same private space.  With it, your web apps and your devices can share data
 easily, providing you
 with a new experience. You can install Cozy on your own hardware where no one
-profiles you. 
+profiles you.
 
 See our [online demo](https://demo.cozycloud.cc/) to discover our applications.
 
@@ -21,6 +21,8 @@ See our [online demo](https://demo.cozycloud.cc/) to discover our applications.
 Cozy Cloud is designed to be used remotely on your own server.
 So, this project contains what you need to achieve that goal
 (it only works for Debian/Ubuntu systems).
+
+You will find all the steps to install Cozy on your platform on the [project site](http://cozy.io/host/install.html).
 
 [Install script status](https://ci.cozycloud.cc/) for Debian 6, Debian 7,
 Ubuntu 12.04 and Ubuntu 14.04.
@@ -57,7 +59,7 @@ you downloaded before):
 Enter your settings (such as domain name) when prompted by the installer.
 
 Set domain name by running
-    
+
     fab -H user@ip init_domain
 
 Be patient; some commands or app deployments can take some time. It
@@ -101,7 +103,7 @@ SD Class 10 for mini boards.
 RAM: 2048 MB (it allows to have 15 apps simultaneously).
 Disk space: a lot of space to store all your files.
 
-## Test 
+## Test
 
 Once the installation is done, you can access https://IP:443 to create your
 Cozy main account. Be sure that you used the HTTPS protocol if you just see the
@@ -134,7 +136,7 @@ it's not mandatory, you can install Cozy Cloud on your server (that's
 what you should do if you have a small server like a Sheeva Plug or an old
 machine).
 
-## Community 
+## Community
 
 You can reach the Cozy community by:
 

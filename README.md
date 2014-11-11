@@ -56,11 +56,7 @@ you downloaded before):
 
     fab -H user@ip install
 
-Enter your settings (such as domain name) when prompted by the installer.
-
-Set domain name by running
-
-    fab -H user@ip init_domain
+Enter your settings when prompted by the installer.
 
 Be patient; some commands or app deployments can take some time. It
 depends on your network and hardware capabilities.

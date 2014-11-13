@@ -351,10 +351,16 @@ def install_monitor():
     '''
     Install Coffeescript, Compound and Cozy Monitor.
     '''
-    if sudo('npm install -g coffee-script cozy-monitor').succeeded:
-        print(green('Monitor and coffee script successfully installed'))
-    else:
-        print(red('Error: Monitor and coffee script have not been installed'))
+    with settings(warn_only=True):
+        if sudo('npm install -g coffee-script cozy-monitor').succeeded:
+            print(green('Monitor and coffee script successfully installed'))
+        else:
+            print('Warning: Retry to install coffee-script and monitor')
+            if sudo('npm install -g coffee-script cozy-monitor').succeeded:
+                print(green('Monitor and coffee script successfully installed'))
+            else
+                print(red('Error: Monitor and coffee script have not been installed'))
+                print_failed('cozy-monitor')
 
 
 @task

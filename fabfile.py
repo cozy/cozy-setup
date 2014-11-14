@@ -358,7 +358,7 @@ def install_monitor():
             print('Warning: Retry to install coffee-script and monitor')
             if sudo('npm install -g coffee-script cozy-monitor').succeeded:
                 print(green('Monitor and coffee script successfully installed'))
-            else
+            else:
                 print(red('Error: Monitor and coffee script have not been installed'))
                 print_failed('cozy-monitor')
 

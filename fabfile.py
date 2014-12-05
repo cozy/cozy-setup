@@ -208,7 +208,7 @@ def install_node10():
         require.file(url=node_url.format(version))
         run('tar -xzvf node-v%s-linux-arm-pi.tar.gz' % version)
         delete_if_exists('/opt/node')
-        require.directory('/opt/node', owner='root')
+        require.directory('/opt/node', use_sudo=True, owner='root')
         sudo('mv node-v%s-linux-arm-pi/* /opt/node' % version)
         sudo('ln -s /opt/node/bin/node /usr/local/bin/node')
         sudo('ln -s /opt/node/bin/node /usr/bin/node')

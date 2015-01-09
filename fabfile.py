@@ -96,8 +96,16 @@ def try_delayed_run(program, comparator, max_attempts=60, wait=1):
 
 
 def get_couchdb_version():
-    return '1.6.0'
-
+    '''
+    Return proper CouchDB version depending on distribution.
+    '''
+    version =  '1.6.0'
+    if system.distrib_id() == 'Debian' \
+       and (system.distrib_release().startswith('6') or \
+            system.distrib_release().startswith('7')) :
+        version =  '1.5.0'
+    
+    return version 
 
 def ask_for_confirmation(module):
     '''

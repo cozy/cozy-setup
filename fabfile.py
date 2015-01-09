@@ -96,7 +96,7 @@ def try_delayed_run(program, comparator, max_attempts=60, wait=1):
 
 
 def get_couchdb_version():
-    return '1.5.0'
+    return '1.6.0'
 
 
 def ask_for_confirmation(module):

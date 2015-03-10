@@ -578,6 +578,13 @@ server {
 
     access_log /var/log/nginx/%(server_name)s.log;
 }
+
+#Hook to redirect http:// to https://
+server {
+       listen 80;
+       return 301 https://$host$request_uri;
+}
+
 '''
 
 

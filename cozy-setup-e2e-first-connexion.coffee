@@ -30,8 +30,8 @@ casper.test.begin 'Cozy need to be registered on first launch', (test) ->
             return __utils__.findOne('.alert-success').textContent.length > 0
         , 'We have success message have content'
 
-    casper.waitForUrl /https:\/\/127.0.0.1\/$/, ->
-        test.assertTitle 'Cozy - Home', 'We are on homepage'
+    # casper.waitForUrl /https:\/\/127.0.0.1\/$/, ->
+    #     test.assertTitle 'Cozy - Home', 'We are on homepage'
 
     casper.run ->
         test.done()

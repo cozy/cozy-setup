@@ -181,7 +181,8 @@ def install_tools():
                 'lsb-release',
                 'imagemagick',
                 'curl',
-                'sqlite3']
+                'sqlite3',
+                'wget']
 
     if system.distrib_id() == 'Ubuntu':
         packages.append('software-properties-common')

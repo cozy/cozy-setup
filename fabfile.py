@@ -529,6 +529,7 @@ def create_cert():
     etc_dir = '/etc/cozy'
     require.files.directory(etc_dir, use_sudo=True, owner='cozy')
     with cd(etc_dir):
+        sudo('openssl dhparam -out ./dh2048.pem -outform PEM -2 2048')
         sudo('openssl genrsa -out ./server.key 2048')
         sudo(
             'openssl req -new -x509 -days 3650 -key ' +
@@ -544,6 +545,7 @@ def reset_cert():
     Reset SSL certificates
     '''
 
+    delete_if_exists('/etc/cozy/dh2048.pem')
     delete_if_exists('/etc/cozy/server.crt')
     delete_if_exists('/etc/cozy/server.key')
     print(green('Previous certificates successfully deleted.'))
@@ -557,6 +559,7 @@ server {
 
     ssl_certificate /etc/cozy/server.crt;
     ssl_certificate_key /etc/cozy/server.key;
+    ssl_dhparam /etc/cozy/dh2048.pem;
     ssl_session_cache shared:SSL:10m;
     ssl_session_timeout  10m;
     ssl_protocols  TLSv1 TLSv1.1 TLSv1.2;

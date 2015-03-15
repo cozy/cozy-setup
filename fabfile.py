@@ -529,7 +529,7 @@ def create_cert():
     etc_dir = '/etc/cozy'
     require.files.directory(etc_dir, use_sudo=True, owner='cozy')
     with cd(etc_dir):
-        sudo('openssl genrsa -out ./server.key 1024')
+        sudo('openssl genrsa -out ./server.key 2048')
         sudo(
             'openssl req -new -x509 -days 3650 -key ' +
             './server.key -out ./server.crt  -batch')

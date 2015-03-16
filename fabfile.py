@@ -553,7 +553,6 @@ def reset_cert():
 PROXIED_SITE_TEMPLATE = '''
 server {
     listen %(port)s;
-    server_name %(server_name)s;
 
     ssl_certificate /etc/cozy/server.crt;
     ssl_certificate_key /etc/cozy/server.key;
@@ -580,10 +579,10 @@ server {
     access_log /var/log/nginx/%(server_name)s.log;
 }
 
-#Hook to redirect http:// to https://
+# Always redirect http:// to https://
 server {
-       listen 80;
-       return 301 https://$host$request_uri;
+    listen 80;
+    return 301 https://$host$request_uri;
 }
 
 '''
@@ -628,10 +627,9 @@ def install_nginx():
             port=443,
             proxy_url='http://127.0.0.1:9104'
         )
-    if files.exists('/etc/nginx/conf.d/default.conf'):
-        su_delete('/etc/nginx/conf.d/default.conf')
-    if files.exists('/etc/nginx/conf.d/example_ssl.conf'):
-        su_delete('/etc/nginx/conf.d/example_ssl.conf')
+    delete_if_exists('/etc/nginx/conf.d/default.conf')
+    delete_if_exists('/etc/nginx/conf.d/example_ssl.conf')
+    delete_if_exists('/etc/nginx/sites-enabled/default')
     service.restart('nginx')
     print(green('Nginx successfully installed.'))
 

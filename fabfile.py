@@ -41,10 +41,14 @@ PASSWORD = id_generator()
 TOKEN = simple_id_generator()
 
 
-@task
 def is_pi():
     result = run('lscpu', quiet=True)
     return 'armv6l' in result
+
+
+def is_arm():
+    result = run('lscpu', quiet=True)
+    return 'armv' in result
 
 
 def print_failed(module):
@@ -204,7 +208,7 @@ def install_node10():
     install node 0.10.26
     '''
 
-    if is_pi():
+    if is_arm():
         with settings(warn_only=True):
             result = run('node -v')
             is_installed = result.find('v0.10.26')

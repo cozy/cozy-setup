@@ -777,6 +777,8 @@ def reset_security_tokens():
     reset_controller_token()
     config_couchdb()
     print(green('All the tokens have been reset.'))
+    restart_cozy()
+    service.restart('nginx')
 
 
 """Uninstall tasks"""

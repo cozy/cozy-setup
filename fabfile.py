@@ -393,7 +393,7 @@ def install_controller():
     require.supervisor.process(
         'cozy-controller',
         command='cozy-controller',
-        environment='NODE_ENV="production"',
+        environment='NODE_ENV="production",BIND_IP_PROXY="127.0.0.1"',
         user='root'
     )
 

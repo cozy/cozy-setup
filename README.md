@@ -79,7 +79,7 @@ PermitRootLogin without-password
 ```
 
 Check Fabric connection:
-```fab -u root -H cozy.winch.my check_fab```
+```fab -u root -H cozy.domain.tld check_fab```
 
 Use a user with right sudo config ```visudo```:
 ```
@@ -87,10 +87,10 @@ pi ALL=(ALL) NOPASSWD: ALL
 ```
 
 Check Fabric connection:
-```fab -u pi -H cozy.winch.my check_fab```
+```fab -u pi -H cozy.domain.tld check_fab```
 
 Use sudo password:
-```fab -u pi --password=raspberry -H cozy.winch.my check_fab```
+```fab -u pi --password=raspberry -H cozy.domain.tld check_fab```
 
 *Try Cozy with Vagrant*
 

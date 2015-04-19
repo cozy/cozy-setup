@@ -103,13 +103,14 @@ def get_couchdb_version():
     '''
     Return proper CouchDB version depending on distribution.
     '''
-    version =  '1.6.0'
+    version = '1.6.0'
     if system.distrib_id() == 'Debian' \
-       and (system.distrib_release().startswith('6') or \
-            system.distrib_release().startswith('7')) :
-        version =  '1.5.0'
-    
-    return version 
+       and (system.distrib_release().startswith('6') or
+            system.distrib_release().startswith('7')):
+        version = '1.5.0'
+
+    return version
+
 
 def ask_for_confirmation(module):
     '''
@@ -534,7 +535,7 @@ def create_cert():
     require.files.directory(etc_dir, use_sudo=True, owner='cozy')
     with cd(etc_dir):
         sudo('openssl dhparam -out ./dh2048.pem -outform PEM -2 2048')
-        sudo('openssl genrsa -out ./server.key 2048')        
+        sudo('openssl genrsa -out ./server.key 2048')
         sudo(
             'openssl req -new -x509 -days 3650 -key ' +
             './server.key -out ./server.crt  -batch')
@@ -574,7 +575,7 @@ server {
     client_max_body_size 1024M;
 
     add_header Strict-Transport-Security max-age=2678400;
-    
+
     location / {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header Host $http_host;
@@ -651,7 +652,7 @@ def restart_cozy():
     print(green('Stack restarted successfully.'))
 
 
-## No setup tasks
+# No setup tasks
 
 @task
 def restart_controller():

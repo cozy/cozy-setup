@@ -604,7 +604,7 @@ def install_nginx():
     Install NGINX and make it use certs.
     '''
     if system.distrib_id() == 'Debian':
-        if not is_pi():
+        if not is_arm():
             key_url = 'http://nginx.org/packages/keys/nginx_signing.key'
             require.file(url=key_url)
             deb.add_apt_key('nginx_signing.key')

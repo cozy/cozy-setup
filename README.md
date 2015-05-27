@@ -70,6 +70,29 @@ and then to run the fabfile script with your virtual machine as target.
 This allows you to experiment with Cozy without installing numerous packages
 into your environment.
 
+*Fabric authentifications issues*
+
+Allow root login, put in ```/etc/ssh/sshd_config```:
+```
+PermitRootLogin yes
+# Or prefer
+PermitRootLogin without-password
+```
+
+Check Fabric connection:
+```fab -u root -H cozy.domain.tld check_fab```
+
+Use a user with right sudo config ```visudo```:
+```
+pi ALL=(ALL) NOPASSWD: ALL
+```
+
+Check Fabric connection:
+```fab -u pi -H cozy.domain.tld check_fab```
+
+Use sudo password:
+```fab -u pi --password=raspberry -H cozy.domain.tld check_fab```
+
 *Try Cozy with Vagrant*
 
 If you want to use Vagrant to run Cozy Cloud Setup in a virtual machine

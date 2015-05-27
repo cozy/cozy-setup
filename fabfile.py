@@ -920,3 +920,11 @@ def help(name=None):
     else:
         print("No such task {0:s}".format(name))
         print("For a list of tasks type: fab -l")
+
+
+@task
+def check_fab():
+    '''
+    Use it to test your connection to cozy host
+    '''
+    sudo('hostname')

@@ -614,6 +614,8 @@ def install_nginx():
             distrib = 'squeeze'
             if system.distrib_release().startswith('7'):
                 distrib = 'wheezy'
+            elif system.distrib_release().startswith('8'):
+                distrib = 'jessie'
             require.deb.source('nginx', url, distrib, 'nginx')
 
         require.deb.package('nginx')

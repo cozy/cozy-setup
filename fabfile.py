@@ -394,7 +394,7 @@ def install_controller():
     require.supervisor.process(
         'cozy-controller',
         command='cozy-controller',
-        environment='NODE_ENV="production"',
+        environment='NODE_ENV="production",BIND_IP_PROXY="127.0.0.1"',
         user='root'
     )
 
@@ -604,7 +604,7 @@ def install_nginx():
     Install NGINX and make it use certs.
     '''
     if system.distrib_id() == 'Debian':
-        if not is_pi():
+        if not is_arm():
             key_url = 'http://nginx.org/packages/keys/nginx_signing.key'
             require.file(url=key_url)
             deb.add_apt_key('nginx_signing.key')
@@ -614,6 +614,8 @@ def install_nginx():
             distrib = 'squeeze'
             if system.distrib_release().startswith('7'):
                 distrib = 'wheezy'
+            elif system.distrib_release().startswith('8'):
+                distrib = 'jessie'
             require.deb.source('nginx', url, distrib, 'nginx')
 
         require.deb.package('nginx')
@@ -778,6 +780,8 @@ def reset_security_tokens():
     reset_controller_token()
     config_couchdb()
     print(green('All the tokens have been reset.'))
+    restart_cozy()
+    service.restart('nginx')
 
 
 """Uninstall tasks"""

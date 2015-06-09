@@ -16,6 +16,7 @@ See our [online demo](https://demo.cozycloud.cc/) to discover our applications.
 * [Feature Request List](https://github.com/issues?q=is%3Aopen+is%3Aissue+user%3Acozy+label%3Aenhancement+-repo%3Acozy%2Ftodos+-repo%3Acozy%2Fnotes+-repo%3Acozy%2Fcozy-editor+)
 * [Opened Pull Requests](https://github.com/pulls?user=cozy)
 * [Waiting tickets](https://github.com/issues?q=is%3Aopen+is%3Aissue+user%3Acozy+no%3Alabel+-repo%3Acozy%2Fcozy-guidelines)
+* [Good tickets for a first contribution](https://github.com/issues?utf8=%E2%9C%93&q=is%3Aopen+is%3Aissue+user%3Acozy+label%3A%22Good+For+First+Contribution%22+-repo%3Acozy%2Ftodos+-repo%3Acozy%2Fnotes+-repo%3Acozy%2Fcozy-editor+)
 
 # Install Cozy
 

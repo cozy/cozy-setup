@@ -8,6 +8,11 @@ casper.options.waitTimeout = 20000
 
 casper.cozy = {}
 
+if (casper.cli.has("target"))
+    target = casper.cli.get("target")
+else
+    target = "https://127.0.0.1/"
+
 #
 # Some casper event listener to ease debug
 #
@@ -72,7 +77,7 @@ casper.on 'step.error', (err) ->
 
 
 casper.test.begin 'Cozy need to be registered on first launch', (test) ->
-    casper.start 'https://127.0.0.1/'
+    casper.start target
 
     casper.then ->
         casper.wait 500, ->
@@ -138,5 +143,3 @@ casper.test.begin 'Cozy need to be registered on first launch', (test) ->
 
     casper.run ->
         test.done()
-
-

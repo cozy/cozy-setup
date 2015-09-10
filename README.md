@@ -24,7 +24,7 @@ Cozy Cloud is designed to be used remotely on your own server.
 So, this project contains what you need to achieve that goal
 (it only works for Debian/Ubuntu systems).
 
-You will find all the steps to install Cozy on your platform on the [project site](http://cozy.io/host/install.html).
+You will find all the steps to install Cozy on your platform on the [project site](http://cozy.io/en/host/install/).
 
 [Install script status](https://ci.cozycloud.cc/) for Debian 6, Debian 7,
 Ubuntu 12.04 and Ubuntu 14.04.

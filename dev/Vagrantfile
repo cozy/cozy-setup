@@ -12,6 +12,7 @@ Vagrant.configure("2") do |config|
 
   # Forward a port from the guest to the host, which allows for outside
   # computers to access the VM
+  config.vm.network :forwarded_port, guest: 1080, host: 1080 # Mailcatcher
   config.vm.network :forwarded_port, guest: 9101, host: 9101 # Cozy Data System
   config.vm.network :forwarded_port, guest: 9002, host: 9002 # Cozy Controller
   config.vm.network :forwarded_port, guest: 9102, host: 9102 # Cozy Data Indexer

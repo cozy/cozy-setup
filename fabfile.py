@@ -103,11 +103,11 @@ def get_couchdb_version():
     '''
     Return proper CouchDB version depending on distribution.
     '''
-    version = '1.6.0'
+    version = '1.6.1'
     if system.distrib_id() == 'Debian' \
        and (system.distrib_release().startswith('6') or
             system.distrib_release().startswith('7')):
-        version = '1.5.0'
+        version = '1.5.1'
 
     return version
 

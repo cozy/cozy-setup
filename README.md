@@ -146,7 +146,7 @@ The Cozy install script installs the following tools:
 
 
 If you want to know more about how Cozy works you can check our [architecture
-page](http://cozy.io/hack/getting-started/architecture-overview.html).
+page](https://docs.cozy.io/en/hack/getting-started/architecture-overview.html).
 
 
 ## About virtual machines and containers

@@ -23,14 +23,3 @@ sudo npm install -g cozy-monitor
 
 sudo supervisorctl start cozy-controller
 
-# Update the indexer
-sudo supervisorctl stop cozy-indexer
-cd /usr/local/var/cozy-indexer/cozy-data-indexer
-sudo rm -rf indexes # to prevent issues
-sudo git pull origin master
-sudo virtualenv virtualenv
-. virtualenv/bin/activate
-sudo pip install -r requirements/common.txt --upgrade
-sudo pip install -r requirements/production.txt --upgrade
-sudo supervisorctl start cozy-indexer
-

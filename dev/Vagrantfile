@@ -13,13 +13,14 @@ Vagrant.configure("2") do |config|
   # Forward a port from the guest to the host, which allows for outside
   # computers to access the VM
   config.vm.network :forwarded_port, guest: 1080, host: 1080 # Mailcatcher
+  config.vm.network :forwarded_port, guest: 5984, host: 5984 # CouchDB
   config.vm.network :forwarded_port, guest: 9101, host: 9101 # Cozy Data System
   config.vm.network :forwarded_port, guest: 9002, host: 9002 # Cozy Controller
-  config.vm.network :forwarded_port, guest: 9102, host: 9102 # Cozy Data Indexer
-  config.vm.network :forwarded_port, guest: 9103, host: 9103 # Cozy Home
   config.vm.network :forwarded_port, guest: 9104, host: 9104 # Cozy Proxy
   config.vm.network :forwarded_port, guest: 9105, host: 9105 # Realtime socket
-  config.vm.network :forwarded_port, guest: 5984, host: 5984 # CouchDB
+  # The 9103 port is used by the Home but is not forwarded.
+  # You can still access the Home via the proxy: http://localhost:9104/#home
+  # It's also possible to run the Home on your local machine to debug it.
 
   config.vm.synced_folder ".", "/vagrant"# , :nfs => true
 

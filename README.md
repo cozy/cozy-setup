@@ -10,7 +10,10 @@ profiles you.
 
 See our [online demo](https://demo.cozycloud.cc/) to discover our applications.
 
-# Project Tickets
+**Important**: this repository is no longer maintained. If you want to install
+cozy-cloud, it's explained on [our website](https://docs.cozy.io/en/host/install/).
+
+## Project Tickets
 
 * [Bug List](https://github.com/issues?q=is%3Aopen+is%3Aissue+user%3Acozy+label%3Abug+-repo%3Acozy%2Ftodos+-repo%3Acozy%2Fnotes+-repo%3Acozy%2Fcozy-editor+)
 * [Feature Request List](https://github.com/issues?q=is%3Aopen+is%3Aissue+user%3Acozy+label%3Aenhancement+-repo%3Acozy%2Ftodos+-repo%3Acozy%2Fnotes+-repo%3Acozy%2Fcozy-editor+)
@@ -18,18 +21,31 @@ See our [online demo](https://demo.cozycloud.cc/) to discover our applications.
 * [Waiting tickets](https://github.com/issues?q=is%3Aopen+is%3Aissue+user%3Acozy+no%3Alabel+-repo%3Acozy%2Fcozy-guidelines)
 * [Good tickets for a first contribution](https://github.com/issues?utf8=%E2%9C%93&q=is%3Aopen+is%3Aissue+user%3Acozy+label%3A%22Good+For+First+Contribution%22+-repo%3Acozy%2Ftodos+-repo%3Acozy%2Fnotes+-repo%3Acozy%2Fcozy-editor+)
 
-# Install Cozy
+## Install Cozy
 
 Cozy Cloud is designed to be used remotely on your own server.
 So, this project contains what you need to achieve that goal
 (it only works for Debian/Ubuntu systems).
 
-You will find all the steps to install Cozy on your platform on the [project site](http://cozy.io/en/host/install/).
+You will find all the steps to install Cozy on your platform on the [project site](https://docs.cozy.io/en/host/install/).
+
+## Community
+
+You can reach the Cozy community by:
+
+* chatting with us on IRC #cozycloud on irc.freenode.net
+* Posting on our [Forum](https://forum.cozy.io)
+* Posting issues on the [Github repos](https://github.com/cozy/)
+* Mentioning us on [Twitter](http://twitter.com/mycozycloud)
+
+----
+
+# Initial README.md
 
 [Install script status](https://ci.cozycloud.cc/) for Debian 6, Debian 7,
 Ubuntu 12.04 and Ubuntu 14.04.
 
-# How to install Cozy on your server?
+## How to install Cozy on your server?
 
 On your local machine install Fabric and fabtools. For that purpose, be sure to
 have python and the pip tools on your machine. For instance, if you're on a
@@ -156,15 +172,6 @@ stack in an isolated virtual machine or in a container (OpenVz or LXC). But
 it's not mandatory, you can install Cozy Cloud on your server (that's
 what you should do if you have a small server like a Sheeva Plug or an old
 machine).
-
-## Community
-
-You can reach the Cozy community by:
-
-* chatting with us on IRC #cozycloud on irc.freenode.net
-* Posting on our [Forum](https://forum.cozy.io)
-* Posting issues on the [Github repos](https://github.com/cozy/)
-* Mentioning us on [Twitter](http://twitter.com/mycozycloud)
 
 ## License
 

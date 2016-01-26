@@ -1,3 +1,8 @@
+# Deprecated repository
+
+**Important**: this repository is no longer maintained. If you want to install
+Cozy Cloud, it's explained on [our website](https://docs.cozy.io/en/host/install/).
+
 # Cozy Makes Your Web Apps Smarter
 
 ![Cozy Logo](https://raw.githubusercontent.com/cozy/cozy-setup/gh-pages/assets/images/happycloud.png)
@@ -9,9 +14,6 @@ with a new experience. You can install Cozy on your own hardware where no one
 profiles you.
 
 See our [online demo](https://demo.cozycloud.cc/) to discover our applications.
-
-**Important**: this repository is no longer maintained. If you want to install
-cozy-cloud, it's explained on [our website](https://docs.cozy.io/en/host/install/).
 
 ## Project Tickets
 

@@ -1,7 +1,7 @@
 # Deprecated repository
 
 **Important**: this repository is no longer maintained. If you want to install
-Cozy Cloud, it's explained on [our website](https://docs.cozy.io/en/host/install/).
+Cozy Cloud, it's explained on [our website](https://docs.cozy.io/en/install/).
 
 # Cozy Makes Your Web Apps Smarter
 
@@ -29,7 +29,7 @@ Cozy Cloud is designed to be used remotely on your own server.
 So, this project contains what you need to achieve that goal
 (it only works for Debian/Ubuntu systems).
 
-You will find all the steps to install Cozy on your platform on the [project site](https://docs.cozy.io/en/host/install/).
+You will find all the steps to install Cozy on your platform on the [project site](https://docs.cozy.io/en/install/).
 
 ## Community
 
@@ -164,7 +164,7 @@ The Cozy install script installs the following tools:
 
 
 If you want to know more about how Cozy works you can check our [architecture
-page](https://docs.cozy.io/en/hack/getting-started/architecture-overview.html).
+page](https://docs.cozy.io/en/dev/intro/).
 
 
 ## About virtual machines and containers
